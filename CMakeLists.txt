@@ -28,6 +28,10 @@ add_executable(NCCL
     src/nccl_example.cu 
 )
 
+add_executable(HOST2DEV 
+    src/host2device.cu 
+)
+
 target_include_directories(MGG 
     PRIVATE 
     ${NVSHMEM_HOME}/include 
@@ -78,4 +82,31 @@ target_include_directories(NCCL
 target_link_libraries(NCCL
     cuda
     nccl
+)
+
+
+target_include_directories(HOST2DEV 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    include
+)
+
+target_compile_options(HOST2DEV PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch sm_70
+                       >)
+
+set_target_properties(HOST2DEV PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+ 
+target_link_libraries(HOST2DEV
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
 )

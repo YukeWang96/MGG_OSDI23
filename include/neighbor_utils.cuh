@@ -487,7 +487,7 @@ void SAG_host_range_only(
 )
 {
 
-    printf("num_parts: %d \n", num_parts);
+    // printf("num_parts: %d \n", num_parts);
     const int block = warpPerBlock * WARP_SIZE;
     const int grid = (num_parts * WARP_SIZE + block  - 1) / block; 
     const int shared_memory = partSize*warpPerBlock*sizeof(int) + warpPerBlock*dim*sizeof(float);    
@@ -542,7 +542,7 @@ void SAG_host_unified(
 )
 {
 
-    printf("num_parts: %d \n", num_parts);
+    // printf("num_parts: %d \n", num_parts);
     const int block = warpPerBlock * WARP_SIZE;
     const int grid = (num_parts * WARP_SIZE + block  - 1) / block; 
     const int shared_memory = partSize*warpPerBlock*sizeof(int) + warpPerBlock*dim*sizeof(float);    
