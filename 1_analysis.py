@@ -13,8 +13,8 @@ for line in fp:
     if "Graph File:" in line:
         dataset = line.split("/")[-1].strip('.mtx').strip('\n')
         dataset_li.append(dataset)
-    if "Time (ms):" in line:
-        time = line.split("Time (ms):")[1].rstrip("\n")
+    if "MPI time (ms)" in line:
+        time = line.strip("MPI time (ms)").strip('\n')
         print(time)
         time_li.append(float(time))
 fp.close()
@@ -24,9 +24,9 @@ fout = open(sys.argv[1].strip(".log")+".csv", 'w')
 # print(time_li)
 
 cnt = 0
-for data, time in zip(dataset_li, time_li):
+for data in dataset_li:
     if cnt % num_GPUs == 0:
-        tmp_t = max(time_li[cnt:cnt+num_GPUs])
+        tmp_t = time_li[int(cnt/num_GPUs)]
         fout.write("{},{}\n".format(data, tmp_t))
     cnt += 1
 fout.close()

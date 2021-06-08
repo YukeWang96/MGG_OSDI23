@@ -62,7 +62,6 @@ pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3 OMPI_MCA_plm_rsh_agent=sh \
               mpirun -np {} '.format(num_GPUs)
 command = "build/MGG {}".format(data_path)
 
-for hid in hidden:
-    for data, d, c in dataset:
-        os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5}".\
-        format(data, num_GPUs, partSize, warpPerblock, hid, interleaved_dist))
+for data, d, c in dataset:
+    os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5}".\
+    format(data, num_GPUs, partSize, warpPerblock, hidden, interleaved_dist))

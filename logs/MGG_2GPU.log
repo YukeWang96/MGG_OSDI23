@@ -1,0 +1,64 @@
+Graph File: dataset/citeseer.mtx
+Graph File: dataset/citeseer.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+PE-0-local, num_nodes: 1664, part_size, 10, num_parts, 1192
+PE-0-remote, num_nodes: 1664, part_size, 10, num_parts, 1186
+PE-1-local, num_nodes: 1663, part_size, 10, num_parts, 1194
+PE-1-remote, num_nodes: 1663, part_size, 10, num_parts, 1211
+grid: 303, block: 128, shared_memory (KB): 5.280
+grid: 298, block: 128, shared_memory (KB): 5.280
+grid: 298, block: 128, shared_memory (KB): 5.280
+grid: 303, block: 128, shared_memory (KB): 5.280
+PE-0, Total (ms): 1.689, Dense (ms): 0.000
+MPI time (ms) 0.128
+PE-1, Total (ms): 0.133, Dense (ms): 0.000
+===================================
+Graph File: dataset/cora.mtx
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+PE-1-local, num_nodes: 1354, part_size, 10, num_parts, 1149
+PE-1-remote, num_nodes: 1354, part_size, 10, num_parts, 1128
+PE-0-local, num_nodes: 1354, part_size, 10, num_parts, 1137
+PE-0-remote, num_nodes: 1354, part_size, 10, num_parts, 1132
+grid: 288, block: 128, shared_memory (KB): 5.280
+grid: 285, block: 128, shared_memory (KB): 5.280
+grid: 288, block: 128, shared_memory (KB): 5.280
+grid: 285, block: 128, shared_memory (KB): 5.280
+PE-1, Total (ms): 0.140, Dense (ms): 0.000
+PE-0, Total (ms): 6.467, Dense (ms): 0.000
+MPI time (ms) 0.126
+===================================
+Graph File: dataset/pubmed.mtx
+Graph File: dataset/pubmed.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+PE-1-local, num_nodes: 9858, part_size, 10, num_parts, 7466
+PE-1-remote, num_nodes: 9858, part_size, 10, num_parts, 7468
+PE-0-local, num_nodes: 9859, part_size, 10, num_parts, 7569
+PE-0-remote, num_nodes: 9859, part_size, 10, num_parts, 7529
+grid: 1867, block: 128, shared_memory (KB): 5.280
+grid: 1893, block: 128, shared_memory (KB): 5.280
+grid: 1893, block: 128, shared_memory (KB): 5.280
+grid: 1867, block: 128, shared_memory (KB): 5.280
+PE-0, Total (ms): 1.560, Dense (ms): 0.000
+MPI time (ms) 0.273
+PE-1, Total (ms): 0.287, Dense (ms): 0.000
+===================================
+Graph File: dataset/ppi.mtx
+Graph File: dataset/ppi.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+PE-1-local, num_nodes: 28472, part_size, 10, num_parts, 52425
+PE-0-local, num_nodes: 28472, part_size, 10, num_parts, 56479
+PE-1-remote, num_nodes: 28472, part_size, 10, num_parts, 0
+PE-0-remote, num_nodes: 28472, part_size, 10, num_parts, 9909
+grid: 13107, block: 128, shared_memory (KB): 5.280
+grid: 14120, block: 128, shared_memory (KB): 5.280
+grid: 13107, block: 128, shared_memory (KB): 5.280
+grid: 14120, block: 128, shared_memory (KB): 5.280
+PE-1, Total (ms): 0.357, Dense (ms): 0.000
+PE-0, Total (ms): 5.280, Dense (ms): 0.000
+MPI time (ms) 0.437
+===================================
