@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ctime>
 #include "cuda_runtime.h"
 #include "nccl.h"
 
@@ -25,13 +26,11 @@
 int main(int argc, char* argv[])
 {
   if (argc < 3){
-    printf("./exe ndevices dim\n");
+    printf("./exe ndevices size\n");
     exit(-1);
   }
   //managing 4 devices
-  // int nDev = 3;
   int nDev = atoi(argv[1]);
-  // int size = 32*1024*1024;
   int size = atoi(argv[2]);
   int *devs = new int[nDev];
   ncclComm_t* comms = (ncclComm_t*)malloc(sizeof(ncclComm_t)*nDev);
@@ -55,17 +54,18 @@ int main(int argc, char* argv[])
     CUDACHECK(cudaStreamCreate(s+i));
   }
 
-  cudaEvent_t start, stop;
-  cudaEventCreate(&start);
-  cudaEventCreate(&stop);
-
-  cudaEventRecord(start);
+  // cudaEvent_t start, stop;
+  // cudaEventCreate(&start);
+  // cudaEventCreate(&stop);
+  // cudaEventRecord(start);
   
+  std::clock_t dense_start = std::clock();
+
   //initializing NCCL
   NCCLCHECK(ncclCommInitAll(comms, nDev, devs));
 
-   //calling NCCL communication API. Group API is required when using
-   //multiple devices per thread
+  //calling NCCL communication API. Group API is required when using
+  //multiple devices per thread
   NCCLCHECK(ncclGroupStart());
   for (int i = 0; i < nDev; ++i){
     ncclSend(sendbuff[i], size, ncclFloat, (i+1)%nDev, comms[i], s[i]);
@@ -75,12 +75,16 @@ int main(int argc, char* argv[])
   }
   NCCLCHECK(ncclGroupEnd());
 
-  cudaEventRecord(stop);
-  cudaEventSynchronize(stop);
-  float milliseconds = 0;
-  cudaEventElapsedTime(&milliseconds, start, stop);
-  printf("kernel time (ms): %.3f\n", milliseconds);
 
+  std::clock_t dense_end = std::clock();
+  float dense_time_elapsed_ms = 1000.0 * (dense_end - dense_start) / CLOCKS_PER_SEC;
+  printf("CPU-Wall (ms): %.3f\n", dense_time_elapsed_ms);
+
+  // cudaEventRecord(stop);
+  // cudaEventSynchronize(stop);
+  // float milliseconds = 0;
+  // cudaEventElapsedTime(&milliseconds, start, stop);
+  // printf("kernel time (ms): %.3f\n", milliseconds);
 
   //synchronizing on CUDA streams to wait for completion of NCCL operation
   for (int i = 0; i < nDev; ++i) {

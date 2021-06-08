@@ -3,7 +3,7 @@ import os
 import sys
 
 dimension = 128
-num_GPU = 4
+num_GPU = 2
 
 dataset = [
         ( 'Reddit'        , 232965),
