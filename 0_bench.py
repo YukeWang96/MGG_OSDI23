@@ -26,25 +26,15 @@ warpPerblock = 4
 interleaved_dist = 1
 # interleaved_dist = int(sys.argv[1])
 
-# single = False
-# basic_MGG = False
-# interleaved_MGG = False
-
-# host2device_unified_mem = False
-# device2device = False
 test_neighbor_part = True
 
 dataset = [
-        # ('toy'	        , 3	    , 2   ),  
-        # ('tc_gnn_verify'	, 16	, 2),
-        # ('tc_gnn_verify_2x'	, 16	, 2),
-
         ('citeseer'	        		, 3703	    , 6   ),  
         ('cora' 	        		, 1433	    , 7   ),  
         ('pubmed'	        		, 500	    , 3   ),      
         ('ppi'	            		, 50	    , 121 ),   
         
-        # ('PROTEINS_full'             , 29       , 2) ,   
+        # ('PROTEINS'             , 29       , 2) ,   
         # ('OVCAR-8H'                  , 66       , 2) , 
         # ('Yeast'                     , 74       , 2) ,
         # ('DD'                        , 89       , 2) ,
@@ -63,25 +53,13 @@ dataset = [
         # ( 'com-Orkut'				    , 128		, 128),
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),
-
-       # ( 'amazon_also_bought'          , 96        , 22),
-        # ( 'ogbn-arxiv'		            , 128	    , 40),
-        # ('kmer_V1r', 128,128),
-        # ('mawi_201512020330', 128,128),
-        # ('YeastH'                    , 75       , 2) ,   
-        # ( 'web-BerkStan'             , 100	  , 12),
-        # ( 'wiki-topcats'             , 300	  , 12),
-        # ( 'COLLAB'                   , 100      , 3) ,
-        # ( 'wiki-topcats'             , 300	  , 12),
 ]
 
 
 data_path = 'dataset/'
 pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3 OMPI_MCA_plm_rsh_agent=sh \
               mpirun -np {} '.format(num_GPUs)
-
-if test_neighbor_part:
-    command = "build/MGG {}".format(data_path)
+command = "build/MGG {}".format(data_path)
 
 for hid in hidden:
     for data, d, c in dataset:
