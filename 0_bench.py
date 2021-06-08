@@ -11,10 +11,11 @@ model = 'gcn'
 
 # hidden = [16,32,64,128,256]
 # hidden = [int(sys.argv[1])]
-hidden = [256]
+# hidden = [256]
+hidden = 16
 
-num_GPUs = 2
-# num_GPUs = int(sys.argv[1])
+# num_GPUs = 2
+num_GPUs = int(sys.argv[1])
 
 partSize = 10
 # partSize = 180
