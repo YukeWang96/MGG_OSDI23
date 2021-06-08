@@ -24,6 +24,10 @@ add_executable(MGG
     include/layer.cu
 )
 
+add_executable(NCCL 
+    src/nccl_example.cu 
+)
+
 target_include_directories(MGG 
     PRIVATE 
     ${NVSHMEM_HOME}/include 
@@ -54,9 +58,6 @@ target_link_libraries(MGG
     curand
 )
 
-add_executable(NCCL 
-    src/nccl_example.cu 
-)
 
 set_target_properties(NCCL PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
@@ -78,12 +79,3 @@ target_link_libraries(NCCL
     cuda
     nccl
 )
-
-# nvcc -rdc=true -ccbin g++ -arch=sm_70 \
-#                             -I$NCCL_HOME/include \
-#                             -Iinclude \
-#                             src/nccl_example.cu \
-#                             -o nccl_example \
-#                             -L$NCCL_HOME/lib \
-#                             -lcuda \
-#                             -lnccl
