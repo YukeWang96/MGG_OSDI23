@@ -1,0 +1,53 @@
+cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+project(MGG LANGUAGES CXX CUDA)
+
+set($ENV{PATH} "${CMAKE_CURRENT_SOURCE_DIR}/local/openmpi-4.1.1/bin/:$ENV{PATH}")
+set(CUDA_TOOLKIT_ROOT_DIR "/usr/local/cuda-11.0/")
+set(MPI_HOME "${CMAKE_CURRENT_SOURCE_DIR}/local/openmpi-4.1.1/")
+set(CUDA_HOME "/usr/local/cuda-11.0/")
+set(CUDNN_HOME "${CMAKE_CURRENT_SOURCE_DIR}/local/cudnn-v8.2")
+set(NVSHMEM_HOME "${CMAKE_CURRENT_SOURCE_DIR}/local/nvshmem_src_2.0.3-0/build")
+
+set($ENV{NVCC_GENCODE} "sm_70")
+set($ENV{NVSHMEM_USE_GDRCOPY} "0")
+
+link_directories(${NVSHMEM_HOME}/lib)
+link_directories(${CUDNN_HOME}/lib64)
+link_directories(${MPI_HOME}/lib)
+link_directories(/usr/local/lib)
+
+add_executable(MGG 
+    src/test_neighbor_part.cu 
+    include/loss.cu 
+    include/layer.cu
+)
+
+target_include_directories(MGG 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    ${CUDNN_HOME}/include
+    include
+)
+
+target_compile_options(MGG PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch sm_70
+                       >)
+
+set_target_properties(MGG PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+ 
+target_link_libraries(MGG
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+    cudnn 
+    gomp 
+    curand
+)
