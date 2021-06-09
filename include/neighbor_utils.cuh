@@ -127,6 +127,7 @@ void SAG_cuda_kernel_range_only(
     const IDType  num_parts,
     const IDType lb,          // lower bound neighbor ID.
     const IDType ub,          // upper bound neighbor ID (exclusive)
+    const IDType edge_lb,     // lower bound lower ID
     const IDType num_nodes,   // number of nodes assigned to current GPU.
     // other param.
     const paraType partSize,
@@ -478,6 +479,7 @@ void SAG_host_range_only(
     const IDType  num_parts,
     const IDType  lb,
     const IDType  ub,
+    const IDType edge_lb,     // lower bound lower ID
     const IDType  num_nodes,
     // other param.
     const paraType partSize,
@@ -503,6 +505,7 @@ void SAG_host_range_only(
         num_parts,
         lb,
         ub,
+        edge_lb,   
         num_nodes,
         // other param.
         partSize,
@@ -969,6 +972,7 @@ void SAG_cuda_kernel_range_only(
     const IDType  num_parts,
     const IDType lb,          // lower bound neighbor ID.
     const IDType ub,          // upper bound neighbor ID (exclusive)
+    const IDType edge_lb,     // lower bound lower ID
     const IDType num_nodes,   // number of nodes assigned to current GPU.
     // other param.
     const paraType partSize,
@@ -1002,7 +1006,9 @@ void SAG_cuda_kernel_range_only(
         // #pragma unroll
         for (int nidx = partBeg + laneid; nidx < partEnd; nidx += dimWorker){
             // printf("1--pindex_base: %d, laneid: %d\n", pindex_base, laneid);
-            partial_ids[pindex_base + nidx - partBeg] = column_index[nidx];
+            // partial_ids[pindex_base + nidx - partBeg] = column_index[nidx];
+            partial_ids[pindex_base + nidx - partBeg] = column_index[nidx - edge_lb];
+
             // if(partial_ids[pindex_base + laneid]  >= num_nodes || partial_ids[pindex_base + laneid]  < 0) printf("---- partial_ids: %d\n", partial_ids[pindex_base + laneid] );
         }
 
@@ -1017,7 +1023,7 @@ void SAG_cuda_kernel_range_only(
             int nid = partial_ids[pindex_base + nIdx];
 
             if (nIdx == 0)
-                if (laneid < dimWorker)
+                // if (laneid < dimWorker)
                 #pragma unroll
                 for (int d = laneid; d < dim; d += dimWorker){
                     partial_results[presult_base + d] = 0.0f;
@@ -1029,7 +1035,7 @@ void SAG_cuda_kernel_range_only(
                 const int local_idx = nid - lb;
                 // if(nid >= num_nodes || nid < 0) printf("Error nid: %d\n", nid);
                 // Initialize shared memory for partial results
-                if (laneid < dimWorker)
+                // if (laneid < dimWorker)
                 #pragma unroll
                 for (int d = laneid; d < dim; d += dimWorker){
                     partial_results[presult_base + d] += input[local_idx*dim + d];
@@ -1038,7 +1044,7 @@ void SAG_cuda_kernel_range_only(
         }
 
         // output the result to global memory from the shared memory
-        if (laneid < dimWorker)
+        // if (laneid < dimWorker)
         #pragma unroll
         for (int d = laneid; d < dim; d += dimWorker){
             atomicAdd_F((float*)&output[(srcId % num_nodes)*dim + d], partial_results[presult_base + d]);

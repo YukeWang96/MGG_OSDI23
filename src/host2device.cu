@@ -55,7 +55,7 @@ int main(int argc, char* argv[]){
 
     int num_GPUs = atoi(argv[2]);
     int partSize = 3;
-    int dim = 16;
+    int dim = atoi(argv[3]);
     int dimWorker = 32;
     int warpPerBlock = 2;
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
@@ -140,6 +140,7 @@ for (int part_iter = 0; part_iter < num_GPUs; part_iter++){
                                         num_parts_range, 
                                         lb, 
                                         ub, 
+                                        edge_lb,
                                         local_nodes,
                                         // other param.
                                         partSize, 
