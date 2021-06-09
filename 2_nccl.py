@@ -2,13 +2,13 @@
 import os
 import sys
 
-dimension = 128
-num_GPU = 2
+dimension = 16
+num_GPU = 4
 
 dataset = [
         ( 'Reddit'        , 232965),
         ( 'enwiki-2013'	  , 4203323),
-        ( 'ogbn-products' , 1511819904),
+        # ( 'ogbn-products' , 1511819904),
 ]
 
 for data, nodes in dataset:

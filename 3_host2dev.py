@@ -8,7 +8,7 @@ os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
 hidden = 16
-num_GPUs = 3
+num_GPUs = 4
 
 dataset = [
         # ('citeseer'	        		, 3703	    , 6   ),  
@@ -28,10 +28,9 @@ dataset = [
         # ( 'soc-BlogCatalog'	         , 128	  , 39),      
         # ( 'amazon0601'  	         , 96	  , 22), 
 
-        ( 'Reddit'                      , 602      	, 41),
-        ( 'enwiki-2013'	                , 100	    , 12),      
-        
-        # ( 'ogbn-products'	            , 100	    , 47),
+        # ( 'Reddit'                      , 602      	, 41),
+        # ( 'enwiki-2013'	                , 100	    , 12),      
+        ( 'ogbn-products'	            , 100	    , 47),
         # ( 'ogbn-proteins'		        , 8		    , 112),
         # ( 'com-Orkut'				    , 128		, 128),
         # ( 'web-Google'				    , 128		, 128),
