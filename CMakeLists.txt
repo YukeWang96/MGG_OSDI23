@@ -9,7 +9,9 @@ set(CUDNN_HOME "${CMAKE_CURRENT_SOURCE_DIR}/local/cudnn-v8.2")
 set(NVSHMEM_HOME "${CMAKE_CURRENT_SOURCE_DIR}/local/nvshmem_src_2.0.3-0/build")
 set(NCCL_HOME "${CMAKE_CURRENT_SOURCE_DIR}/local/nccl_2.9.8-1+cuda11.0_x86_64/")
 
-set($ENV{NVCC_GENCODE} "sm_70")
+
+set(SM_ARCH "sm_70")
+set($ENV{NVCC_GENCODE} ${SM_ARCH})
 set($ENV{NVSHMEM_USE_GDRCOPY} "0")
 
 link_directories(${NVSHMEM_HOME}/lib)
@@ -46,7 +48,7 @@ target_compile_options(MGG PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                         -pthread 
                         -rdc=true 
                         -ccbin g++ 
-                        -arch sm_70
+                        -arch ${SM_ARCH}
                        >)
 
 set_target_properties(MGG PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
@@ -70,7 +72,7 @@ target_compile_options(NCCL PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                         -pthread 
                         -rdc=true 
                         -ccbin g++ 
-                        -arch sm_70
+                        -arch ${SM_ARCH}
                        >)
 
 target_include_directories(NCCL 
@@ -98,7 +100,7 @@ target_compile_options(HOST2DEV PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                         -pthread 
                         -rdc=true 
                         -ccbin g++ 
-                        -arch sm_70
+                        -arch ${SM_ARCH}
                        >)
 
 set_target_properties(HOST2DEV PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
