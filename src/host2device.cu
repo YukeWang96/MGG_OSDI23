@@ -13,31 +13,6 @@
 
 using namespace std;
 
-#define min_val(a,b) ((a)<(b)?(a):(b))
-#define max_val(a,b) ((a)>(b)?(a):(b))
-
-#define NVSHMEM_START { \
-    nvshmem_init(); \
-}
-
-#define NVSHMEM_END { \
-    nvshmem_finalize(); \
-    printf("--*-- PEID: %d, End NVSHMEM --*--\n", mype_node); \
-}
-
-template <typename T>
-void print_array(string name, std::vector<T>& array, int len=10){
-    cout << name << ":\t";
-    for (int i = 0; i < len; i++){
-        if (typeid(T) == typeid(int))
-            printf("%d ", array[i]);
-        else
-            printf("%.3f ", array[i]);
-    }
-    cout << endl;
-}
-
-
 int main(int argc, char* argv[]){
 	
     if (argc < 3){
@@ -170,7 +145,8 @@ for (int part_iter = 0; part_iter < num_GPUs; part_iter++){
     cudaFree(d_part_ptr);
     cudaFree(d_part2Node);
 
-    NVSHMEM_END;
+    nvshmem_finalize(); \
+    printf("--*-- PEID: %d, End NVSHMEM --*--\n", mype_node); 
     MPI_Finalize();
 
     return 0;

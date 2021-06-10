@@ -9,21 +9,6 @@
 
 using namespace std;
 
-#define min_val(a,b) ((a)<(b)?(a):(b))
-#define max_val(a,b) ((a)>(b)?(a):(b))
-
-template <typename T>
-void print_array(string name, std::vector<T>& array, int len=10){
-    cout << name << ":\t";
-    for (int i = 0; i < len; i++){
-        if (typeid(T) == typeid(int))
-            printf("%d ", array[i]);
-        else
-            printf("%.3f ", array[i]);
-    }
-    cout << endl;
-}
-
 
 int main(int argc, char* argv[]){
 	

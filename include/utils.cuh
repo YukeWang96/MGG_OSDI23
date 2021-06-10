@@ -3,9 +3,15 @@
 #define UTIL 
 
 #include <cuda.h>
+#include <vector>
+
+using namespace std;
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
 #define MAX(a,b) (((a)>(b))?(a):(b))
+
+#define min_val(a,b) ((a)<(b)?(a):(b))
+#define max_val(a,b) ((a)>(b)?(a):(b))
 
 #define gpuErrchk(ans) { gpuAssert((ans), __FILE__, __LINE__); }
 inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=true)
@@ -71,4 +77,17 @@ void print_update_node(float *update_node, int ebdDim, int start, int end){
       printf("\n");
    }
 }
+
+template <typename T>
+void print_array(string name, std::vector<T>& array, int len=10){
+    cout << name << ":\t";
+    for (int i = 0; i < len; i++){
+        if (typeid(T) == typeid(int))
+            printf("%d ", array[i]);
+        else
+            printf("%.3f ", array[i]);
+    }
+    cout << endl;
+}
+
 #endif

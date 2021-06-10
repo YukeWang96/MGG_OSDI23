@@ -15,17 +15,17 @@
 using namespace cudl;
 using namespace std;
 
-template <typename T>
-void print_array(string name, std::vector<T>& array, int len=10){
-    cout << name << ":\t";
-    for (int i = 0; i < len; i++){
-        if (typeid(T) == typeid(int))
-            printf("%d ", array[i]);
-        else
-            printf("%.3f ", array[i]);
-    }
-    cout << endl;
-}
+// template <typename T>
+// void print_array(string name, std::vector<T>& array, int len=10){
+//     cout << name << ":\t";
+//     for (int i = 0; i < len; i++){
+//         if (typeid(T) == typeid(int))
+//             printf("%d ", array[i]);
+//         else
+//             printf("%.3f ", array[i]);
+//     }
+//     cout << endl;
+// }
 
 int main(int argc, char* argv[]){
 	
