@@ -407,7 +407,7 @@ void SAG_host_fused_interleaved(
     const int block = warpPerBlock * WARP_SIZE;
     const int total_warps = (total_parts + interleaved_dist - 1)/interleaved_dist;
     const int grid = (total_warps * WARP_SIZE + block  - 1) / block; 
-    int shared_memory = partSize*warpPerBlock*sizeof(int) + 2*partSize*warpPerBlock*dim*sizeof(float);    
+    int shared_memory = partSize*warpPerBlock*sizeof(int) + 2*warpPerBlock*dim*sizeof(float);    
     printf("grid: %d, block: %d, shared_memory (KB): %.3f\n", grid, block, shared_memory*1.0f/1e3);
     cudaFuncSetAttribute(SAG_cuda_kernel_fused_interleaved<IDType, dataType, paraType>, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory);
 
@@ -549,8 +549,9 @@ void SAG_host_unified(
     const int block = warpPerBlock * WARP_SIZE;
     const int grid = (num_parts * WARP_SIZE + block  - 1) / block; 
     const int shared_memory = partSize*warpPerBlock*sizeof(int) + warpPerBlock*dim*sizeof(float);    
-    // printf("grid: %d, block: %d, shared_memory: %d\n", grid, block, shared_memory);
+    printf("grid: %d, block: %d, shared_memory (KB): %.3f\n", grid, block, 1.0f*shared_memory/1e3);
     // printf("dim: %d, num_nodes: %d, num_parts: %d\n", dim, num_nodes, num_parts);
+    cudaFuncSetAttribute(SAG_cuda_kernel_host_unified<IDType, dataType, paraType>, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory);
 
     SAG_cuda_kernel_host_unified<IDType, dataType, paraType><<<grid, block, shared_memory>>>(
         output,
@@ -840,7 +841,7 @@ void SAG_cuda_kernel_fused_interleaved(
     extern __shared__ int part_meta[];                                      // part information.
     int *partial_ids = part_meta;                                           // caching ids
     float *partial_results = (float*)&part_meta[partSize*warpPerBlock];     // caching partial results.
-    float *tmp_local = (float*)&partial_results[partSize*warpPerBlock*dim];     // caching partial results.
+    float *tmp_local = (float*)&partial_results[warpPerBlock*dim];     // caching partial results.
 
     int p_start, p_end;
     // ---------------------

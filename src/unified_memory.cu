@@ -23,13 +23,13 @@ int main(int argc, char* argv[]){
 
     int numNodes = asym.row_ptr.size() - 1;
     int numEdges = asym.col_ind.size();
-    int dim = 16;
     int dimWorker = 32;
 
     int num_GPUs = atoi(argv[2]);
     int partSize = atoi(argv[3]);
     int warpPerBlock = atoi(argv[4]);
-    
+    int dim = atoi(argv[5]);
+
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
     float* input = (float*)malloc(numNodes*dim*sizeof(float));
     // memset(input, 0, numNodes*dim*sizeof(float));

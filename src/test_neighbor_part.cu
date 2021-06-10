@@ -15,18 +15,6 @@
 using namespace cudl;
 using namespace std;
 
-// template <typename T>
-// void print_array(string name, std::vector<T>& array, int len=10){
-//     cout << name << ":\t";
-//     for (int i = 0; i < len; i++){
-//         if (typeid(T) == typeid(int))
-//             printf("%d ", array[i]);
-//         else
-//             printf("%.3f ", array[i]);
-//     }
-//     cout << endl;
-// }
-
 int main(int argc, char* argv[]){
 	
     if (argc < 7){
@@ -77,11 +65,6 @@ int main(int argc, char* argv[]){
     cudaStreamCreate(&stream);
 
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
-    // lb: inclusive, ub: exclusive.
-    // int lb = 0, ub = numNodes/2;
-    // int lb = numNodes/2, ub = numNodes;
-
-    
     int lb = nodesPerPE * mype_node;
     int ub = (lb+nodesPerPE) < numNodes? (lb+nodesPerPE):numNodes;
 
@@ -188,7 +171,7 @@ int main(int argc, char* argv[]){
 
     // cudaEventRecord(start);
 
-    // Forward output.
+    // Forward computation.
     SAG_host_fused_interleaved<int, float, int>(d_output, d_input,
                                                 // local access param.
                                                 d_row_ptr_local, d_col_ind_local,
@@ -268,7 +251,6 @@ int main(int argc, char* argv[]){
 
     std::clock_t dense_end = std::clock();
     dense_time_elapsed_ms = 1000.0 * (dense_end - dense_start) / CLOCKS_PER_SEC;
-    #endif
 
     // backward graident for Sparse operation.
     // cudaEventCreate(&start);
@@ -294,6 +276,7 @@ int main(int argc, char* argv[]){
 
     gpuErrchk(cudaGetLastError());
     gpuErrchk(cudaDeviceSynchronize());
+    #endif
     // cudaEventRecord(stop);
     // cudaEventSynchronize(stop);
     // milliseconds = 0;
