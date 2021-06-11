@@ -10,7 +10,6 @@
 + `mkdir build && cd build`
 + `cmake ..`
 
-
 # Run experiment.
 + Change the path to corresponding library at `0_bench.py`.
 ```

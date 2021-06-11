@@ -1,0 +1,1 @@
+docker run -it --rm --gpus all -v $PWD/../:/MGG mgg:latest /bin/bash

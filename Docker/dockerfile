@@ -1,0 +1,35 @@
+FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
+# RUN apt update \
+#     && apt install -y software-properties-common \
+#     && add-apt-repository ppa:deadsnakes/ppa \
+#     && apt update \
+#     && apt install -y python3.8 
+RUN apt update \
+    && apt install -y python3 \
+                    libevent-core-2.1-7 \
+                    libhwloc-dev \
+                    libevent-pthreads-2.1-7
+
+# install openmpi with cuda support.
+RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.1.tar.gz
+RUN tar -zxvf openmpi-4.1.1.tar.gz
+WORKDIR openmpi-4.1.1/
+RUN ./configure --with-cuda --enable-mpi-cxx --prefix=/opt/openmpi-4.1.1
+RUN make -j8 install
+ENV LD_LIBRARY_PATH=/usr/local/lib:/opt/openmpi-4.1.1/lib/:$LD_LIBRARY_PATH
+ENV PATH=/opt/openmpi-4.1.1/bin/:$PATH
+
+
+
+# ENV MPI_HOME=/opt/openmpi-4.1.1/
+# ENV NVSHMEM_HOME=$PWD/nvshmem_src_2.0.3-0/build
+# ENV NVCC_GENCODE=sm_70
+
+# ENV CUDA_HOME=/usr/local/cuda-11.2/
+# # ENV MPI_HOME=/usr/lib/x86_64-linux-gnu/openmpi
+# ENV NVSHMEM_HOME=/nvshmem/nvshmem_src_2.0.3-0/build
+# ENV NVCC_GENCODE=sm_70
+# ENV NVSHMEM_USE_GDRCOPY=0
+RUN ln -s /usr/bin/python3.8 /usr/bin/python
+
+WORKDIR /MGG
