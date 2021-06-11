@@ -1,0 +1,20 @@
+Graph File: dataset/citeseer.mtx
+Graph File: dataset/citeseer.mtx
+Graph File: dataset/citeseer.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-0-local, num_nodes: 1109, part_size, 10, num_parts, 627
+PE-0-remote, num_nodes: 1109, part_size, 10, num_parts, 925
+PE-2-local, num_nodes: 1109, part_size, 10, num_parts, 642
+PE-2-remote, num_nodes: 1109, part_size, 10, num_parts, 945
+PE-1-local, num_nodes: 1109, part_size, 10, num_parts, 593
+PE-1-remote, num_nodes: 1109, part_size, 10, num_parts, 924
+grid: 237, block: 128, shared_memory (KB): 4.256
+grid: 232, block: 128, shared_memory (KB): 4.256
+grid: 231, block: 128, shared_memory (KB): 4.256
+PE-2, Total (ms): 0.122, Dense (ms): 0.000
+PE-1, Total (ms): 17.320, Dense (ms): 0.000
+PE-0, Total (ms): 58.499, Dense (ms): 0.000
+MPI time (ms) 0.134
+===================================

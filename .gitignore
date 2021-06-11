@@ -2,3 +2,4 @@ dataset/
 build/
 local/
 *.tar.gz
+openmpi-4.1.1/
