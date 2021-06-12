@@ -8,9 +8,9 @@ PE-1-remote, num_nodes: 1663, part_size, 10, num_parts, 1211
 PE-0-remote, num_nodes: 1664, part_size, 10, num_parts, 1186
 grid: 303, block: 128, shared_memory (KB): 4.256
 grid: 298, block: 128, shared_memory (KB): 4.256
-PE-1, Total (ms): 12.597, Dense (ms): 0.000
-PE-0, Total (ms): 0.172, Dense (ms): 0.000
-MPI time (ms) 0.168
+PE-1, Total (ms): 0.161, Dense (ms): 0.000
+PE-0, Total (ms): 0.727, Dense (ms): 0.000
+MPI time (ms) 0.173
 ===================================
 Graph File: dataset/cora.mtx
 Graph File: dataset/cora.mtx
@@ -22,23 +22,23 @@ PE-0-local, num_nodes: 1354, part_size, 10, num_parts, 1137
 PE-0-remote, num_nodes: 1354, part_size, 10, num_parts, 1132
 grid: 288, block: 128, shared_memory (KB): 4.256
 grid: 285, block: 128, shared_memory (KB): 4.256
-PE-1, Total (ms): 0.172, Dense (ms): 0.000
-PE-0, Total (ms): 4.535, Dense (ms): 0.000
-MPI time (ms) 0.165
+PE-1, Total (ms): 0.165, Dense (ms): 0.000
+PE-0, Total (ms): 5.154, Dense (ms): 0.000
+MPI time (ms) 0.157
 ===================================
 Graph File: dataset/pubmed.mtx
 Graph File: dataset/pubmed.mtx
 Complete loading graphs !!
 Complete loading graphs !!
-PE-0-local, num_nodes: 9859, part_size, 10, num_parts, 7569
-PE-0-remote, num_nodes: 9859, part_size, 10, num_parts, 7529
 PE-1-local, num_nodes: 9858, part_size, 10, num_parts, 7466
+PE-0-local, num_nodes: 9859, part_size, 10, num_parts, 7569
 PE-1-remote, num_nodes: 9858, part_size, 10, num_parts, 7468
-grid: 1893, block: 128, shared_memory (KB): 4.256
+PE-0-remote, num_nodes: 9859, part_size, 10, num_parts, 7529
 grid: 1867, block: 128, shared_memory (KB): 4.256
-PE-0, Total (ms): 0.652, Dense (ms): 0.000
-MPI time (ms) 0.640
-PE-1, Total (ms): 2.815, Dense (ms): 0.000
+grid: 1893, block: 128, shared_memory (KB): 4.256
+PE-1, Total (ms): 4.878, Dense (ms): 0.000
+PE-0, Total (ms): 0.648, Dense (ms): 0.000
+MPI time (ms) 0.644
 ===================================
 Graph File: dataset/ppi.mtx
 Graph File: dataset/ppi.mtx
@@ -50,7 +50,7 @@ PE-0-local, num_nodes: 28472, part_size, 10, num_parts, 56479
 PE-0-remote, num_nodes: 28472, part_size, 10, num_parts, 9909
 grid: 13107, block: 128, shared_memory (KB): 4.256
 grid: 14120, block: 128, shared_memory (KB): 4.256
-PE-1, Total (ms): 1.179, Dense (ms): 0.000
-PE-0, Total (ms): 0.816, Dense (ms): 0.000
-MPI time (ms) 0.786
+PE-1, Total (ms): 0.431, Dense (ms): 0.000
+PE-0, Total (ms): 2.811, Dense (ms): 0.000
+MPI time (ms) 0.781
 ===================================
