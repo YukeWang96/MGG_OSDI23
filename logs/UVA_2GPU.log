@@ -1,0 +1,9 @@
+Graph File: dataset/amazon0505.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 410236, part_size, 4000, num_parts, 410236
+grid: 51280, block: 128, shared_memory (KB): 65.536
+Time (ms): 30.04
+===================================
+grid: 51280, block: 128, shared_memory (KB): 65.536
+Time (ms): 25.22
+===================================
