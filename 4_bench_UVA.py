@@ -9,7 +9,7 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
 # hidden = [16,32,64,128,256]
 # hidden = [int(sys.argv[1])]
-hidden = 128
+hidden = 16
 
 # num_GPUs = 2
 num_GPUs = int(sys.argv[1])
@@ -39,13 +39,13 @@ dataset = [
         ( 'soc-BlogCatalog'	         , 128	  , 39),      
         ( 'amazon0601'  	         , 96	  , 22), 
 
-        # ( 'Reddit'                      , 602      	, 41),
-        # ( 'enwiki-2013'	                , 100	    , 12),      
-        # ( 'ogbn-products'	            , 100	    , 47),
-        # ( 'ogbn-proteins'		        , 8		    , 112),
-        # ( 'com-Orkut'				    , 128		, 128),
-        # ( 'web-Google'				    , 128		, 128),
-        # ( 'wiki-Talk'				    , 128		, 128),
+        ( 'Reddit'                      , 602      	, 41),
+        ( 'enwiki-2013'	                , 100	    , 12),      
+        ( 'ogbn-products'	            , 100	    , 47),
+        ( 'ogbn-proteins'		        , 8		    , 112),
+        ( 'com-Orkut'				    , 128		, 128),
+        ( 'web-Google'				    , 128		, 128),
+        ( 'wiki-Talk'				    , 128		, 128),
 ]
 
 
@@ -54,4 +54,4 @@ command = "build/unified_memory {}".format(data_path)
 
 for data, d, c in dataset:
     os.system(command + "{0}.mtx {1} {2} {3} {4}".\
-    format(data, num_GPUs, partSize, warpPerblock, d))
+    format(data, num_GPUs, partSize, warpPerblock, hidden))

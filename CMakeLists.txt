@@ -10,7 +10,7 @@ set(NVSHMEM_HOME "${CMAKE_CURRENT_SOURCE_DIR}/local/nvshmem_src_2.0.3-0/build")
 set(NCCL_HOME "${CMAKE_CURRENT_SOURCE_DIR}/local/nccl_2.9.8-1+cuda11.0_x86_64/")
 
 
-set(SM_ARCH "sm_70")
+set(SM_ARCH "sm_80")
 set($ENV{NVCC_GENCODE} ${SM_ARCH})
 set($ENV{NVSHMEM_USE_GDRCOPY} "0")
 
@@ -54,7 +54,8 @@ target_compile_options(MGG PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                        >)
 
 set_target_properties(MGG PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
- 
+set_target_properties(MGG PROPERTIES CUDA_ARCHITECTURES "80")
+
 target_link_libraries(MGG
     nvshmem 
     cuda
@@ -68,6 +69,7 @@ target_link_libraries(MGG
 
 
 set_target_properties(NCCL PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(NCCL PROPERTIES CUDA_ARCHITECTURES "80")
 
 target_compile_options(NCCL PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                         -Xcompiler 
@@ -106,7 +108,8 @@ target_compile_options(HOST2DEV PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                        >)
 
 set_target_properties(HOST2DEV PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
- 
+set_target_properties(HOST2DEV PROPERTIES CUDA_ARCHITECTURES "80")
+
 target_link_libraries(HOST2DEV
     nvshmem 
     cuda
@@ -133,7 +136,8 @@ target_compile_options(unified_memory PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                        >)
 
 set_target_properties(unified_memory PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
- 
+set_target_properties(unified_memory PROPERTIES CUDA_ARCHITECTURES "80")
+
 target_link_libraries(unified_memory
     nvshmem 
     cuda
