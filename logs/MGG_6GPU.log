@@ -1,0 +1,456 @@
+Graph File: dataset/amazon0505.mtx
+Graph File: dataset/amazon0505.mtx
+Graph File: dataset/amazon0505.mtx
+Graph File: dataset/amazon0505.mtx
+Graph File: dataset/amazon0505.mtx
+Graph File: dataset/amazon0505.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-5-local, num_nodes: 68371, part_size, 16, num_parts, 56989
+PE-5-remote, num_nodes: 68371, part_size, 16, num_parts, 52978
+PE-4-local, num_nodes: 68373, part_size, 16, num_parts, 49996
+PE-4-remote, num_nodes: 68373, part_size, 16, num_parts, 65889
+PE-0-local, num_nodes: 68373, part_size, 16, num_parts, 79021
+PE-0-remote, num_nodes: 68373, part_size, 16, num_parts, 69420
+PE-2-local, num_nodes: 68373, part_size, 16, num_parts, 59810
+PE-2-remote, num_nodes: 68373, part_size, 16, num_parts, 71251
+PE-1-local, num_nodes: 68373, part_size, 16, num_parts, 65672
+PE-3-local, num_nodes: 68373, part_size, 16, num_parts, 55879
+PE-1-remote, num_nodes: 68373, part_size, 16, num_parts, 75048
+PE-3-remote, num_nodes: 68373, part_size, 16, num_parts, 67566
+grid: 19756, block: 128, shared_memory (KB): 3.328
+grid: 17813, block: 128, shared_memory (KB): 3.328
+grid: 16473, block: 128, shared_memory (KB): 3.328
+grid: 18762, block: 128, shared_memory (KB): 3.328
+grid: 16892, block: 128, shared_memory (KB): 3.328
+grid: 14248, block: 128, shared_memory (KB): 3.328
+PE-4, Total (ms): 43.660, Dense (ms): 0.000
+PE-5, Total (ms): 27.014, Dense (ms): 0.000
+PE-3, Total (ms): 1.247, Dense (ms): 0.000
+PE-2, Total (ms): 7.764, Dense (ms): 0.000
+PE-1, Total (ms): 6.247, Dense (ms): 0.000
+PE-0, Total (ms): 52.872, Dense (ms): 0.000
+MPI time (ms) 1.869
+===================================
+Graph File: dataset/artist.mtx
+Graph File: dataset/artist.mtx
+Graph File: dataset/artist.mtx
+Graph File: dataset/artist.mtx
+Graph File: dataset/artist.mtx
+Graph File: dataset/artist.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-3-local, num_nodes: 8420, part_size, 16, num_parts, 7441
+PE-3-remote, num_nodes: 8420, part_size, 16, num_parts, 18908
+PE-5-local, num_nodes: 8415, part_size, 16, num_parts, 7703
+PE-5-remote, num_nodes: 8415, part_size, 16, num_parts, 19066
+PE-1-local, num_nodes: 8420, part_size, 16, num_parts, 7593
+PE-1-remote, num_nodes: 8420, part_size, 16, num_parts, 19010
+PE-0-local, num_nodes: 8420, part_size, 16, num_parts, 7634
+PE-0-remote, num_nodes: 8420, part_size, 16, num_parts, 18985
+PE-4-local, num_nodes: 8420, part_size, 16, num_parts, 7602
+PE-4-remote, num_nodes: 8420, part_size, 16, num_parts, 18893
+PE-2-local, num_nodes: 8420, part_size, 16, num_parts, 7455
+PE-2-remote, num_nodes: 8420, part_size, 16, num_parts, 18826
+grid: 4747, block: 128, shared_memory (KB): 3.456
+grid: 4753, block: 128, shared_memory (KB): 3.456
+grid: 4724, block: 128, shared_memory (KB): 3.456
+grid: 4767, block: 128, shared_memory (KB): 3.456
+grid: 4727, block: 128, shared_memory (KB): 3.456
+grid: 4707, block: 128, shared_memory (KB): 3.456
+PE-3, Total (ms): 0.507, Dense (ms): 0.000
+PE-0, Total (ms): 25.718, Dense (ms): 0.000
+MPI time (ms) 0.500
+PE-1, Total (ms): 12.904, Dense (ms): 0.000
+PE-4, Total (ms): 6.528, Dense (ms): 0.000
+PE-5, Total (ms): 15.610, Dense (ms): 0.000
+PE-2, Total (ms): 45.459, Dense (ms): 0.000
+===================================
+Graph File: dataset/com-amazon.mtx
+Graph File: dataset/com-amazon.mtx
+Graph File: dataset/com-amazon.mtx
+Graph File: dataset/com-amazon.mtx
+Graph File: dataset/com-amazon.mtx
+Graph File: dataset/com-amazon.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-4-local, num_nodes: 91426, part_size, 16, num_parts, 30218
+PE-2-local, num_nodes: 91426, part_size, 16, num_parts, 30441
+PE-4-remote, num_nodes: 91426, part_size, 16, num_parts, 55542
+PE-2-remote, num_nodes: 91426, part_size, 16, num_parts, 55653
+PE-5-local, num_nodes: 91421, part_size, 16, num_parts, 35099
+PE-5-remote, num_nodes: 91421, part_size, 16, num_parts, 59094
+PE-0-local, num_nodes: 91426, part_size, 16, num_parts, 31235
+PE-0-remote, num_nodes: 91426, part_size, 16, num_parts, 56084
+PE-3-local, num_nodes: 91426, part_size, 16, num_parts, 29850
+PE-1-local, num_nodes: 91426, part_size, 16, num_parts, 30909
+PE-3-remote, num_nodes: 91426, part_size, 16, num_parts, 55238
+PE-1-remote, num_nodes: 91426, part_size, 16, num_parts, 56030
+grid: 13886, block: 128, shared_memory (KB): 3.328
+grid: 14774, block: 128, shared_memory (KB): 3.328
+grid: 13810, block: 128, shared_memory (KB): 3.328
+grid: 13914, block: 128, shared_memory (KB): 3.328
+grid: 14021, block: 128, shared_memory (KB): 3.328
+grid: 14008, block: 128, shared_memory (KB): 3.328
+PE-0, Total (ms): 33.972, Dense (ms): 0.000
+MPI time (ms) 0.684
+PE-4, Total (ms): 0.609, Dense (ms): 0.000
+PE-5, Total (ms): 2.958, Dense (ms): 0.000
+PE-3, Total (ms): 1.511, Dense (ms): 0.000
+PE-2, Total (ms): 38.578, Dense (ms): 0.000
+PE-1, Total (ms): 1.021, Dense (ms): 0.000
+===================================
+Graph File: dataset/soc-BlogCatalog.mtx
+Graph File: dataset/soc-BlogCatalog.mtx
+Graph File: dataset/soc-BlogCatalog.mtx
+Graph File: dataset/soc-BlogCatalog.mtx
+Graph File: dataset/soc-BlogCatalog.mtx
+Graph File: dataset/soc-BlogCatalog.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-4-local, num_nodes: 14798, part_size, 16, num_parts, 304
+PE-3-local, num_nodes: 14798, part_size, 16, num_parts, 1138
+PE-4-remote, num_nodes: 14798, part_size, 16, num_parts, 15000
+PE-3-remote, num_nodes: 14798, part_size, 16, num_parts, 16526
+PE-2-local, num_nodes: 14798, part_size, 16, num_parts, 3348
+PE-2-remote, num_nodes: 14798, part_size, 16, num_parts, 22023
+PE-5-local, num_nodes: 14794, part_size, 16, num_parts, 136
+PE-5-remote, num_nodes: 14794, part_size, 16, num_parts, 14680
+PE-1-local, num_nodes: 14798, part_size, 16, num_parts, 7651
+PE-1-remote, num_nodes: 14798, part_size, 16, num_parts, 34424
+PE-0-local, num_nodes: 14798, part_size, 16, num_parts, 85326
+PE-0-remote, num_nodes: 14798, part_size, 16, num_parts, 60
+grid: 5506, block: 128, shared_memory (KB): 4.352
+grid: 4132, block: 128, shared_memory (KB): 4.352
+grid: 3670, block: 128, shared_memory (KB): 4.352
+grid: 3750, block: 128, shared_memory (KB): 4.352
+grid: 8606, block: 128, shared_memory (KB): 4.352
+grid: 21332, block: 128, shared_memory (KB): 4.352
+PE-5, Total (ms): 25.759, Dense (ms): 0.000
+PE-4, Total (ms): 4.685, Dense (ms): 0.000
+PE-3, Total (ms): 14.338, Dense (ms): 0.000
+PE-2, Total (ms): 16.610, Dense (ms): 0.000
+PE-1, Total (ms): 0.637, Dense (ms): 0.000
+PE-0, Total (ms): 30.946, Dense (ms): 0.000
+MPI time (ms) 0.843
+===================================
+Graph File: dataset/amazon0601.mtx
+Graph File: dataset/amazon0601.mtx
+Graph File: dataset/amazon0601.mtx
+Graph File: dataset/amazon0601.mtx
+Graph File: dataset/amazon0601.mtx
+Graph File: dataset/amazon0601.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-0-local, num_nodes: 67233, part_size, 16, num_parts, 66911
+PE-0-remote, num_nodes: 67233, part_size, 16, num_parts, 33758
+PE-5-local, num_nodes: 67229, part_size, 16, num_parts, 54693
+PE-5-remote, num_nodes: 67229, part_size, 16, num_parts, 52343
+PE-2-local, num_nodes: 67233, part_size, 16, num_parts, 56349
+PE-2-remote, num_nodes: 67233, part_size, 16, num_parts, 65160
+PE-4-local, num_nodes: 67233, part_size, 16, num_parts, 48425
+PE-4-remote, num_nodes: 67233, part_size, 16, num_parts, 64134
+PE-3-local, num_nodes: 67233, part_size, 16, num_parts, 51921
+PE-3-remote, num_nodes: 67233, part_size, 16, num_parts, 64971
+PE-1-local, num_nodes: 67233, part_size, 16, num_parts, 61852
+PE-1-remote, num_nodes: 67233, part_size, 16, num_parts, 63619
+grid: 16290, block: 128, shared_memory (KB): 3.328
+grid: 13674, block: 128, shared_memory (KB): 3.328
+grid: 16243, block: 128, shared_memory (KB): 3.328
+grid: 16728, block: 128, shared_memory (KB): 3.328
+grid: 16034, block: 128, shared_memory (KB): 3.328
+grid: 15905, block: 128, shared_memory (KB): 3.328
+PE-0, Total (ms): 38.988, Dense (ms): 0.000
+PE-4, Total (ms): 8.403, Dense (ms): 0.000
+PE-5, Total (ms): 7.770, Dense (ms): 0.000
+PE-3, Total (ms): 1.061, Dense (ms): 0.000
+MPI time (ms) 1.218
+PE-2, Total (ms): 1.922, Dense (ms): 0.000
+PE-1, Total (ms): 2.740, Dense (ms): 0.000
+===================================
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-4-local, num_nodes: 38828, part_size, 16, num_parts, 213297
+PE-5-local, num_nodes: 38825, part_size, 16, num_parts, 199640
+PE-4-remote, num_nodes: 38828, part_size, 16, num_parts, 1003824
+PE-2-local, num_nodes: 38828, part_size, 16, num_parts, 216348
+PE-3-local, num_nodes: 38828, part_size, 16, num_parts, 222662
+PE-5-remote, num_nodes: 38825, part_size, 16, num_parts, 973948
+PE-2-remote, num_nodes: 38828, part_size, 16, num_parts, 1009747
+PE-3-remote, num_nodes: 38828, part_size, 16, num_parts, 1023219
+PE-1-local, num_nodes: 38828, part_size, 16, num_parts, 223389
+PE-0-local, num_nodes: 38828, part_size, 16, num_parts, 234727
+PE-1-remote, num_nodes: 38828, part_size, 16, num_parts, 1023966
+PE-0-remote, num_nodes: 38828, part_size, 16, num_parts, 1045112
+grid: 250956, block: 128, shared_memory (KB): 19.520
+grid: 243487, block: 128, shared_memory (KB): 19.520
+grid: 255805, block: 128, shared_memory (KB): 19.520
+grid: 255992, block: 128, shared_memory (KB): 19.520
+grid: 252437, block: 128, shared_memory (KB): 19.520
+grid: 261278, block: 128, shared_memory (KB): 19.520
+PE-5, Total (ms): 65.183, Dense (ms): 0.000
+PE-4, Total (ms): 57.707, Dense (ms): 0.000
+PE-2, Total (ms): 53.899, Dense (ms): 0.000
+PE-3, Total (ms): 64.615, Dense (ms): 0.000
+PE-1, Total (ms): 58.528, Dense (ms): 0.000
+PE-0, Total (ms): 99.960, Dense (ms): 0.000
+MPI time (ms) 58.176
+===================================
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-3-local, num_nodes: 700554, part_size, 16, num_parts, 1263880
+PE-3-remote, num_nodes: 700554, part_size, 16, num_parts, 1152310
+PE-1-local, num_nodes: 700554, part_size, 16, num_parts, 1430087
+PE-1-remote, num_nodes: 700554, part_size, 16, num_parts, 1242673
+PE-4-local, num_nodes: 700554, part_size, 16, num_parts, 1681594
+PE-5-local, num_nodes: 700553, part_size, 16, num_parts, 1512243
+PE-4-remote, num_nodes: 700554, part_size, 16, num_parts, 1229890
+PE-5-remote, num_nodes: 700553, part_size, 16, num_parts, 1235526
+PE-2-local, num_nodes: 700554, part_size, 16, num_parts, 1621322
+PE-2-remote, num_nodes: 700554, part_size, 16, num_parts, 1341799
+PE-0-local, num_nodes: 700554, part_size, 16, num_parts, 2103901
+PE-0-remote, num_nodes: 700554, part_size, 16, num_parts, 1495701
+grid: 357522, block: 128, shared_memory (KB): 3.456
+grid: 315970, block: 128, shared_memory (KB): 3.456
+grid: 420399, block: 128, shared_memory (KB): 3.456
+grid: 378061, block: 128, shared_memory (KB): 3.456
+grid: 405331, block: 128, shared_memory (KB): 3.456
+grid: 525976, block: 128, shared_memory (KB): 3.456
+PE-3, Total (ms): 81.153, Dense (ms): 0.000
+PE-1, Total (ms): 50.257, Dense (ms): 0.000
+PE-5, Total (ms): 57.588, Dense (ms): 0.000
+PE-4, Total (ms): 73.801, Dense (ms): 0.000
+PE-2, Total (ms): 82.322, Dense (ms): 0.000
+PE-0, Total (ms): 74.188, Dense (ms): 0.000
+MPI time (ms) 66.401
+===================================
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-4-local, num_nodes: 408172, part_size, 16, num_parts, 357863
+PE-5-local, num_nodes: 408169, part_size, 16, num_parts, 356302
+PE-4-remote, num_nodes: 408172, part_size, 16, num_parts, 1076960
+PE-5-remote, num_nodes: 408169, part_size, 16, num_parts, 1075211
+PE-2-local, num_nodes: 408172, part_size, 16, num_parts, 356920
+PE-1-local, num_nodes: 408172, part_size, 16, num_parts, 356034
+PE-3-local, num_nodes: 408172, part_size, 16, num_parts, 356274
+PE-2-remote, num_nodes: 408172, part_size, 16, num_parts, 1076870
+PE-1-remote, num_nodes: 408172, part_size, 16, num_parts, 1073901
+PE-3-remote, num_nodes: 408172, part_size, 16, num_parts, 1074307
+PE-0-local, num_nodes: 408172, part_size, 16, num_parts, 1296418
+PE-0-remote, num_nodes: 408172, part_size, 16, num_parts, 1861840
+grid: 269218, block: 128, shared_memory (KB): 3.456
+grid: 268476, block: 128, shared_memory (KB): 3.456
+grid: 268577, block: 128, shared_memory (KB): 3.456
+grid: 268803, block: 128, shared_memory (KB): 3.456
+grid: 269240, block: 128, shared_memory (KB): 3.456
+grid: 465460, block: 128, shared_memory (KB): 3.456
+PE-2, Total (ms): 29.998, Dense (ms): 0.000
+PE-1, Total (ms): 19.450, Dense (ms): 0.000
+PE-3, Total (ms): 55.927, Dense (ms): 0.000
+PE-5, Total (ms): 70.525, Dense (ms): 0.000
+PE-4, Total (ms): 51.628, Dense (ms): 0.000
+PE-0, Total (ms): 69.825, Dense (ms): 0.000
+MPI time (ms) 61.927
+===================================
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-2-local, num_nodes: 22089, part_size, 16, num_parts, 364649
+PE-2-remote, num_nodes: 22089, part_size, 16, num_parts, 292043
+PE-1-local, num_nodes: 22089, part_size, 16, num_parts, 541649
+PE-1-remote, num_nodes: 22089, part_size, 16, num_parts, 120772
+PE-0-local, num_nodes: 22089, part_size, 16, num_parts, 725329
+PE-0-remote, num_nodes: 22089, part_size, 16, num_parts, 106768
+PE-4-local, num_nodes: 22089, part_size, 16, num_parts, 590342
+PE-4-remote, num_nodes: 22089, part_size, 16, num_parts, 400102
+PE-3-local, num_nodes: 22089, part_size, 16, num_parts, 502373
+PE-3-remote, num_nodes: 22089, part_size, 16, num_parts, 417084
+PE-5-local, num_nodes: 22089, part_size, 16, num_parts, 638413
+PE-5-remote, num_nodes: 22089, part_size, 16, num_parts, 368510
+grid: 147586, block: 128, shared_memory (KB): 0.512
+grid: 125594, block: 128, shared_memory (KB): 0.512
+grid: 135413, block: 128, shared_memory (KB): 0.512
+grid: 91163, block: 128, shared_memory (KB): 0.512
+grid: 181333, block: 128, shared_memory (KB): 0.512
+grid: 159604, block: 128, shared_memory (KB): 0.512
+PE-1, Total (ms): 14.466, Dense (ms): 0.000
+PE-0, Total (ms): 53.294, Dense (ms): 0.000
+PE-2, Total (ms): 43.394, Dense (ms): 0.000
+PE-3, Total (ms): 6.283, Dense (ms): 0.000
+PE-5, Total (ms): 32.514, Dense (ms): 0.000
+PE-4, Total (ms): 17.138, Dense (ms): 0.000
+MPI time (ms) 6.417
+===================================
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-4-local, num_nodes: 512074, part_size, 16, num_parts, 305999
+PE-4-remote, num_nodes: 512074, part_size, 16, num_parts, 716698
+PE-3-local, num_nodes: 512074, part_size, 16, num_parts, 363491
+PE-3-remote, num_nodes: 512074, part_size, 16, num_parts, 843599
+PE-1-local, num_nodes: 512074, part_size, 16, num_parts, 457574
+PE-1-remote, num_nodes: 512074, part_size, 16, num_parts, 809315
+PE-0-local, num_nodes: 512074, part_size, 16, num_parts, 1109451
+PE-0-remote, num_nodes: 512074, part_size, 16, num_parts, 541866
+PE-2-local, num_nodes: 512074, part_size, 16, num_parts, 800032
+PE-2-remote, num_nodes: 512074, part_size, 16, num_parts, 877131
+PE-5-local, num_nodes: 512071, part_size, 16, num_parts, 2878808
+PE-5-remote, num_nodes: 512071, part_size, 16, num_parts, 437536
+grid: 202329, block: 128, shared_memory (KB): 4.352
+grid: 219283, block: 128, shared_memory (KB): 4.352
+grid: 277363, block: 128, shared_memory (KB): 4.352
+grid: 179175, block: 128, shared_memory (KB): 4.352
+grid: 210900, block: 128, shared_memory (KB): 4.352
+grid: 719702, block: 128, shared_memory (KB): 4.352
+PE-4, Total (ms): 88.728, Dense (ms): 0.000
+PE-3, Total (ms): 23.356, Dense (ms): 0.000
+PE-1, Total (ms): 23.551, Dense (ms): 0.000
+PE-0, Total (ms): 47.045, Dense (ms): 0.000
+PE-2, Total (ms): 47.033, Dense (ms): 0.000
+MPI time (ms) 51.487
+PE-5, Total (ms): 51.504, Dense (ms): 0.000
+===================================
+Graph File: dataset/web-Google.mtx
+Graph File: dataset/web-Google.mtx
+Graph File: dataset/web-Google.mtx
+Graph File: dataset/web-Google.mtx
+Graph File: dataset/web-Google.mtx
+Graph File: dataset/web-Google.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-0-local, num_nodes: 152738, part_size, 16, num_parts, 100508
+PE-1-local, num_nodes: 152738, part_size, 16, num_parts, 98281
+PE-0-remote, num_nodes: 152738, part_size, 16, num_parts, 91282
+PE-1-remote, num_nodes: 152738, part_size, 16, num_parts, 92697
+PE-3-local, num_nodes: 152738, part_size, 16, num_parts, 98204
+PE-3-remote, num_nodes: 152738, part_size, 16, num_parts, 93817
+PE-2-local, num_nodes: 152738, part_size, 16, num_parts, 96935
+PE-4-local, num_nodes: 152738, part_size, 16, num_parts, 98581
+PE-2-remote, num_nodes: 152738, part_size, 16, num_parts, 93398
+PE-4-remote, num_nodes: 152738, part_size, 16, num_parts, 95024
+PE-5-local, num_nodes: 152738, part_size, 16, num_parts, 216286
+PE-5-remote, num_nodes: 152738, part_size, 16, num_parts, 95225
+grid: 24234, block: 128, shared_memory (KB): 4.352
+grid: 24571, block: 128, shared_memory (KB): 4.352
+grid: 24646, block: 128, shared_memory (KB): 4.352
+grid: 24551, block: 128, shared_memory (KB): 4.352
+grid: 25127, block: 128, shared_memory (KB): 4.352
+grid: 54072, block: 128, shared_memory (KB): 4.352
+PE-0, Total (ms): 30.243, Dense (ms): 0.000
+PE-2, Total (ms): 1.646, Dense (ms): 0.000
+PE-1, Total (ms): 14.755, Dense (ms): 0.000
+PE-4, Total (ms): 32.444, Dense (ms): 0.000
+PE-3, Total (ms): 13.972, Dense (ms): 0.000
+PE-5, Total (ms): 34.707, Dense (ms): 0.000
+MPI time (ms) 3.372
+===================================
+Graph File: dataset/wiki-Talk.mtx
+Graph File: dataset/wiki-Talk.mtx
+Graph File: dataset/wiki-Talk.mtx
+Graph File: dataset/wiki-Talk.mtx
+Graph File: dataset/wiki-Talk.mtx
+Graph File: dataset/wiki-Talk.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-2-local, num_nodes: 399065, part_size, 16, num_parts, 0
+PE-3-local, num_nodes: 399065, part_size, 16, num_parts, 0
+PE-2-remote, num_nodes: 399065, part_size, 16, num_parts, 178048
+PE-3-remote, num_nodes: 399065, part_size, 16, num_parts, 174029
+PE-1-local, num_nodes: 399065, part_size, 16, num_parts, 0
+PE-1-remote, num_nodes: 399065, part_size, 16, num_parts, 184951
+PE-4-local, num_nodes: 399065, part_size, 16, num_parts, 0
+PE-5-local, num_nodes: 399060, part_size, 16, num_parts, 170765
+PE-5-remote, num_nodes: 399060, part_size, 16, num_parts, 0
+PE-4-remote, num_nodes: 399065, part_size, 16, num_parts, 169974
+PE-0-local, num_nodes: 399065, part_size, 16, num_parts, 158105
+PE-0-remote, num_nodes: 399065, part_size, 16, num_parts, 287623
+grid: 46238, block: 128, shared_memory (KB): 4.352
+PE-1, Total (ms): 0.146, Dense (ms): 0.000
+grid: 42494, block: 128, shared_memory (KB): 4.352
+grid: 42692, block: 128, shared_memory (KB): 4.352
+grid: 43508, block: 128, shared_memory (KB): 4.352
+PE-3, Total (ms): 27.020, Dense (ms): 0.000
+grid: 44512, block: 128, shared_memory (KB): 4.352
+grid: 71906, block: 128, shared_memory (KB): 4.352
+PE-2, Total (ms): 36.527, Dense (ms): 0.000
+PE-4, Total (ms): 29.009, Dense (ms): 0.000
+PE-5, Total (ms): 31.927, Dense (ms): 0.000
+PE-0, Total (ms): 51.294, Dense (ms): 0.000
+MPI time (ms) 10.198
+===================================

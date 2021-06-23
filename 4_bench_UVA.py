@@ -54,4 +54,4 @@ command = "build/unified_memory {}".format(data_path)
 
 for data, d, c in dataset:
     os.system(command + "{0}.mtx {1} {2} {3} {4}".\
-    format(data, num_GPUs, partSize, warpPerblock, hidden))
+    format(data, num_GPUs, partSize, warpPerblock, d))

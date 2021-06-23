@@ -43,13 +43,13 @@ dataset = [
         ( 'soc-BlogCatalog'	         , 128	  , 39),      
         ( 'amazon0601'  	         , 96	  , 22), 
 
-        # ( 'Reddit'                      , 602      	, 41),
-        # ( 'enwiki-2013'	                , 100	    , 12),      
-        # ( 'ogbn-products'	            , 100	    , 47),
-        # ( 'ogbn-proteins'		        , 8		    , 112),
-        # ( 'com-Orkut'				    , 128		, 128),
-        # ( 'web-Google'				    , 128		, 128),
-        # ( 'wiki-Talk'				    , 128		, 128),
+        ( 'Reddit'                      , 602      	, 41),
+        ( 'enwiki-2013'	                , 100	    , 12),      
+        ( 'ogbn-products'	            , 100	    , 47),
+        ( 'ogbn-proteins'		        , 8		    , 112),
+        ( 'com-Orkut'				    , 128		, 128),
+        ( 'web-Google'				    , 128		, 128),
+        ( 'wiki-Talk'				    , 128		, 128),
 ]
 
 
@@ -60,4 +60,4 @@ command = "build/MGG {}".format(data_path)
 
 for data, d, c in dataset:
     os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5}".\
-    format(data, num_GPUs, partSize, warpPerblock, hidden, interleaved_dist))
+    format(data, num_GPUs, partSize, warpPerblock, d, interleaved_dist))
