@@ -2,7 +2,7 @@
 import os
 
 # num_gpus = [2, 3, 4]
-num_gpus = [2]
+num_gpus = [3,4]
 # num_gpus = [2, 3, 4, 5, 6, 7, 8]
 
 os.system("mv *.csv csvs/")

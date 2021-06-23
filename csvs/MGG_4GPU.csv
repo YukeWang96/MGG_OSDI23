@@ -1,4 +1,12 @@
-citeseer.mtx,0.121
-cora.mtx,0.116
-pubmed.mtx,0.18
-ppi.mtx,0.9
+amazon0505.mtx,8.818
+artist.mtx,1.469
+com-amazon.mtx,2.177
+soc-BlogCatalog.mtx,2.398
+amazon0601.mtx,7.957
+Reddit.mtx,66.35
+enwiki-2013.mtx,229.208
+ogbn-products.mtx,194.97
+ogbn-proteins.mtx,113.971
+com-Orkut.mtx,170.89
+web-Google.mtx,4.798
+wiki-Talk.mtx,40.784

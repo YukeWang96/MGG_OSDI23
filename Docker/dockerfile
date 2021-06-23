@@ -4,9 +4,18 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update \
     && apt install -y wget \
                     python3 \ 
+                    libssl-dev \
                     libevent-core-2.1-7 \
                     libhwloc-dev \
                     libevent-pthreads-2.1-7
+                                        
+WORKDIR /tmp
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.20.3/cmake-3.20.3.tar.gz
+RUN tar -zxvf cmake-3.20.3.tar.gz
+WORKDIR /tmp/cmake-3.20.3/
+RUN ./bootstrap
+RUN make -j8
+RUN make install
 
 # install openmpi with cuda support.
 RUN wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.1.tar.gz
@@ -18,4 +27,19 @@ ENV LD_LIBRARY_PATH=/usr/local/lib:/opt/openmpi-4.1.1/lib/:$LD_LIBRARY_PATH
 ENV PATH=/opt/openmpi-4.1.1/bin/:$PATH
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
 
+# WORKDIR /MGG
+# RUN useradd -u 8877 yuke_wang
+# RUN adduser --disabled-password --gecos '' yuke_wang \
+#     && adduser yuke_wang sudo \
+#     && echo '%sudo ALL=(ALL:ALL) ALL' >> /etc/sudoers
+
+# RUN mkdir -p /home/yuke_wang
+# RUN chown yuke_wang /home/yuke_wang
+# USER yuke_wang
+# WORKDIR /home/yuke_wang
+
+
+RUN useradd -r yuke_wang
+RUN mkdir /MGG && chown yuke_wang /MGG
+USER yuke_wang
 WORKDIR /MGG

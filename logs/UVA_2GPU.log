@@ -2,8 +2,107 @@ Graph File: dataset/amazon0505.mtx
 Complete loading graphs !!
 Overall Graph, num_nodes: 410236, part_size, 4000, num_parts, 410236
 grid: 51280, block: 128, shared_memory (KB): 65.536
-Time (ms): 30.04
+Time (ms): 33.64
 ===================================
 grid: 51280, block: 128, shared_memory (KB): 65.536
-Time (ms): 25.22
+Time (ms): 26.57
+===================================
+Graph File: dataset/artist.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 50515, part_size, 4000, num_parts, 50515
+grid: 6315, block: 128, shared_memory (KB): 65.600
+Time (ms): 9.81
+===================================
+grid: 6315, block: 128, shared_memory (KB): 65.600
+Time (ms): 10.69
+===================================
+Graph File: dataset/com-amazon.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 548551, part_size, 4000, num_parts, 334863
+grid: 41521, block: 128, shared_memory (KB): 65.536
+Time (ms): 26.16
+===================================
+grid: 42196, block: 128, shared_memory (KB): 65.536
+Time (ms): 32.12
+===================================
+Graph File: dataset/soc-BlogCatalog.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 88784, part_size, 4000, num_parts, 88671
+grid: 11098, block: 128, shared_memory (KB): 66.048
+Time (ms): 12.38
+===================================
+grid: 11070, block: 128, shared_memory (KB): 66.048
+Time (ms): 6.09
+===================================
+Graph File: dataset/amazon0601.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 403394, part_size, 4000, num_parts, 402439
+grid: 50425, block: 128, shared_memory (KB): 65.536
+Time (ms): 19.47
+===================================
+grid: 50186, block: 128, shared_memory (KB): 65.536
+Time (ms): 21.70
+===================================
+Graph File: dataset/Reddit.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 232965, part_size, 4000, num_parts, 235356
+grid: 29431, block: 128, shared_memory (KB): 73.632
+Time (ms): 2642.33
+===================================
+grid: 29409, block: 128, shared_memory (KB): 73.632
+Time (ms): 2607.50
+===================================
+Graph File: dataset/enwiki-2013.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 4203323, part_size, 4000, num_parts, 4207174
+grid: 525935, block: 128, shared_memory (KB): 65.600
+Time (ms): 728.89
+===================================
+grid: 525859, block: 128, shared_memory (KB): 65.600
+Time (ms): 667.59
+===================================
+Graph File: dataset/ogbn-products.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 2449029, part_size, 4000, num_parts, 2400684
+grid: 300723, block: 128, shared_memory (KB): 65.600
+Time (ms): 686.20
+===================================
+grid: 299448, block: 128, shared_memory (KB): 65.600
+Time (ms): 523.51
+===================================
+Graph File: dataset/ogbn-proteins.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 132534, part_size, 4000, num_parts, 132713
+grid: 16584, block: 128, shared_memory (KB): 64.128
+Time (ms): 45.13
+===================================
+grid: 16595, block: 128, shared_memory (KB): 64.128
+Time (ms): 60.86
+===================================
+Graph File: dataset/com-Orkut.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 3072441, part_size, 4000, num_parts, 2988847
+grid: 377459, block: 128, shared_memory (KB): 66.048
+Time (ms): 361.21
+===================================
+grid: 369754, block: 128, shared_memory (KB): 66.048
+Time (ms): 264.17
+===================================
+Graph File: dataset/web-Google.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 916428, part_size, 4000, num_parts, 705925
+grid: 87330, block: 128, shared_memory (KB): 66.048
+Time (ms): 53.36
+===================================
+grid: 89152, block: 128, shared_memory (KB): 66.048
+Time (ms): 68.66
+===================================
+Graph File: dataset/wiki-Talk.mtx
+Complete loading graphs !!
+Overall Graph, num_nodes: 2394385, part_size, 4000, num_parts, 1100131
+grid: 146360, block: 128, shared_memory (KB): 66.048
+Time (ms): 95.75
+===================================
+grid: 128674, block: 128, shared_memory (KB): 66.048
+Time (ms): 7.53
 ===================================

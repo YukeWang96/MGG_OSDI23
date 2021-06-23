@@ -1,0 +1,13 @@
+Dataset,Time (ms)
+amazon0505.mtx,33.64
+artist.mtx,10.69
+com-amazon.mtx,32.12
+soc-BlogCatalog.mtx,12.38
+amazon0601.mtx,21.7
+Reddit.mtx,2642.33
+enwiki-2013.mtx,728.89
+ogbn-products.mtx,686.2
+ogbn-proteins.mtx,60.86
+com-Orkut.mtx,361.21
+web-Google.mtx,68.66
+wiki-Talk.mtx,95.75
