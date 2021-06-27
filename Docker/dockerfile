@@ -39,7 +39,6 @@ RUN ln -s /usr/bin/python3.8 /usr/bin/python
 # USER yuke_wang
 # WORKDIR /home/yuke_wang
 
-
 RUN useradd -r yuke_wang
 RUN mkdir /MGG && chown yuke_wang /MGG
 USER yuke_wang

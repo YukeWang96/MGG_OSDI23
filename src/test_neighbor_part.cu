@@ -40,6 +40,7 @@ int main(int argc, char* argv[]){
 
     int hiddenSize = dim;
     int outputClass = 128; // 10 by default.
+    double t1, t2; 
 
     // print_array<int>("asym.row_ptr", asym.row_ptr, asym.row_ptr.size());
     // print_array<int>("asym.col_ind", asym.col_ind, asym.col_ind.size());
@@ -67,6 +68,9 @@ int main(int argc, char* argv[]){
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
     int lb = nodesPerPE * mype_node;
     int ub = (lb+nodesPerPE) < numNodes? (lb+nodesPerPE):numNodes;
+
+    MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
+    t1 = MPI_Wtime(); 
 
     auto split_output = split_CSR<int>(asym.row_ptr, asym.col_ind, lb, ub);
     // printf("lb: %d, ub: %d\n", lb, ub);
@@ -126,6 +130,12 @@ int main(int argc, char* argv[]){
     gpuErrchk(cudaMemcpy(d_part_ptr_remote, &remote_partPtr[0], remote_partPtr.size()*sizeof(int), cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_part2Node_remote, &remote_part2Node[0], remote_part2Node.size()*sizeof(int), cudaMemcpyHostToDevice));
 
+
+    MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
+
+    t2 = MPI_Wtime(); 
+    if (mype_node == 0) printf( "PreProcess time (s) %.3f\n", (t2 - t1)); 
+
     // for sync gradient.
     float* sendbuff, *recvbuff;
     gpuErrchk(cudaMalloc((void**)&sendbuff, nodesPerPE*sizeof(float)));
@@ -161,7 +171,7 @@ int main(int argc, char* argv[]){
     // 
     std::clock_t c_start = std::clock();
     
-    double t1, t2; 
+    // double t1, t2; 
     MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
     t1 = MPI_Wtime(); 
 
