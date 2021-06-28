@@ -1,34 +1,98 @@
-Graph File: dataset/amazon0505.mtx
+Graph File: dataset/Reddit.mtx
 Complete loading graphs !!
-==PROF== Connected to process 74 (/MGG/build/unified_memory)
+==PROF== Connected to process 139 (/MGG/build/unified_memory)
 ==PROF== Profiling "SAG_cuda_kernel_host_unified": 0%....50%....100% - 11 passes
-Overall Graph, num_nodes: 410236, part_size, 4000, num_parts, 410236
-grid: 25640, block: 128, shared_memory (KB): 65.536
-Time (ms): 1950.33
+Overall Graph, num_nodes: 232965, part_size, 4000, num_parts, 235356
+grid: 14721, block: 128, shared_memory (KB): 73.632
+Time (ms): 11590.98
 ===================================
-grid: 25640, block: 128, shared_memory (KB): 65.536
-Time (ms): 18.89
+grid: 14710, block: 128, shared_memory (KB): 73.632
+Time (ms): 780.47
 ===================================
-grid: 25640, block: 128, shared_memory (KB): 65.536
-Time (ms): 16.38
+grid: 14691, block: 128, shared_memory (KB): 73.632
+Time (ms): 782.98
 ===================================
-grid: 25640, block: 128, shared_memory (KB): 65.536
-Time (ms): 16.67
+grid: 14717, block: 128, shared_memory (KB): 73.632
+Time (ms): 776.84
 ===================================
-==PROF== Disconnected from process 74
-[74] unified_memory@127.0.0.1
-  void SAG_cuda_kernel_host_unified<int, float, int>(float*, float const*, int const*, int const*, int const*, int, int, int, int, int, int, int), 2021-Jun-28 02:14:58, Context 1, Stream 7
+==PROF== Disconnected from process 139
+[139] unified_memory@127.0.0.1
+  void SAG_cuda_kernel_host_unified<int, float, int>(float*, float const*, int const*, int const*, int const*, int, int, int, int, int, int, int), 2021-Jun-28 02:23:20, Context 1, Stream 7
+    Section: GPU Speed Of Light
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    DRAM Frequency                                                           cycle/nsecond                           1.22
+    SM Frequency                                                             cycle/nsecond                           1.10
+    Elapsed Cycles                                                                   cycle                      971146566
+    Memory [%]                                                                           %                           4.48
+    SOL DRAM                                                                             %                           4.48
+    Duration                                                                       msecond                         880.34
+    SOL L1/TEX Cache                                                                     %                           1.82
+    SOL L2 Cache                                                                         %                           4.53
+    SM Active Cycles                                                                 cycle                   939024757.26
+    SM [%]                                                                               %                           1.89
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    WRN   This kernel exhibits low compute throughput and memory bandwidth utilization relative to the peak performance 
+          of this device. Achieved compute throughput and/or memory bandwidth below 60.0% of peak typically indicate    
+          latency issues. Look at Scheduler Statistics and Warp State Statistics for potential reasons.                 
+
+    Section: Launch Statistics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    Block Size                                                                                                        128
+    Function Cache Configuration                                                                  cudaFuncCachePreferNone
+    Grid Size                                                                                                       14721
+    Registers Per Thread                                                   register/thread                             24
+    Shared Memory Configuration Size                                                 Kbyte                         167.94
+    Driver Shared Memory Per Block                                             Kbyte/block                           1.02
+    Dynamic Shared Memory Per Block                                            Kbyte/block                          73.63
+    Static Shared Memory Per Block                                              byte/block                              0
+    Threads                                                                         thread                        1884288
+    Waves Per SM                                                                                                    68.15
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+    Section: Occupancy
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    Block Limit SM                                                                   block                             32
+    Block Limit Registers                                                            block                             21
+    Block Limit Shared Mem                                                           block                              2
+    Block Limit Warps                                                                block                             16
+    Theoretical Active Warps per SM                                                   warp                              8
+    Theoretical Occupancy                                                                %                          12.50
+    Achieved Occupancy                                                                   %                           5.30
+    Achieved Active Warps Per SM                                                      warp                           3.39
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    WRN   This kernel's theoretical occupancy is limited by the required amount of shared memory.                       
+
+Graph File: dataset/enwiki-2013.mtx
+Complete loading graphs !!
+==PROF== Connected to process 162 (/MGG/build/unified_memory)
+==PROF== Profiling "SAG_cuda_kernel_host_unified": 0%....50%....100% - 11 passes
+Overall Graph, num_nodes: 4203323, part_size, 4000, num_parts, 4207174
+grid: 263015, block: 128, shared_memory (KB): 65.600
+Time (ms): 4413.57
+===================================
+grid: 262921, block: 128, shared_memory (KB): 65.600
+Time (ms): 311.55
+===================================
+grid: 262930, block: 128, shared_memory (KB): 65.600
+Time (ms): 285.34
+===================================
+grid: 262929, block: 128, shared_memory (KB): 65.600
+Time (ms): 277.10
+===================================
+==PROF== Disconnected from process 162
+[162] unified_memory@127.0.0.1
+  void SAG_cuda_kernel_host_unified<int, float, int>(float*, float const*, int const*, int const*, int const*, int, int, int, int, int, int, int), 2021-Jun-28 02:24:47, Context 1, Stream 7
     Section: GPU Speed Of Light
     ---------------------------------------------------------------------- --------------- ------------------------------
     DRAM Frequency                                                           cycle/nsecond                           1.21
-    SM Frequency                                                             cycle/nsecond                           1.10
-    Elapsed Cycles                                                                   cycle                        6500698
-    Memory [%]                                                                           %                           4.09
-    SOL DRAM                                                                             %                           4.09
-    Duration                                                                       msecond                           5.90
-    SOL L1/TEX Cache                                                                     %                           3.07
-    SOL L2 Cache                                                                         %                           4.75
-    SM Active Cycles                                                                 cycle                     6342290.26
+    SM Frequency                                                             cycle/nsecond                           1.09
+    Elapsed Cycles                                                                   cycle                      236658121
+    Memory [%]                                                                           %                           3.30
+    SOL DRAM                                                                             %                           2.83
+    Duration                                                                       msecond                         214.86
+    SOL L1/TEX Cache                                                                     %                           3.36
+    SOL L2 Cache                                                                         %                           3.35
+    SM Active Cycles                                                                 cycle                   230827552.48
     SM [%]                                                                               %                           4.37
     ---------------------------------------------------------------------- --------------- ------------------------------
     WRN   This kernel exhibits low compute throughput and memory bandwidth utilization relative to the peak performance 
@@ -39,14 +103,14 @@ Time (ms): 16.67
     ---------------------------------------------------------------------- --------------- ------------------------------
     Block Size                                                                                                        128
     Function Cache Configuration                                                                  cudaFuncCachePreferNone
-    Grid Size                                                                                                       25640
+    Grid Size                                                                                                      263015
     Registers Per Thread                                                   register/thread                             24
     Shared Memory Configuration Size                                                 Kbyte                         135.17
     Driver Shared Memory Per Block                                             Kbyte/block                           1.02
-    Dynamic Shared Memory Per Block                                            Kbyte/block                          65.54
+    Dynamic Shared Memory Per Block                                            Kbyte/block                          65.60
     Static Shared Memory Per Block                                              byte/block                              0
-    Threads                                                                         thread                        3281920
-    Waves Per SM                                                                                                   118.70
+    Threads                                                                         thread                       33665920
+    Waves Per SM                                                                                                  1217.66
     ---------------------------------------------------------------------- --------------- ------------------------------
 
     Section: Occupancy
@@ -57,43 +121,43 @@ Time (ms): 16.67
     Block Limit Warps                                                                block                             16
     Theoretical Active Warps per SM                                                   warp                              8
     Theoretical Occupancy                                                                %                          12.50
-    Achieved Occupancy                                                                   %                           7.58
-    Achieved Active Warps Per SM                                                      warp                           4.85
+    Achieved Occupancy                                                                   %                           6.57
+    Achieved Active Warps Per SM                                                      warp                           4.21
     ---------------------------------------------------------------------- --------------- ------------------------------
     WRN   This kernel's theoretical occupancy is limited by the required amount of shared memory.                       
 
-Graph File: dataset/artist.mtx
+Graph File: dataset/ogbn-products.mtx
 Complete loading graphs !!
-==PROF== Connected to process 97 (/MGG/build/unified_memory)
+==PROF== Connected to process 185 (/MGG/build/unified_memory)
 ==PROF== Profiling "SAG_cuda_kernel_host_unified": 0%....50%....100% - 11 passes
-Overall Graph, num_nodes: 50515, part_size, 4000, num_parts, 50515
-grid: 3158, block: 128, shared_memory (KB): 65.600
-Time (ms): 1880.53
+Overall Graph, num_nodes: 2449029, part_size, 4000, num_parts, 2400684
+grid: 150986, block: 128, shared_memory (KB): 65.600
+Time (ms): 4985.98
 ===================================
-grid: 3158, block: 128, shared_memory (KB): 65.600
-Time (ms): 5.38
+grid: 149738, block: 128, shared_memory (KB): 65.600
+Time (ms): 203.23
 ===================================
-grid: 3158, block: 128, shared_memory (KB): 65.600
-Time (ms): 5.29
+grid: 149696, block: 128, shared_memory (KB): 65.600
+Time (ms): 211.38
 ===================================
-grid: 3157, block: 128, shared_memory (KB): 65.600
-Time (ms): 5.00
+grid: 149753, block: 128, shared_memory (KB): 65.600
+Time (ms): 208.08
 ===================================
-==PROF== Disconnected from process 97
-[97] unified_memory@127.0.0.1
-  void SAG_cuda_kernel_host_unified<int, float, int>(float*, float const*, int const*, int const*, int const*, int, int, int, int, int, int, int), 2021-Jun-28 02:15:04, Context 1, Stream 7
+==PROF== Disconnected from process 185
+[185] unified_memory@127.0.0.1
+  void SAG_cuda_kernel_host_unified<int, float, int>(float*, float const*, int const*, int const*, int const*, int, int, int, int, int, int, int), 2021-Jun-28 02:25:44, Context 1, Stream 7
     Section: GPU Speed Of Light
     ---------------------------------------------------------------------- --------------- ------------------------------
-    DRAM Frequency                                                           cycle/nsecond                           1.20
-    SM Frequency                                                             cycle/nsecond                           1.08
-    Elapsed Cycles                                                                   cycle                        2562532
-    Memory [%]                                                                           %                           2.16
-    SOL DRAM                                                                             %                           0.70
-    Duration                                                                       msecond                           2.36
-    SOL L1/TEX Cache                                                                     %                           3.18
-    SOL L2 Cache                                                                         %                           1.75
-    SM Active Cycles                                                                 cycle                     1733093.05
-    SM [%]                                                                               %                           2.88
+    DRAM Frequency                                                           cycle/nsecond                           1.21
+    SM Frequency                                                             cycle/nsecond                           1.10
+    Elapsed Cycles                                                                   cycle                      289055360
+    Memory [%]                                                                           %                           5.33
+    SOL DRAM                                                                             %                           5.33
+    Duration                                                                       msecond                         262.12
+    SOL L1/TEX Cache                                                                     %                           2.35
+    SOL L2 Cache                                                                         %                           5.37
+    SM Active Cycles                                                                 cycle                   282915130.88
+    SM [%]                                                                               %                           3.08
     ---------------------------------------------------------------------- --------------- ------------------------------
     WRN   This kernel exhibits low compute throughput and memory bandwidth utilization relative to the peak performance 
           of this device. Achieved compute throughput and/or memory bandwidth below 60.0% of peak typically indicate    
@@ -103,14 +167,14 @@ Time (ms): 5.00
     ---------------------------------------------------------------------- --------------- ------------------------------
     Block Size                                                                                                        128
     Function Cache Configuration                                                                  cudaFuncCachePreferNone
-    Grid Size                                                                                                        3158
+    Grid Size                                                                                                      150986
     Registers Per Thread                                                   register/thread                             24
     Shared Memory Configuration Size                                                 Kbyte                         135.17
     Driver Shared Memory Per Block                                             Kbyte/block                           1.02
     Dynamic Shared Memory Per Block                                            Kbyte/block                          65.60
     Static Shared Memory Per Block                                              byte/block                              0
-    Threads                                                                         thread                         404224
-    Waves Per SM                                                                                                    14.62
+    Threads                                                                         thread                       19326208
+    Waves Per SM                                                                                                   699.01
     ---------------------------------------------------------------------- --------------- ------------------------------
 
     Section: Occupancy
@@ -121,8 +185,136 @@ Time (ms): 5.00
     Block Limit Warps                                                                block                             16
     Theoretical Active Warps per SM                                                   warp                              8
     Theoretical Occupancy                                                                %                          12.50
-    Achieved Occupancy                                                                   %                           5.15
-    Achieved Active Warps Per SM                                                      warp                           3.30
+    Achieved Occupancy                                                                   %                           5.94
+    Achieved Active Warps Per SM                                                      warp                           3.80
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    WRN   This kernel's theoretical occupancy is limited by the required amount of shared memory.                       
+
+Graph File: dataset/ogbn-proteins.mtx
+Complete loading graphs !!
+==PROF== Connected to process 208 (/MGG/build/unified_memory)
+==PROF== Profiling "SAG_cuda_kernel_host_unified": 0%....50%....100% - 11 passes
+Overall Graph, num_nodes: 132534, part_size, 4000, num_parts, 132713
+grid: 8292, block: 128, shared_memory (KB): 64.128
+Time (ms): 1985.94
+===================================
+grid: 8293, block: 128, shared_memory (KB): 64.128
+Time (ms): 12.66
+===================================
+grid: 8293, block: 128, shared_memory (KB): 64.128
+Time (ms): 18.06
+===================================
+grid: 8302, block: 128, shared_memory (KB): 64.128
+Time (ms): 15.72
+===================================
+==PROF== Disconnected from process 208
+[208] unified_memory@127.0.0.1
+  void SAG_cuda_kernel_host_unified<int, float, int>(float*, float const*, int const*, int const*, int const*, int, int, int, int, int, int, int), 2021-Jun-28 02:26:17, Context 1, Stream 7
+    Section: GPU Speed Of Light
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    DRAM Frequency                                                           cycle/nsecond                           1.23
+    SM Frequency                                                             cycle/nsecond                           1.11
+    Elapsed Cycles                                                                   cycle                       13173179
+    Memory [%]                                                                           %                           4.80
+    SOL DRAM                                                                             %                           0.39
+    Duration                                                                       msecond                          11.83
+    SOL L1/TEX Cache                                                                     %                           5.17
+    SOL L2 Cache                                                                         %                           1.55
+    SM Active Cycles                                                                 cycle                    12152496.79
+    SM [%]                                                                               %                           9.53
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    WRN   This kernel exhibits low compute throughput and memory bandwidth utilization relative to the peak performance 
+          of this device. Achieved compute throughput and/or memory bandwidth below 60.0% of peak typically indicate    
+          latency issues. Look at Scheduler Statistics and Warp State Statistics for potential reasons.                 
+
+    Section: Launch Statistics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    Block Size                                                                                                        128
+    Function Cache Configuration                                                                  cudaFuncCachePreferNone
+    Grid Size                                                                                                        8292
+    Registers Per Thread                                                   register/thread                             24
+    Shared Memory Configuration Size                                                 Kbyte                         135.17
+    Driver Shared Memory Per Block                                             Kbyte/block                           1.02
+    Dynamic Shared Memory Per Block                                            Kbyte/block                          64.13
+    Static Shared Memory Per Block                                              byte/block                              0
+    Threads                                                                         thread                        1061376
+    Waves Per SM                                                                                                    38.39
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+    Section: Occupancy
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    Block Limit SM                                                                   block                             32
+    Block Limit Registers                                                            block                             21
+    Block Limit Shared Mem                                                           block                              2
+    Block Limit Warps                                                                block                             16
+    Theoretical Active Warps per SM                                                   warp                              8
+    Theoretical Occupancy                                                                %                          12.50
+    Achieved Occupancy                                                                   %                           7.26
+    Achieved Active Warps Per SM                                                      warp                           4.65
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    WRN   This kernel's theoretical occupancy is limited by the required amount of shared memory.                       
+
+Graph File: dataset/com-Orkut.mtx
+Complete loading graphs !!
+==PROF== Connected to process 231 (/MGG/build/unified_memory)
+==PROF== Profiling "SAG_cuda_kernel_host_unified": 0%....50%....100% - 11 passes
+Overall Graph, num_nodes: 3072441, part_size, 4000, num_parts, 2988847
+grid: 188750, block: 128, shared_memory (KB): 66.048
+Time (ms): 3070.35
+===================================
+grid: 188709, block: 128, shared_memory (KB): 66.048
+Time (ms): 190.42
+===================================
+grid: 186837, block: 128, shared_memory (KB): 66.048
+Time (ms): 142.97
+===================================
+grid: 182917, block: 128, shared_memory (KB): 66.048
+Time (ms): 106.02
+===================================
+==PROF== Disconnected from process 231
+[231] unified_memory@127.0.0.1
+  void SAG_cuda_kernel_host_unified<int, float, int>(float*, float const*, int const*, int const*, int const*, int, int, int, int, int, int, int), 2021-Jun-28 02:27:08, Context 1, Stream 7
+    Section: GPU Speed Of Light
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    DRAM Frequency                                                           cycle/nsecond                           1.21
+    SM Frequency                                                             cycle/nsecond                           1.10
+    Elapsed Cycles                                                                   cycle                       83965057
+    Memory [%]                                                                           %                           4.77
+    SOL DRAM                                                                             %                           4.77
+    Duration                                                                       msecond                          76.17
+    SOL L1/TEX Cache                                                                     %                           3.86
+    SOL L2 Cache                                                                         %                           4.79
+    SM Active Cycles                                                                 cycle                    81561678.01
+    SM [%]                                                                               %                           5.12
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    WRN   This kernel exhibits low compute throughput and memory bandwidth utilization relative to the peak performance 
+          of this device. Achieved compute throughput and/or memory bandwidth below 60.0% of peak typically indicate    
+          latency issues. Look at Scheduler Statistics and Warp State Statistics for potential reasons.                 
+
+    Section: Launch Statistics
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    Block Size                                                                                                        128
+    Function Cache Configuration                                                                  cudaFuncCachePreferNone
+    Grid Size                                                                                                      188750
+    Registers Per Thread                                                   register/thread                             24
+    Shared Memory Configuration Size                                                 Kbyte                         135.17
+    Driver Shared Memory Per Block                                             Kbyte/block                           1.02
+    Dynamic Shared Memory Per Block                                            Kbyte/block                          66.05
+    Static Shared Memory Per Block                                              byte/block                              0
+    Threads                                                                         thread                       24160000
+    Waves Per SM                                                                                                   873.84
+    ---------------------------------------------------------------------- --------------- ------------------------------
+
+    Section: Occupancy
+    ---------------------------------------------------------------------- --------------- ------------------------------
+    Block Limit SM                                                                   block                             32
+    Block Limit Registers                                                            block                             21
+    Block Limit Shared Mem                                                           block                              2
+    Block Limit Warps                                                                block                             16
+    Theoretical Active Warps per SM                                                   warp                              8
+    Theoretical Occupancy                                                                %                          12.50
+    Achieved Occupancy                                                                   %                           7.04
+    Achieved Active Warps Per SM                                                      warp                           4.51
     ---------------------------------------------------------------------- --------------- ------------------------------
     WRN   This kernel's theoretical occupancy is limited by the required amount of shared memory.                       
 
