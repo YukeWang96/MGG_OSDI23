@@ -99,10 +99,6 @@ int main(int argc, char* argv[]){
     auto remote_partPtr = remote_info[0];
     auto remote_part2Node = remote_info[1];
 
-    // if (mype_node == 0)
-    // for (int i = 0; i < remote_part2Node.size(); i++){
-        // printf("remote_part: %d -- %d\n", i, remote_part2Node[i]);
-    // }
     cublasHandle_t cublas_handle;
     cublasCreate(&cublas_handle);
     float alpha = 1.0f, beta = 0.0f;
@@ -289,11 +285,6 @@ int main(int argc, char* argv[]){
 
     std::clock_t dense_end = std::clock();
     dense_time_elapsed_ms = 1000.0 * (dense_end - dense_start) / CLOCKS_PER_SEC;
-
-    // backward graident for Sparse operation.
-    // cudaEventCreate(&start);
-    // cudaEventCreate(&stop);
-    // cudaEventRecord(start);
 
     // Gradient backward.
     SAG_host_fused_interleaved<int, float, int>(d_output, d_input,

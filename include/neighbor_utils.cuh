@@ -412,8 +412,8 @@ void SAG_host_fused_interleaved(
     // cudaEventCreate(&start);
     // cudaEventCreate(&stop);
     // cudaEventRecord(start);
-    #define NPROF 1
-    for (int i = 0; i < NPROF; i++)
+    // #define NPROF 1
+    // for (int i = 0; i < NPROF; i++)
     SAG_cuda_kernel_fused_interleaved<IDType, dataType, paraType><<<grid, block, shared_memory>>>(
         output,
         input,
