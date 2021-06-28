@@ -34,7 +34,7 @@ dataset = [
         # ('SW-620H'                   , 66       , 2) ,
 
         ( 'amazon0505'               , 96	  , 22),
-        # ( 'artist'                   , 100	  , 12),
+        ( 'artist'                   , 100	  , 12),
         # ( 'com-amazon'               , 96	  , 22),
         # ( 'soc-BlogCatalog'	         , 128	  , 39),      
         # ( 'amazon0601'  	         , 96	  , 22), 
@@ -51,7 +51,8 @@ dataset = [
 
 
 data_path = 'dataset/'
-command = "ncu build/unified_memory {}".format(data_path)
+command = "ncu --devices 0 -k regex:SAG\
+        build/unified_memory {}".format(data_path)
 
 for data, d, c in dataset:
     os.system(command + "{0}.mtx {1} {2} {3} {4}".\

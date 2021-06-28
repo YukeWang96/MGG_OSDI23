@@ -42,17 +42,6 @@ ENV LD_LIBRARY_PATH=/usr/local/lib:/opt/openmpi-4.1.1/lib/:$LD_LIBRARY_PATH
 ENV PATH=/opt/openmpi-4.1.1/bin/:$PATH
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
 
-# WORKDIR /MGG
-# RUN useradd -u 8877 yuke_wang
-# RUN adduser --disabled-password --gecos '' yuke_wang \
-#     && adduser yuke_wang sudo \
-#     && echo '%sudo ALL=(ALL:ALL) ALL' >> /etc/sudoers
-
-# RUN mkdir -p /home/yuke_wang
-# RUN chown yuke_wang /home/yuke_wang
-# USER yuke_wang
-# WORKDIR /home/yuke_wang
-
 # RUN useradd -r yuke_wang
 # RUN mkdir /MGG && chown yuke_wang /MGG
 # USER yuke_wang
