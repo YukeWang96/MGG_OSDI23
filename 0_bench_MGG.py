@@ -54,7 +54,8 @@ dataset = [
 
 data_path = 'dataset/'
 pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
-              ncu --target-processes all mpirun --allow-run-as-root -np {} '.format(num_GPUs)
+              ncu --devices 0 -k regex:SAG \
+              --target-processes all mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 command = "build/MGG {}".format(data_path)
 
 for data, d, c in dataset:
