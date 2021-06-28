@@ -8,7 +8,7 @@ os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
 # hidden = [16,32,64,128,256]
-hidden = 47
+hidden = 16
 # hidden = [int(sys.argv[1])]
 
 # num_GPUs = 4
@@ -63,5 +63,5 @@ pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
 command = "build/MGG {}".format(data_path)
 
 for data, d, c in dataset:
-    os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5}".\
-    format(data, num_GPUs, partSize, warpPerblock, hidden, interleaved_dist))
+    os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5} {6}".\
+    format(data, num_GPUs, partSize, warpPerblock, d, interleaved_dist, hidden))

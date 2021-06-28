@@ -318,14 +318,9 @@ void SAG_host_fused(
     const int grid = (total_parts * WARP_SIZE + block  - 1) / block; 
     int shared_memory = partSize*warpPerBlock*sizeof(int) + 2*partSize*warpPerBlock*dim*sizeof(float);    
     printf("grid: %d, block: %d, shared_memory (KB): %.3f\n", grid, block, shared_memory*1.0f/1e3);
+    cudaFuncSetAttribute(SAG_cuda_kernel_fused<IDType, dataType, paraType>, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory);
     // printf("dim: %d, num_nodes: %d, num_parts: %d\n", dim, num_nodes, num_parts);
     // printf("local_num_parts: %d, remote_num_parts: %d\n", local_num_parts, remote_num_parts);
-
-    // int grid = 1;
-    // int block = 1;
-    // warpPerBlock = 1;
-    // int shared_memory = partSize*warpPerBlock*sizeof(int) + 2*partSize*warpPerBlock*dim*sizeof(float);    
-    // printf("shared_memory (KB): %.3f\n", shared_memory*1.0f/1e3);
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
@@ -402,29 +397,20 @@ void SAG_host_fused_interleaved(
 ){
 
     // const int total_parts = local_num_parts + remote_num_parts;
-
     const int total_parts = local_num_parts > remote_num_parts? local_num_parts: remote_num_parts;
     const int block = warpPerBlock * WARP_SIZE;
     const int total_warps = (total_parts + interleaved_dist - 1)/interleaved_dist;
     const int grid = (total_warps * WARP_SIZE + block  - 1) / block; 
-    
+
     int shared_memory = partSize*warpPerBlock*sizeof(int) + 2*warpPerBlock*dim*sizeof(float);    
     printf("grid: %d, block: %d, shared_memory (KB): %.3f\n", grid, block, shared_memory*1.0f/1e3);
     cudaFuncSetAttribute(SAG_cuda_kernel_fused_interleaved<IDType, dataType, paraType>, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory);
-
     // printf("dim: %d, num_nodes: %d, num_parts: %d\n", dim, num_nodes, num_parts);
     // printf("local_num_parts: %d, remote_num_parts: %d\n", local_num_parts, remote_num_parts);
-
-    // int grid = 1;
-    // int block = 1;
-    // warpPerBlock = 1;
-    // int shared_memory = partSize*warpPerBlock*sizeof(int) + 2*partSize*warpPerBlock*dim*sizeof(float);    
-    // printf("shared_memory (KB): %.3f\n", shared_memory*1.0f/1e3);
 
     // cudaEvent_t start, stop;
     // cudaEventCreate(&start);
     // cudaEventCreate(&stop);
-
     // cudaEventRecord(start);
     #define NPROF 1
     for (int i = 0; i < NPROF; i++)
@@ -458,7 +444,6 @@ void SAG_host_fused_interleaved(
     // float milliseconds = 0;
     // cudaEventElapsedTime(&milliseconds, start, stop);
     // printf("kernel time (ms): %.3f\n", milliseconds/NPROF);
-
     gpuErrchk(cudaDeviceSynchronize());
     cudaError_t error = cudaGetLastError();
     if(error != cudaSuccess){

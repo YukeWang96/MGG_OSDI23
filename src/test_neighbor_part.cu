@@ -18,8 +18,8 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 	
-    if (argc < 7){
-        printf("Usage: ./main graph.mtx num_GPUs partSize warpPerblock dim interleaved_dist\n");
+    if (argc < 8){
+        printf("Usage: ./main graph.mtx num_GPUs partSize warpPerblock dim interleaved_dist hidden\n");
         return -1;
     }
 
@@ -38,9 +38,10 @@ int main(int argc, char* argv[]){
     int warpPerBlock = atoi(argv[4]);       // 4
     int dim = atoi(argv[5]);                // 16
     int interleaved_dist = atoi(argv[6]);   // 2
+    int hiddenSize = atoi(argv[7]);
 
     // int hiddenSize = dim;
-    int hiddenSize = 16;
+    // int hiddenSize = 16;
     int outputClass = 128; // 10 by default.
     double t1, t2; 
 
@@ -186,7 +187,6 @@ int main(int argc, char* argv[]){
     // cudaEventCreate(&start);
     // cudaEventCreate(&stop);
     // cudaEventRecord(start);
-
     cuBLASErrchk(cublasSgemm(cublas_handle, 
                                 CUBLAS_OP_N, 
                                 CUBLAS_OP_N,
@@ -197,39 +197,39 @@ int main(int argc, char* argv[]){
                                 &beta,
                                 d_input, nodesPerPE));
 
-    // // // Forward computation.
-    // SAG_host_fused_interleaved<int, float, int>(d_output, d_input,
-    //                                             // local access param.
-    //                                             d_row_ptr_local, d_col_ind_local,
-    //                                             d_part_ptr_local, d_part2Node_local,
-    //                                             local_partPtr.size()-1, 
-    //                                             // remote access param.
-    //                                             d_row_ptr_remote, d_col_ind_remote,
-    //                                             d_part_ptr_remote, d_part2Node_remote,
-    //                                             remote_partPtr.size()-1,
-    //                                             // other param.
-    //                                             local_ptr.size(),
-    //                                             // nodesPerPE,
-    //                                             lb, partSize, dim, 
-    //                                             dimWorker, warpPerBlock, 
-    //                                             interleaved_dist);
+    // Forward computation.
+    SAG_host_fused_interleaved<int, float, int>(d_output, d_input,
+                                                // local access param.
+                                                d_row_ptr_local, d_col_ind_local,
+                                                d_part_ptr_local, d_part2Node_local,
+                                                local_partPtr.size()-1, 
+                                                // remote access param.
+                                                d_row_ptr_remote, d_col_ind_remote,
+                                                d_part_ptr_remote, d_part2Node_remote,
+                                                remote_partPtr.size()-1,
+                                                // other param.
+                                                local_ptr.size(),
+                                                // nodesPerPE,
+                                                lb, partSize, hiddenSize, 
+                                                dimWorker, warpPerBlock, 
+                                                interleaved_dist);
 
 
 
-    SAG_host_fused<int, float, int>(d_output, d_input,
-                                    // local access param.
-                                    d_row_ptr_local, d_col_ind_local,
-                                    d_part_ptr_local, d_part2Node_local,
-                                    local_partPtr.size()-1, 
-                                    // remote access param.
-                                    d_row_ptr_remote, d_col_ind_remote,
-                                    d_part_ptr_remote, d_part2Node_remote,
-                                    remote_partPtr.size()-1,
-                                    // other param.
-                                    local_ptr.size(),
-                                    // nodesPerPE,
-                                    lb, partSize, hiddenSize, 
-                                    dimWorker, warpPerBlock);
+    // SAG_host_fused<int, float, int>(d_output, d_input,
+    //                                 // local access param.
+    //                                 d_row_ptr_local, d_col_ind_local,
+    //                                 d_part_ptr_local, d_part2Node_local,
+    //                                 local_partPtr.size()-1, 
+    //                                 // remote access param.
+    //                                 d_row_ptr_remote, d_col_ind_remote,
+    //                                 d_part_ptr_remote, d_part2Node_remote,
+    //                                 remote_partPtr.size()-1,
+    //                                 // other param.
+    //                                 local_ptr.size(),
+    //                                 // nodesPerPE,
+    //                                 lb, partSize, hiddenSize, 
+    //                                 dimWorker, warpPerBlock);
     gpuErrchk(cudaGetLastError());
     gpuErrchk(cudaDeviceSynchronize());
 
