@@ -4,6 +4,8 @@
 
 #include <cuda.h>
 #include <vector>
+#include <iostream>
+#include <cublas_v2.h>
 
 using namespace std;
 
@@ -21,6 +23,31 @@ inline void gpuAssert(cudaError_t code, const char *file, int line, bool abort=t
       fprintf(stderr,"GPUassert: %s %s %d\n", cudaGetErrorString(code), file, line);
       if (abort) exit(code);
    }
+}
+
+
+#define cuBLASErrchk(ans) { cuBLASAssert((ans), __FILE__, __LINE__); }
+inline void cuBLASAssert(cublasStatus_t status, const char *file, int line, bool abort=true)
+{
+      if(status !=CUBLAS_STATUS_SUCCESS)
+      {
+          fprintf(stderr, "Error in cublasGemmEx()\n");
+          std::string error_msg;
+          switch(status)
+          {
+              case CUBLAS_STATUS_SUCCESS:          error_msg.assign("CUBLAS_STATUS_SUCCESS");
+              case CUBLAS_STATUS_NOT_INITIALIZED:  error_msg.assign( "CUBLAS_STATUS_NOT_INITIALIZED");
+              case CUBLAS_STATUS_NOT_SUPPORTED:    error_msg.assign( "CUBLAS_STATUS_NOT_SUPPORTED");
+              case CUBLAS_STATUS_INVALID_VALUE:    error_msg.assign( "CUBLAS_STATUS_INVALID_VALUE"); 
+              case CUBLAS_STATUS_ARCH_MISMATCH:    error_msg.assign( "CUBLAS_STATUS_ARCH_MISMATCH"); 
+              case CUBLAS_STATUS_MAPPING_ERROR:    error_msg.assign( "CUBLAS_STATUS_MAPPING_ERROR");
+              case CUBLAS_STATUS_EXECUTION_FAILED: error_msg.assign( "CUBLAS_STATUS_EXECUTION_FAILED"); 
+              case CUBLAS_STATUS_INTERNAL_ERROR:   error_msg.assign( "CUBLAS_STATUS_INTERNAL_ERROR"); 
+              default:                             error_msg.assign( "unknown error");
+          }
+          std::cout << error_msg << std::endl;
+         if (abort) exit(status);
+      }
 }
 
 __global__ 

@@ -6,6 +6,7 @@
 #include <mpi.h>
 #include <nvshmem.h>
 #include <nvshmemx.h>
+#include <cublas_v2.h>
 
 #include "utils.cuh"
 #include "neighbor_utils.cuh"
@@ -38,7 +39,8 @@ int main(int argc, char* argv[]){
     int dim = atoi(argv[5]);                // 16
     int interleaved_dist = atoi(argv[6]);   // 2
 
-    int hiddenSize = dim;
+    // int hiddenSize = dim;
+    int hiddenSize = 16;
     int outputClass = 128; // 10 by default.
     double t1, t2; 
 
@@ -89,7 +91,6 @@ int main(int argc, char* argv[]){
     // len: ub - lb, base: lb.
     auto local_info = build_part<int>("PE-" + std::to_string(mype_node) + "-local", local_ptr, ub - lb, partSize);
     auto remote_info = build_part<int>("PE-" + std::to_string(mype_node) + "-remote", remote_ptr, ub - lb, partSize);
-    // return 0;
     
     auto local_partPtr = local_info[0];
     auto local_part2Node = local_info[1];
@@ -101,11 +102,16 @@ int main(int argc, char* argv[]){
     // for (int i = 0; i < remote_part2Node.size(); i++){
         // printf("remote_part: %d -- %d\n", i, remote_part2Node[i]);
     // }
+    cublasHandle_t cublas_handle;
+    cublasCreate(&cublas_handle);
+    float alpha = 1.0f, beta = 0.0f;
 
-    float *d_output, *d_input;
-    gpuErrchk(cudaMalloc((void**)&d_output, (ub-lb)*dim*sizeof(float))); 
-    // gpuErrchk(cudaMalloc((void**)&d_input, (ub-lb)*dim*sizeof(float))); 
-    d_input = (float *) nvshmem_malloc ((ub-lb)*dim*sizeof(float)); // shared node embedding part on each GPU
+    float *init_input, *d_output, *d_input, *d_weight_1;
+
+    gpuErrchk(cudaMalloc((void**)&d_weight_1, dim*hiddenSize*sizeof(float))); 
+    gpuErrchk(cudaMalloc((void**)&init_input, (ub-lb)*dim*sizeof(float))); 
+    gpuErrchk(cudaMalloc((void**)&d_output, (ub-lb)*hiddenSize*sizeof(float))); 
+    d_input = (float *) nvshmem_malloc ((ub-lb)*hiddenSize*sizeof(float)); // NVSHMEM global memory
 
     int *d_row_ptr_local, *d_col_ind_local, *d_part_ptr_local, *d_part2Node_local;
     int *d_row_ptr_remote, *d_col_ind_remote, *d_part_ptr_remote, *d_part2Node_remote;
@@ -137,33 +143,34 @@ int main(int argc, char* argv[]){
     if (mype_node == 0) printf( "PreProcess time (s) %.3f\n", (t2 - t1)); 
 
     // for sync gradient.
-    float* sendbuff, *recvbuff;
-    gpuErrchk(cudaMalloc((void**)&sendbuff, nodesPerPE*sizeof(float)));
-    gpuErrchk(cudaMalloc((void**)&recvbuff, nodesPerPE*sizeof(float)));
+    // float* sendbuff, *recvbuff;
+    // gpuErrchk(cudaMalloc((void**)&sendbuff, nodesPerPE*sizeof(float)));
+    // gpuErrchk(cudaMalloc((void**)&recvbuff, nodesPerPE*sizeof(float)));
 
-    int block = 1024;
-    int grid = (nodesPerPE + block - 1) / block;
-    init_float_array<<<grid, block>>>(sendbuff, 1.0f, nodesPerPE);
-    init_float_array<<<grid, block>>>(recvbuff, 0.0f, nodesPerPE);
+    // int block = 1024;
+    // int grid = (nodesPerPE + block - 1) / block;
+    // init_float_array<<<grid, block>>>(sendbuff, 1.0f, nodesPerPE);
+    // init_float_array<<<grid, block>>>(recvbuff, 0.0f, nodesPerPE);
     
     // define the input.
-    Blob<float> *output = new Blob<float>(nodesPerPE, hiddenSize);
-    Blob<float> *target = new Blob<float>(nodesPerPE);
-    Blob<float> *gradient = target;
-    float learning_rate = 0.02f;
+    // Blob<float> *LR_input = new Blob<float>(nodesPerPE, dim);
+    // Blob<float> *output = new Blob<float>(nodesPerPE, hiddenSize);
+    // Blob<float> *target = new Blob<float>(nodesPerPE);
+    // Blob<float> *gradient = target;
+    // float learning_rate = 0.02f;
 
     // build the dense layers.
-    Layer* dense1 = new Dense("linear1", hiddenSize);
-    Layer* act1 = new Activation("relu1", CUDNN_ACTIVATION_RELU);
-    Layer* dense2 = new Dense("linear2", outputClass);
-    Layer* softmax = new Softmax("softmax");
+    // Layer* dense1 = new Dense("linear1", hiddenSize);
+    // Layer* act1 = new Activation("relu1", CUDNN_ACTIVATION_RELU);
+    // Layer* dense2 = new Dense("linear2", outputClass);
+    // Layer* softmax = new Softmax("softmax");
 
     // set the GPU cuBLAS/cuDNN context.
-    CudaContext *cuda_ = new CudaContext();
-    dense1->set_cuda_context(cuda_);
-    dense2->set_cuda_context(cuda_);
-    act1->set_cuda_context(cuda_);
-    softmax->set_cuda_context(cuda_);
+    // CudaContext *cuda_ = new CudaContext();
+    // dense1->set_cuda_context(cuda_);
+    // dense2->set_cuda_context(cuda_);
+    // act1->set_cuda_context(cuda_);
+    // softmax->set_cuda_context(cuda_);
 
     //
     // 
@@ -178,41 +185,54 @@ int main(int argc, char* argv[]){
     // cudaEvent_t start, stop;
     // cudaEventCreate(&start);
     // cudaEventCreate(&stop);
-
     // cudaEventRecord(start);
 
-    // Forward computation.
-    SAG_host_fused_interleaved<int, float, int>(d_output, d_input,
-                                                // local access param.
-                                                d_row_ptr_local, d_col_ind_local,
-                                                d_part_ptr_local, d_part2Node_local,
-                                                local_partPtr.size()-1, 
-                                                // remote access param.
-                                                d_row_ptr_remote, d_col_ind_remote,
-                                                d_part_ptr_remote, d_part2Node_remote,
-                                                remote_partPtr.size()-1,
-                                                // other param.
-                                                local_ptr.size(),
-                                                // nodesPerPE,
-                                                lb, partSize, dim, 
-                                                dimWorker, warpPerBlock, 
-                                                interleaved_dist);
+    cuBLASErrchk(cublasSgemm(cublas_handle, 
+                                CUBLAS_OP_N, 
+                                CUBLAS_OP_N,
+                                nodesPerPE, hiddenSize, dim,
+                                &alpha,
+                                init_input, nodesPerPE,
+                                d_weight_1, dim,
+                                &beta,
+                                d_input, nodesPerPE));
+
+    // // // Forward computation.
+    // SAG_host_fused_interleaved<int, float, int>(d_output, d_input,
+    //                                             // local access param.
+    //                                             d_row_ptr_local, d_col_ind_local,
+    //                                             d_part_ptr_local, d_part2Node_local,
+    //                                             local_partPtr.size()-1, 
+    //                                             // remote access param.
+    //                                             d_row_ptr_remote, d_col_ind_remote,
+    //                                             d_part_ptr_remote, d_part2Node_remote,
+    //                                             remote_partPtr.size()-1,
+    //                                             // other param.
+    //                                             local_ptr.size(),
+    //                                             // nodesPerPE,
+    //                                             lb, partSize, dim, 
+    //                                             dimWorker, warpPerBlock, 
+    //                                             interleaved_dist);
+
+
+
+    SAG_host_fused<int, float, int>(d_output, d_input,
+                                    // local access param.
+                                    d_row_ptr_local, d_col_ind_local,
+                                    d_part_ptr_local, d_part2Node_local,
+                                    local_partPtr.size()-1, 
+                                    // remote access param.
+                                    d_row_ptr_remote, d_col_ind_remote,
+                                    d_part_ptr_remote, d_part2Node_remote,
+                                    remote_partPtr.size()-1,
+                                    // other param.
+                                    local_ptr.size(),
+                                    // nodesPerPE,
+                                    lb, partSize, hiddenSize, 
+                                    dimWorker, warpPerBlock);
     gpuErrchk(cudaGetLastError());
     gpuErrchk(cudaDeviceSynchronize());
-    // SAG_host_fused<int, float, int>(d_output, d_input,
-    //                                 // local access param.
-    //                                 d_row_ptr_local, d_col_ind_local,
-    //                                 d_part_ptr_local, d_part2Node_local,
-    //                                 local_partPtr.size()-1, 
-    //                                 // remote access param.
-    //                                 d_row_ptr_remote, d_col_ind_remote,
-    //                                 d_part_ptr_remote, d_part2Node_remote,
-    //                                 remote_partPtr.size()-1,
-    //                                 // other param.
-    //                                 local_ptr.size(),
-    //                                 // nodesPerPE,
-    //                                 lb, partSize, dim, 
-    //                                 dimWorker, warpPerBlock);
+
 
     // cudaEventRecord(stop);
     // cudaEventSynchronize(stop);
@@ -221,16 +241,24 @@ int main(int argc, char* argv[]){
     // cudaEventElapsedTime(&milliseconds, start, stop);
     // printf("Time (ms): %.2f\n", milliseconds);
 
+
+    // LR_input->to(cuda);
+    // output->to(cuda);
+    // output = dense1->forward(LR_input);
+    // gpuErrchk(cudaGetLastError());
+    // gpuErrchk(cudaDeviceSynchronize());
+    
     // #define dense_layer 
     #ifdef dense_layer
     std::clock_t dense_start = std::clock();
 
+    LR_input->to(cuda);
     output->to(cuda);
     gradient->to(cuda);
 
     // forward for output computation.
     // if (mype_node == 0) printf("--*-- Forward...--*--\n");
-    output = dense1->forward(output);
+    output = dense1->forward(LR_input);
     output = act1->forward(output);
     output = dense2->forward(output);
     // output = softmax->forward(output);

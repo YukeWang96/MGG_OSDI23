@@ -407,6 +407,7 @@ void SAG_host_fused_interleaved(
     const int block = warpPerBlock * WARP_SIZE;
     const int total_warps = (total_parts + interleaved_dist - 1)/interleaved_dist;
     const int grid = (total_warps * WARP_SIZE + block  - 1) / block; 
+    
     int shared_memory = partSize*warpPerBlock*sizeof(int) + 2*warpPerBlock*dim*sizeof(float);    
     printf("grid: %d, block: %d, shared_memory (KB): %.3f\n", grid, block, shared_memory*1.0f/1e3);
     cudaFuncSetAttribute(SAG_cuda_kernel_fused_interleaved<IDType, dataType, paraType>, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory);
