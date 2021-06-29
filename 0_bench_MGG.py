@@ -13,14 +13,14 @@ hidden = 16
 num_GPUs = 4
 # num_GPUs = int(sys.argv[1])
 
-# partSize = 16
-partSize = int(sys.argv[1])
+partSize = 16
+# partSize = int(sys.argv[1])
 
-warpPerblock = 8
-# warpPerblock = int(sys.argv[1])
+# warpPerblock = 8
+warpPerblock = int(sys.argv[1])
 
-# interleaved_dist = 1
-interleaved_dist = int(sys.argv[1])
+# interleaved_dist = 16
+interleaved_dist = int(sys.argv[2])
 
 dataset = [
         # ('citeseer'	        		, 3703	    , 6   ),  
@@ -41,10 +41,10 @@ dataset = [
         # ( 'amazon0601'  	         , 96	  , 22), 
 
         ( 'Reddit'                      , 602      	, 41),
-        ( 'enwiki-2013'	                , 100	        , 12),      
-        ( 'ogbn-products'	        , 100	        , 47),
-        ( 'ogbn-proteins'		, 128		, 112),
-        ( 'com-Orkut'		        , 128		, 128),
+        # ( 'enwiki-2013'	                , 100	        , 12),      
+        # ( 'ogbn-products'	        , 100	        , 47),
+        # ( 'ogbn-proteins'		, 128		, 112),
+        # ( 'com-Orkut'		        , 128		, 128),
 
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),

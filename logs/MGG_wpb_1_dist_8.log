@@ -14,14 +14,14 @@ PE-2-remote, num_nodes: 58242, part_size, 16, num_parts, 1374884
 PE-0-local, num_nodes: 58242, part_size, 16, num_parts, 499829
 PE-1-remote, num_nodes: 58242, part_size, 16, num_parts, 1376744
 PE-0-remote, num_nodes: 58242, part_size, 16, num_parts, 1393828
-PreProcess time (s) 1.665
-grid: 1337096, block: 32, shared_memory (KB): 0.192
-grid: 1374884, block: 32, shared_memory (KB): 0.192
-grid: 1393828, block: 32, shared_memory (KB): 0.192
-grid: 1376744, block: 32, shared_memory (KB): 0.192
-PE-3, Total (ms): 7.742, Dense (ms): 0.000
-PE-2, Total (ms): 8.126, Dense (ms): 0.000
-PE-0, Total (ms): 8.408, Dense (ms): 0.000
-PE-1, Total (ms): 8.655, Dense (ms): 0.000
-MPI time (ms) 8.625
+PreProcess time (s) 1.656
+grid: 171861, block: 32, shared_memory (KB): 0.192
+grid: 174229, block: 32, shared_memory (KB): 0.192
+grid: 172093, block: 32, shared_memory (KB): 0.192
+grid: 167137, block: 32, shared_memory (KB): 0.192
+PE-3, Total (ms): 7.159, Dense (ms): 0.000
+PE-2, Total (ms): 7.338, Dense (ms): 0.000
+PE-0, Total (ms): 7.605, Dense (ms): 0.000
+PE-1, Total (ms): 7.721, Dense (ms): 0.000
+MPI time (ms) 7.697
 ===================================

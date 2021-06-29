@@ -1,27 +1,27 @@
-Graph File: dataset/amazon0505.mtx
-Graph File: dataset/amazon0505.mtx
-Graph File: dataset/amazon0505.mtx
-Graph File: dataset/amazon0505.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-PE-3-local, num_nodes: 102559, part_size, 32, num_parts, 86592
-PE-3-remote, num_nodes: 102559, part_size, 32, num_parts, 79297
-PE-2-local, num_nodes: 102559, part_size, 32, num_parts, 87149
-PE-2-remote, num_nodes: 102559, part_size, 32, num_parts, 97019
-PE-1-local, num_nodes: 102559, part_size, 32, num_parts, 95749
-PE-1-remote, num_nodes: 102559, part_size, 32, num_parts, 98981
-PE-0-local, num_nodes: 102559, part_size, 32, num_parts, 105601
-PE-0-remote, num_nodes: 102559, part_size, 32, num_parts, 79916
-PreProcess time (s) 0.952
-grid: 379, block: 256, shared_memory (KB): 2.048
-grid: 413, block: 256, shared_memory (KB): 2.048
-grid: 387, block: 256, shared_memory (KB): 2.048
-grid: 339, block: 256, shared_memory (KB): 2.048
-PE-2, Total (ms): 1.444, Dense (ms): 0.000
-PE-3, Total (ms): 1.522, Dense (ms): 0.000
-PE-1, Total (ms): 1.864, Dense (ms): 0.000
-PE-0, Total (ms): 2.781, Dense (ms): 0.000
-MPI time (ms) 2.800
+PE-3-local, num_nodes: 58239, part_size, 32, num_parts, 238731
+PE-3-remote, num_nodes: 58239, part_size, 32, num_parts, 684165
+PE-2-local, num_nodes: 58242, part_size, 32, num_parts, 255942
+PE-1-local, num_nodes: 58242, part_size, 32, num_parts, 257468
+PE-2-remote, num_nodes: 58242, part_size, 32, num_parts, 702864
+PE-1-remote, num_nodes: 58242, part_size, 32, num_parts, 703694
+PE-0-local, num_nodes: 58242, part_size, 32, num_parts, 266229
+PE-0-remote, num_nodes: 58242, part_size, 32, num_parts, 712424
+PreProcess time (s) 1.595
+grid: 5566, block: 256, shared_memory (KB): 2.048
+grid: 5498, block: 256, shared_memory (KB): 2.048
+grid: 5492, block: 256, shared_memory (KB): 2.048
+grid: 5346, block: 256, shared_memory (KB): 2.048
+PE-3, Total (ms): 7.180, Dense (ms): 0.000
+PE-2, Total (ms): 7.309, Dense (ms): 0.000
+PE-1, Total (ms): 7.418, Dense (ms): 0.000
+PE-0, Total (ms): 7.511, Dense (ms): 0.000
+MPI time (ms) 7.521
 ===================================
