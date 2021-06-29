@@ -14,23 +14,23 @@ num_GPUs = 8
 # num_GPUs = int(sys.argv[1])
 
 ###############################################
-# interleaved_dist = 1
-interleaved_dist = int(sys.argv[1])
+# # interleaved_dist = 1
+# interleaved_dist = int(sys.argv[1])
 
-# partSize = 16
-partSize = int(sys.argv[2])
-
-warpPerblock = 1
-# warpPerblock = int(sys.argv[1])
-###############################################
 # # partSize = 16
 # partSize = int(sys.argv[2])
 
-# # warpPerblock = 8
-# warpPerblock = int(sys.argv[1])
+# warpPerblock = 1
+# # warpPerblock = int(sys.argv[1])
+###############################################
+partSize = 8
+# partSize = int(sys.argv[2])
 
-# # interleaved_dist = 1
-# interleaved_dist = int(sys.argv[2])
+# warpPerblock = 8
+warpPerblock = int(sys.argv[1])
+
+# interleaved_dist = 1
+interleaved_dist = int(sys.argv[2])
 ###############################################
 
 dataset = [

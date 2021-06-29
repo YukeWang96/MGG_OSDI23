@@ -2,6 +2,9 @@
 import os
 import sys
 
+if len(sys.argv) < 2:
+    print("usage: ./exe ldim")
+
 files = os.listdir('.')
 fname_li = []
 for fname in files:
@@ -21,7 +24,7 @@ for fname in fname_li:
     output_dict[fname] = time
 
 
-ldim = 6
+ldim = int(sys.argv[1])
 # ldim = 5
 for i, fname in enumerate(fname_li):
     if i != 0 and i%ldim == 0:

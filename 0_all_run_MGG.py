@@ -34,15 +34,15 @@ os.system("mv *.csv csvs/")
 # for gpu in num_gpus:
 #     os.system("./0_bench_MGG.py {0}| tee MGG_{0}GPU_metrics.log".format(gpu))
 
-for dist in [1,2,4,8,16]:
-    for ps in [1,2,4,8,16,32]:
-        os.system("./0_bench_MGG.py {0} {1}| tee MGG_dist_{0}_ps_{1}.log".format(dist, ps))
-        os.system("./1_analysis.py MGG_dist_{0}_ps_{1}.log {2}".format(dist, ps, 8))
-        os.system("mv MGG_dist_{0}_ps_{1}.log logs/".format(dist, ps))
+# for dist in [1,2,4,8,16]:
+#     for ps in [1,2,4,8,16,32]:
+#         os.system("./0_bench_MGG.py {0} {1}| tee MGG_dist_{0}_ps_{1}.log".format(dist, ps))
+#         os.system("./1_analysis.py MGG_dist_{0}_ps_{1}.log {2}".format(dist, ps, 8))
+#         os.system("mv MGG_dist_{0}_ps_{1}.log logs/".format(dist, ps))
 
 
-# for wpb in [1,2,4,8,16]:
-#     for dist in [1,2,4,8,16]:
-#         os.system("./0_bench_MGG.py {0} {1}| tee MGG_wpb_{0}_dist_{1}.log".format(wpb, dist))
-#         os.system("./1_analysis.py MGG_wpb_{0}_dist_{1}.log {2}".format(wpb, dist, 4))
-#         os.system("mv MGG_wpb_{0}_dist_{1}.log logs/".format(wpb, dist))
+for wpb in [1,2,4,8,16]:
+    for dist in [1,2,4,8,16]:
+        os.system("./0_bench_MGG.py {0} {1}| tee MGG_wpb_{0}_dist_{1}.log".format(wpb, dist))
+        os.system("./1_analysis.py MGG_wpb_{0}_dist_{1}.log {2}".format(wpb, dist, 8))
+        os.system("mv MGG_wpb_{0}_dist_{1}.log logs/".format(wpb, dist))

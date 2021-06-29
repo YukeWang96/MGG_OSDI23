@@ -17,35 +17,35 @@ Complete loading graphs !!
 PE-7-local, num_nodes: 29118, part_size, 32, num_parts, 67045
 PE-7-remote, num_nodes: 29118, part_size, 32, num_parts, 391327
 PE-6-local, num_nodes: 29121, part_size, 32, num_parts, 68762
-PE-3-local, num_nodes: 29121, part_size, 32, num_parts, 71130
-PE-4-local, num_nodes: 29121, part_size, 32, num_parts, 72991
-PE-6-remote, num_nodes: 29121, part_size, 32, num_parts, 396878
 PE-5-local, num_nodes: 29121, part_size, 32, num_parts, 71197
+PE-6-remote, num_nodes: 29121, part_size, 32, num_parts, 396878
+PE-4-local, num_nodes: 29121, part_size, 32, num_parts, 72991
+PE-3-local, num_nodes: 29121, part_size, 32, num_parts, 71130
+PE-5-remote, num_nodes: 29121, part_size, 32, num_parts, 404910
 PE-1-local, num_nodes: 29121, part_size, 32, num_parts, 72785
-PE-3-remote, num_nodes: 29121, part_size, 32, num_parts, 404292
 PE-4-remote, num_nodes: 29121, part_size, 32, num_parts, 410703
 PE-0-local, num_nodes: 29121, part_size, 32, num_parts, 76593
-PE-2-local, num_nodes: 29121, part_size, 32, num_parts, 73969
-PE-5-remote, num_nodes: 29121, part_size, 32, num_parts, 404910
+PE-3-remote, num_nodes: 29121, part_size, 32, num_parts, 404292
 PE-1-remote, num_nodes: 29121, part_size, 32, num_parts, 409716
+PE-2-local, num_nodes: 29121, part_size, 32, num_parts, 73969
 PE-0-remote, num_nodes: 29121, part_size, 32, num_parts, 420502
 PE-2-remote, num_nodes: 29121, part_size, 32, num_parts, 412940
-PreProcess time (s) 1.579
-grid: 99220, block: 128, shared_memory (KB): 1.024
-grid: 105126, block: 128, shared_memory (KB): 1.024
-grid: 103235, block: 128, shared_memory (KB): 1.024
-grid: 102676, block: 128, shared_memory (KB): 1.024
-grid: 102429, block: 128, shared_memory (KB): 1.024
-grid: 97832, block: 128, shared_memory (KB): 1.024
-grid: 101228, block: 128, shared_memory (KB): 1.024
-grid: 101073, block: 128, shared_memory (KB): 1.024
-PE-6, Total (ms): 2.507, Dense (ms): 0.000
-PE-2, Total (ms): 2.610, Dense (ms): 0.000
-PE-4, Total (ms): 2.619, Dense (ms): 0.000
-PE-0, Total (ms): 2.648, Dense (ms): 0.000
-PE-7, Total (ms): 2.723, Dense (ms): 0.000
-PE-3, Total (ms): 2.834, Dense (ms): 0.000
-PE-5, Total (ms): 2.848, Dense (ms): 0.000
-PE-1, Total (ms): 2.849, Dense (ms): 0.000
-MPI time (ms) 2.879
+PreProcess time (s) 1.557
+grid: 102429, block: 32, shared_memory (KB): 0.256
+grid: 99220, block: 32, shared_memory (KB): 0.256
+grid: 102676, block: 32, shared_memory (KB): 0.256
+grid: 103235, block: 32, shared_memory (KB): 0.256
+grid: 105126, block: 32, shared_memory (KB): 0.256
+grid: 101228, block: 32, shared_memory (KB): 0.256
+grid: 101073, block: 32, shared_memory (KB): 0.256
+grid: 97832, block: 32, shared_memory (KB): 0.256
+PE-6, Total (ms): 2.573, Dense (ms): 0.000
+PE-2, Total (ms): 2.716, Dense (ms): 0.000
+PE-0, Total (ms): 2.697, Dense (ms): 0.000
+PE-4, Total (ms): 2.678, Dense (ms): 0.000
+PE-1, Total (ms): 2.797, Dense (ms): 0.000
+PE-7, Total (ms): 2.944, Dense (ms): 0.000
+PE-5, Total (ms): 3.085, Dense (ms): 0.000
+MPI time (ms) 3.055
+PE-3, Total (ms): 3.077, Dense (ms): 0.000
 ===================================

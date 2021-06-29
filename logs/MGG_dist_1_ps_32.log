@@ -18,34 +18,34 @@ PE-7-local, num_nodes: 29118, part_size, 32, num_parts, 67045
 PE-6-local, num_nodes: 29121, part_size, 32, num_parts, 68762
 PE-7-remote, num_nodes: 29118, part_size, 32, num_parts, 391327
 PE-6-remote, num_nodes: 29121, part_size, 32, num_parts, 396878
-PE-1-local, num_nodes: 29121, part_size, 32, num_parts, 72785
 PE-3-local, num_nodes: 29121, part_size, 32, num_parts, 71130
+PE-1-local, num_nodes: 29121, part_size, 32, num_parts, 72785
 PE-5-local, num_nodes: 29121, part_size, 32, num_parts, 71197
-PE-4-local, num_nodes: 29121, part_size, 32, num_parts, 72991
-PE-1-remote, num_nodes: 29121, part_size, 32, num_parts, 409716
-PE-3-remote, num_nodes: 29121, part_size, 32, num_parts, 404292
-PE-5-remote, num_nodes: 29121, part_size, 32, num_parts, 404910
-PE-4-remote, num_nodes: 29121, part_size, 32, num_parts, 410703
 PE-2-local, num_nodes: 29121, part_size, 32, num_parts, 73969
-PE-0-local, num_nodes: 29121, part_size, 32, num_parts, 76593
+PE-3-remote, num_nodes: 29121, part_size, 32, num_parts, 404292
+PE-1-remote, num_nodes: 29121, part_size, 32, num_parts, 409716
+PE-5-remote, num_nodes: 29121, part_size, 32, num_parts, 404910
 PE-2-remote, num_nodes: 29121, part_size, 32, num_parts, 412940
+PE-4-local, num_nodes: 29121, part_size, 32, num_parts, 72991
+PE-0-local, num_nodes: 29121, part_size, 32, num_parts, 76593
+PE-4-remote, num_nodes: 29121, part_size, 32, num_parts, 410703
 PE-0-remote, num_nodes: 29121, part_size, 32, num_parts, 420502
-PreProcess time (s) 1.625
-grid: 410703, block: 32, shared_memory (KB): 0.256
-grid: 396878, block: 32, shared_memory (KB): 0.256
+PreProcess time (s) 1.586
 grid: 412940, block: 32, shared_memory (KB): 0.256
+grid: 410703, block: 32, shared_memory (KB): 0.256
 grid: 420502, block: 32, shared_memory (KB): 0.256
-grid: 409716, block: 32, shared_memory (KB): 0.256
-grid: 404292, block: 32, shared_memory (KB): 0.256
+grid: 396878, block: 32, shared_memory (KB): 0.256
 grid: 404910, block: 32, shared_memory (KB): 0.256
+grid: 409716, block: 32, shared_memory (KB): 0.256
 grid: 391327, block: 32, shared_memory (KB): 0.256
-PE-6, Total (ms): 2.934, Dense (ms): 0.000
-PE-7, Total (ms): 2.879, Dense (ms): 0.000
-PE-3, Total (ms): 2.997, Dense (ms): 0.000
-PE-5, Total (ms): 2.998, Dense (ms): 0.000
-PE-1, Total (ms): 3.050, Dense (ms): 0.000
-PE-2, Total (ms): 3.037, Dense (ms): 0.000
-PE-4, Total (ms): 3.063, Dense (ms): 0.000
-PE-0, Total (ms): 3.102, Dense (ms): 0.000
-MPI time (ms) 3.109
+grid: 404292, block: 32, shared_memory (KB): 0.256
+PE-4, Total (ms): 2.804, Dense (ms): 0.000
+PE-2, Total (ms): 2.808, Dense (ms): 0.000
+PE-7, Total (ms): 2.966, Dense (ms): 0.000
+PE-6, Total (ms): 2.920, Dense (ms): 0.000
+PE-3, Total (ms): 3.067, Dense (ms): 0.000
+PE-5, Total (ms): 3.079, Dense (ms): 0.000
+PE-1, Total (ms): 3.102, Dense (ms): 0.000
+PE-0, Total (ms): 3.082, Dense (ms): 0.000
+MPI time (ms) 3.087
 ===================================
