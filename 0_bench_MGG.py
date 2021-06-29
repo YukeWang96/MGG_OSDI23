@@ -10,17 +10,28 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 hidden = 16
 # hidden = [int(sys.argv[1])]
 
-num_GPUs = 4
+num_GPUs = 8
 # num_GPUs = int(sys.argv[1])
 
-partSize = 16
-# partSize = int(sys.argv[1])
+###############################################
+# interleaved_dist = 1
+interleaved_dist = int(sys.argv[1])
 
-# warpPerblock = 8
-warpPerblock = int(sys.argv[1])
+# partSize = 16
+partSize = int(sys.argv[2])
 
-# interleaved_dist = 16
-interleaved_dist = int(sys.argv[2])
+warpPerblock = 1
+# warpPerblock = int(sys.argv[1])
+###############################################
+# # partSize = 16
+# partSize = int(sys.argv[2])
+
+# # warpPerblock = 8
+# warpPerblock = int(sys.argv[1])
+
+# # interleaved_dist = 1
+# interleaved_dist = int(sys.argv[2])
+###############################################
 
 dataset = [
         # ('citeseer'	        		, 3703	    , 6   ),  
