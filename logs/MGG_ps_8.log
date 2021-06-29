@@ -1,0 +1,27 @@
+Graph File: dataset/amazon0505.mtx
+Graph File: dataset/amazon0505.mtx
+Graph File: dataset/amazon0505.mtx
+Graph File: dataset/amazon0505.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-3-local, num_nodes: 102559, part_size, 8, num_parts, 106104
+PE-2-local, num_nodes: 102559, part_size, 8, num_parts, 102660
+PE-3-remote, num_nodes: 102559, part_size, 8, num_parts, 90832
+PE-2-remote, num_nodes: 102559, part_size, 8, num_parts, 119623
+PE-1-local, num_nodes: 102559, part_size, 8, num_parts, 123027
+PE-1-remote, num_nodes: 102559, part_size, 8, num_parts, 133333
+PE-0-local, num_nodes: 102559, part_size, 8, num_parts, 199063
+PE-0-remote, num_nodes: 102559, part_size, 8, num_parts, 125262
+PreProcess time (s) 0.937
+grid: 1870, block: 256, shared_memory (KB): 1.280
+grid: 3111, block: 256, shared_memory (KB): 1.280
+grid: 2084, block: 256, shared_memory (KB): 1.280
+grid: 1658, block: 256, shared_memory (KB): 1.280
+PE-2, Total (ms): 1.138, Dense (ms): 0.000
+PE-3, Total (ms): 1.289, Dense (ms): 0.000
+PE-1, Total (ms): 1.342, Dense (ms): 0.000
+PE-0, Total (ms): 1.440, Dense (ms): 0.000
+MPI time (ms) 1.445
+===================================

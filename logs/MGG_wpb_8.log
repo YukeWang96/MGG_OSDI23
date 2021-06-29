@@ -14,16 +14,16 @@ PE-1-local, num_nodes: 58242, part_size, 16, num_parts, 482399
 PE-2-remote, num_nodes: 58242, part_size, 16, num_parts, 1374884
 PE-0-remote, num_nodes: 58242, part_size, 16, num_parts, 1393828
 PE-1-remote, num_nodes: 58242, part_size, 16, num_parts, 1376744
-PreProcess time (s) 0.959
-grid: 167137, block: 256, shared_memory (KB): 39.040
-grid: 172093, block: 256, shared_memory (KB): 39.040
-grid: 171861, block: 256, shared_memory (KB): 39.040
-grid: 174229, block: 256, shared_memory (KB): 39.040
-PE-3, Total (ms): 135.312, Dense (ms): 0.000
-PE-2, Total (ms): 124.240, Dense (ms): 0.000
-PE-1, Total (ms): 120.145, Dense (ms): 0.000
-PE-0, Total (ms): 126.520, Dense (ms): 0.000
-MPI time (ms) 124.157
+PreProcess time (s) 1.711
+grid: 167137, block: 256, shared_memory (KB): 8.704
+grid: 172093, block: 256, shared_memory (KB): 8.704
+grid: 171861, block: 256, shared_memory (KB): 8.704
+grid: 174229, block: 256, shared_memory (KB): 8.704
+PE-3, Total (ms): 22.093, Dense (ms): 0.000
+PE-2, Total (ms): 23.167, Dense (ms): 0.000
+PE-1, Total (ms): 23.340, Dense (ms): 0.000
+PE-0, Total (ms): 24.053, Dense (ms): 0.000
+MPI time (ms) 24.086
 ===================================
 Graph File: dataset/enwiki-2013.mtx
 Graph File: dataset/enwiki-2013.mtx
@@ -41,16 +41,16 @@ PE-1-local, num_nodes: 1050831, part_size, 16, num_parts, 2518679
 PE-1-remote, num_nodes: 1050831, part_size, 16, num_parts, 1847369
 PE-0-local, num_nodes: 1050831, part_size, 16, num_parts, 2974589
 PE-0-remote, num_nodes: 1050831, part_size, 16, num_parts, 1880056
-PreProcess time (s) 1.952
-grid: 294739, block: 256, shared_memory (KB): 6.912
-grid: 314835, block: 256, shared_memory (KB): 6.912
-grid: 286476, block: 256, shared_memory (KB): 6.912
-grid: 371824, block: 256, shared_memory (KB): 6.912
-PE-2, Total (ms): 100.041, Dense (ms): 0.000
-PE-3, Total (ms): 170.209, Dense (ms): 0.000
-PE-1, Total (ms): 134.961, Dense (ms): 0.000
-PE-0, Total (ms): 86.832, Dense (ms): 0.000
-MPI time (ms) 86.837
+PreProcess time (s) 2.505
+grid: 286476, block: 256, shared_memory (KB): 8.704
+grid: 314835, block: 256, shared_memory (KB): 8.704
+grid: 294739, block: 256, shared_memory (KB): 8.704
+grid: 371824, block: 256, shared_memory (KB): 8.704
+PE-2, Total (ms): 74.778, Dense (ms): 0.000
+PE-3, Total (ms): 79.167, Dense (ms): 0.000
+PE-1, Total (ms): 85.264, Dense (ms): 0.000
+PE-0, Total (ms): 94.521, Dense (ms): 0.000
+MPI time (ms) 94.516
 ===================================
 Graph File: dataset/ogbn-products.mtx
 Graph File: dataset/ogbn-products.mtx
@@ -68,16 +68,16 @@ PE-2-remote, num_nodes: 612258, part_size, 16, num_parts, 1513893
 PE-1-remote, num_nodes: 612258, part_size, 16, num_parts, 1516537
 PE-0-local, num_nodes: 612258, part_size, 16, num_parts, 1769197
 PE-0-remote, num_nodes: 612258, part_size, 16, num_parts, 2103521
-PreProcess time (s) 1.801
-grid: 189463, block: 256, shared_memory (KB): 6.912
-grid: 189568, block: 256, shared_memory (KB): 6.912
-grid: 189237, block: 256, shared_memory (KB): 6.912
-grid: 262941, block: 256, shared_memory (KB): 6.912
-PE-2, Total (ms): 34.344, Dense (ms): 0.000
-PE-1, Total (ms): 47.286, Dense (ms): 0.000
-PE-3, Total (ms): 29.645, Dense (ms): 0.000
-PE-0, Total (ms): 90.009, Dense (ms): 0.000
-MPI time (ms) 85.937
+PreProcess time (s) 2.335
+grid: 189237, block: 256, shared_memory (KB): 8.704
+grid: 262941, block: 256, shared_memory (KB): 8.704
+grid: 189463, block: 256, shared_memory (KB): 8.704
+grid: 189568, block: 256, shared_memory (KB): 8.704
+PE-2, Total (ms): 31.762, Dense (ms): 0.000
+PE-1, Total (ms): 32.173, Dense (ms): 0.000
+PE-3, Total (ms): 32.144, Dense (ms): 0.000
+PE-0, Total (ms): 90.954, Dense (ms): 0.000
+MPI time (ms) 90.964
 ===================================
 Graph File: dataset/ogbn-proteins.mtx
 Graph File: dataset/ogbn-proteins.mtx
@@ -95,16 +95,16 @@ PE-3-local, num_nodes: 33132, part_size, 16, num_parts, 1007041
 PE-3-remote, num_nodes: 33132, part_size, 16, num_parts, 388546
 PE-2-local, num_nodes: 33134, part_size, 16, num_parts, 1034688
 PE-2-remote, num_nodes: 33134, part_size, 16, num_parts, 488136
-PreProcess time (s) 0.795
-grid: 125881, block: 256, shared_memory (KB): 1.024
-grid: 91116, block: 256, shared_memory (KB): 1.024
-grid: 129336, block: 256, shared_memory (KB): 1.024
-grid: 111119, block: 256, shared_memory (KB): 1.024
-PE-0, Total (ms): 56.072, Dense (ms): 0.000
-PE-1, Total (ms): 21.704, Dense (ms): 0.000
-PE-3, Total (ms): 7.740, Dense (ms): 0.000
-PE-2, Total (ms): 34.283, Dense (ms): 0.000
-MPI time (ms) 8.787
+PreProcess time (s) 1.459
+grid: 125881, block: 256, shared_memory (KB): 8.704
+grid: 91116, block: 256, shared_memory (KB): 8.704
+grid: 129336, block: 256, shared_memory (KB): 8.704
+grid: 111119, block: 256, shared_memory (KB): 8.704
+PE-0, Total (ms): 15.807, Dense (ms): 0.000
+PE-1, Total (ms): 20.928, Dense (ms): 0.000
+PE-3, Total (ms): 25.292, Dense (ms): 0.000
+PE-2, Total (ms): 27.854, Dense (ms): 0.000
+MPI time (ms) 27.835
 ===================================
 Graph File: dataset/com-Orkut.mtx
 Graph File: dataset/com-Orkut.mtx
@@ -117,19 +117,19 @@ Complete loading graphs !!
 PE-2-local, num_nodes: 768111, part_size, 16, num_parts, 725796
 PE-2-remote, num_nodes: 768111, part_size, 16, num_parts, 1030290
 PE-0-local, num_nodes: 768111, part_size, 16, num_parts, 1560194
-PE-0-remote, num_nodes: 768111, part_size, 16, num_parts, 682028
 PE-1-local, num_nodes: 768111, part_size, 16, num_parts, 1356894
+PE-0-remote, num_nodes: 768111, part_size, 16, num_parts, 682028
 PE-1-remote, num_nodes: 768111, part_size, 16, num_parts, 1030170
 PE-3-local, num_nodes: 768108, part_size, 16, num_parts, 3167735
 PE-3-remote, num_nodes: 768108, part_size, 16, num_parts, 590606
-PreProcess time (s) 1.745
-grid: 395967, block: 256, shared_memory (KB): 8.704
-grid: 128787, block: 256, shared_memory (KB): 8.704
-grid: 169612, block: 256, shared_memory (KB): 8.704
+PreProcess time (s) 2.331
 grid: 195025, block: 256, shared_memory (KB): 8.704
-PE-2, Total (ms): 72.311, Dense (ms): 0.000
-PE-0, Total (ms): 92.214, Dense (ms): 0.000
-PE-1, Total (ms): 43.013, Dense (ms): 0.000
-MPI time (ms) 60.230
-PE-3, Total (ms): 77.682, Dense (ms): 0.000
+grid: 169612, block: 256, shared_memory (KB): 8.704
+grid: 128787, block: 256, shared_memory (KB): 8.704
+grid: 395967, block: 256, shared_memory (KB): 8.704
+PE-2, Total (ms): 30.835, Dense (ms): 0.000
+PE-0, Total (ms): 34.372, Dense (ms): 0.000
+PE-1, Total (ms): 44.959, Dense (ms): 0.000
+MPI time (ms) 62.302
+PE-3, Total (ms): 62.334, Dense (ms): 0.000
 ===================================
