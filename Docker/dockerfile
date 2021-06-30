@@ -12,10 +12,10 @@ RUN  echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu18
      wget -qO - https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub | apt-key add - && \
          apt-get update -y && \
      DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-         nsight-compute-2020.1.0 && \
+         nsight-compute-2021.1.1 && \
      rm -rf /var/lib/apt/lists/*
 
-ENV PATH="/opt/nvidia/nsight-compute/2020.1.0:${PATH}"
+ENV PATH="/opt/nvidia/nsight-compute/2021.1.1:${PATH}"
 
 RUN apt update \
     && apt install -y wget \
