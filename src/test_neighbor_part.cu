@@ -42,7 +42,7 @@ int main(int argc, char* argv[]){
 
     // int hiddenSize = dim;
     // int hiddenSize = 16;
-    int outputClass = 128; // 10 by default.
+    // int outputClass = 128; // 10 by default.
     double t1, t2; 
 
     // print_array<int>("asym.row_ptr", asym.row_ptr, asym.row_ptr.size());

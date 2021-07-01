@@ -10,9 +10,12 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 hidden = 16
 # hidden = [int(sys.argv[1])]
 
-num_GPUs = 8
+num_GPUs = 2
 # num_GPUs = int(sys.argv[1])
-
+###############################################
+partSize = 16
+warpPerblock = 2
+interleaved_dist = 2
 ###############################################
 # # interleaved_dist = 1
 # interleaved_dist = int(sys.argv[1])
@@ -23,14 +26,14 @@ num_GPUs = 8
 # warpPerblock = 1
 # # warpPerblock = int(sys.argv[1])
 ###############################################
-partSize = 8
-# partSize = int(sys.argv[2])
+# partSize = 8
+# # partSize = int(sys.argv[2])
 
-# warpPerblock = 8
-warpPerblock = int(sys.argv[1])
+# # warpPerblock = 8
+# warpPerblock = int(sys.argv[1])
 
-# interleaved_dist = 1
-interleaved_dist = int(sys.argv[2])
+# # interleaved_dist = 1
+# interleaved_dist = int(sys.argv[2])
 ###############################################
 
 dataset = [
@@ -45,17 +48,17 @@ dataset = [
         # ('DD'                        , 89       , 2) ,
         # ('SW-620H'                   , 66       , 2) ,
 
-        ( 'amazon0505'               , 96	  , 22),
+        # ( 'amazon0505'               , 96	  , 22),
         # ( 'artist'                   , 100	  , 12),
         # ( 'com-amazon'               , 96	  , 22),
         # ( 'soc-BlogCatalog'	         , 128	  , 39),      
         # ( 'amazon0601'  	         , 96	  , 22), 
 
-        # ( 'Reddit'                      , 602      	, 41),
-        # ( 'enwiki-2013'	                , 100	        , 12),      
-        # ( 'ogbn-products'	        , 100	        , 47),
-        # ( 'ogbn-proteins'		, 128		, 112),
-        # ( 'com-Orkut'		        , 128		, 128),
+        ( 'Reddit'                      , 128      	, 41),
+        ( 'enwiki-2013'	                , 100	        , 12),      
+        ( 'ogbn-products'	        , 100	        , 47),
+        ( 'ogbn-proteins'		, 128		, 112),
+        ( 'com-Orkut'		        , 128		, 128),
 
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),

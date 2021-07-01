@@ -818,7 +818,6 @@ void SAG_cuda_kernel_fused_interleaved(
     const paraType interleaved_dist
 ) 
 {
-
     int tid =  blockIdx.x * blockDim.x + threadIdx.x;         // global thread-id
     int warpId = tid / WARP_SIZE;                             // global warp-id
     int block_warpId = threadIdx.x / WARP_SIZE;               // block warp-id
@@ -870,7 +869,6 @@ void SAG_cuda_kernel_fused_interleaved(
                         partial_results[presult_base + d] = 0.0f;
                     }
                 
-                if (laneid < dimWorker)
                 #pragma unroll
                 for (int d = laneid; d < dim; d += dimWorker){
                     partial_results[presult_base + d] += input[nid*dim + d];
@@ -878,7 +876,6 @@ void SAG_cuda_kernel_fused_interleaved(
             }
 
             // output the result to global memory from the shared memory
-            if (laneid < dimWorker)
             #pragma unroll
             for (int d = laneid; d < dim; d += dimWorker){
                 atomicAdd_F((float*)&output[(srcId % num_nodes)*dim + d], partial_results[presult_base + d]);
@@ -894,7 +891,7 @@ void SAG_cuda_kernel_fused_interleaved(
     if (warpId*interleaved_dist < remote_num_parts){
 
         p_start = warpId*interleaved_dist;
-        p_end =  min(p_start + interleaved_dist, local_num_parts);
+        p_end =  min(p_start + interleaved_dist, remote_num_parts);
 
         for (int p_cursor = p_start; p_cursor < p_end; p_cursor++)
         {
@@ -920,7 +917,6 @@ void SAG_cuda_kernel_fused_interleaved(
 
                 // Initialize shared memory for partial results
                 if (nIdx == 0)
-                    if (laneid < dimWorker)
                     #pragma unroll
                     for (int d = laneid; d < dim; d += dimWorker){
                         partial_results[presult_base + d] = 0.0f;
@@ -928,9 +924,8 @@ void SAG_cuda_kernel_fused_interleaved(
             
                 // if (remote_pe > 1) printf("remote_pe: %d\n", remote_pe);
                 nvshmemx_float_get_warp(&tmp_local[presult_base], &input[nid*dim], dim, remote_pe);
-                // nvshmemx_float_get_warp(&tmp_local[0], &input[nid*dim], dim, remote_pe);
+                // nvshmemx_getmem_nbi_warp(&tmp_local[presult_base], &input[nid*dim], dim*sizeof(float), remote_pe);
 
-                // if (laneid < dimWorker)
                 #pragma unroll
                 for (int d = laneid; d < dim; d += dimWorker){
                     partial_results[presult_base + d] += tmp_local[presult_base+d];
@@ -938,7 +933,6 @@ void SAG_cuda_kernel_fused_interleaved(
             }
 
             // output the result to global memory from the shared memory
-            // if (laneid < dimWorker)
             #pragma unroll
             for (int d = laneid; d < dim; d += dimWorker){
                 atomicAdd_F((float*)&output[(srcId%num_nodes)*dim + d], partial_results[presult_base + d]);
