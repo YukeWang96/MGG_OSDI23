@@ -12,8 +12,8 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 	
-    if (argc < 4){
-        printf("Usage: ./main graph.mtx num_GPUs nodeOfInterest\n");
+    if (argc < 5){
+        printf("Usage: ./main graph.mtx num_GPUs dim nodeOfInterest\n");
         return -1;
     }
 
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
 
     int num_GPUs = atoi(argv[2]);
     int warpPerBlock = 1;
-    int dim = 16;
+    int dim = atoi(argv[3]);
 
     // float* input = (float*)malloc(numNodes*dim*sizeof(float));
     float *d_output, *d_input;
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]){
     cudaSetDevice(mype_node);
 
     // Load the corresponding tiles.
-    const int lb_src = atoi(argv[3]);           // node of interest
+    const int lb_src = atoi(argv[4]);           // node of interest
     const int ub_src = lb_src + 1;              // the node next to the node of interest.
     printf("node [%d]: %d neighbors\n", lb_src, asym.row_ptr[ub_src] - asym.row_ptr[lb_src]);
     

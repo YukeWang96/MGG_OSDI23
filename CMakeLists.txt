@@ -37,7 +37,13 @@ src/unified_memory.cu
 add_executable(uvm_profile
 src/uvm_profile.cu
 )
+add_executable(mgg_profile 
+    src/mgg_profile.cu 
+    include/loss.cu 
+    include/layer.cu
+)
 
+#############################################################################
 target_include_directories(MGG 
     PRIVATE 
     ${NVSHMEM_HOME}/include 
@@ -69,7 +75,38 @@ target_link_libraries(MGG
     curand
 )
 
+#############################################################################
+target_include_directories(mgg_profile 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    ${CUDNN_HOME}/include
+    include
+)
 
+target_compile_options(mgg_profile PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch ${SM_ARCH}
+                       >)
+
+set_target_properties(mgg_profile PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(mgg_profile PROPERTIES CUDA_ARCHITECTURES "80")
+
+target_link_libraries(mgg_profile
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+    cudnn 
+    gomp 
+    curand
+)
+#############################################################################
 set_target_properties(NCCL PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 set_target_properties(NCCL PROPERTIES CUDA_ARCHITECTURES "80")
 
