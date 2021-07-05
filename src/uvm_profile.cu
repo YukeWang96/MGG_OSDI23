@@ -12,8 +12,8 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 	
-    if (argc < 5){
-        printf("Usage: ./main graph.mtx num_GPUs\n");
+    if (argc < 4){
+        printf("Usage: ./main graph.mtx num_GPUs nodeOfInterest\n");
         return -1;
     }
 
@@ -28,8 +28,7 @@ int main(int argc, char* argv[]){
     int warpPerBlock = 1;
     int dim = 16;
 
-    float* input = (float*)malloc(numNodes*dim*sizeof(float));
-
+    // float* input = (float*)malloc(numNodes*dim*sizeof(float));
     float *d_output, *d_input;
     int *d_col_ind, *d_row_ptr;
 
@@ -37,18 +36,19 @@ int main(int argc, char* argv[]){
     cudaSetDevice(mype_node);
 
     // Load the corresponding tiles.
-    const int lb_src = 0;           // node of interest
-    const int ub_src = lb_src + 1; // the node next to the node of interest.
+    const int lb_src = atoi(argv[3]);           // node of interest
+    const int ub_src = lb_src + 1;              // the node next to the node of interest.
     printf("node [%d]: %d neighbors\n", lb_src, asym.row_ptr[ub_src] - asym.row_ptr[lb_src]);
-    gpuErrchk(cudaMalloc((void**)&d_output, (ub_src-lb_src)*dim*sizeof(float))); 
+    
+    gpuErrchk(cudaMallocManaged((void**)&d_input, numNodes*dim*sizeof(float)));    // UVM allocation
+    gpuErrchk(cudaMalloc((void**)&d_output, (ub_src-lb_src)*dim*sizeof(float)));   // 
 
-    gpuErrchk(cudaMalloc((void**)&d_col_ind, numEdges*sizeof(int))); 
     gpuErrchk(cudaMalloc((void**)&d_row_ptr, numNodes*sizeof(int))); 
+    gpuErrchk(cudaMalloc((void**)&d_col_ind, numEdges*sizeof(int))); 
 
     gpuErrchk(cudaMemcpy(d_row_ptr, &asym.row_ptr[0], numNodes*sizeof(int), cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_col_ind, &asym.col_ind[0], numEdges*sizeof(int), cudaMemcpyHostToDevice));
 
-    gpuErrchk(cudaMallocManaged((void**)&d_input, numNodes*dim*sizeof(float))); 
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
@@ -56,7 +56,9 @@ int main(int argc, char* argv[]){
 
     cudaEventRecord(start);
     
-    // SAG_host_unified<int, float, int>(d_output, d_input, d_col_ind, lb_src, ub_src);
+    uvm_profile<<<1, 32*warpPerBlock>>>(d_output, d_input, 
+                                        d_row_ptr, d_col_ind, 
+                                        lb_src, ub_src, dim);
 
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);

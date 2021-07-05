@@ -1287,4 +1287,27 @@ void SAG_cuda_kernel_host_unified(
         }
     }
 }
+
+
+__global__
+void uvm_profile(float* d_output, 
+                 const float* d_input, 
+                 const int* d_row_ptr, 
+                 const int* d_col_ind, 
+                 const int lb_src, 
+                 const int ub_src,
+                 const int ebdDim
+                ){
+
+    int laneid = threadIdx.x % WARP_SIZE;                     // warp thread-id -- laneid
+    
+    #pragma unroll
+    for (int nid = lb_src; nid < ub_src; nid++){
+        for (int dIdx = laneid; dIdx < ebdDim; dIdx += WARP_SIZE){
+            d_output[dIdx] +=  d_input[nid*ebdDim + dIdx];
+
+        }
+    }
+}
+
 #endif
