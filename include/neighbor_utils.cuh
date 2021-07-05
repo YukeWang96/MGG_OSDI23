@@ -1294,17 +1294,19 @@ void uvm_profile(float* d_output,
                  const float* d_input, 
                  const int* d_row_ptr, 
                  const int* d_col_ind, 
-                 const int nodeOfInterest,
+                 const int e_lb,
+                 const int e_ub,
                  const int ebdDim
                 ){
 
     int laneid = threadIdx.x % WARP_SIZE;                     // warp thread-id -- laneid
     
-    const int lb_src = d_row_ptr[nodeOfInterest]; 
-    const int ub_src = d_row_ptr[nodeOfInterest + 1]; 
+    // const int lb_src = d_row_ptr[nodeOfInterest]; 
+    // const int ub_src = d_row_ptr[nodeOfInterest + 1]; 
 
     #pragma unroll
-    for (int nid = d_col_ind[lb_src]; nid < d_col_ind[ub_src]; nid++){
+    for (int idx = e_lb; idx < e_ub; idx++){
+        int nid = d_col_ind[idx];
         for (int dIdx = laneid; dIdx < ebdDim; dIdx += WARP_SIZE){
             d_output[dIdx] +=  d_input[nid*ebdDim + dIdx];
         }
@@ -1317,32 +1319,36 @@ void mgg_profile(float* d_output,
                  const float* d_input, 
                  const int* d_row_ptr, 
                  const int* d_col_ind, 
-                 const int nodeOfInterest,
+                 const int e_lb,
+                 const int e_ub,
                  const int ebdDim,
                  const int nodesPerPE
                 ){
     int laneid = threadIdx.x % WARP_SIZE;                     // warp thread-id -- laneid
     
-    __shared__ float local_tmp[16];
+    __shared__ float local_tmp[1024];
 
-    const int lb_src = d_row_ptr[nodeOfInterest]; 
-    const int ub_src = d_row_ptr[nodeOfInterest + 1]; 
+    // const int lb_src = d_row_ptr[nodeOfInterest]; 
+    // const int ub_src = d_row_ptr[nodeOfInterest + 1]; 
     
     #pragma unroll
-    for (int nid = d_col_ind[lb_src]; nid < d_col_ind[ub_src]; nid++){
+    for (int idx = e_lb; idx < e_ub; idx++){
 
+        int nid = d_col_ind[idx];
         int peid = nid / nodesPerPE;
         int nid_loc = nid % nodesPerPE;
 
         if (peid != 0){
+            // printf("remote-id: %d\n", peid);
             nvshmemx_float_get_warp(local_tmp, &d_input[nid_loc*ebdDim], ebdDim, peid);
             for (int dIdx = laneid; dIdx < ebdDim; dIdx += WARP_SIZE){
-                d_output[nodeOfInterest*ebdDim + dIdx] +=  local_tmp[dIdx];
+                d_output[dIdx] +=  local_tmp[dIdx];
             }
         } 
         else{
+            // printf("local-id: %d\n", peid);
             for (int dIdx = laneid; dIdx < ebdDim; dIdx += WARP_SIZE){
-                d_output[nodeOfInterest*ebdDim + dIdx] +=  d_input[nid_loc*ebdDim + dIdx];
+                d_output[dIdx] +=  d_input[nid_loc*ebdDim + dIdx];
             }
         }
 

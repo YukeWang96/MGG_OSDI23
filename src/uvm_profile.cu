@@ -36,12 +36,15 @@ int main(int argc, char* argv[]){
     cudaSetDevice(mype_node);
 
     // Load the corresponding tiles.
-    const int lb_src = atoi(argv[4]);           // node of interest
-    const int ub_src = lb_src + 1;              // the node next to the node of interest.
+    const int lb_src = 0; // node of interest
+    const int ub_src = lb_src + 1;  // the node next to the node of interest.
+    const int e_lb = 0;
+    const int e_ub = e_lb + atoi(argv[4]);
     printf("node [%d]: %d neighbors\n", lb_src, asym.row_ptr[ub_src] - asym.row_ptr[lb_src]);
     
     gpuErrchk(cudaMallocManaged((void**)&d_input, numNodes*dim*sizeof(float)));    // UVM allocation
-    gpuErrchk(cudaMalloc((void**)&d_output, (ub_src-lb_src)*dim*sizeof(float)));   // 
+    // gpuErrchk(cudaMalloc((void**)&d_output, (ub_src-lb_src)*dim*sizeof(float)));   
+    gpuErrchk(cudaMalloc((void**)&d_output, (ub_src-lb_src)*dim*sizeof(float)));   
 
     gpuErrchk(cudaMalloc((void**)&d_row_ptr, numNodes*sizeof(int))); 
     gpuErrchk(cudaMalloc((void**)&d_col_ind, numEdges*sizeof(int))); 
@@ -58,14 +61,14 @@ int main(int argc, char* argv[]){
     
     uvm_profile<<<1, 32*warpPerBlock>>>(d_output, d_input, 
                                         d_row_ptr, d_col_ind, 
-                                        lb_src, ub_src, dim);
+                                        e_lb, e_ub, dim);
 
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
 
     cudaError_t error = cudaGetLastError();
     if(error != cudaSuccess){
-        printf("[%d] CUDA error at SAG unified: %s\n", mype_node, cudaGetErrorString(error));
+        printf("[%d] CUDA error at uvm_profile: %s\n", mype_node, cudaGetErrorString(error));
         exit(-1);
     }
     float milliseconds = 0;

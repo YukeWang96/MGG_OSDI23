@@ -61,6 +61,8 @@ int main(int argc, char* argv[]){
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
     int lb = nodesPerPE * mype_node;
     int ub = (lb+nodesPerPE) < numNodes? (lb+nodesPerPE):numNodes;
+    int e_lb = 0;
+    int e_ub = e_lb + atoi(argv[4]);
 
     d_input = (float *) nvshmem_malloc ((ub-lb)*dim*sizeof(float)); // NVSHMEM allocation (ub - lb) nodes on current GPU.
     gpuErrchk(cudaMalloc((void**)&d_output, (ub-lb)*dim*sizeof(float)));  // private global memory (ub-lb) nodes on current GPU.
@@ -75,7 +77,7 @@ int main(int argc, char* argv[]){
     t1 = MPI_Wtime(); 
     mgg_profile<<<1, 32*warpPerBlock>>>(d_output, d_input, 
                                         d_row_ptr, d_col_ind, 
-                                        nodeOfInterest, dim, nodesPerPE);
+                                        e_lb, e_ub, dim, nodesPerPE);
 
     gpuErrchk(cudaGetLastError());
     gpuErrchk(cudaDeviceSynchronize());
