@@ -12,8 +12,8 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 	
-    if (argc < 5){
-        printf("Usage: ./main graph.mtx num_GPUs dim nodeOfInterest\n");
+    if (argc < 4){
+        printf("Usage: ./main graph.mtx dim nodeOfInterest\n");
         return -1;
     }
 
@@ -24,9 +24,8 @@ int main(int argc, char* argv[]){
     int numNodes = asym.row_ptr.size() - 1;
     int numEdges = asym.col_ind.size();
 
-    int num_GPUs = atoi(argv[2]);
     int warpPerBlock = 1;
-    int dim = atoi(argv[3]);
+    int dim = atoi(argv[2]);
 
     // float* input = (float*)malloc(numNodes*dim*sizeof(float));
     float *d_output, *d_input;
@@ -39,7 +38,7 @@ int main(int argc, char* argv[]){
     const int lb_src = 0; // node of interest
     const int ub_src = lb_src + 1;  // the node next to the node of interest.
     const int e_lb = 0;
-    const int e_ub = e_lb + atoi(argv[4]);
+    const int e_ub = e_lb + atoi(argv[3]);
     printf("node [%d]: %d neighbors\n", lb_src, asym.row_ptr[ub_src] - asym.row_ptr[lb_src]);
     
     gpuErrchk(cudaMallocManaged((void**)&d_input, numNodes*dim*sizeof(float)));    // UVM allocation

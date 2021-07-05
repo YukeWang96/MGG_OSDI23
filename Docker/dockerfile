@@ -43,6 +43,13 @@ ENV LD_LIBRARY_PATH=/usr/local/lib:/opt/openmpi-4.1.1/lib/:$LD_LIBRARY_PATH
 ENV PATH=/opt/openmpi-4.1.1/bin/:$PATH
 RUN ln -s /usr/bin/python3.8 /usr/bin/python
 
+
+RUN apt update && apt -y install libglib2.0-dev
+WORKDIR /tmp
+COPY NsightSystems-linux-public-2021.2.1.58-642947b.deb /tmp
+RUN dpkg -i NsightSystems-linux-public-2021.2.1.58-642947b.deb
+
+
 # RUN useradd -r yuke_wang
 # RUN mkdir /MGG && chown yuke_wang /MGG
 # USER yuke_wang

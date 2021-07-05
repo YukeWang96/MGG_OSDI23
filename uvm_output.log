@@ -1,0 +1,74 @@
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+node [0]: 3 neighbors
+Time (ms): 0.61
+===================================
+
+
+CUDA API Statistics:
+
+ Time(%)  Total Time (ns)  Num Calls    Average     Minimum    Maximum    StdDev           Name        
+ -------  ---------------  ---------  -----------  ---------  ---------  --------  --------------------
+    99.4        280052686          1  280052686.0  280052686  280052686       0.0  cudaMallocManaged   
+     0.3           947905          3     315968.3       6150     932995  534362.4  cudaMalloc          
+     0.2           557227          1     557227.0     557227     557227       0.0  cudaEventSynchronize
+     0.0            99760          3      33253.3       4990      87550   47035.5  cudaFree            
+     0.0            72430          2      36215.0      22680      49750   19141.4  cudaMemcpy          
+     0.0            49230          1      49230.0      49230      49230       0.0  cudaLaunchKernel    
+     0.0            15841          2       7920.5       6210       9631    2419.0  cudaEventRecord     
+     0.0             6598          2       3299.0       1509       5089    2531.4  cudaEventCreate     
+
+
+
+CUDA Kernel Statistics:
+
+ Time(%)  Total Time (ns)  Instances  Average   Minimum  Maximum  StdDev                                    Name                                  
+ -------  ---------------  ---------  --------  -------  -------  ------  ------------------------------------------------------------------------
+   100.0           556122          1  556122.0   556122   556122     0.0  uvm_profile(float*, float const*, int const*, int const*, int, int, int)
+
+
+
+CUDA Memory Operation Statistics (by time):
+
+ Time(%)  Total Time (ns)  Operations  Average  Minimum  Maximum  StdDev      Operation     
+ -------  ---------------  ----------  -------  -------  -------  ------  ------------------
+   100.0            11008           2   5504.0     4352     6656  1629.2  [CUDA memcpy HtoD]
+
+
+
+CUDA Memory Operation Statistics (by size in KiB):
+
+ Total   Operations  Average  Minimum  Maximum  StdDev      Operation     
+ ------  ----------  -------  -------  -------  ------  ------------------
+ 52.992           2   26.496   10.578   42.414  22.511  [CUDA memcpy HtoD]
+
+
+
+Operating System Runtime API Statistics:
+
+ Time(%)  Total Time (ns)  Num Calls   Average    Minimum  Maximum     StdDev         Name     
+ -------  ---------------  ---------  ----------  -------  --------  ----------  --------------
+    49.5        341440874         19  17970572.3    83220  71125386  20882499.5  poll          
+    39.6        273372724       1709    159960.6     1040  17054410    620647.9  ioctl         
+     6.7         46445779         15   3096385.3    20410  20939400   7123805.2  sem_timedwait 
+     2.8         19191047        142    135148.2     2229  18095215   1517873.1  open64        
+     0.8          5802638         78     74392.8     1340   5551171    628181.1  fopen         
+     0.4          2617360         95     27551.2     1050    989075    100414.1  mmap          
+     0.0           210678          4     52669.5    42429     62350      8148.5  pthread_create
+     0.0           176068          4     44017.0    38880     58439      9621.9  fgets         
+     0.0           120779         12     10064.9     1749     66710     18040.2  write         
+     0.0            82800         29      2855.2     1170      5840       986.9  read          
+     0.0            68741         29      2370.4     1100      9649      2391.1  fgetc         
+     0.0            39581         21      1884.8     1060      3880       758.0  fclose        
+     0.0            39101          6      6516.8     2660     13650      4787.7  open          
+     0.0            33381         10      3338.1     1400      6760      1792.0  munmap        
+     0.0            25160          2     12580.0     6500     18660      8598.4  socket        
+     0.0            15438         11      1403.5     1000      2010       388.0  fcntl         
+     0.0             9929          1      9929.0     9929      9929         0.0  pipe2         
+     0.0             6770          1      6770.0     6770      6770         0.0  connect       
+     0.0             5470          1      5470.0     5470      5470         0.0  fopen64       
+     0.0             4370          1      4370.0     4370      4370         0.0  fwrite        
+     0.0             4190          1      4190.0     4190      4190         0.0  fflush        
+     0.0             2400          1      2400.0     2400      2400         0.0  bind          
+     0.0             1410          1      1410.0     1410      1410         0.0  listen        
+
