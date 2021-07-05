@@ -34,7 +34,9 @@ add_executable(HOST2DEV
 add_executable(unified_memory
 src/unified_memory.cu
 )
-
+add_executable(uvm_profile
+src/uvm_profile.cu
+)
 
 target_include_directories(MGG 
     PRIVATE 
@@ -139,6 +141,35 @@ set_target_properties(unified_memory PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 set_target_properties(unified_memory PROPERTIES CUDA_ARCHITECTURES "80")
 
 target_link_libraries(unified_memory
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+)
+
+
+
+target_include_directories(uvm_profile 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    include
+)
+
+target_compile_options(uvm_profile PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch ${SM_ARCH}
+                       >)
+
+set_target_properties(uvm_profile PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(uvm_profile PROPERTIES CUDA_ARCHITECTURES "80")
+
+target_link_libraries(uvm_profile
     nvshmem 
     cuda
     mpi_cxx 

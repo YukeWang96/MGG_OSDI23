@@ -116,6 +116,34 @@ void SAG_cuda_kernel_fused_interleaved(
     const paraType interleaved_dist
 );
 
+
+template <typename IDType, typename dataType, typename paraType>
+__global__ 
+void SAG_cuda_kernel_fused_interleaved_wo_shared(
+    dataType* output,
+    const dataType* input,
+    // local access
+    const IDType* local_row_pointers,
+    const IDType* local_column_index,
+    const IDType* local_part_pointers,
+    const IDType* local_part2Node,
+    const IDType  local_num_parts,
+    // remote access.
+    const IDType* remote_row_pointers,
+    const IDType* remote_column_index,
+    const IDType* remote_part_pointers,
+    const IDType* remote_part2Node,
+    const IDType  remote_num_parts,
+    // other param.
+    const IDType num_nodes,
+    const IDType lowbound,
+    const paraType partSize,
+    const paraType dim,
+    const paraType dimWorker, 
+    const paraType warpPerBlock,
+    const paraType interleaved_dist
+);
+
 template <typename IDType, typename dataType, typename paraType>
 __global__ 
 void SAG_cuda_kernel_range_only(
@@ -404,7 +432,9 @@ void SAG_host_fused_interleaved(
 
     int shared_memory = partSize*warpPerBlock*sizeof(int) + 2*warpPerBlock*dim*sizeof(float);    
     printf("grid: %d, block: %d, shared_memory (KB): %.3f\n", grid, block, shared_memory*1.0f/1e3);
+    // cudaFuncSetAttribute(SAG_cuda_kernel_fused_interleaved_wo_shared<IDType, dataType, paraType>, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory);
     cudaFuncSetAttribute(SAG_cuda_kernel_fused_interleaved<IDType, dataType, paraType>, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory);
+
     // printf("dim: %d, num_nodes: %d, num_parts: %d\n", dim, num_nodes, num_parts);
     // printf("local_num_parts: %d, remote_num_parts: %d\n", local_num_parts, remote_num_parts);
 
@@ -415,6 +445,7 @@ void SAG_host_fused_interleaved(
     // #define NPROF 1
     // for (int i = 0; i < NPROF; i++)
     SAG_cuda_kernel_fused_interleaved<IDType, dataType, paraType><<<grid, block, shared_memory>>>(
+    // SAG_cuda_kernel_fused_interleaved_wo_shared<IDType, dataType, paraType><<<grid, block, shared_memory>>>(
         output,
         input,
         // local access
@@ -941,6 +972,146 @@ void SAG_cuda_kernel_fused_interleaved(
     }
 }
 
+
+template <typename IDType, typename dataType, typename paraType>
+__global__ 
+void SAG_cuda_kernel_fused_interleaved_wo_shared(
+    dataType* output,
+    const dataType* input,
+    // local access
+    const IDType* local_row_pointers,
+    const IDType* local_column_index,
+    const IDType* local_part_pointers,
+    const IDType* local_part2Node,
+    const IDType  local_num_parts,
+    // remote access.
+    const IDType* remote_row_pointers,
+    const IDType* remote_column_index,
+    const IDType* remote_part_pointers,
+    const IDType* remote_part2Node,
+    const IDType  remote_num_parts,
+    // other param.
+    const IDType num_nodes,
+    const IDType lowbound,
+    const paraType partSize,
+    const paraType dim,
+    const paraType dimWorker, 
+    const paraType warpPerBlock,
+    const paraType interleaved_dist
+) 
+{
+    int tid =  blockIdx.x * blockDim.x + threadIdx.x;         // global thread-id
+    int warpId = tid / WARP_SIZE;                             // global warp-id
+    int block_warpId = threadIdx.x / WARP_SIZE;               // block warp-id
+    int laneid = threadIdx.x % WARP_SIZE;                     // warp thread-id -- laneid
+
+    extern __shared__ int part_meta[];                                      // part information.
+    int *partial_ids = part_meta;                                           // caching ids
+    float *partial_results = (float*)&part_meta[partSize*warpPerBlock];     // caching partial results.
+    float *tmp_local = (float*)&partial_results[warpPerBlock*dim];     // caching partial results.
+
+    int p_start, p_end;
+    // ---------------------
+    // process LOCAL parts.
+    // ---------------------
+    if (warpId*interleaved_dist < local_num_parts){
+        
+        p_start = warpId*interleaved_dist;
+        p_end =  min(p_start + interleaved_dist, local_num_parts);
+
+        for (int p_cursor = p_start; p_cursor < p_end; p_cursor++)
+        {
+            int srcId = local_part2Node[p_cursor];              // local: aggregated source node.
+            int partBeg = local_part_pointers[p_cursor];        // local: partitioning pointer start.
+            int partEnd = local_part_pointers[p_cursor + 1];    // local: part pointer end.
+
+            // Cache the part neighbors.
+            const int pindex_base = block_warpId * partSize;
+            // #pragma unroll
+            for (int nidx = partBeg + laneid; nidx < partEnd; nidx += dimWorker){
+                // printf("1--pindex_base: %d, laneid: %d\n", pindex_base, laneid);
+                partial_ids[pindex_base + nidx - partBeg] = local_column_index[nidx];
+                // if(partial_ids[pindex_base + laneid]  >= num_nodes || partial_ids[pindex_base + laneid]  < 0) printf("---- partial_ids: %d\n", partial_ids[pindex_base + laneid] );
+            }
+
+            __syncwarp();
+
+            // Neighbor aggregation within each part
+            const int presult_base = block_warpId * dim;
+            for (int nIdx = 0; nIdx < partEnd - partBeg; nIdx++)
+            {
+                // if (laneid == 0) printf("2--pindex_base: %d, nIdx: %d\n", pindex_base, nIdx);
+                int nid = partial_ids[pindex_base + nIdx] % num_nodes;
+
+                // Initialize shared memory for partial results
+                if (nIdx == 0)
+                    if (laneid < dimWorker)
+                    #pragma unroll
+                    for (int d = laneid; d < dim; d += dimWorker){
+                        partial_results[presult_base + d] = 0.0f;
+                    }
+                
+                #pragma unroll
+                for (int d = laneid; d < dim; d += dimWorker){
+                    atomicAdd_F((float*)&output[(srcId % num_nodes)*dim + d], input[nid*dim + d]);
+
+                }
+            }
+      }
+    }
+
+    __syncwarp();
+
+    // ---------------------
+    // process REMOTE parts.
+    // ---------------------
+    if (warpId*interleaved_dist < remote_num_parts){
+
+        p_start = warpId*interleaved_dist;
+        p_end =  min(p_start + interleaved_dist, remote_num_parts);
+
+        for (int p_cursor = p_start; p_cursor < p_end; p_cursor++)
+        {
+            int srcId = remote_part2Node[p_cursor];              // remote: aggregated source node.
+            int partBeg = remote_part_pointers[p_cursor];        // remote: partitioning pointer start.
+            int partEnd = remote_part_pointers[p_cursor + 1];    // remote: part pointer end.
+
+            // Cache the part neighbors.
+            const int pindex_base = block_warpId * partSize;
+            // #pragma unroll
+            for (int nidx = partBeg + laneid; nidx < partEnd; nidx += dimWorker){
+                partial_ids[pindex_base + nidx - partBeg] = remote_column_index[nidx];
+            }
+
+            __syncwarp();
+
+            // Neighbor aggregation within each part
+            const int presult_base = block_warpId * dim;
+            for (int nIdx = 0; nIdx < partEnd - partBeg; nIdx++)
+            {
+                int nid = partial_ids[pindex_base + nIdx] % num_nodes;
+                int remote_pe = partial_ids[pindex_base + nIdx] / num_nodes;
+
+                // Initialize shared memory for partial results
+                if (nIdx == 0)
+                    #pragma unroll
+                    for (int d = laneid; d < dim; d += dimWorker){
+                        partial_results[presult_base + d] = 0.0f;
+                    }
+            
+                // if (remote_pe > 1) printf("remote_pe: %d\n", remote_pe);
+                nvshmemx_float_get_warp(&tmp_local[presult_base], &input[nid*dim], dim, remote_pe);
+                // nvshmemx_getmem_nbi_warp(&tmp_local[presult_base], &input[nid*dim], dim*sizeof(float), remote_pe);
+
+                #pragma unroll
+                for (int d = laneid; d < dim; d += dimWorker){
+                    atomicAdd_F((float*)&output[(srcId%num_nodes)*dim + d], tmp_local[presult_base+d]);
+
+                }
+            }
+        }
+    }
+}
 
 template <typename IDType, typename dataType, typename paraType>
 __global__ 
