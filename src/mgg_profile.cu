@@ -33,7 +33,6 @@ int main(int argc, char* argv[]){
     
     int num_GPUs = atoi(argv[2]);        
     int dim = atoi(argv[3]);                 
-    int nodeOfInterest = atoi(argv[4]);
 
     int warpPerBlock = 1;      
     float *d_output, *d_input;
@@ -75,6 +74,7 @@ int main(int argc, char* argv[]){
 
     MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
     t1 = MPI_Wtime(); 
+    if (mype_node == 0)
     mgg_profile<<<1, 32*warpPerBlock>>>(d_output, d_input, 
                                         d_row_ptr, d_col_ind, 
                                         e_lb, e_ub, dim, nodesPerPE);

@@ -1327,9 +1327,6 @@ void mgg_profile(float* d_output,
     int laneid = threadIdx.x % WARP_SIZE;                     // warp thread-id -- laneid
     
     __shared__ float local_tmp[1024];
-
-    // const int lb_src = d_row_ptr[nodeOfInterest]; 
-    // const int ub_src = d_row_ptr[nodeOfInterest + 1]; 
     
     #pragma unroll
     for (int idx = e_lb; idx < e_ub; idx++){
