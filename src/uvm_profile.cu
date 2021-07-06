@@ -35,22 +35,18 @@ int main(int argc, char* argv[]){
     cudaSetDevice(mype_node);
 
     // Load the corresponding tiles.
-    const int lb_src = 0; // node of interest
-    const int ub_src = lb_src + 1;  // the node next to the node of interest.
     const int e_lb = 0;
     const int e_ub = e_lb + atoi(argv[3]);
-    printf("node [%d]: %d neighbors\n", lb_src, asym.row_ptr[ub_src] - asym.row_ptr[lb_src]);
+    printf("neighbors: %d, dim: %d\n", atoi(argv[3]), dim);
     
     gpuErrchk(cudaMallocManaged((void**)&d_input, numNodes*dim*sizeof(float)));    // UVM allocation
-    // gpuErrchk(cudaMalloc((void**)&d_output, (ub_src-lb_src)*dim*sizeof(float)));   
-    gpuErrchk(cudaMalloc((void**)&d_output, (ub_src-lb_src)*dim*sizeof(float)));   
+    gpuErrchk(cudaMalloc((void**)&d_output, dim*sizeof(float)));   
 
     gpuErrchk(cudaMalloc((void**)&d_row_ptr, numNodes*sizeof(int))); 
     gpuErrchk(cudaMalloc((void**)&d_col_ind, numEdges*sizeof(int))); 
 
     gpuErrchk(cudaMemcpy(d_row_ptr, &asym.row_ptr[0], numNodes*sizeof(int), cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_col_ind, &asym.col_ind[0], numEdges*sizeof(int), cudaMemcpyHostToDevice));
-
 
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
