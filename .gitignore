@@ -4,3 +4,4 @@ local/
 *.tar.gz
 openmpi-4.1.1/
 *.deb
+report*

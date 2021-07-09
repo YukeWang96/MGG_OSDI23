@@ -6,5 +6,10 @@
 
 
 # nsys profile --stats='true' --gpu-metrics-device=0 --cuda-um-gpu-page-faults='true' --cuda-um-cpu-page-faults='true' --show-output='true' \
-nsys profile --stats=true --cuda-um-gpu-page-faults=true --cuda-um-cpu-page-faults=true --show-output=true --export=json \
-build/uvm_profile dataset/cora.mtx 16 16
+nsys profile --stats=true \
+            --force-overwrite=true	\
+            --cuda-um-gpu-page-faults=true \
+            --cuda-um-cpu-page-faults=true \
+            --show-output=true \
+            --export=json \
+            build/uvm_profile dataset/Reddit.mtx 16 16
