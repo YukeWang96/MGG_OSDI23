@@ -10,8 +10,8 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 hidden = 16
 # hidden = [int(sys.argv[1])]
 
-num_GPUs = 2
-# num_GPUs = int(sys.argv[1])
+# num_GPUs = 2
+num_GPUs = int(sys.argv[1])
 
 partSize = 4000
 # partSize = 180
@@ -24,7 +24,7 @@ dataset = [
         # ('citeseer'	        		, 3703	    , 6   ),  
         # ('cora' 	        		, 1433	    , 7   ),  
         # ('pubmed'	        		, 500	    , 3   ),      
-        ('ppi'	            		, 50	    , 121 ),   
+        # ('ppi'	            		, 50	    , 121 ),   
         
         # ('PROTEINS'             , 29       , 2) ,   
         # ('OVCAR-8H'                  , 66       , 2) , 
@@ -38,7 +38,7 @@ dataset = [
         # ( 'soc-BlogCatalog'	         , 128	  , 39),      
         # ( 'amazon0601'  	         , 96	  , 22), 
 
-        # ( 'Reddit'                      , 602      	, 41),
+        ( 'Reddit'                      , 602      	, 41),
         # ( 'enwiki-2013'	                , 100	    , 12),      
         # ( 'ogbn-products'	            , 100	    , 47),
         # ( 'ogbn-proteins'		        , 8		    , 112),
@@ -50,8 +50,15 @@ dataset = [
 
 
 data_path = 'dataset/'
-command = "ncu --devices 0 --metrics regex:.* \
-        build/unified_memory {}".format(data_path)
+# command = "ncu --devices 0 --metrics regex:.* \
+#         build/unified_memory {}".format(data_path)
+
+command = "nsys profile \
+            --force-overwrite=true	\
+            --cuda-um-gpu-page-faults=true \
+            --cuda-um-cpu-page-faults=true \
+            --export=json "
+command += "build/unified_memory {}".format(data_path)
 
 # command = "build/unified_memory {}".format(data_path)
 for data, d, c in dataset:
