@@ -52,12 +52,12 @@ dataset = [
 data_path = 'dataset/'
 # command = "ncu --devices 0 --metrics regex:.* \
 #         build/unified_memory {}".format(data_path)
-
-command = "nsys profile \
-            --force-overwrite=true	\
-            --cuda-um-gpu-page-faults=true \
-            --cuda-um-cpu-page-faults=true \
-            --export=json "
+command = ""
+# command += "nsys profile \
+#             --force-overwrite=true	\
+#             --cuda-um-gpu-page-faults=true \
+#             --cuda-um-cpu-page-faults=true \
+#             --export=json "
 command += "build/unified_memory {}".format(data_path)
 
 # command = "build/unified_memory {}".format(data_path)

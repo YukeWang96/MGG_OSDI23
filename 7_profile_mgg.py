@@ -5,8 +5,8 @@ import sys
 dim_li = [16,32,64,128,256,512,1024]
 neighbors_li = [2,4,8,16,32,64,128,256,512]
 
-# dim_li = [16]
-# neighbors_li = [32]
+# dim_li = [512]
+# neighbors_li = [1024]
 
 for dim in dim_li:
     for nbs in neighbors_li:

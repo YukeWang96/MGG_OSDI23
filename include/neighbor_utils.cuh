@@ -1337,10 +1337,21 @@ void mgg_profile(float* d_output,
 
         if (peid != 0){
             // printf("remote-id: %d\n", peid);
+
             nvshmemx_float_get_warp(local_tmp, &d_input[nid_loc*ebdDim], ebdDim, peid);
             for (int dIdx = laneid; dIdx < ebdDim; dIdx += WARP_SIZE){
                 d_output[dIdx] +=  local_tmp[dIdx];
             }
+
+            // for (int dIdx = laneid; dIdx < ebdDim; dIdx += WARP_SIZE){
+            //     nvshmem_float_get(local_tmp + dIdx, &d_input[nid_loc*ebdDim] + dIdx, 1, peid);
+            //     d_output[dIdx] += local_tmp[dIdx];
+            // }
+
+            // for (int dIdx = laneid; dIdx < ebdDim; dIdx += WARP_SIZE){
+            //     nvshmem_float_get(local_tmp + dIdx, &d_input[nid_loc*ebdDim] + dIdx, 1, peid);
+            //     d_output[dIdx] +=  local_tmp[dIdx];
+            // }
         } 
         else{
             // printf("local-id: %d\n", peid);
