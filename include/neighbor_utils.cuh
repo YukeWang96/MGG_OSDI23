@@ -916,6 +916,8 @@ void SAG_cuda_kernel_fused_interleaved(
 
     __syncwarp();
 
+    
+    /*
     // ---------------------
     // process REMOTE parts.
     // ---------------------
@@ -954,13 +956,23 @@ void SAG_cuda_kernel_fused_interleaved(
                     }
             
                 // if (remote_pe > 1) printf("remote_pe: %d\n", remote_pe);
-                nvshmemx_float_get_warp(&tmp_local[presult_base], &input[nid*dim], dim, remote_pe);
+                // nvshmemx_float_get_warp(&tmp_local[presult_base], &input[nid*dim], dim, remote_pe);
                 // nvshmemx_getmem_nbi_warp(&tmp_local[presult_base], &input[nid*dim], dim*sizeof(float), remote_pe);
-
+                nvshmemx_float_get_block(&tmp_local[presult_base], &input[nid*dim], dim, remote_pe);
                 #pragma unroll
                 for (int d = laneid; d < dim; d += dimWorker){
                     partial_results[presult_base + d] += tmp_local[presult_base+d];
                 }
+
+                // for (int dIdx = laneid; dIdx < dim; dIdx += dimWorker){
+                //     nvshmem_float_get(&tmp_local[presult_base + dIdx], &input[nid*dim + dIdx], 1, remote_pe);
+                //     partial_results[presult_base + dIdx] += tmp_local[presult_base+dIdx];
+                // }
+
+                // for (int dIdx = laneid*WARP_SIZE; dIdx < min(dim, (laneid+1)*WARP_SIZE); dIdx++){
+                //     nvshmem_float_get(&tmp_local[presult_base + dIdx], &input[nid*dim + dIdx], 1, remote_pe);
+                //     partial_results[presult_base + dIdx] += tmp_local[presult_base+dIdx];
+                // }
             }
 
             // output the result to global memory from the shared memory
@@ -970,6 +982,8 @@ void SAG_cuda_kernel_fused_interleaved(
             }
         }
     }
+
+    */
 }
 
 

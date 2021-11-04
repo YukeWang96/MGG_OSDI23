@@ -38,11 +38,11 @@ dataset = [
         # ( 'soc-BlogCatalog'	         , 128	  , 39),      
         # ( 'amazon0601'  	         , 96	  , 22), 
 
-        # ( 'Reddit'                      , 602      	, 41),
-        # ( 'enwiki-2013'	                , 100	    , 12),      
-        # ( 'ogbn-products'	            , 100	    , 47),
+        ( 'Reddit'                      , 602      	, 41),
+        ( 'enwiki-2013'	                , 100	    , 12),      
+        ( 'ogbn-products'	            , 100	    , 47),
         ( 'ogbn-proteins'		        , 8		    , 112),
-        # ( 'com-Orkut'				    , 128		, 128),
+        ( 'com-Orkut'				    , 128		, 128),
 
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),

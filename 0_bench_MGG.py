@@ -14,7 +14,7 @@ hidden = 16
 num_GPUs = int(sys.argv[1])
 ###############################################
 partSize = 16
-warpPerblock = 2
+warpPerblock = 1
 interleaved_dist = 2
 ###############################################
 # # interleaved_dist = 1
@@ -55,10 +55,10 @@ dataset = [
         # ( 'amazon0601'  	         , 96	  , 22), 
 
         ( 'Reddit'                      , 128      	, 41),
-        ( 'enwiki-2013'	                , 100	        , 12),      
-        ( 'ogbn-products'	        , 100	        , 47),
-        ( 'ogbn-proteins'		, 128		, 112),
-        ( 'com-Orkut'		        , 128		, 128),
+        # ( 'enwiki-2013'	                , 100	        , 12),      
+        # ( 'ogbn-products'	        , 100	        , 47),
+        # ( 'ogbn-proteins'		, 128		, 112),
+        # ( 'com-Orkut'		        , 128		, 128),
 
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),
