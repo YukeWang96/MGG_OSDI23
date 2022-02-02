@@ -17,8 +17,7 @@ std::vector<std::vector<T>> build_part(std::string name,
 ); 
 
 __device__ inline 
-void atomicAdd_F(float* address, float value)
-{
+void atomicAdd_F(float* address, float value){
   float old = value;  
   while ((old = atomicExch(address, atomicExch(address, 0.0f)+old))!=0.0f);
 }
@@ -39,6 +38,10 @@ void SAG_host(
     const paraType dimWorker, 
     const paraType warpPerBlock
 );
+
+
+__global__ 
+void SAG_cuda_kernel_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int lb_src, const int pe_num_nodes, const int dim);
 
 template <typename IDType, typename dataType, typename paraType>
 __global__ 
@@ -590,6 +593,35 @@ void SAG_host_unified(
     cudaError_t error = cudaGetLastError();
     if(error != cudaSuccess){
         printf("CUDA error at SAG_cuda_kernel_host_unified: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
+
+
+// Reference kernel for validation
+void SAG_host_ref(
+          float* output,
+    const float* input,
+    const int* row_ptr,
+    const int* column_index,
+    const int lb_src,
+    const int ub_src,
+    const int dim
+)
+{
+    const int warpPerBlock = 4;
+    const int pe_num_nodes = ub_src - lb_src;
+
+    const int block = warpPerBlock * WARP_SIZE;
+    const int grid = (pe_num_nodes * WARP_SIZE + block  - 1) / block; 
+    printf("SAG_cuda_kernel_ref: grid: %d, block: %d\n", grid, block);
+
+    SAG_cuda_kernel_ref<<<grid, block>>>(output, input, row_ptr, column_index, 
+                                            lb_src, pe_num_nodes, dim);
+
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ SAG_cuda_kernel_ref: %s\n", cudaGetErrorString(error));
         exit(-1);
     }
 }
@@ -1375,6 +1407,27 @@ void mgg_profile(float* d_output,
             }
         }
 
+    }
+}
+
+
+
+
+__global__ 
+void SAG_cuda_kernel_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int lb_src, const int pe_num_nodes, const int dim){
+    const int tid =  blockIdx.x * blockDim.x + threadIdx.x;
+    const int wid = tid/32;
+    const int lanid = tid%32;
+    
+    if (wid < pe_num_nodes){
+        const int src_nid = wid + lb_src;
+        const int eidx_s =  d_row_ptr[src_nid];
+        const int eidx_e = d_row_ptr[src_nid + 1];
+        for (int eidx = eidx_s; eidx < eidx_e; eidx++){
+            int nid = d_col_ind[eidx]; 
+            for (int d = lanid; d < dim; d += WARP_SIZE)
+                d_output[src_nid * dim + d] = d_input[nid * dim + d];
+        }
     }
 }
 #endif

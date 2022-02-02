@@ -34,6 +34,23 @@ void atomicAdd_float(float* address, float value)
 
 };
 
+__global__ 
+void SAG_cuda_kernel_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int lb_src, const int pe_num_nodes, const int dim){
+    const int tid =  blockIdx.x * blockDim.x + threadIdxx.x;
+    const int wid = tid/32;
+    const int lanid = tid%32;
+    
+    if (wid < pe_num_nodes){
+        const int src_nid = wid + lb_src;
+        const int eidx_s =  d_row_ptr[src_nid];
+        const int eidx_e = d_row_ptr[src_nid + 1];
+        for (int eidx = eidx_s; eidx < eidx_e; eidx++){
+            int nid = d_col_ind[eidx]; 
+            for (int d = 0; d < dim; d++)
+                d_output[src_nid * dim + d] = d_input[nid * dim + d];
+        }
+    }
+}
 
 __global__ 
 void SAG(float *update_node, const float *sheme_node, const int *edgeList, const int *nodePtr, \
