@@ -42,6 +42,8 @@ void SAG_host(
 
 __global__ 
 void SAG_cuda_kernel_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int lb_src, const int pe_num_nodes, const int dim);
+__global__ 
+void SAG_cuda_kernel_single_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int num_nodes, const int dim);
 
 template <typename IDType, typename dataType, typename paraType>
 __global__ 
@@ -598,7 +600,7 @@ void SAG_host_unified(
 }
 
 
-// Reference kernel for validation
+// Reference kernel for validation across multiple GPUs
 void SAG_host_ref(
           float* output,
     const float* input,
@@ -625,6 +627,32 @@ void SAG_host_ref(
         exit(-1);
     }
 }
+
+
+// A single kernel for validation
+void SAG_host_single_ref(
+          float* output,
+    const float* input,
+    const int* row_ptr,
+    const int* column_index,
+    const int num_nodes,
+    const int dim
+)
+{
+    const int warpPerBlock = 4;
+    const int block = warpPerBlock * WARP_SIZE;
+    const int grid = (num_nodes * WARP_SIZE + block  - 1) / block; 
+    printf("SAG_host_single_ref: grid: %d, block: %d\n", grid, block);
+
+    SAG_cuda_kernel_single_ref<<<grid, block>>>(output, input, row_ptr, column_index, num_nodes, dim);
+
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ SAG_cuda_kernel_single_ref: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
+
 
 
 
@@ -1413,6 +1441,9 @@ void mgg_profile(float* d_output,
 
 
 
+
+
+
 __global__ 
 void SAG_cuda_kernel_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int lb_src, const int pe_num_nodes, const int dim){
     const int tid =  blockIdx.x * blockDim.x + threadIdx.x;
@@ -1426,8 +1457,28 @@ void SAG_cuda_kernel_ref(float* d_output, const float* d_input, const int* d_row
         for (int eidx = eidx_s; eidx < eidx_e; eidx++){
             int nid = d_col_ind[eidx]; 
             for (int d = lanid; d < dim; d += WARP_SIZE)
-                d_output[src_nid * dim + d] = d_input[nid * dim + d];
+                d_output[src_nid * dim + d] += d_input[nid * dim + d];
         }
     }
 }
+
+
+__global__ 
+void SAG_cuda_kernel_single_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int num_nodes, const int dim){
+    const int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    const int wid = tid/32;
+    const int lanid = tid%32;
+
+    if (wid < num_nodes){
+        const int src_nid = wid;
+        const int eidx_s =  d_row_ptr[src_nid];
+        const int eidx_e = d_row_ptr[src_nid + 1];
+        for (int eidx = eidx_s; eidx < eidx_e; eidx++){
+            int nid = d_col_ind[eidx]; 
+            for (int d = lanid; d < dim; d += WARP_SIZE)
+                d_output[src_nid * dim + d] += d_input[nid * dim + d];
+        }
+    }
+}
+
 #endif

@@ -117,4 +117,14 @@ void print_array(string name, std::vector<T>& array, int len=10){
     cout << endl;
 }
 
+bool compare_array(float *ref, float *output, int len){
+   for (int i = 0; i < len; i++){
+      if (ref[i] != output[i]){
+         printf("ref: %.3f -- out: %.3f", ref[i], output[i]);
+         return false;
+      }
+   }
+   return true;
+}
+
 #endif

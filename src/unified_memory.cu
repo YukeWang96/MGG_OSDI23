@@ -34,17 +34,16 @@ int main(int argc, char* argv[]){
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
     float* h_input = (float*)malloc(numNodes*dim*sizeof(float));
     float* h_output = (float*)malloc(numNodes*dim*sizeof(float));
-    
-    std::fill(h_input, h_input+numNodes*dim, 1.0); // sets every value in the array to 1.0
-    std::fill(h_input, h_input+numNodes*dim, 0.0); // sets every value in the array to 0.0
+    float* h_ref = (float*)malloc(numNodes*dim*sizeof(float));
+
+    std::fill(h_input, h_input+numNodes*dim, 1.0);      // sets every value in the array to 1.0
+    std::fill(h_output, h_output+numNodes*dim, 0.0);    // sets every value in the array to 0.0
+    std::fill(h_ref, h_ref+numNodes*dim, 0.0);          // sets every value in the array to 0.0
 
     // memset(input, 0, numNodes*dim*sizeof(float));
     float *d_output, *d_input;
     int *d_row_ptr, *d_col_ind;
-    
-    #ifdef validate
     float *d_ref;
-    #endif
     
     // int *d_col_ind, *d_part_ptr, *d_part2Node;
     // Build the partitions.
@@ -54,17 +53,24 @@ int main(int argc, char* argv[]){
     // auto node2Part = global_part_info[2];
 
     // UVM data: output, input, row_ptr, col_ind 
+
+    gpuErrchk(cudaMallocManaged((void**)&d_ref,     numNodes*dim*sizeof(float))); 
     gpuErrchk(cudaMallocManaged((void**)&d_output,  numNodes*dim*sizeof(float))); 
     gpuErrchk(cudaMallocManaged((void**)&d_input,   numNodes*dim*sizeof(float))); 
     gpuErrchk(cudaMallocManaged((void**)&d_row_ptr, (numNodes+1)*sizeof(int)));
     gpuErrchk(cudaMallocManaged((void**)&d_col_ind, numEdges*sizeof(int))); 
 
-    gpuErrchk(cudaMemcpy(d_input,   h_output,           numNodes*dim*sizeof(float),   cudaMemcpyHostToDevice));
+
+    cudaMemset(d_ref,       0, numNodes*dim*sizeof(float));
+    cudaMemset(d_output,    0, numNodes*dim*sizeof(float));
     gpuErrchk(cudaMemcpy(d_input,   h_input,            numNodes*dim*sizeof(float),   cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_row_ptr, &asym.row_ptr[0],   (numNodes+1)*sizeof(int),     cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_col_ind, &asym.col_ind[0],   numEdges*sizeof(int),         cudaMemcpyHostToDevice));
 
-// individual GPUs
+    cudaSetDevice(0);
+    SAG_host_single_ref(d_ref, d_input, d_row_ptr, d_col_ind, numNodes, dim);
+
+    // One GPU per threads
 #pragma omp parallel for
 for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 {
@@ -126,20 +132,32 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     //                                     dim, 
     //                                     dimWorker, 
     //                                     warpPerBlock);
-
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
 
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     printf("Time (ms): %.2f\n", milliseconds);
-    printf("===================================\n");
 }
 
+    gpuErrchk(cudaMemcpy(h_ref,     d_ref,       numNodes*dim*sizeof(float),   cudaMemcpyDeviceToHost));
+    gpuErrchk(cudaMemcpy(h_output,  d_output,    numNodes*dim*sizeof(float),   cudaMemcpyDeviceToHost));
+
+    bool status = compare_array(h_ref, h_output, numNodes*dim);
+    printf(status ? "validate: True\n" : "validate: False\n");
+    printf("===================================\n");
+
+    cudaFree(d_ref);    
     cudaFree(d_input);    
     cudaFree(d_output);
     cudaFree(d_col_ind);
     cudaFree(d_row_ptr);
+
+
+    free(h_ref);
+    free(h_output);
+    free(h_input);
+    // delete asym;
     // cudaFree(d_part_ptr);
     // cudaFree(d_part2Node);
 
