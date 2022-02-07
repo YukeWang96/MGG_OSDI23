@@ -210,8 +210,6 @@ int main(int argc, char* argv[]){
                                                 dimWorker, warpPerBlock, 
                                                 interleaved_dist);
 
-
-
     // SAG_host_fused<int, float, int>(d_output, d_input,
     //                                 // local access param.
     //                                 d_row_ptr_local, d_col_ind_local,

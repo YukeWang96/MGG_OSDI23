@@ -188,6 +188,18 @@ void SAG_cuda_kernel_host_unified(
     const paraType warpPerBlock
 ); 
 
+__global__ 
+void mgg_SAG_cuda_basic(
+    float* output,
+    const float* input,
+    const int* row_pointers,
+    const int* column_index,
+    const int lb,
+    const int ub,
+    const int dim,
+    const int nodePerPE
+);
+
 
 template <typename T>
 std::vector<std::vector<T>> split_CSR(std::vector<T>& origin_ptr, std::vector<T>& origin_col_idx, 
@@ -485,6 +497,96 @@ void SAG_host_fused_interleaved(
     if(error != cudaSuccess){
         printf("CUDA error at SAG_cuda_kernel_fused_interleaved: %s\n", cudaGetErrorString(error));
         exit(-1);
+    }
+}
+
+
+
+// support local and remote access.
+// 1. no local and remote split.
+// 2. process the nodes in [lb, ub]
+// 3. row_pointers and column_index are chuncked and duplicated from original list.  
+void mgg_SAG_basic(
+          float* output, // NVSHMEM 
+    const float* input,  // NVSHMEM
+    const int* row_pointers,
+    const int* column_index,
+    const int lb,
+    const int ub,
+    const int dim,
+    const int nodePerPE
+){
+    const int num_nodes = ub - lb;
+    const int warpPerBlock = 4;
+    const int block = warpPerBlock * WARP_SIZE;
+    const int grid = (num_nodes * WARP_SIZE + block  - 1) / block; 
+
+    // cudaEvent_t start, stop;
+    // cudaEventCreate(&start);
+    // cudaEventCreate(&stop);
+    // cudaEventRecord(start);
+    // #define NPROF 1
+    // for (int i = 0; i < NPROF; i++)
+    mgg_SAG_cuda_basic<<<grid, block>>>(
+        output, input,
+        row_pointers, column_index,
+        lb, ub,
+        dim,
+        nodePerPE
+    );
+                               
+    // cudaEventRecord(stop);
+    // cudaEventSynchronize(stop);
+    // float milliseconds = 0;
+    // cudaEventElapsedTime(&milliseconds, start, stop);
+    // printf("kernel time (ms): %.3f\n", milliseconds/NPROF);
+    gpuErrchk(cudaDeviceSynchronize());
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @mgg_SAG_cuda_basic: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
+
+__global__ 
+void mgg_SAG_cuda_basic(
+    float* output,
+    const float* input,
+    const int* row_pointers,
+    const int* column_index,
+    const int lb,
+    const int ub,
+    const int dim,
+    const int nodePerPE
+){
+
+    const int tid =  blockIdx.x * blockDim.x + threadIdx.x;
+    const int wid = tid/32;         // warp-id
+    const int lanid = tid%32;       // lane-id
+    const int num_nodes = ub - lb;  // num of nodes per PE.
+
+    if (wid < num_nodes){        
+        const int src_nid = wid + lb;           // global node-id
+        const int eidx_s = row_pointers[wid];
+        const int eidx_e = row_pointers[wid + 1];
+
+        for (int eidx = eidx_s; eidx < eidx_e; eidx++){
+            
+            int nid = column_index[eidx]; 
+            if ((lb <= nid) && (nid < ub)){
+                int local_nid = nid % nodePerPE;
+                for (int d = lanid; d < dim; d += WARP_SIZE){
+                    output[src_nid * dim + d] += input[local_nid * dim + d];
+                }
+            }
+            else{
+                int r_GPUid = nid / nodePerPE; 
+                int r_offset = nid % nodePerPE; 
+                for (int d = lanid; d < dim; d += WARP_SIZE){
+                    nvshmemx_float_get_warp((float*)&output[src_nid * dim], &input[r_offset*dim], dim, r_GPUid);
+                }
+            }
+        }
     }
 }
 
@@ -1437,10 +1539,6 @@ void mgg_profile(float* d_output,
 
     }
 }
-
-
-
-
 
 
 
