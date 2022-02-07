@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <ctime>
+#include <algorithm>
 
 #include <mpi.h>
 #include <nvshmem.h>
@@ -28,6 +29,8 @@ int main(int argc, char* argv[]){
     cout << "Complete loading graphs !!" << endl;
 
     int numNodes = asym.row_ptr.size() - 1;
+    std::cout << "max node: " << *std::max_element(std::begin(asym.col_ind), std::end(asym.col_ind)) << '\n';
+
     int numEdges = asym.col_ind.size();    
     int num_GPUs = atoi(argv[2]);           // 2
     int partSize = atoi(argv[3]);           // 32
@@ -57,6 +60,7 @@ int main(int argc, char* argv[]){
 
     // Set the workload on each device.
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
+    printf("numNodes: %d, nodesPerPE: %d\n", numNodes, nodesPerPE);
     int lb = nodesPerPE * mype_node;
     int ub = (lb + nodesPerPE) < numNodes? (lb + nodesPerPE) : numNodes;
     int local_nodes = ub - lb;
@@ -65,14 +69,22 @@ int main(int argc, char* argv[]){
 
     // Allocate memory on each device.
     float *d_input, *d_output;
-    gpuErrchk(cudaMalloc((void**)&d_input, nodesPerPE*dim*sizeof(float))); 
-    gpuErrchk(cudaMalloc((void**)&d_output, nodesPerPE*dim*sizeof(float))); 
-    d_input = (float *) nvshmem_malloc ((ub-lb)*hiddenSize*sizeof(float)); // NVSHMEM global memory
+    gpuErrchk(cudaMalloc((void**)&d_output, nodesPerPE * dim * sizeof(float))); 
+    d_input = (float *) nvshmem_malloc (nodesPerPE * dim * sizeof(float)); // NVSHMEM global memory
     int *d_row_ptr, *d_col_ind;
     gpuErrchk(cudaMalloc((void**)&d_row_ptr, (local_nodes + 1)*sizeof(int))); 
     gpuErrchk(cudaMalloc((void**)&d_col_ind, local_edges*sizeof(int))); 
     gpuErrchk(cudaMemcpy(d_row_ptr, &asym.row_ptr[lb], (local_nodes + 1)*sizeof(int), cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_col_ind, &asym.col_ind[edge_beg], local_edges*sizeof(int), cudaMemcpyHostToDevice));
+    
+    // if (mype_node == 0)
+    // {
+    //     for (int i = 0; i < local_edges; i++){
+    //         printf("asym.col_ind[%d]: %d\n", edge_beg+i, asym.col_ind[edge_beg + i]);
+    //     }
+    //     print_dev_column_index<<<1,1>>>(d_col_ind, local_edges);    
+    // }
+
     MPI_Barrier(MPI_COMM_WORLD); 
 
 
@@ -81,8 +93,8 @@ int main(int argc, char* argv[]){
     MPI_Barrier(MPI_COMM_WORLD);
     t1 = MPI_Wtime(); 
 
-    // mgg_SAG_basic(d_output, d_input, d_row_ptr, d_col_ind,
-    //                 lb, ub, dim, nodesPerPE);
+    mgg_SAG_basic(d_output, d_input, d_row_ptr, d_col_ind,
+                    lb, ub, dim, nodesPerPE);
 
     gpuErrchk(cudaGetLastError());
     gpuErrchk(cudaDeviceSynchronize());

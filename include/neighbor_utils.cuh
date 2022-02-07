@@ -548,9 +548,20 @@ void mgg_SAG_basic(
     }
 }
 
+
+__global__ 
+void print_dev_column_index(
+    const int* column_index,
+    const int len
+){
+    for (int i = 0; i < len; i++)
+        printf("dev_column_index[%d]: %d\n", i, column_index[i]);
+}
+
+
 __global__ 
 void mgg_SAG_cuda_basic(
-    float* output,
+          float* output,
     const float* input,
     const int* row_pointers,
     const int* column_index,
@@ -561,30 +572,29 @@ void mgg_SAG_cuda_basic(
 ){
 
     const int tid =  blockIdx.x * blockDim.x + threadIdx.x;
-    const int wid = tid/32;         // warp-id
-    const int lanid = tid%32;       // lane-id
-    const int num_nodes = ub - lb;  // num of nodes per PE.
+    const int wid = tid / 32;           // warp-id
+    const int lanid = tid % 32;         // lane-id
+    const int num_nodes = ub - lb;      // num of nodes per PE.
 
     if (wid < num_nodes){        
-        const int src_nid = wid + lb;           // global node-id
-        const int eidx_s = row_pointers[wid];
-        const int eidx_e = row_pointers[wid + 1];
+        const int eidx_s = row_pointers[wid] - row_pointers[0];            // Get the local edge index
+        const int eidx_e = row_pointers[wid + 1] - row_pointers[0];
 
         for (int eidx = eidx_s; eidx < eidx_e; eidx++){
             
             int nid = column_index[eidx]; 
+            // printf("eidx: %d, nid: %d, nodePerPE: %d\n", eidx, nid, nodePerPE);
             if ((lb <= nid) && (nid < ub)){
                 int local_nid = nid % nodePerPE;
                 for (int d = lanid; d < dim; d += WARP_SIZE){
-                    output[src_nid * dim + d] += input[local_nid * dim + d];
+                    output[wid * dim + d] += input[local_nid * dim + d];
                 }
             }
             else{
                 int r_GPUid = nid / nodePerPE; 
-                int r_offset = nid % nodePerPE; 
-                for (int d = lanid; d < dim; d += WARP_SIZE){
-                    nvshmemx_float_get_warp((float*)&output[src_nid * dim], &input[r_offset*dim], dim, r_GPUid);
-                }
+                int r_offset = nid % nodePerPE;
+                // if (r_GPUid > 1) printf("nid: %d, nodePerPE: %d, GPU id: %d\n", nid, nodePerPE, r_GPUid);
+                nvshmemx_float_get_warp((float*)&output[wid * dim], &input[r_offset * dim], dim, r_GPUid);
             }
         }
     }

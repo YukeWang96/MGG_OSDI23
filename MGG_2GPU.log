@@ -1,0 +1,12 @@
+Graph File: dataset/cora.mtx
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+max node: 2707
+Complete loading graphs !!
+max node: 2707
+numNodes: 2708, nodesPerPE: 1354
+numNodes: 2708, nodesPerPE: 1354
+PE-0, Total (ms): 6.021
+PE-1, Total (ms): 16.676
+MPI time (ms) 18.900
+===================================
