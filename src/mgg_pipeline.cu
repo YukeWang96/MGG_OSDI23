@@ -14,7 +14,7 @@
 #include "csr_formatter.h"
 #include "layer.h"
 
-#define validate 1 // the number (< num_GPUs) indicates the validation on which PE.
+#define validate 1
 
 using namespace cudl;
 using namespace std;
@@ -104,7 +104,7 @@ int main(int argc, char* argv[]){
         gpuErrchk(cudaMalloc((void**)&d_row_ptr_ref, asym.row_ptr.size()*sizeof(int))); 
         gpuErrchk(cudaMalloc((void**)&d_col_ind_ref, asym.col_ind.size()*sizeof(int))); 
         gpuErrchk(cudaMemcpy(d_row_ptr_ref, &asym.row_ptr[0], asym.row_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
-        gpuErrchk(cudaMemcpy(d_col_ind_ref, &asym.col_ind[0], asym.col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
+        gpuErrchk(cudaMemcpy(d_col_ind_ref, &asym.col_ind[edge_beg], asym.col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
         gpuErrchk(cudaMemcpy(d_input_ref, h_input_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
         gpuErrchk(cudaMemcpy(d_output_ref, h_output_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
 
@@ -115,6 +115,14 @@ int main(int argc, char* argv[]){
         gpuErrchk(cudaMemcpy(h_output_ref, d_output_ref, numNodes * dim * sizeof(float), cudaMemcpyDeviceToHost));
     }
     #endif
+
+    // if (mype_node == 0)
+    // {
+    //     for (int i = 0; i < local_edges; i++){
+    //         printf("asym.col_ind[%d]: %d\n", edge_beg+i, asym.col_ind[edge_beg + i]);
+    //     }
+    //     print_dev_column_index<<<1,1>>>(d_col_ind, local_edges);    
+    // }
 
     MPI_Barrier(MPI_COMM_WORLD); 
 
@@ -152,20 +160,13 @@ int main(int argc, char* argv[]){
         for (int nid = 0; nid < 10; nid++){
             printf("ref [%d] ", nid);
             for (int d = 0; d < 5; d++){
-                printf("%.3f,", h_output_ref[(lb + nid) * dim + d]);
+                printf("%.3f,", h_output_ref[lb * dim + nid * dim + d]);
             }
             printf("\n");
         }
         bool val_status = check_equal(h_output_ref, h_output, (ub - lb) * dim, lb * dim);
         printf("Validation on PE-{%d}, status: ", validate);
         if (val_status) printf("True\n"); else printf("False\n");
-
-        free(h_input_ref);
-        free(h_output_ref);  
-        cudaFree(d_input_ref);
-        cudaFree(d_output_ref);
-        cudaFree(d_row_ptr_ref);
-        cudaFree(d_col_ind_ref);
     }
     #endif
 

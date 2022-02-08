@@ -32,6 +32,14 @@ add_executable(MGG_basic
     include/layer.cu
 )
 
+
+add_executable(MGG_np 
+    src/mgg_np.cu 
+    include/loss.cu 
+    include/layer.cu
+)
+
+
 add_executable(NCCL 
     src/nccl_example.cu 
 )
@@ -81,7 +89,37 @@ target_link_libraries(MGG
     gomp 
     curand
 )
+#############################################################################
+target_include_directories(MGG_np 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    ${CUDNN_HOME}/include
+    include
+)
 
+target_compile_options(MGG_np PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch ${SM_ARCH}
+                       >)
+
+set_target_properties(MGG_np PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(MGG_np PROPERTIES CUDA_ARCHITECTURES "80")
+
+target_link_libraries(MGG_np
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+    cudnn 
+    gomp 
+    curand
+)
 #############################################################################
 target_include_directories(MGG_basic 
     PRIVATE 

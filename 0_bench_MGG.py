@@ -37,7 +37,7 @@ interleaved_dist = 2
 ###############################################
 
 dataset = [
-        ('citeseer'	        		, 3703	    , 6   ),  
+        # ('citeseer'	        		, 3703	    , 6   ),  
         # ('cora' 	        		, 1433	    , 7   ),  
         # ('pubmed'	        		, 500	    , 3   ),      
         # ('ppi'	            		, 50	    , 121 ),   
@@ -52,7 +52,7 @@ dataset = [
         # ( 'artist'                   , 100	  , 12),
         # ( 'com-amazon'               , 96	  , 22),
         # ( 'soc-BlogCatalog'	         , 128	  , 39),      
-        # ( 'amazon0601'  	         , 96	  , 22), 
+        ( 'amazon0601'  	         , 96	  , 22), 
 
         # ( 'Reddit'                      , 128      	, 41),
         # ( 'enwiki-2013'	                , 100	        , 12),      
@@ -75,6 +75,7 @@ pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 # command = "build/MGG {}".format(data_path)
 command = "build/MGG_basic {}".format(data_path)
+# command = "build/MGG_np {}".format(data_path)
 
 for data, d, c in dataset:
     os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5} {6}".\

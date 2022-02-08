@@ -201,6 +201,20 @@ void mgg_SAG_cuda_basic(
 );
 
 
+__global__ 
+void mgg_SAG_cuda_np(
+          float* output,
+    const float* input,
+    const int* row_pointers,
+    const int* column_index,
+    const int lb,
+    const int ub,
+    const int dim,
+    const int nodePerPE,
+    const int part_size,
+    const int warpPerBlock
+);
+
 template <typename T>
 std::vector<std::vector<T>> split_CSR(std::vector<T>& origin_ptr, std::vector<T>& origin_col_idx, 
                                         T lb, T ub)
@@ -520,6 +534,8 @@ void mgg_SAG_basic(
     const int warpPerBlock = 1;
     const int block = warpPerBlock * WARP_SIZE;
     const int grid = (num_nodes * WARP_SIZE + block  - 1) / block; 
+    const int dyn_shared_mem = warpPerBlock * dim * sizeof(float); // for temporal caching the NVSHMEM result.
+    printf("dyn_shared_mem: %d\n", dyn_shared_mem);
 
     // cudaEvent_t start, stop;
     // cudaEventCreate(&start);
@@ -527,7 +543,7 @@ void mgg_SAG_basic(
     // cudaEventRecord(start);
     // #define NPROF 1
     // for (int i = 0; i < NPROF; i++)
-    mgg_SAG_cuda_basic<<<grid, block>>>(
+    mgg_SAG_cuda_basic<<<grid, block, dyn_shared_mem>>>(
         output, input,
         row_pointers, column_index,
         lb, ub,
@@ -547,6 +563,59 @@ void mgg_SAG_basic(
         exit(-1);
     }
 }
+
+
+
+
+// Neighbor partition version for multi-GPU SAG
+// 1. no local and remote split.
+// 2. process the nodes in [lb, ub].
+// 3. implicitly partition the neighbors of a subgraph.
+void mgg_SAG_neighbor_partition(
+      float* output, // NVSHMEM 
+const float* input,  // NVSHMEM
+const int* row_pointers,
+const int* column_index,
+const int lb,
+const int ub,
+const int dim,
+const int nodePerPE
+){
+    const int num_nodes = ub - lb;
+    const int warpPerBlock = 4;
+    const int block = warpPerBlock * WARP_SIZE;
+    const int grid = (num_nodes * WARP_SIZE + block  - 1) / block; 
+    const int np_size = 4;    // for implicit neighbor partition size = 4.
+    const int dyn_shared_mem = warpPerBlock * dim * sizeof(float); // for temporal  caching the NVSHMEM result.
+
+    // cudaEvent_t start, stop;
+    // cudaEventCreate(&start);
+    // cudaEventCreate(&stop);
+    // cudaEventRecord(start);
+    // #define NPROF 1
+    // for (int i = 0; i < NPROF; i++)
+    mgg_SAG_cuda_np<<<grid, block, dyn_shared_mem>>>(
+                                                    output, input,
+                                                    row_pointers, column_index,
+                                                    lb, ub,
+                                                    dim,
+                                                    nodePerPE,
+                                                    np_size,
+                                                    warpPerBlock);
+                            
+    // cudaEventRecord(stop);
+    // cudaEventSynchronize(stop);
+    // float milliseconds = 0;
+    // cudaEventElapsedTime(&milliseconds, start, stop);
+    // printf("kernel time (ms): %.3f\n", milliseconds/NPROF);
+    gpuErrchk(cudaDeviceSynchronize());
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @mgg_SAG_cuda_np: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
+
 
 
 __global__ 
@@ -569,13 +638,16 @@ void mgg_SAG_cuda_basic(
     const int ub,
     const int dim,
     const int nodePerPE
-){
+)
+{
 
     const int tid =  blockIdx.x * blockDim.x + threadIdx.x;
-    const int wid = tid / 32;           // warp-id
-    const int lanid = tid % 32;         // lane-id
-    const int num_nodes = ub - lb;      // num of nodes per PE.
-    __shared__ float tmp[50];
+    const int wid = tid / 32;               // global warp-id
+    const int blk_wid = threadIdx.x / 32;   // block_level warp-id.
+    const int lanid = tid % 32;             // lane-id
+    const int num_nodes = ub - lb;          // num of nodes per PE.
+    // __shared__ float tmp[50];
+    extern __shared__ float tmp[];          // for remotely fetched embeddings.
 
     if (wid < num_nodes){        
         const int eidx_s = row_pointers[wid] - row_pointers[0];            // Get the local edge index
@@ -595,14 +667,68 @@ void mgg_SAG_cuda_basic(
                 int r_GPUid = nid / nodePerPE; 
                 int r_offset = nid % nodePerPE;
                 // if (r_GPUid > 1) printf("nid: %d, nodePerPE: %d, GPU id: %d\n", nid, nodePerPE, r_GPUid);
-                nvshmemx_float_get_warp((float*)&tmp[0], &input[r_offset * dim], dim, r_GPUid);
+                nvshmemx_float_get_warp((float*)&tmp[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
                 for (int d = lanid; d < dim; d += WARP_SIZE){
-                    output[wid * dim + d] += tmp[d];
+                    output[wid * dim + d] += tmp[blk_wid * dim + d];
                 }
             }
         }
     }
 
+}
+
+__global__ 
+void mgg_SAG_cuda_np(
+          float* output,
+    const float* input,
+    const int* row_pointers,
+    const int* column_index,
+    const int lb,
+    const int ub,
+    const int dim,
+    const int nodePerPE,
+    const int partSize,
+    const int warpPerBlock
+){
+    const int tid =  blockIdx.x * blockDim.x + threadIdx.x;
+    const int wid = tid / 32;                // global warp-id
+    const int blk_wid = threadIdx.x / 32;    // block-level warp-id.
+    const int lanid = tid % 32;              // lane-id
+    const int num_nodes = ub - lb;           // num of nodes per PE.
+    // __shared__ float tmp[50];
+    extern __shared__ float tmp[];
+
+    if (wid < num_nodes){        
+        // Get the neighbor range of a node.
+        const int eidx_s = row_pointers[wid] - row_pointers[0];            // Get the local edge index
+        const int eidx_e = row_pointers[wid + 1] - row_pointers[0];
+        
+        // Get the neighbor partition of a warp. (w_eidx_beg, w_eidx_beg + partSize)
+        for (int w_eidx_beg = eidx_s + wid * partSize; w_eidx_beg < eidx_e; w_eidx_beg += warpPerBlock * partSize){
+            
+            // Iterater over the neighbor partition of a warp.
+            for (int eidx = w_eidx_beg; eidx < min(w_eidx_beg + partSize, eidx_e); eidx++){
+
+                int nid = column_index[eidx]; 
+                // printf("eidx: %d, nid: %d, nodePerPE: %d\n", eidx, nid, nodePerPE);
+                if ((lb <= nid) && (nid < ub)){
+                    int local_nid = nid % nodePerPE;
+                    for (int d = lanid; d < dim; d += WARP_SIZE){
+                        output[wid * dim + d] += input[local_nid * dim + d];
+                    }
+                }
+                else{
+                    int r_GPUid = nid / nodePerPE; 
+                    int r_offset = nid % nodePerPE;
+                    // if (r_GPUid > 1) printf("nid: %d, nodePerPE: %d, GPU id: %d\n", nid, nodePerPE, r_GPUid);
+                    nvshmemx_float_get_warp((float*)&tmp[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
+                    for (int d = lanid; d < dim; d += WARP_SIZE){
+                        output[wid * dim + d] += tmp[blk_wid * dim + d];
+                    }
+                }
+            } // end (eidx)
+        } // end (w_eidex_beg)
+    } // end if (wid)
 }
 
 

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <ctime>
+#include <algorithm>
 
 #include <mpi.h>
 #include <nvshmem.h>
@@ -12,6 +13,8 @@
 #include "neighbor_utils.cuh"
 #include "csr_formatter.h"
 #include "layer.h"
+
+#define validate 1 // the number (< num_GPUs) indicates the validation on which PE.
 
 using namespace cudl;
 using namespace std;
@@ -28,8 +31,8 @@ int main(int argc, char* argv[]){
     cout << "Complete loading graphs !!" << endl;
 
     int numNodes = asym.row_ptr.size() - 1;
-    int numEdges = asym.col_ind.size();
-    
+    // std::cout << "max node: " << *std::max_element(std::begin(asym.col_ind), std::end(asym.col_ind)) << '\n';
+    int numEdges = asym.col_ind.size();    
     int num_GPUs = atoi(argv[2]);           // 2
     int partSize = atoi(argv[3]);           // 32
     int warpPerBlock = atoi(argv[4]);       // 4
@@ -40,93 +43,127 @@ int main(int argc, char* argv[]){
     double t1, t2; 
     // print_array<int>("asym.row_ptr", asym.row_ptr, asym.row_ptr.size());
     // print_array<int>("asym.col_ind", asym.col_ind, asym.col_ind.size());
-
     int rank, nranks;
     cudaStream_t stream;
     nvshmemx_init_attr_t attr;
-
     MPI_Comm mpi_comm = MPI_COMM_WORLD;
-    
+
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &nranks);
     attr.mpi_comm = &mpi_comm;
 
+    // Set up NVSHMEM device.
     nvshmemx_init_attr(NVSHMEMX_INIT_WITH_MPI_COMM, &attr);
-
-    // Get the current GPU ID.
     int mype_node = nvshmem_team_my_pe(NVSHMEMX_TEAM_NODE);
     cudaSetDevice(mype_node);
     cudaStreamCreate(&stream);
 
-    // range of node.
+    // Set the workload on each device.
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
+    printf("numNodes: %d, nodesPerPE: %d\n", numNodes, nodesPerPE);
     int lb = nodesPerPE * mype_node;
-    int ub = (lb+nodesPerPE) < numNodes? (lb+nodesPerPE):numNodes;
+    int ub = (lb + nodesPerPE) < numNodes? (lb + nodesPerPE) : numNodes;
+    int local_nodes = ub - lb;
+    int local_edges = asym.row_ptr[ub] - asym.row_ptr[lb];
+    int edge_beg = asym.row_ptr[lb];
 
+    // Allocate memory on each device.
+    float *d_input, *d_output, *h_input, *h_output;
+    gpuErrchk(cudaMalloc((void**)&d_output, nodesPerPE * dim * sizeof(float))); 
+    d_input = (float *) nvshmem_malloc (nodesPerPE * dim * sizeof(float)); // NVSHMEM global memory
+    h_input = (float *) malloc (nodesPerPE * dim * sizeof(float));      // CPU host memory (input)
+    h_output = (float *) malloc (nodesPerPE * dim * sizeof(float));     //  CPU host memory (output)
+    std::fill_n(h_input, nodesPerPE*dim, 1.0f); // filled with all ones.
+    std::fill_n(h_output, nodesPerPE*dim, 0.0f); // filled with all zeros.
 
-    MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
-    t1 = MPI_Wtime(); 
+    #ifdef validate
+    float *h_input_ref, *h_output_ref,  *d_input_ref, *d_output_ref;
+    if (mype_node == validate)
+    {
+        h_input_ref = (float *) malloc (numNodes * dim * sizeof(float));      // CPU host memory (input_ref)
+        h_output_ref = (float *) malloc (numNodes * dim * sizeof(float));     //  CPU host memory (output_ref)
+        std::fill_n(h_input_ref, numNodes * dim, 1.0f); // filled with all zeros.
+        std::fill_n(h_output_ref, numNodes * dim, 0.0f); // filled with all zeros.
+        gpuErrchk(cudaMalloc((void**)&d_input_ref, numNodes * dim * sizeof(float))); // GPU device memory (input_ref)
+        gpuErrchk(cudaMalloc((void**)&d_output_ref, numNodes * dim * sizeof(float))); // GPU device memory (output_ref)
+    }
+    #endif
 
-    auto split_output = split_CSR<int>(asym.row_ptr, asym.col_ind, lb, ub);
+    int *d_row_ptr, *d_col_ind;
+    gpuErrchk(cudaMalloc((void**)&d_row_ptr, (local_nodes + 1)*sizeof(int))); 
+    gpuErrchk(cudaMalloc((void**)&d_col_ind, local_edges*sizeof(int))); 
+    gpuErrchk(cudaMemcpy(d_row_ptr, &asym.row_ptr[lb], (local_nodes + 1)*sizeof(int), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_col_ind, &asym.col_ind[edge_beg], local_edges*sizeof(int), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_input, h_input, nodesPerPE*dim*sizeof(float), cudaMemcpyHostToDevice));
 
-    auto local_ptr = split_output[0]; // with the base start from lb.
-    auto remote_ptr = split_output[1]; // with the base start from ub.
-    auto local_col_idx = split_output[2];
-    auto remote_col_idx = split_output[3];
+    #ifdef validate
+    int* d_row_ptr_ref, *d_col_ind_ref;
+    if (mype_node == validate)
+    {
+        gpuErrchk(cudaMalloc((void**)&d_row_ptr_ref, asym.row_ptr.size()*sizeof(int))); 
+        gpuErrchk(cudaMalloc((void**)&d_col_ind_ref, asym.col_ind.size()*sizeof(int))); 
+        gpuErrchk(cudaMemcpy(d_row_ptr_ref, &asym.row_ptr[0], asym.row_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
+        gpuErrchk(cudaMemcpy(d_col_ind_ref, &asym.col_ind[0], asym.col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
+        gpuErrchk(cudaMemcpy(d_input_ref, h_input_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
+        gpuErrchk(cudaMemcpy(d_output_ref, h_output_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
 
-    cublasHandle_t cublas_handle;
-    cublasCreate(&cublas_handle);
-    float alpha = 1.0f, beta = 0.0f;
+        SAG_host_ref(d_output_ref, d_input_ref, 
+                    d_row_ptr_ref, d_col_ind_ref, 
+                    lb, ub, dim);
 
-    float *init_input, *d_output, *d_input, *d_weight_1;
+        gpuErrchk(cudaMemcpy(h_output_ref, d_output_ref, numNodes * dim * sizeof(float), cudaMemcpyDeviceToHost));
+    }
+    #endif
+    MPI_Barrier(MPI_COMM_WORLD); 
 
-    gpuErrchk(cudaMalloc((void**)&d_weight_1, dim*hiddenSize*sizeof(float))); 
-    gpuErrchk(cudaMalloc((void**)&init_input, (ub-lb)*dim*sizeof(float))); 
-    gpuErrchk(cudaMalloc((void**)&d_output, (ub-lb)*hiddenSize*sizeof(float))); 
-
-    d_input = (float *) nvshmem_malloc ((ub-lb)*hiddenSize*sizeof(float)); // NVSHMEM global memory
-    d_input = (float *) nvshmem_malloc ((ub-lb)*hiddenSize*sizeof(float)); // NVSHMEM global memory
-
-    int *d_row_ptr_local, *d_col_ind_local;
-    int *d_row_ptr_remote, *d_col_ind_remote;
-
-    gpuErrchk(cudaMalloc((void**)&d_row_ptr_local, local_ptr.size()*sizeof(int))); 
-    gpuErrchk(cudaMalloc((void**)&d_col_ind_local, local_col_idx.size()*sizeof(int))); 
-    gpuErrchk(cudaMalloc((void**)&d_row_ptr_remote, remote_ptr.size()*sizeof(int))); 
-    gpuErrchk(cudaMalloc((void**)&d_col_ind_remote, remote_col_idx.size()*sizeof(int))); 
-
-    gpuErrchk(cudaMemcpy(d_row_ptr_local, &local_ptr[0], local_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_col_ind_local, &local_col_idx[0], local_col_idx.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_row_ptr_remote, &remote_ptr[0], remote_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_col_ind_remote, &remote_col_idx[0], remote_col_idx.size()*sizeof(int), cudaMemcpyHostToDevice));
-
-
-    MPI_Barrier(MPI_COMM_WORLD);
-    t2 = MPI_Wtime(); 
-    if (mype_node == 0) printf( "PreProcess time (s) %.3f\n", (t2 - t1)); 
+    //
+    // Compute on each device.
+    //
     std::clock_t c_start = std::clock();    
-    MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
-    
+    MPI_Barrier(MPI_COMM_WORLD);
     t1 = MPI_Wtime(); 
 
-    mgg_SAG_basic(d_output, d_input,  d_row_ptr, d_col_ind,
-                    lb, ub, dim, nodePerPE);
+    mgg_SAG_basic(d_output, d_input, d_row_ptr, d_col_ind,
+                    lb, ub, dim, nodesPerPE);
 
     gpuErrchk(cudaGetLastError());
     gpuErrchk(cudaDeviceSynchronize());
 
     std::clock_t c_end = std::clock();
     float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
-    printf("PE-%d, Total (ms): %.3f, Dense (ms): %.3f\n", mype_node, time_elapsed_ms, dense_time_elapsed_ms);
-
-    MPI_Barrier(MPI_COMM_WORLD); /* IMPORTANT */
-
+    printf("PE-%d, Total (ms): %.3f\n", mype_node, time_elapsed_ms);
+    MPI_Barrier(MPI_COMM_WORLD); 
     t2 = MPI_Wtime(); 
     if (mype_node == 0) printf( "MPI time (ms) %.3f\n", (t2 - t1)*1e3); 
+    
+    gpuErrchk(cudaMemcpy(h_output, d_output, nodesPerPE*dim*sizeof(float), cudaMemcpyDeviceToHost));
 
 
-    // release nvshmem objects and finalize context.
+    #ifdef validate
+    if (mype_node == validate){
+        for (int nid = 0; nid < 10; nid++){
+            printf("out [%d] ", nid);
+            for (int d = 0; d < 5; d++){
+                printf("%.3f,", h_output[nid * dim + d]);
+            }
+            printf("\n");
+        }
+        printf("==============================\n");
+        for (int nid = 0; nid < 10; nid++){
+            printf("ref [%d] ", nid);
+            for (int d = 0; d < 5; d++){
+                printf("%.3f,", h_output_ref[lb * dim + nid * dim + d]);
+            }
+            printf("\n");
+        }
+        bool val_status = check_equal(h_output_ref, h_output, (ub - lb) * dim, lb * dim);
+        printf("Validation on PE-{%d}, status: ", validate);
+        if (val_status) printf("True\n"); else printf("False\n");
+    }
+    #endif
+
+    // release memory.
     cudaFree(d_output);
     cudaFree(d_row_ptr);
     cudaFree(d_col_ind);
@@ -134,8 +171,9 @@ int main(int argc, char* argv[]){
     nvshmem_free(d_input);
     nvshmem_finalize();
     MPI_Finalize();
-    // printf("--*-- PEID: %d, End NVSHMEM --*--\n", mype_node);
-    if (mype_node == 0) printf("===================================\n");
+    
+    if (mype_node == 0) 
+        printf("===================================\n");
 
     return 0;
 }
