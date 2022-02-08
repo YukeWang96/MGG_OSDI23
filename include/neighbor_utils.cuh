@@ -517,7 +517,7 @@ void mgg_SAG_basic(
     const int nodePerPE
 ){
     const int num_nodes = ub - lb;
-    const int warpPerBlock = 4;
+    const int warpPerBlock = 1;
     const int block = warpPerBlock * WARP_SIZE;
     const int grid = (num_nodes * WARP_SIZE + block  - 1) / block; 
 
@@ -575,6 +575,7 @@ void mgg_SAG_cuda_basic(
     const int wid = tid / 32;           // warp-id
     const int lanid = tid % 32;         // lane-id
     const int num_nodes = ub - lb;      // num of nodes per PE.
+    __shared__ float tmp[50];
 
     if (wid < num_nodes){        
         const int eidx_s = row_pointers[wid] - row_pointers[0];            // Get the local edge index
@@ -594,10 +595,14 @@ void mgg_SAG_cuda_basic(
                 int r_GPUid = nid / nodePerPE; 
                 int r_offset = nid % nodePerPE;
                 // if (r_GPUid > 1) printf("nid: %d, nodePerPE: %d, GPU id: %d\n", nid, nodePerPE, r_GPUid);
-                nvshmemx_float_get_warp((float*)&output[wid * dim], &input[r_offset * dim], dim, r_GPUid);
+                nvshmemx_float_get_warp((float*)&tmp[0], &input[r_offset * dim], dim, r_GPUid);
+                for (int d = lanid; d < dim; d += WARP_SIZE){
+                    output[wid * dim + d] += tmp[d];
+                }
             }
         }
     }
+
 }
 
 
@@ -1553,7 +1558,9 @@ void mgg_profile(float* d_output,
 
 
 __global__ 
-void SAG_cuda_kernel_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int lb_src, const int pe_num_nodes, const int dim){
+void SAG_cuda_kernel_ref(float* d_output, const float* d_input, const int* d_row_ptr, 
+                        const int* d_col_ind, const int lb_src, const int pe_num_nodes, const int dim)
+{
     const int tid =  blockIdx.x * blockDim.x + threadIdx.x;
     const int wid = tid/32;
     const int lanid = tid%32;

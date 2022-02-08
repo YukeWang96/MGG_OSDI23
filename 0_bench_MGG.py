@@ -37,8 +37,8 @@ interleaved_dist = 2
 ###############################################
 
 dataset = [
-        # ('citeseer'	        		, 3703	    , 6   ),  
-        ('cora' 	        		, 1433	    , 7   ),  
+        ('citeseer'	        		, 3703	    , 6   ),  
+        # ('cora' 	        		, 1433	    , 7   ),  
         # ('pubmed'	        		, 500	    , 3   ),      
         # ('ppi'	            		, 50	    , 121 ),   
         
@@ -78,4 +78,4 @@ command = "build/MGG_basic {}".format(data_path)
 
 for data, d, c in dataset:
     os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5} {6}".\
-    format(data, num_GPUs, partSize, warpPerblock, d, interleaved_dist, hidden))
+    format(data, num_GPUs, partSize, warpPerblock, hidden, interleaved_dist, hidden))
