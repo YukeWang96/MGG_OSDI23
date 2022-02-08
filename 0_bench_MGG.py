@@ -48,11 +48,11 @@ dataset = [
         # ('DD'                        , 89       , 2) ,
         # ('SW-620H'                   , 66       , 2) ,
 
-        # ( 'amazon0505'               , 96	  , 22),
+        ( 'amazon0505'               , 96	  , 22),
         # ( 'artist'                   , 100	  , 12),
         # ( 'com-amazon'               , 96	  , 22),
         # ( 'soc-BlogCatalog'	         , 128	  , 39),      
-        ( 'amazon0601'  	         , 96	  , 22), 
+        # ( 'amazon0601'  	         , 96	  , 22), 
 
         # ( 'Reddit'                      , 128      	, 41),
         # ( 'enwiki-2013'	                , 100	        , 12),      
@@ -73,9 +73,10 @@ data_path = 'dataset/'
 
 pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
+              
 # command = "build/MGG {}".format(data_path)
-command = "build/MGG_basic {}".format(data_path)
-# command = "build/MGG_np {}".format(data_path)
+# command = "build/MGG_basic {}".format(data_path)
+command = "build/MGG_np {}".format(data_path)
 
 for data, d, c in dataset:
     os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5} {6}".\

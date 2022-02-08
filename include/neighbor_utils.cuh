@@ -531,7 +531,7 @@ void mgg_SAG_basic(
     const int nodePerPE
 ){
     const int num_nodes = ub - lb;
-    const int warpPerBlock = 1;
+    const int warpPerBlock = 4;
     const int block = warpPerBlock * WARP_SIZE;
     const int grid = (num_nodes * WARP_SIZE + block  - 1) / block; 
     const int dyn_shared_mem = warpPerBlock * dim * sizeof(float); // for temporal caching the NVSHMEM result.
