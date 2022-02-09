@@ -14,7 +14,7 @@
 #include "csr_formatter.h"
 #include "layer.h"
 
-#define validate 0 // the number (< num_GPUs) indicates the validation on which PE.
+#define validate 1 // the number (< num_GPUs) indicates the validation on which PE.
 
 using namespace cudl;
 using namespace std;
@@ -64,7 +64,6 @@ int main(int argc, char* argv[]){
     printf("numNodes: %d, nodesPerPE: %d\n", numNodes, nodesPerPE);
     int lb = nodesPerPE * mype_node;
     int ub = (lb + nodesPerPE) < numNodes? (lb + nodesPerPE) : numNodes;
-    int local_nodes = ub - lb;
     int local_edges = asym.row_ptr[ub] - asym.row_ptr[lb];
     int edge_beg = asym.row_ptr[lb];
 
@@ -76,6 +75,10 @@ int main(int argc, char* argv[]){
     auto local_col_idx_vec = split_output[2];
     auto remote_col_idx_vec = split_output[3];
 
+    // printf("local_col_idx_vec = %d, remote_col_idx_vec = %d, local_edges = %d\n",
+    //         local_col_idx_vec.size(), remote_col_idx_vec.size(), local_edges);
+    // exit(0);
+
     // Allocate memory on each device.
     float *d_input, *d_output, *h_input, *h_output;
     gpuErrchk(cudaMalloc((void**)&d_output, nodesPerPE * dim * sizeof(float))); 
@@ -84,6 +87,8 @@ int main(int argc, char* argv[]){
     h_output = (float *) malloc (nodesPerPE * dim * sizeof(float));         //  CPU host memory (output)
     std::fill_n(h_input, nodesPerPE*dim, 1.0f); // filled with all ones for input embeddings.
     std::fill_n(h_output, nodesPerPE*dim, 0.0f); // filled with all zeros for output embeddings.
+    gpuErrchk(cudaMemcpy(d_input, h_input, nodesPerPE * dim * sizeof(float), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_output, h_output, nodesPerPE * dim * sizeof(float), cudaMemcpyHostToDevice));
 
     #ifdef validate
     float *h_input_ref, *h_output_ref,  *d_input_ref, *d_output_ref;
@@ -105,9 +110,9 @@ int main(int argc, char* argv[]){
     gpuErrchk(cudaMalloc((void**)&d_col_ind_r, remote_col_idx_vec.size()*sizeof(int))); 
 
     gpuErrchk(cudaMemcpy(d_row_ptr_l, &local_ptr_vec[0], local_ptr_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_col_ind_l, &local_col_idx_vec[0], local_ptr_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_row_ptr_r, &remote_ptr_vec[0], local_ptr_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_col_ind_r, &remote_col_idx_vec[0], local_ptr_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_col_ind_l, &local_col_idx_vec[0], local_col_idx_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_row_ptr_r, &remote_ptr_vec[0], remote_ptr_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_col_ind_r, &remote_col_idx_vec[0], remote_col_idx_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
 
     #ifdef validate
     int* d_row_ptr_ref, *d_col_ind_ref;
