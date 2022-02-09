@@ -653,9 +653,8 @@ const int nodePerPE
   
   const int warpPerBlock = 4;
   const int np_size = 4;   // for implicit neighbor partition size = 4.
-  
+
   const int block = warpPerBlock * WARP_SIZE;
-//   const int grid = (num_nodes * block + block  - 1) / block; 
   const int grid = num_nodes; // one node per block.
   const int dyn_shared_mem = 2 * warpPerBlock * dim * sizeof(float); // for temporal  caching the NVSHMEM result.
 
