@@ -215,6 +215,22 @@ void mgg_SAG_np_cuda(
     const int warpPerBlock
 );
 
+__global__ 
+void mgg_SAG_np_div_cuda(
+          float* output,
+    const float* input,
+    const int* row_pointers_l,
+    const int* column_index_l,
+    const int* row_pointers_r,
+    const int* column_index_r,
+    const int lb,
+    const int ub,
+    const int dim,
+    const int nodePerPE,
+    const int partSize,
+    const int warpPerBlock
+);
+
 template <typename T>
 std::vector<std::vector<T>> split_CSR(std::vector<T>& origin_ptr, std::vector<T>& origin_col_idx, T lb, T ub)
 {

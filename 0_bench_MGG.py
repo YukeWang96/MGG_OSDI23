@@ -76,7 +76,8 @@ pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
               
 # command = "build/MGG {}".format(data_path)
 # command = "build/MGG_basic {}".format(data_path)
-command = "build/MGG_np {}".format(data_path)
+# command = "build/MGG_np {}".format(data_path)
+command = "build/MGG_np_div {}".format(data_path)
 
 for data, d, c in dataset:
     os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5} {6}".\
