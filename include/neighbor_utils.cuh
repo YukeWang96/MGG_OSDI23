@@ -817,14 +817,15 @@ void mgg_SAG_np_div_cuda(
     const int partSize,
     const int warpPerBlock
 ){
-    const int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    // const int tid = blockIdx.x * blockDim.x + threadIdx.x;
     const int bid = blockIdx.x;                // global warp-id
     const int blk_wid = threadIdx.x / 32;     // block-level warp-id.
     const int lanid = threadIdx.x % 32;       // lane-id
     const int num_nodes = ub - lb;           // num of nodes per PE.
     // __shared__ float tmp[50];
     extern __shared__ float tmp[];
-    float* tmp2 = (float*) &tmp[warpPerBlock * dim];
+    // float* tmp2 = (float*) &tmp[warpPerBlock * dim];
+    // __shared__ float tmp2[4 * 16];
 
     if (bid < num_nodes){        
         // 
@@ -859,7 +860,13 @@ void mgg_SAG_np_div_cuda(
             } // end (eidx)
         } // end (w_eidex_beg)
 
-        __syncwarp();
+        __syncthreads();
+
+        // for (int d = lanid; d < dim; d += WARP_SIZE){
+        //     // output[bid * dim + d] += tmp[warp_iter * dim + d];
+        //     atomicAdd_F(&output[bid * dim + d], tmp[blk_wid * dim + d]);
+        //     tmp[blk_wid * dim + d] = 0.0f;
+        // }
 
         // 
         // Get the remote neighbor partition.
@@ -879,8 +886,8 @@ void mgg_SAG_np_div_cuda(
                 int r_offset = nid % nodePerPE;
                 // if (r_GPUid > 1) printf("nid: %d, nodePerPE: %d, GPU id: %d\n", nid, nodePerPE, r_GPUid);
 
-                // nvshmemx_float_get_warp((float*)&tmp2[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
                 nvshmemx_float_get_warp((float*)&tmp[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
+                // nvshmemx_float_get_warp((float*)&tmp2[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
                 for (int d = lanid; d < dim; d += WARP_SIZE){
                     // output[bid * dim + d] += tmp[blk_wid * dim + d];
                     atomicAdd_F(&output[bid * dim + d], tmp[blk_wid * dim + d]);
@@ -891,11 +898,9 @@ void mgg_SAG_np_div_cuda(
 
         // __syncthreads();
 
-        // if (blk_wid == 0)
-        // for (int warp_iter = 0; warp_iter < warpPerBlock; warp_iter++)
-        //     for (int d = lanid; d < dim; d += WARP_SIZE)
-        //         output[bid * dim + d] += tmp[warp_iter * dim + d];
-
+        // for (int d = lanid; d < dim; d += WARP_SIZE)
+        //     // output[bid * dim + d] += tmp[warp_iter * dim + d];
+        //     atomicAdd_F(&output[bid * dim + d], tmp[blk_wid * dim + d]);
     } // end if (wid)
 }
 
