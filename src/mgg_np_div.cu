@@ -176,7 +176,7 @@ int main(int argc, char* argv[]){
             }
             printf("\n");
         }
-        bool val_status = check_equal(h_output_ref, h_output, (ub - lb) * dim, lb * dim);
+        bool val_status = check_equal(h_output_ref, h_output, (ub - lb) * dim, dim, lb * dim);
         printf("Validation on PE-{%d}, status: ", validate);
         if (val_status) printf("True\n"); else printf("False\n");
     }

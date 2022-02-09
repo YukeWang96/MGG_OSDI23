@@ -127,10 +127,10 @@ bool compare_array(float *ref, float *output, int len){
    return true;
 }
 
-bool check_equal(float *ref, float *output, int len, int lb_ref = 0){
+bool check_equal(float *ref, float *output, int len, int dim, int lb_ref = 0){
    for (int i = 0; i < len; i++){
       if (ref[lb_ref + i] != output[i]){
-         printf("ref: %.3f -- out: %.3f\n", ref[lb_ref + i], output[i]);
+         printf("[%d] ref: %.3f -- out: %.3f\n", i/dim , ref[lb_ref + i], output[i]);
          return false;
       }
    }

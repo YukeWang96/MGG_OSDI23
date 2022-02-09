@@ -650,11 +650,13 @@ const int dim,
 const int nodePerPE
 ){
   const int num_nodes = ub - lb;
+  
   const int warpPerBlock = 4;
+  const int np_size = 4;   // for implicit neighbor partition size = 4.
+  
   const int block = warpPerBlock * WARP_SIZE;
 //   const int grid = (num_nodes * block + block  - 1) / block; 
   const int grid = num_nodes; // one node per block.
-  const int np_size = 3;   // for implicit neighbor partition size = 4.
   const int dyn_shared_mem = 2 * warpPerBlock * dim * sizeof(float); // for temporal  caching the NVSHMEM result.
 
   // cudaEvent_t start, stop;
@@ -822,25 +824,26 @@ void mgg_SAG_np_div_cuda(
     const int blk_wid = threadIdx.x / 32;     // block-level warp-id.
     const int lanid = threadIdx.x % 32;       // lane-id
     const int num_nodes = ub - lb;           // num of nodes per PE.
-    // __shared__ float tmp[50];
     extern __shared__ float tmp[];
-    // float* tmp2 = (float*) &tmp[warpPerBlock * dim];
-    // __shared__ float tmp2[4 * 16];
+    float* tmp2 = (float*) &tmp[warpPerBlock * dim];
 
     if (bid < num_nodes){        
+
+        for (int idx = threadIdx.x; idx < 2 * warpPerBlock * dim; idx += blockDim.x){
+            tmp[idx] = 0.0f;    
+        }
+        __syncthreads();
+
         // 
         // Get the local neighbor partition.
         //
         // Get the neighbor range of a node.
         int eidx_s = row_pointers_l[bid];           
         int eidx_e = row_pointers_l[bid + 1];
-        // if (bid == 0 && lb == 0)
+
+        // if ((bid == 3456 || bid == 3457) && lb == 0)
         //     printf("local: %d, remote: %d\n", eidx_e - eidx_s, row_pointers_r[bid + 1] - row_pointers_r[bid]);
         
-        for (int idx = 0; idx < 2 * warpPerBlock * dim; idx += blockDim.x){
-            tmp[idx] = 0.0f;    
-        }
-
         // Get the neighbor partition of a warp. (w_eidx_beg, w_eidx_beg + partSize)
         for (int b_eidx_beg = eidx_s; b_eidx_beg < eidx_e; b_eidx_beg += warpPerBlock * partSize){
             
@@ -854,20 +857,25 @@ void mgg_SAG_np_div_cuda(
                 int local_nid = nid % nodePerPE;
                 for (int d = lanid; d < dim; d += WARP_SIZE){
                     // output[bid * dim + d] += input[local_nid * dim + d];
-                    atomicAdd_F(&output[bid * dim + d], input[local_nid * dim + d]);
-                    // tmp[blk_wid * dim + d] += input[local_nid * dim + d];                    
+                    // atomicAdd_F(&output[bid * dim + d], input[local_nid * dim + d]);
+                    tmp[blk_wid * dim + d] += input[local_nid * dim + d];      
+                    // atomicAdd_F(&tmp[blk_wid * dim + d], input[local_nid * dim + d]);
                 }
+                // __syncwarp();
             } // end (eidx)
+            // __syncwarp();
         } // end (w_eidex_beg)
 
-        __syncthreads();
-
+        // __syncthreads();
+        // if (blk_wid == 0)
+        // for (int w_iter = 0; w_iter < warpPerBlock; w_iter++)
         // for (int d = lanid; d < dim; d += WARP_SIZE){
-        //     // output[bid * dim + d] += tmp[warp_iter * dim + d];
-        //     atomicAdd_F(&output[bid * dim + d], tmp[blk_wid * dim + d]);
-        //     tmp[blk_wid * dim + d] = 0.0f;
+        //     if ((bid == 3457 || bid == 3456 ) && lb == 0) printf("bid[%d]: output: %.3f, tmp: %.3f\n", bid, output[bid * dim + d], tmp[w_iter * dim + d]);
+        //     output[bid * dim + d] += tmp[w_iter * dim + d];
         // }
-
+        // for (int idx = 0; idx < 2 * warpPerBlock * dim; idx += blockDim.x){
+        //     tmp[idx] = 0;    
+        // }
         // 
         // Get the remote neighbor partition.
         //
@@ -886,21 +894,22 @@ void mgg_SAG_np_div_cuda(
                 int r_offset = nid % nodePerPE;
                 // if (r_GPUid > 1) printf("nid: %d, nodePerPE: %d, GPU id: %d\n", nid, nodePerPE, r_GPUid);
 
-                nvshmemx_float_get_warp((float*)&tmp[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
-                // nvshmemx_float_get_warp((float*)&tmp2[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
+                // nvshmemx_float_get_warp((float*)&tmp[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
+                nvshmemx_float_get_warp((float*)&tmp2[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
                 for (int d = lanid; d < dim; d += WARP_SIZE){
                     // output[bid * dim + d] += tmp[blk_wid * dim + d];
-                    atomicAdd_F(&output[bid * dim + d], tmp[blk_wid * dim + d]);
-                    // tmp[blk_wid * dim + d] += tmp2[blk_wid * dim + d];                    
+                    // atomicAdd_F(&output[bid * dim + d], tmp2[blk_wid * dim + d]);
+                    tmp[blk_wid * dim + d] += tmp2[blk_wid * dim + d];                    
                 }
             } // end (eidx)
         } // end (w_eidex_beg)
 
+ 
         // __syncthreads();
 
-        // for (int d = lanid; d < dim; d += WARP_SIZE)
-        //     // output[bid * dim + d] += tmp[warp_iter * dim + d];
-        //     atomicAdd_F(&output[bid * dim + d], tmp[blk_wid * dim + d]);
+        for (int d = lanid; d < dim; d += WARP_SIZE)
+            // output[bid * dim + d] += tmp[warp_iter * dim + d];
+            atomicAdd_F(&output[bid * dim + d], tmp[blk_wid * dim + d]);
     } // end if (wid)
 }
 
