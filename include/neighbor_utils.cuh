@@ -1036,9 +1036,15 @@ void mgg_SAG_np_pipeline_cuda(
 
             // Iterater over the neighbor partition of a warp.
             for (int eidx = warp_offset_beg; eidx < min(warp_offset_end, commen_end); eidx++){
-
-
-                // nvshmemx_float_get_nbi_warp((float*)&tmp2[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
+                //
+                // Prefetching common remote neighbors.
+                //
+                int warp_eidx_r = eidx_s_r + eidx;
+                int nid_r = column_index_r[warp_eidx_r]; 
+                int r_GPUid = nid_r / nodePerPE; 
+                int r_offset = nid_r % nodePerPE;
+                
+                nvshmemx_float_get_nbi_warp((float*)&tmp2[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
 
                 //
                 // Process the common local neighbors.
@@ -1051,16 +1057,17 @@ void mgg_SAG_np_pipeline_cuda(
                     // atomicAdd_F(&output[bid * dim + d], input[local_nid * dim + d]);
                     tmp[blk_wid * dim + d] += input[local_nid * dim + d];      
                 }
-                //
-                // Process the common remote neighbors.
-                //
-                int warp_eidx_r = eidx_s_r + eidx;
-                int nid_r = column_index_r[warp_eidx_r]; 
-                int r_GPUid = nid_r / nodePerPE; 
-                int r_offset = nid_r % nodePerPE;
+                // //
+                // // Process the common remote neighbors.
+                // //
+                // int warp_eidx_r = eidx_s_r + eidx;
+                // int nid_r = column_index_r[warp_eidx_r]; 
+                // int r_GPUid = nid_r / nodePerPE; 
+                // int r_offset = nid_r % nodePerPE;
 
-                nvshmemx_float_get_warp((float*)&tmp2[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
-                
+                // nvshmemx_float_get_warp((float*)&tmp2[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
+                // Wait for the completion of prefetching
+                nvshmem_quiet();
                 for (int d = lanid; d < dim; d += WARP_SIZE){
                     tmp[blk_wid * dim + d] += tmp2[blk_wid * dim + d];                    
                 }
