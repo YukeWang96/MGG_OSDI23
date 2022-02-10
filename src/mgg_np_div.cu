@@ -61,7 +61,7 @@ int main(int argc, char* argv[]){
 
     // Set the workload on each device.
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
-    printf("numNodes: %d, nodesPerPE: %d\n", numNodes, nodesPerPE);
+    // printf("numNodes: %d, nodesPerPE: %d\n", numNodes, nodesPerPE);
     int lb = nodesPerPE * mype_node;
     int ub = (lb + nodesPerPE) < numNodes? (lb + nodesPerPE) : numNodes;
     int local_edges = asym.row_ptr[ub] - asym.row_ptr[lb];
@@ -75,8 +75,8 @@ int main(int argc, char* argv[]){
     auto local_col_idx_vec = split_output[2];
     auto remote_col_idx_vec = split_output[3];
 
-    // printf("local_col_idx_vec = %d, remote_col_idx_vec = %d, local_edges = %d\n",
-    //         local_col_idx_vec.size(), remote_col_idx_vec.size(), local_edges);
+    printf("local_col_idx_vec = %d, remote_col_idx_vec = %d, local_edges = %d\n",
+            local_col_idx_vec.size(), remote_col_idx_vec.size(), local_edges);
     // exit(0);
 
     // Allocate memory on each device.
