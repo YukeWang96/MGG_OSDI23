@@ -22,15 +22,15 @@ numNodes: 4203323, nodesPerPE: 525416
 numNodes: 4203323, nodesPerPE: 525416
 numNodes: 4203323, nodesPerPE: 525416
 numNodes: 4203323, nodesPerPE: 525416
-PE-4, Total (ms): 34.680
-PE-2, Total (ms): 40.446
-PE-0, Total (ms): 42.219
-PE-1, Total (ms): 54.039
-PE-5, Total (ms): 60.793
-PE-7, Total (ms): 61.264
-PE-6, Total (ms): 68.400
-MPI time (ms) 170.668
-PE-3, Total (ms): 170.742
+PE-4, Total (ms): 32.913
+PE-2, Total (ms): 39.432
+PE-0, Total (ms): 43.302
+PE-1, Total (ms): 54.976
+PE-7, Total (ms): 59.888
+PE-5, Total (ms): 60.997
+PE-6, Total (ms): 66.744
+MPI time (ms) 171.356
+PE-3, Total (ms): 171.480
 ===================================
 Graph File: dataset/ogbn-products.mtx
 Graph File: dataset/ogbn-products.mtx
@@ -56,15 +56,15 @@ numNodes: 2449029, nodesPerPE: 306129
 numNodes: 2449029, nodesPerPE: 306129
 numNodes: 2449029, nodesPerPE: 306129
 numNodes: 2449029, nodesPerPE: 306129
-PE-2, Total (ms): 8.943
-PE-5, Total (ms): 9.011
-PE-4, Total (ms): 9.352
-PE-7, Total (ms): 10.237
-PE-1, Total (ms): 10.300
-PE-3, Total (ms): 10.351
-PE-6, Total (ms): 10.362
-PE-0, Total (ms): 21.545
-MPI time (ms) 21.489
+PE-5, Total (ms): 9.093
+PE-2, Total (ms): 8.990
+PE-4, Total (ms): 9.329
+PE-3, Total (ms): 10.287
+PE-7, Total (ms): 10.389
+PE-1, Total (ms): 10.397
+PE-6, Total (ms): 10.394
+PE-0, Total (ms): 21.833
+MPI time (ms) 21.859
 ===================================
 Graph File: dataset/ogbn-proteins.mtx
 Graph File: dataset/ogbn-proteins.mtx
@@ -90,15 +90,15 @@ numNodes: 132534, nodesPerPE: 16567
 numNodes: 132534, nodesPerPE: 16567
 numNodes: 132534, nodesPerPE: 16567
 numNodes: 132534, nodesPerPE: 16567
-PE-2, Total (ms): 2.589
-PE-1, Total (ms): 3.536
-PE-0, Total (ms): 4.239
-PE-4, Total (ms): 4.958
-PE-7, Total (ms): 4.891
-PE-3, Total (ms): 5.013
-PE-5, Total (ms): 5.526
-PE-6, Total (ms): 5.948
-MPI time (ms) 5.912
+PE-2, Total (ms): 2.592
+PE-1, Total (ms): 3.722
+PE-0, Total (ms): 4.273
+PE-4, Total (ms): 4.973
+PE-7, Total (ms): 5.015
+PE-3, Total (ms): 5.125
+PE-5, Total (ms): 5.632
+MPI time (ms) 5.959
+PE-6, Total (ms): 5.937
 ===================================
 Graph File: dataset/com-Orkut.mtx
 Graph File: dataset/com-Orkut.mtx
@@ -124,13 +124,13 @@ numNodes: 3072441, nodesPerPE: 384056
 numNodes: 3072441, nodesPerPE: 384056
 numNodes: 3072441, nodesPerPE: 384056
 numNodes: 3072441, nodesPerPE: 384056
-PE-6, Total (ms): 5.457
-PE-5, Total (ms): 6.061
-PE-4, Total (ms): 7.306
-PE-1, Total (ms): 8.047
-PE-0, Total (ms): 8.305
-PE-3, Total (ms): 8.950
-PE-2, Total (ms): 9.282
-PE-7, Total (ms): 3229.227
-MPI time (ms) 3230.233
+PE-6, Total (ms): 5.363
+PE-5, Total (ms): 5.901
+PE-4, Total (ms): 7.293
+PE-1, Total (ms): 7.866
+PE-0, Total (ms): 8.154
+PE-3, Total (ms): 8.782
+PE-2, Total (ms): 9.139
+PE-7, Total (ms): 3279.444
+MPI time (ms) 3280.273
 ===================================
