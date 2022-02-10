@@ -1,50 +1,64 @@
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/amazon0505.mtx
+Graph File: dataset/amazon0505.mtx
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 43471, nodesPerPE: 21736
-numNodes: 43471, nodesPerPE: 21736
-PE-0, Total (ms): 0.122
-MPI time (ms) 0.119
-PE-1, Total (ms): 0.111
-===================================
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
+PE[1]. local: 1099004, remote: 660212
+PE[0]. local: 2459446, remote: 660212
+SAG_cuda_kernel_ref: grid: 51280, block: 128
+PE[1] time (ms): 19.107
+out [0] 11.000,11.000,11.000,11.000,11.000,
+out [1] 10.000,10.000,10.000,10.000,10.000,
+out [2] 10.000,10.000,10.000,10.000,10.000,
+out [3] 5.000,5.000,5.000,5.000,5.000,
+out [4] 10.000,10.000,10.000,10.000,10.000,
+out [5] 16.000,16.000,16.000,16.000,16.000,
+out [6] 10.000,10.000,10.000,10.000,10.000,
+out [7] 10.000,10.000,10.000,10.000,10.000,
+out [8] 14.000,14.000,14.000,14.000,14.000,
+out [9] 10.000,10.000,10.000,10.000,10.000,
+==============================
+ref [0] 11.000,11.000,11.000,11.000,11.000,
+ref [1] 10.000,10.000,10.000,10.000,10.000,
+ref [2] 10.000,10.000,10.000,10.000,10.000,
+ref [3] 5.000,5.000,5.000,5.000,5.000,
+ref [4] 10.000,10.000,10.000,10.000,10.000,
+ref [5] 16.000,16.000,16.000,16.000,16.000,
+ref [6] 10.000,10.000,10.000,10.000,10.000,
+ref [7] 10.000,10.000,10.000,10.000,10.000,
+ref [8] 14.000,14.000,14.000,14.000,14.000,
+ref [9] 10.000,10.000,10.000,10.000,10.000,
+PE[0] time (ms): 22.023
+Validation on PE-{1}, status: True
+Graph File: dataset/artist.mtx
+Graph File: dataset/artist.mtx
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 1890931, nodesPerPE: 945466
-numNodes: 1890931, nodesPerPE: 945466
-PE-1, Total (ms): 3.873
-PE-0, Total (ms): 3.885
-MPI time (ms) 3.882
-===================================
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
-Complete loading graphs !!
-Complete loading graphs !!
-numNodes: 1714644, nodesPerPE: 857322
-numNodes: 1714644, nodesPerPE: 857322
-PE-1, Total (ms): 3.439
-PE-0, Total (ms): 3.456
-MPI time (ms) 3.452
-===================================
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
-Complete loading graphs !!
-Complete loading graphs !!
-numNodes: 334925, nodesPerPE: 167463
-numNodes: 334925, nodesPerPE: 167463
-PE-1, Total (ms): 0.827
-PE-0, Total (ms): 0.831
-MPI time (ms) 0.843
-===================================
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
-Complete loading graphs !!
-Complete loading graphs !!
-numNodes: 1889971, nodesPerPE: 944986
-numNodes: 1889971, nodesPerPE: 944986
-PE-0, Total (ms): 3.873
-MPI time (ms) 3.891
-PE-1, Total (ms): 3.864
-===================================
+PE[1]. local: 408693, remote: 409724
+PE[0]. local: 410255, remote: 409724
+SAG_cuda_kernel_ref: grid: 6315, block: 128
+PE[0] time (ms): 4.352
+PE[1] time (ms): 4.375
+out [0] 248.000,248.000,248.000,248.000,248.000,
+out [1] 6.000,6.000,6.000,6.000,6.000,
+out [2] 11.000,11.000,11.000,11.000,11.000,
+out [3] 76.000,76.000,76.000,76.000,76.000,
+out [4] 6.000,6.000,6.000,6.000,6.000,
+out [5] 61.000,61.000,61.000,61.000,61.000,
+out [6] 32.000,32.000,32.000,32.000,32.000,
+out [7] 4.000,4.000,4.000,4.000,4.000,
+out [8] 19.000,19.000,19.000,19.000,19.000,
+out [9] 53.000,53.000,53.000,53.000,53.000,
+==============================
+ref [0] 248.000,248.000,248.000,248.000,248.000,
+ref [1] 6.000,6.000,6.000,6.000,6.000,
+ref [2] 11.000,11.000,11.000,11.000,11.000,
+ref [3] 76.000,76.000,76.000,76.000,76.000,
+ref [4] 6.000,6.000,6.000,6.000,6.000,
+ref [5] 61.000,61.000,61.000,61.000,61.000,
+ref [6] 32.000,32.000,32.000,32.000,32.000,
+ref [7] 4.000,4.000,4.000,4.000,4.000,
+ref [8] 19.000,19.000,19.000,19.000,19.000,
+ref [9] 53.000,53.000,53.000,53.000,53.000,
+Validation on PE-{1}, status: True
+Graph File: dataset/com-amazon.mtx
+Graph File: dataset/com-amazon.mtx

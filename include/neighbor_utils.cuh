@@ -664,23 +664,24 @@ const int* column_index_r,
 const int lb,
 const int ub,
 const int dim,
-const int nodePerPE
+const int nodePerPE,
+const int peid
 ){
   const int num_nodes = ub - lb;
   
-  const int warpPerBlock = 4;
-  const int np_size = 4;   // for implicit neighbor partition size = 4.
+  const int warpPerBlock = 32;
+  const int np_size = 16;   // for implicit neighbor partition size = 4.
 
   const int block = warpPerBlock * WARP_SIZE;
   const int grid = num_nodes; // one node per block.
   const int dyn_shared_mem = 2 * warpPerBlock * dim * sizeof(float); // for temporal  caching the NVSHMEM result.
 
-  // cudaEvent_t start, stop;
-  // cudaEventCreate(&start);
-  // cudaEventCreate(&stop);
-  // cudaEventRecord(start);
-  // #define NPROF 1
-  // for (int i = 0; i < NPROF; i++)
+  cudaEvent_t start, stop;
+  cudaEventCreate(&start);
+  cudaEventCreate(&stop);
+  cudaEventRecord(start);
+//   #define NPROF 100
+//   for (int i = 0; i < NPROF; i++)
   mgg_SAG_np_div_cuda<<<grid, block, dyn_shared_mem>>>(
                                                   output, input,
                                                   row_pointers_l, column_index_l,
@@ -690,12 +691,13 @@ const int nodePerPE
                                                   nodePerPE,
                                                   np_size,
                                                   warpPerBlock);
-                          
-  // cudaEventRecord(stop);
-  // cudaEventSynchronize(stop);
-  // float milliseconds = 0;
-  // cudaEventElapsedTime(&milliseconds, start, stop);
-  // printf("kernel time (ms): %.3f\n", milliseconds/NPROF);
+  
+  cudaEventRecord(stop);
+  cudaEventSynchronize(stop);
+  float milliseconds = 0;
+  cudaEventElapsedTime(&milliseconds, start, stop);
+  printf("PE[%d] time (ms): %.3f\n", peid, milliseconds/NPROF);
+
   gpuErrchk(cudaDeviceSynchronize());
   cudaError_t error = cudaGetLastError();
   if(error != cudaSuccess){

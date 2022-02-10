@@ -1,11 +1,11 @@
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -14,32 +14,31 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 43471, nodesPerPE: 5434
-numNodes: 43471, nodesPerPE: 5434
-numNodes: 43471, nodesPerPE: 5434
-numNodes: 43471, nodesPerPE: 5434
-numNodes: 43471, nodesPerPE: 5434
-numNodes: 43471, nodesPerPE: 5434
-numNodes: 43471, nodesPerPE: 5434
-numNodes: 43471, nodesPerPE: 5434
-PE-4, Total (ms): 0.100
-PE-3, Total (ms): 0.096
-PE-5, Total (ms): 0.101
-PE-0, Total (ms): 0.093
-MPI time (ms) 0.094
-PE-6, Total (ms): 0.096
-PE-7, Total (ms): 0.094
-PE-1, Total (ms): 0.090
-PE-2, Total (ms): 0.103
+PE[5]. local: 1772006, remote: 12486903
+PE[0]. local: 1947636, remote: 12985839
+PE[6]. local: 1692318, remote: 12230545
+PE[7]. local: 1638666, remote: 12047043
+PE[2]. local: 1862502, remote: 12745815
+PE[1]. local: 1825986, remote: 12638374
+PE[3]. local: 1768826, remote: 12465571
+PE[4]. local: 1833360, remote: 12674502
+PE[7] time (ms): 10.592
+PE[6] time (ms): 10.641
+PE[2] time (ms): 10.724
+PE[3] time (ms): 10.875
+PE[5] time (ms): 11.130
+PE[4] time (ms): 10.924
+PE[0] time (ms): 10.872
+PE[1] time (ms): 11.011
 ===================================
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -48,32 +47,31 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 1890931, nodesPerPE: 236367
-numNodes: 1890931, nodesPerPE: 236367
-numNodes: 1890931, nodesPerPE: 236367
-numNodes: 1890931, nodesPerPE: 236367
-numNodes: 1890931, nodesPerPE: 236367
-numNodes: 1890931, nodesPerPE: 236367
-numNodes: 1890931, nodesPerPE: 236367
-numNodes: 1890931, nodesPerPE: 236367
-PE-7, Total (ms): 1.211
-PE-1, Total (ms): 1.201
-PE-5, Total (ms): 1.200
-PE-4, Total (ms): 1.181
-PE-2, Total (ms): 1.112
-PE-6, Total (ms): 1.130
-PE-0, Total (ms): 1.135
-MPI time (ms) 1.051
-PE-3, Total (ms): 1.221
+PE[4]. local: 8814200, remote: 9333351
+PE[6]. local: 11305866, remote: 10980742
+PE[5]. local: 17278052, remote: 10152869
+PE[1]. local: 13061890, remote: 11867546
+PE[7]. local: 13521396, remote: 10614511
+PE[2]. local: 12446316, remote: 10453728
+PE[3]. local: 15359000, remote: 12856091
+PE[0]. local: 20589454, remote: 13988214
+PE[5] time (ms): 66.942
+PE[2] time (ms): 68.608
+PE[4] time (ms): 69.358
+PE[7] time (ms): 69.676
+PE[6] time (ms): 70.440
+PE[0] time (ms): 71.707
+PE[1] time (ms): 73.022
+PE[3] time (ms): 83.452
 ===================================
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -82,32 +80,31 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 1714644, nodesPerPE: 214331
-numNodes: 1714644, nodesPerPE: 214331
-numNodes: 1714644, nodesPerPE: 214331
-numNodes: 1714644, nodesPerPE: 214331
-numNodes: 1714644, nodesPerPE: 214331
-numNodes: 1714644, nodesPerPE: 214331
-numNodes: 1714644, nodesPerPE: 214331
-numNodes: 1714644, nodesPerPE: 214331
-PE-0, Total (ms): 0.946
-MPI time (ms) 0.904
-PE-1, Total (ms): 0.941
-PE-2, Total (ms): 0.940
-PE-7, Total (ms): 0.930
-PE-4, Total (ms): 0.946
-PE-6, Total (ms): 0.949
-PE-5, Total (ms): 0.940
-PE-3, Total (ms): 0.937
+PE[7]. local: 1187310, remote: 10726129
+PE[5]. local: 1191960, remote: 10732886
+PE[4]. local: 1196888, remote: 10758168
+PE[6]. local: 1210650, remote: 10808763
+PE[2]. local: 1203110, remote: 10786567
+PE[3]. local: 1195556, remote: 10749551
+PE[1]. local: 1182562, remote: 10712349
+PE[0]. local: 14994410, remote: 25081421
+PE[2] time (ms): 42.152
+PE[7] time (ms): 42.151
+PE[1] time (ms): 42.253
+PE[5] time (ms): 42.305
+PE[4] time (ms): 42.451
+PE[6] time (ms): 42.650
+PE[3] time (ms): 42.479
+PE[0] time (ms): 60.793
 ===================================
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -116,32 +113,31 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 334925, nodesPerPE: 41866
-numNodes: 334925, nodesPerPE: 41866
-numNodes: 334925, nodesPerPE: 41866
-numNodes: 334925, nodesPerPE: 41866
-numNodes: 334925, nodesPerPE: 41866
-numNodes: 334925, nodesPerPE: 41866
-numNodes: 334925, nodesPerPE: 41866
-numNodes: 334925, nodesPerPE: 41866
-PE-7, Total (ms): 0.250
-PE-1, Total (ms): 0.243
-PE-0, Total (ms): 0.265
-MPI time (ms) 0.249
-PE-2, Total (ms): 0.264
-PE-6, Total (ms): 0.267
-PE-5, Total (ms): 0.250
-PE-4, Total (ms): 0.275
-PE-3, Total (ms): 0.233
+PE[1]. local: 2379448, remote: 2446297
+PE[4]. local: 6246888, remote: 4899222
+PE[2]. local: 5671266, remote: 1721074
+PE[6]. local: 4699252, remote: 6902592
+PE[3]. local: 5397098, remote: 4070370
+PE[7]. local: 3657532, remote: 6545041
+PE[0]. local: 9491116, remote: 2257128
+PE[5]. local: 9169412, remote: 3568768
+PE[1] time (ms): 3.872
+PE[2] time (ms): 3.981
+PE[3] time (ms): 4.991
+PE[0] time (ms): 5.297
+PE[5] time (ms): 5.945
+PE[4] time (ms): 6.014
+PE[7] time (ms): 6.160
+PE[6] time (ms): 6.668
 ===================================
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -150,21 +146,20 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 1889971, nodesPerPE: 236247
-numNodes: 1889971, nodesPerPE: 236247
-numNodes: 1889971, nodesPerPE: 236247
-numNodes: 1889971, nodesPerPE: 236247
-numNodes: 1889971, nodesPerPE: 236247
-numNodes: 1889971, nodesPerPE: 236247
-numNodes: 1889971, nodesPerPE: 236247
-numNodes: 1889971, nodesPerPE: 236247
-PE-5, Total (ms): 1.000
-PE-4, Total (ms): 1.064
-PE-7, Total (ms): 1.036
-PE-6, Total (ms): 1.064
-PE-0, Total (ms): 1.066
-MPI time (ms) 1.028
-PE-2, Total (ms): 1.057
-PE-1, Total (ms): 1.013
-PE-3, Total (ms): 1.061
+PE[6]. local: 747213, remote: 5040422
+PE[5]. local: 510097, remote: 6144785
+PE[1]. local: 1977318, remote: 7241984
+PE[0]. local: 10677831, remote: 4400263
+PE[4]. local: 1623961, remote: 7681504
+PE[3]. local: 2415532, remote: 10183433
+PE[2]. local: 4772399, remote: 10120081
+PE[7]. local: 40733505, remote: 2914755
+PE[6] time (ms): 43.923
+PE[5] time (ms): 45.044
+PE[0] time (ms): 47.105
+PE[1] time (ms): 48.839
+PE[2] time (ms): 50.600
+PE[4] time (ms): 51.726
+PE[3] time (ms): 54.589
+PE[7] time (ms): 540.028
 ===================================

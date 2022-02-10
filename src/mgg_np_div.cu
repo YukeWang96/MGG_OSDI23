@@ -14,7 +14,7 @@
 #include "csr_formatter.h"
 #include "layer.h"
 
-// #define validate 1 // the number (< num_GPUs) indicates the validation on which PE.
+#define validate 1 // the number (< num_GPUs) indicates the validation on which PE.
 
 using namespace cudl;
 using namespace std;
@@ -75,9 +75,7 @@ int main(int argc, char* argv[]){
     auto local_col_idx_vec = split_output[2];
     auto remote_col_idx_vec = split_output[3];
 
-    printf("local_col_idx_vec = %d, remote_col_idx_vec = %d, local_edges = %d\n",
-            local_col_idx_vec.size(), remote_col_idx_vec.size(), local_edges);
-    // exit(0);
+    printf("PE[%d]. local: %d, remote: %d\n", mype_node, local_col_idx_vec.size(), remote_col_idx_vec.size());
 
     // Allocate memory on each device.
     float *d_input, *d_output, *h_input, *h_output;
@@ -140,22 +138,21 @@ int main(int argc, char* argv[]){
     //
     // Compute on each GPU device.
     //
-    std::clock_t c_start = std::clock();    
-    MPI_Barrier(MPI_COMM_WORLD);
-    t1 = MPI_Wtime(); 
+    // std::clock_t c_start = std::clock();    
+    // MPI_Barrier(MPI_COMM_WORLD);
+    // nvshmem_sync_all();
+    // t1 = MPI_Wtime(); 
 
     mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                    lb, ub, dim, nodesPerPE);
+                    lb, ub, dim, nodesPerPE, mype_node);
 
-    gpuErrchk(cudaGetLastError());
-    gpuErrchk(cudaDeviceSynchronize());
-
-    std::clock_t c_end = std::clock();
-    float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
-    printf("PE-%d, Total (ms): %.3f\n", mype_node, time_elapsed_ms);
-    MPI_Barrier(MPI_COMM_WORLD); 
-    t2 = MPI_Wtime(); 
-    if (mype_node == 0) printf( "MPI time (ms) %.3f\n", (t2 - t1)*1e3); 
+    // nvshmem_sync_all();
+    // std::clock_t c_end = std::clock();
+    // float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
+    // printf("PE-%d, Total (ms): %.3f\n", mype_node, time_elapsed_ms);
+    // MPI_Barrier(MPI_COMM_WORLD); 
+    // t2 = MPI_Wtime(); 
+    // if (mype_node == 0) printf( "MPI time (ms) %.3f\n", (t2 - t1)*1e3); 
     
     gpuErrchk(cudaMemcpy(h_output, d_output, nodesPerPE*dim*sizeof(float), cudaMemcpyDeviceToHost));
 
@@ -194,13 +191,16 @@ int main(int argc, char* argv[]){
     free(h_input);
     free(h_output);
 
+    MPI_Finalize();
+
     #ifdef validate
-    cudaFree(d_output_ref);
-    free(h_output_ref);
+    if (mype_node == validate){
+        cudaFree(d_output_ref);
+        free(h_output_ref);
+    }
     #endif
 
-    MPI_Finalize();
-    
+
     if (mype_node == 0) 
         printf("===================================\n");
 

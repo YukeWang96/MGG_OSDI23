@@ -1,90 +1,85 @@
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
-Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 43471, nodesPerPE: 10868
-numNodes: 43471, nodesPerPE: 10868
-numNodes: 43471, nodesPerPE: 10868
-numNodes: 43471, nodesPerPE: 10868
-PE-3, Total (ms): 0.081
-PE-2, Total (ms): 0.084
-PE-1, Total (ms): 0.089
-PE-0, Total (ms): 0.077
-MPI time (ms) 0.096
+PE[3]. local: 6664666, remote: 20943906
+PE[0]. local: 7543526, remote: 21854309
+PE[2]. local: 7215676, remote: 21551095
+PE[1]. local: 7261854, remote: 21580860
+PE[3] time (ms): 20.309
+PE[2] time (ms): 20.744
+PE[1] time (ms): 20.702
+PE[0] time (ms): 20.852
 ===================================
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
-Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 1890931, nodesPerPE: 472733
-numNodes: 1890931, nodesPerPE: 472733
-numNodes: 1890931, nodesPerPE: 472733
-numNodes: 1890931, nodesPerPE: 472733
-PE-0, Total (ms): 1.966
-MPI time (ms) 1.997
-PE-1, Total (ms): 1.962
-PE-2, Total (ms): 1.979
-PE-3, Total (ms): 1.974
+PE[3]. local: 27712908, remote: 18709657
+PE[2]. local: 28580292, remote: 16998184
+PE[1]. local: 31003304, remote: 20112089
+PE[0]. local: 38781028, remote: 20725764
+PE[3] time (ms): 128.513
+PE[2] time (ms): 132.174
+PE[0] time (ms): 137.772
+PE[1] time (ms): 148.465
 ===================================
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
-Graph File: dataset/Yeast.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 1714644, nodesPerPE: 428661
-numNodes: 1714644, nodesPerPE: 428661
-numNodes: 1714644, nodesPerPE: 428661
-numNodes: 1714644, nodesPerPE: 428661
-PE-0, Total (ms): 1.754
-MPI time (ms) 1.793
-PE-3, Total (ms): 1.757
-PE-1, Total (ms): 1.797
-PE-2, Total (ms): 1.771
+PE[3]. local: 4797248, remote: 19135604
+PE[2]. local: 4777370, remote: 19102532
+PE[1]. local: 4794068, remote: 19140716
+PE[0]. local: 23321842, remote: 28648900
+PE[3] time (ms): 85.809
+PE[2] time (ms): 89.803
+PE[1] time (ms): 90.130
+PE[0] time (ms): 106.057
 ===================================
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
-Graph File: dataset/DD.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 334925, nodesPerPE: 83732
-numNodes: 334925, nodesPerPE: 83732
-numNodes: 334925, nodesPerPE: 83732
-numNodes: 334925, nodesPerPE: 83732
-PE-0, Total (ms): 0.449
-MPI time (ms) 0.458
-PE-2, Total (ms): 0.439
-PE-3, Total (ms): 0.445
-PE-1, Total (ms): 0.437
+PE[0]. local: 13965494, remote: 2608495
+PE[1]. local: 11404888, remote: 5454920
+PE[3]. local: 15862190, remote: 5942227
+PE[2]. local: 16304984, remote: 7579306
+PE[0] time (ms): 7.748
+PE[1] time (ms): 8.851
+PE[3] time (ms): 10.446
+PE[2] time (ms): 11.429
 ===================================
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
-Graph File: dataset/SW-620H.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 1889971, nodesPerPE: 472493
-numNodes: 1889971, nodesPerPE: 472493
-numNodes: 1889971, nodesPerPE: 472493
-numNodes: 1889971, nodesPerPE: 472493
-PE-2, Total (ms): 1.960
-PE-1, Total (ms): 1.966
-PE-0, Total (ms): 1.991
-MPI time (ms) 1.981
-PE-3, Total (ms): 1.969
+PE[2]. local: 5635450, remote: 10324898
+PE[0]. local: 18720924, remote: 5576465
+PE[1]. local: 16003805, remote: 11487600
+PE[3]. local: 44190913, remote: 5245028
+PE[0] time (ms): 84.629
+PE[1] time (ms): 89.659
+PE[2] time (ms): 92.690
+PE[3] time (ms): 572.650
 ===================================
