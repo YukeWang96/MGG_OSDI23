@@ -1,41 +1,18 @@
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 56944, nodesPerPE: 14236
-numNodes: 56944, nodesPerPE: 14236
-numNodes: 56944, nodesPerPE: 14236
-numNodes: 56944, nodesPerPE: 14236
-SAG_cuda_kernel_ref: grid: 3559, block: 128
-PE-3, Total (ms): 0.117
-PE-0, Total (ms): 0.316
-MPI time (ms) 0.318
-PE-1, Total (ms): 0.277
-PE-2, Total (ms): 0.272
-out [0] 18.000,18.000,18.000,38.000,38.000,
-out [1] 38.000,38.000,38.000,25.000,25.000,
-out [2] 25.000,25.000,25.000,107.000,107.000,
-out [3] 107.000,107.000,107.000,97.000,97.000,
-out [4] 97.000,97.000,97.000,18.000,18.000,
-out [5] 18.000,18.000,18.000,25.000,25.000,
-out [6] 25.000,25.000,25.000,3.000,3.000,
-out [7] 3.000,3.000,3.000,18.000,18.000,
-out [8] 18.000,18.000,18.000,37.000,37.000,
-out [9] 37.000,37.000,37.000,210.000,210.000,
-==============================
-ref [0] 18.000,18.000,18.000,38.000,38.000,
-ref [1] 38.000,38.000,38.000,25.000,25.000,
-ref [2] 25.000,25.000,25.000,107.000,107.000,
-ref [3] 107.000,107.000,107.000,97.000,97.000,
-ref [4] 97.000,97.000,97.000,18.000,18.000,
-ref [5] 18.000,18.000,18.000,25.000,25.000,
-ref [6] 25.000,25.000,25.000,3.000,3.000,
-ref [7] 3.000,3.000,3.000,18.000,18.000,
-ref [8] 18.000,18.000,18.000,37.000,37.000,
-ref [9] 37.000,37.000,37.000,210.000,210.000,
-Validation on PE-{1}, status: True
+numNodes: 232965, nodesPerPE: 58242
+numNodes: 232965, nodesPerPE: 58242
+numNodes: 232965, nodesPerPE: 58242
+numNodes: 232965, nodesPerPE: 58242
+PE-3, Total (ms): 16.941
+PE-1, Total (ms): 17.239
+PE-0, Total (ms): 18.682
+PE-2, Total (ms): 19.503
+MPI time (ms) 19.496
 ===================================

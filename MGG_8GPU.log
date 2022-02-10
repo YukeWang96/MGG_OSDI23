@@ -1,11 +1,11 @@
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
-Graph File: dataset/ppi.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -14,44 +14,21 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 56944, nodesPerPE: 7118
-numNodes: 56944, nodesPerPE: 7118
-numNodes: 56944, nodesPerPE: 7118
-numNodes: 56944, nodesPerPE: 7118
-numNodes: 56944, nodesPerPE: 7118
-numNodes: 56944, nodesPerPE: 7118
-numNodes: 56944, nodesPerPE: 7118
-numNodes: 56944, nodesPerPE: 7118
-SAG_cuda_kernel_ref: grid: 1780, block: 128
-PE-7, Total (ms): 0.095
-PE-4, Total (ms): 0.202
-PE-5, Total (ms): 0.249
-PE-1, Total (ms): 0.288
-out [0] 6.000,6.000,6.000,3.000,3.000,
-out [1] 3.000,3.000,3.000,6.000,6.000,
-out [2] 6.000,6.000,6.000,14.000,14.000,
-out [3] 14.000,14.000,14.000,45.000,45.000,
-out [4] 45.000,45.000,45.000,29.000,29.000,
-PE-0, Total (ms): 0.229
-MPI time (ms) 0.263
-PE-6, Total (ms): 0.236
-PE-2, Total (ms): 0.245
-PE-3, Total (ms): 0.250
-out [5] 29.000,29.000,29.000,12.000,12.000,
-out [6] 12.000,12.000,12.000,13.000,13.000,
-out [7] 13.000,13.000,13.000,28.000,28.000,
-out [8] 28.000,28.000,28.000,20.000,20.000,
-out [9] 20.000,20.000,20.000,91.000,91.000,
-==============================
-ref [0] 6.000,6.000,6.000,3.000,3.000,
-ref [1] 3.000,3.000,3.000,6.000,6.000,
-ref [2] 6.000,6.000,6.000,14.000,14.000,
-ref [3] 14.000,14.000,14.000,45.000,45.000,
-ref [4] 45.000,45.000,45.000,29.000,29.000,
-ref [5] 29.000,29.000,29.000,12.000,12.000,
-ref [6] 12.000,12.000,12.000,13.000,13.000,
-ref [7] 13.000,13.000,13.000,28.000,28.000,
-ref [8] 28.000,28.000,28.000,20.000,20.000,
-ref [9] 20.000,20.000,20.000,91.000,91.000,
-Validation on PE-{1}, status: True
+numNodes: 232965, nodesPerPE: 29121
+numNodes: 232965, nodesPerPE: 29121
+numNodes: 232965, nodesPerPE: 29121
+numNodes: 232965, nodesPerPE: 29121
+numNodes: 232965, nodesPerPE: 29121
+numNodes: 232965, nodesPerPE: 29121
+numNodes: 232965, nodesPerPE: 29121
+numNodes: 232965, nodesPerPE: 29121
+PE-7, Total (ms): 11.024
+PE-3, Total (ms): 11.187
+PE-0, Total (ms): 11.353
+PE-2, Total (ms): 12.189
+PE-6, Total (ms): 12.280
+PE-1, Total (ms): 12.438
+PE-4, Total (ms): 12.765
+PE-5, Total (ms): 14.159
+MPI time (ms) 14.099
 ===================================

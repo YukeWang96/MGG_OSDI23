@@ -14,7 +14,7 @@
 #include "csr_formatter.h"
 #include "layer.h"
 
-#define validate 1
+#define validate 0 // the number (< num_GPUs) indicates the validation on which PE.
 
 using namespace cudl;
 using namespace std;
@@ -64,18 +64,31 @@ int main(int argc, char* argv[]){
     printf("numNodes: %d, nodesPerPE: %d\n", numNodes, nodesPerPE);
     int lb = nodesPerPE * mype_node;
     int ub = (lb + nodesPerPE) < numNodes? (lb + nodesPerPE) : numNodes;
-    int local_nodes = ub - lb;
     int local_edges = asym.row_ptr[ub] - asym.row_ptr[lb];
     int edge_beg = asym.row_ptr[lb];
+
+    // Divide the CSR into the local and remote for each GPU.
+    auto split_output = split_CSR<int>(asym.row_ptr, asym.col_ind, lb, ub);
+    // printf("lb: %d, ub: %d\n", lb, ub);
+    auto local_ptr_vec = split_output[0];       // with the base start from lb.
+    auto remote_ptr_vec = split_output[1];      // with the base start from ub.
+    auto local_col_idx_vec = split_output[2];
+    auto remote_col_idx_vec = split_output[3];
+
+    // printf("local_col_idx_vec = %d, remote_col_idx_vec = %d, local_edges = %d\n",
+    //         local_col_idx_vec.size(), remote_col_idx_vec.size(), local_edges);
+    // exit(0);
 
     // Allocate memory on each device.
     float *d_input, *d_output, *h_input, *h_output;
     gpuErrchk(cudaMalloc((void**)&d_output, nodesPerPE * dim * sizeof(float))); 
-    d_input = (float *) nvshmem_malloc (nodesPerPE * dim * sizeof(float)); // NVSHMEM global memory
-    h_input = (float *) malloc (nodesPerPE * dim * sizeof(float));      // CPU host memory (input)
-    h_output = (float *) malloc (nodesPerPE * dim * sizeof(float));     //  CPU host memory (output)
-    std::fill_n(h_input, nodesPerPE*dim, 1.0f); // filled with all ones.
-    std::fill_n(h_output, nodesPerPE*dim, 0.0f); // filled with all zeros.
+    d_input = (float *) nvshmem_malloc (nodesPerPE * dim * sizeof(float));  // NVSHMEM global memory for input embedding.
+    h_input = (float *) malloc (nodesPerPE * dim * sizeof(float));          // CPU host memory (input)
+    h_output = (float *) malloc (nodesPerPE * dim * sizeof(float));         //  CPU host memory (output)
+    std::fill_n(h_input, nodesPerPE*dim, 1.0f); // filled with all ones for input embeddings.
+    std::fill_n(h_output, nodesPerPE*dim, 0.0f); // filled with all zeros for output embeddings.
+    gpuErrchk(cudaMemcpy(d_input, h_input, nodesPerPE * dim * sizeof(float), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_output, h_output, nodesPerPE * dim * sizeof(float), cudaMemcpyHostToDevice));
 
     #ifdef validate
     float *h_input_ref, *h_output_ref,  *d_input_ref, *d_output_ref;
@@ -90,12 +103,16 @@ int main(int argc, char* argv[]){
     }
     #endif
 
-    int *d_row_ptr, *d_col_ind;
-    gpuErrchk(cudaMalloc((void**)&d_row_ptr, (local_nodes + 1)*sizeof(int))); 
-    gpuErrchk(cudaMalloc((void**)&d_col_ind, local_edges*sizeof(int))); 
-    gpuErrchk(cudaMemcpy(d_row_ptr, &asym.row_ptr[lb], (local_nodes + 1)*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_col_ind, &asym.col_ind[edge_beg], local_edges*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_input, h_input, nodesPerPE*dim*sizeof(float), cudaMemcpyHostToDevice));
+    int *d_row_ptr_l, *d_col_ind_l,  *d_row_ptr_r, *d_col_ind_r;
+    gpuErrchk(cudaMalloc((void**)&d_row_ptr_l, local_ptr_vec.size()*sizeof(int))); 
+    gpuErrchk(cudaMalloc((void**)&d_col_ind_l, local_col_idx_vec.size()*sizeof(int))); 
+    gpuErrchk(cudaMalloc((void**)&d_row_ptr_r, remote_ptr_vec.size()*sizeof(int))); 
+    gpuErrchk(cudaMalloc((void**)&d_col_ind_r, remote_col_idx_vec.size()*sizeof(int))); 
+
+    gpuErrchk(cudaMemcpy(d_row_ptr_l, &local_ptr_vec[0], local_ptr_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_col_ind_l, &local_col_idx_vec[0], local_col_idx_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_row_ptr_r, &remote_ptr_vec[0], remote_ptr_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_col_ind_r, &remote_col_idx_vec[0], remote_col_idx_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
 
     #ifdef validate
     int* d_row_ptr_ref, *d_col_ind_ref;
@@ -104,10 +121,13 @@ int main(int argc, char* argv[]){
         gpuErrchk(cudaMalloc((void**)&d_row_ptr_ref, asym.row_ptr.size()*sizeof(int))); 
         gpuErrchk(cudaMalloc((void**)&d_col_ind_ref, asym.col_ind.size()*sizeof(int))); 
         gpuErrchk(cudaMemcpy(d_row_ptr_ref, &asym.row_ptr[0], asym.row_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
-        gpuErrchk(cudaMemcpy(d_col_ind_ref, &asym.col_ind[edge_beg], asym.col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
+        gpuErrchk(cudaMemcpy(d_col_ind_ref, &asym.col_ind[0], asym.col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
         gpuErrchk(cudaMemcpy(d_input_ref, h_input_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
         gpuErrchk(cudaMemcpy(d_output_ref, h_output_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
-
+        
+        //
+        // Compute the result [lb, ub] based on the whole graph CSR.
+        //
         SAG_host_ref(d_output_ref, d_input_ref, 
                     d_row_ptr_ref, d_col_ind_ref, 
                     lb, ub, dim);
@@ -115,23 +135,17 @@ int main(int argc, char* argv[]){
         gpuErrchk(cudaMemcpy(h_output_ref, d_output_ref, numNodes * dim * sizeof(float), cudaMemcpyDeviceToHost));
     }
     #endif
-
-    // if (mype_node == 0)
-    // {
-    //     for (int i = 0; i < local_edges; i++){
-    //         printf("asym.col_ind[%d]: %d\n", edge_beg+i, asym.col_ind[edge_beg + i]);
-    //     }
-    //     print_dev_column_index<<<1,1>>>(d_col_ind, local_edges);    
-    // }
-
     MPI_Barrier(MPI_COMM_WORLD); 
 
-    // Compute on each device.
+    //
+    // Compute on each GPU device.
+    //
     std::clock_t c_start = std::clock();    
     MPI_Barrier(MPI_COMM_WORLD);
     t1 = MPI_Wtime(); 
 
-    mgg_SAG_basic(d_output, d_input, d_row_ptr, d_col_ind,
+    mgg_SAG_np_pipeline(d_output, d_input, 
+                    d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
                     lb, ub, dim, nodesPerPE);
 
     gpuErrchk(cudaGetLastError());
@@ -145,7 +159,6 @@ int main(int argc, char* argv[]){
     if (mype_node == 0) printf( "MPI time (ms) %.3f\n", (t2 - t1)*1e3); 
     
     gpuErrchk(cudaMemcpy(h_output, d_output, nodesPerPE*dim*sizeof(float), cudaMemcpyDeviceToHost));
-
 
     #ifdef validate
     if (mype_node == validate){
@@ -164,7 +177,7 @@ int main(int argc, char* argv[]){
             }
             printf("\n");
         }
-        bool val_status = check_equal(h_output_ref, h_output, (ub - lb) * dim, lb * dim);
+        bool val_status = check_equal(h_output_ref, h_output, (ub - lb) * dim, dim, lb * dim);
         printf("Validation on PE-{%d}, status: ", validate);
         if (val_status) printf("True\n"); else printf("False\n");
     }
@@ -172,11 +185,21 @@ int main(int argc, char* argv[]){
 
     // release memory.
     cudaFree(d_output);
-    cudaFree(d_row_ptr);
-    cudaFree(d_col_ind);
-
+    cudaFree(d_row_ptr_l);
+    cudaFree(d_col_ind_l);
+    cudaFree(d_row_ptr_r);
+    cudaFree(d_col_ind_r);
     nvshmem_free(d_input);
     nvshmem_finalize();
+
+    free(h_input);
+    free(h_output);
+
+    #ifdef validate
+    cudaFree(d_output_ref);
+    free(h_output_ref);
+    #endif
+
     MPI_Finalize();
     
     if (mype_node == 0) 
