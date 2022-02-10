@@ -14,7 +14,7 @@
 #include "csr_formatter.h"
 #include "layer.h"
 
-#define validate 0 // the number (< num_GPUs) indicates the validation on which PE.
+// #define validate 0 // the number (< num_GPUs) indicates the validation on which PE.
 
 using namespace cudl;
 using namespace std;

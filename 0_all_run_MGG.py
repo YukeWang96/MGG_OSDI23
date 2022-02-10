@@ -5,12 +5,12 @@ import os
 # num_gpus = [2, 4, 8]
 os.system("mv *.csv csvs/")
 # num_gpus = [2,4,8]
-num_gpus = [2]
+num_gpus = [2,4,8]
 
 for gpu in num_gpus:
     os.system("./0_bench_MGG.py {0}| tee MGG_{0}GPU.log".format(gpu))
-    # os.system("./1_analysis.py MGG_{0}GPU.log {0}".format(gpu))
-    # os.system("mv MGG_{0}GPU.log logs/".format(gpu))
+    os.system("./1_analysis.py MGG_{0}GPU.log {0}".format(gpu))
+    os.system("mv MGG_{0}GPU.log logs/".format(gpu))
 
 # for dist in [1,2,4,8,16,32]:
 # for dist in [1,2,3,4]:
