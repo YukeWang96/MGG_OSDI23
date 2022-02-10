@@ -1,0 +1,51 @@
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Graph File: dataset/Reddit.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+PE-7-local, num_nodes: 29118, part_size, 8, num_parts, 217766
+PE-6-local, num_nodes: 29121, part_size, 8, num_parts, 224451
+PE-3-local, num_nodes: 29121, part_size, 8, num_parts, 234082
+PE-2-local, num_nodes: 29121, part_size, 8, num_parts, 245744
+PE-5-local, num_nodes: 29121, part_size, 8, num_parts, 234404
+PE-4-local, num_nodes: 29121, part_size, 8, num_parts, 242039
+PE-1-local, num_nodes: 29121, part_size, 8, num_parts, 241133
+PE-0-local, num_nodes: 29121, part_size, 8, num_parts, 256335
+PE-7-remote, num_nodes: 29118, part_size, 8, num_parts, 1518848
+PE-6-remote, num_nodes: 29121, part_size, 8, num_parts, 1541715
+PE-3-remote, num_nodes: 29121, part_size, 8, num_parts, 1571089
+PE-2-remote, num_nodes: 29121, part_size, 8, num_parts, 1606159
+PE-5-remote, num_nodes: 29121, part_size, 8, num_parts, 1573696
+PE-4-remote, num_nodes: 29121, part_size, 8, num_parts, 1597285
+PE-1-remote, num_nodes: 29121, part_size, 8, num_parts, 1592703
+PE-0-remote, num_nodes: 29121, part_size, 8, num_parts, 1636073
+PreProcess time (s) 1.633
+grid: 200770, block: 32, shared_memory (KB): 0.160
+grid: 199661, block: 32, shared_memory (KB): 0.160
+grid: 192715, block: 32, shared_memory (KB): 0.160
+grid: 204510, block: 32, shared_memory (KB): 0.160
+grid: 189856, block: 32, shared_memory (KB): 0.160
+grid: 196387, block: 32, shared_memory (KB): 0.160
+grid: 199088, block: 32, shared_memory (KB): 0.160
+grid: 196712, block: 32, shared_memory (KB): 0.160
+PE-6, Total (ms): 2.471, Dense (ms): 0.000
+PE-2, Total (ms): 2.568, Dense (ms): 0.000
+PE-4, Total (ms): 2.532, Dense (ms): 0.000
+PE-0, Total (ms): 2.635, Dense (ms): 0.000
+PE-7, Total (ms): 2.788, Dense (ms): 0.000
+MPI time (ms) 2.929
+PE-3, Total (ms): 2.951, Dense (ms): 0.000
+PE-5, Total (ms): 2.941, Dense (ms): 0.000
+PE-1, Total (ms): 2.961, Dense (ms): 0.000
+===================================

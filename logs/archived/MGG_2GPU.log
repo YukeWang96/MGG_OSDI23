@@ -1,0 +1,40 @@
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 4203323, nodesPerPE: 2101662
+numNodes: 4203323, nodesPerPE: 2101662
+PE-1, Total (ms): 89.651
+PE-0, Total (ms): 170.768
+MPI time (ms) 170.810
+===================================
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 2449029, nodesPerPE: 1224515
+numNodes: 2449029, nodesPerPE: 1224515
+PE-1, Total (ms): 34.211
+PE-0, Total (ms): 43.040
+MPI time (ms) 43.019
+===================================
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 132534, nodesPerPE: 66267
+numNodes: 132534, nodesPerPE: 66267
+PE-0, Total (ms): 11.382
+PE-1, Total (ms): 13.473
+MPI time (ms) 13.480
+===================================
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 3072441, nodesPerPE: 1536221
+numNodes: 3072441, nodesPerPE: 1536221
+PE-0, Total (ms): 23.767
+PE-1, Total (ms): 3258.052
+MPI time (ms) 3258.418
+===================================

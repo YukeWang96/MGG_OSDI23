@@ -1,0 +1,315 @@
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 2, dim: 16
+Time (ms): 2.05
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 4, dim: 16
+Time (ms): 3.12
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 8, dim: 16
+Time (ms): 3.12
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 16, dim: 16
+Time (ms): 3.13
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 32, dim: 16
+Time (ms): 3.14
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 64, dim: 16
+Time (ms): 3.16
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 128, dim: 16
+Time (ms): 3.20
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 256, dim: 16
+Time (ms): 3.27
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 512, dim: 16
+Time (ms): 3.42
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 2, dim: 32
+Time (ms): 2.06
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 4, dim: 32
+Time (ms): 4.18
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 8, dim: 32
+Time (ms): 4.18
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 16, dim: 32
+Time (ms): 5.25
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 32, dim: 32
+Time (ms): 5.25
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 64, dim: 32
+Time (ms): 5.28
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 128, dim: 32
+Time (ms): 5.32
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 256, dim: 32
+Time (ms): 5.39
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 512, dim: 32
+Time (ms): 5.53
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 2, dim: 64
+Time (ms): 2.05
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 4, dim: 64
+Time (ms): 4.16
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 8, dim: 64
+Time (ms): 5.25
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 16, dim: 64
+Time (ms): 7.37
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 32, dim: 64
+Time (ms): 7.40
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 64, dim: 64
+Time (ms): 7.43
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 128, dim: 64
+Time (ms): 7.50
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 256, dim: 64
+Time (ms): 6.73
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 512, dim: 64
+Time (ms): 6.97
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 2, dim: 128
+Time (ms): 2.06
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 4, dim: 128
+Time (ms): 4.19
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 8, dim: 128
+Time (ms): 6.48
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 16, dim: 128
+Time (ms): 6.62
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 32, dim: 128
+Time (ms): 6.66
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 64, dim: 128
+Time (ms): 4.66
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 128, dim: 128
+Time (ms): 6.86
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 256, dim: 128
+Time (ms): 7.11
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 512, dim: 128
+Time (ms): 7.58
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 2, dim: 256
+Time (ms): 2.07
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 4, dim: 256
+Time (ms): 4.19
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 8, dim: 256
+Time (ms): 6.48
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 16, dim: 256
+Time (ms): 6.68
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 32, dim: 256
+Time (ms): 6.97
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 64, dim: 256
+Time (ms): 7.33
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 128, dim: 256
+Time (ms): 7.55
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 256, dim: 256
+Time (ms): 7.99
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 512, dim: 256
+Time (ms): 7.76
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 2, dim: 512
+Time (ms): 2.05
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 4, dim: 512
+Time (ms): 4.20
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 8, dim: 512
+Time (ms): 6.48
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 16, dim: 512
+Time (ms): 6.76
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 32, dim: 512
+Time (ms): 7.29
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 64, dim: 512
+Time (ms): 8.14
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 128, dim: 512
+Time (ms): 8.59
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 256, dim: 512
+Time (ms): 9.39
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 512, dim: 512
+Time (ms): 10.99
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 2, dim: 1024
+Time (ms): 2.09
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 4, dim: 1024
+Time (ms): 4.22
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 8, dim: 1024
+Time (ms): 6.50
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 16, dim: 1024
+Time (ms): 6.87
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 32, dim: 1024
+Time (ms): 7.52
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 64, dim: 1024
+Time (ms): 8.65
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 128, dim: 1024
+Time (ms): 10.79
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 256, dim: 1024
+Time (ms): 11.88
+===================================
+Graph File: dataset/cora.mtx
+Complete loading graphs !!
+neighbors: 512, dim: 1024
+Time (ms): 15.84
+===================================

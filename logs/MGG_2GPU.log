@@ -1,40 +1,50 @@
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/PROTEINS.mtx
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 4203323, nodesPerPE: 2101662
-numNodes: 4203323, nodesPerPE: 2101662
-PE-1, Total (ms): 89.651
-PE-0, Total (ms): 170.768
-MPI time (ms) 170.810
+numNodes: 43471, nodesPerPE: 21736
+numNodes: 43471, nodesPerPE: 21736
+PE-0, Total (ms): 0.122
+MPI time (ms) 0.119
+PE-1, Total (ms): 0.111
 ===================================
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/OVCAR-8H.mtx
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 2449029, nodesPerPE: 1224515
-numNodes: 2449029, nodesPerPE: 1224515
-PE-1, Total (ms): 34.211
-PE-0, Total (ms): 43.040
-MPI time (ms) 43.019
+numNodes: 1890931, nodesPerPE: 945466
+numNodes: 1890931, nodesPerPE: 945466
+PE-1, Total (ms): 3.873
+PE-0, Total (ms): 3.885
+MPI time (ms) 3.882
 ===================================
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/Yeast.mtx
+Graph File: dataset/Yeast.mtx
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 132534, nodesPerPE: 66267
-numNodes: 132534, nodesPerPE: 66267
-PE-0, Total (ms): 11.382
-PE-1, Total (ms): 13.473
-MPI time (ms) 13.480
+numNodes: 1714644, nodesPerPE: 857322
+numNodes: 1714644, nodesPerPE: 857322
+PE-1, Total (ms): 3.439
+PE-0, Total (ms): 3.456
+MPI time (ms) 3.452
 ===================================
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/DD.mtx
+Graph File: dataset/DD.mtx
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 3072441, nodesPerPE: 1536221
-numNodes: 3072441, nodesPerPE: 1536221
-PE-0, Total (ms): 23.767
-PE-1, Total (ms): 3258.052
-MPI time (ms) 3258.418
+numNodes: 334925, nodesPerPE: 167463
+numNodes: 334925, nodesPerPE: 167463
+PE-1, Total (ms): 0.827
+PE-0, Total (ms): 0.831
+MPI time (ms) 0.843
+===================================
+Graph File: dataset/SW-620H.mtx
+Graph File: dataset/SW-620H.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 1889971, nodesPerPE: 944986
+numNodes: 1889971, nodesPerPE: 944986
+PE-0, Total (ms): 3.873
+MPI time (ms) 3.891
+PE-1, Total (ms): 3.864
 ===================================

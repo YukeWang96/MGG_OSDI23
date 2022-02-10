@@ -1,11 +1,11 @@
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/PROTEINS.mtx
+Graph File: dataset/PROTEINS.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -14,32 +14,32 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 4203323, nodesPerPE: 525416
-numNodes: 4203323, nodesPerPE: 525416
-numNodes: 4203323, nodesPerPE: 525416
-numNodes: 4203323, nodesPerPE: 525416
-numNodes: 4203323, nodesPerPE: 525416
-numNodes: 4203323, nodesPerPE: 525416
-numNodes: 4203323, nodesPerPE: 525416
-numNodes: 4203323, nodesPerPE: 525416
-PE-4, Total (ms): 32.913
-PE-2, Total (ms): 39.432
-PE-0, Total (ms): 43.302
-PE-1, Total (ms): 54.976
-PE-7, Total (ms): 59.888
-PE-5, Total (ms): 60.997
-PE-6, Total (ms): 66.744
-MPI time (ms) 171.356
-PE-3, Total (ms): 171.480
+numNodes: 43471, nodesPerPE: 5434
+numNodes: 43471, nodesPerPE: 5434
+numNodes: 43471, nodesPerPE: 5434
+numNodes: 43471, nodesPerPE: 5434
+numNodes: 43471, nodesPerPE: 5434
+numNodes: 43471, nodesPerPE: 5434
+numNodes: 43471, nodesPerPE: 5434
+numNodes: 43471, nodesPerPE: 5434
+PE-4, Total (ms): 0.100
+PE-3, Total (ms): 0.096
+PE-5, Total (ms): 0.101
+PE-0, Total (ms): 0.093
+MPI time (ms) 0.094
+PE-6, Total (ms): 0.096
+PE-7, Total (ms): 0.094
+PE-1, Total (ms): 0.090
+PE-2, Total (ms): 0.103
 ===================================
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/OVCAR-8H.mtx
+Graph File: dataset/OVCAR-8H.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -48,32 +48,32 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 2449029, nodesPerPE: 306129
-numNodes: 2449029, nodesPerPE: 306129
-numNodes: 2449029, nodesPerPE: 306129
-numNodes: 2449029, nodesPerPE: 306129
-numNodes: 2449029, nodesPerPE: 306129
-numNodes: 2449029, nodesPerPE: 306129
-numNodes: 2449029, nodesPerPE: 306129
-numNodes: 2449029, nodesPerPE: 306129
-PE-5, Total (ms): 9.093
-PE-2, Total (ms): 8.990
-PE-4, Total (ms): 9.329
-PE-3, Total (ms): 10.287
-PE-7, Total (ms): 10.389
-PE-1, Total (ms): 10.397
-PE-6, Total (ms): 10.394
-PE-0, Total (ms): 21.833
-MPI time (ms) 21.859
+numNodes: 1890931, nodesPerPE: 236367
+numNodes: 1890931, nodesPerPE: 236367
+numNodes: 1890931, nodesPerPE: 236367
+numNodes: 1890931, nodesPerPE: 236367
+numNodes: 1890931, nodesPerPE: 236367
+numNodes: 1890931, nodesPerPE: 236367
+numNodes: 1890931, nodesPerPE: 236367
+numNodes: 1890931, nodesPerPE: 236367
+PE-7, Total (ms): 1.211
+PE-1, Total (ms): 1.201
+PE-5, Total (ms): 1.200
+PE-4, Total (ms): 1.181
+PE-2, Total (ms): 1.112
+PE-6, Total (ms): 1.130
+PE-0, Total (ms): 1.135
+MPI time (ms) 1.051
+PE-3, Total (ms): 1.221
 ===================================
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/Yeast.mtx
+Graph File: dataset/Yeast.mtx
+Graph File: dataset/Yeast.mtx
+Graph File: dataset/Yeast.mtx
+Graph File: dataset/Yeast.mtx
+Graph File: dataset/Yeast.mtx
+Graph File: dataset/Yeast.mtx
+Graph File: dataset/Yeast.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -82,32 +82,32 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 132534, nodesPerPE: 16567
-numNodes: 132534, nodesPerPE: 16567
-numNodes: 132534, nodesPerPE: 16567
-numNodes: 132534, nodesPerPE: 16567
-numNodes: 132534, nodesPerPE: 16567
-numNodes: 132534, nodesPerPE: 16567
-numNodes: 132534, nodesPerPE: 16567
-numNodes: 132534, nodesPerPE: 16567
-PE-2, Total (ms): 2.592
-PE-1, Total (ms): 3.722
-PE-0, Total (ms): 4.273
-PE-4, Total (ms): 4.973
-PE-7, Total (ms): 5.015
-PE-3, Total (ms): 5.125
-PE-5, Total (ms): 5.632
-MPI time (ms) 5.959
-PE-6, Total (ms): 5.937
+numNodes: 1714644, nodesPerPE: 214331
+numNodes: 1714644, nodesPerPE: 214331
+numNodes: 1714644, nodesPerPE: 214331
+numNodes: 1714644, nodesPerPE: 214331
+numNodes: 1714644, nodesPerPE: 214331
+numNodes: 1714644, nodesPerPE: 214331
+numNodes: 1714644, nodesPerPE: 214331
+numNodes: 1714644, nodesPerPE: 214331
+PE-0, Total (ms): 0.946
+MPI time (ms) 0.904
+PE-1, Total (ms): 0.941
+PE-2, Total (ms): 0.940
+PE-7, Total (ms): 0.930
+PE-4, Total (ms): 0.946
+PE-6, Total (ms): 0.949
+PE-5, Total (ms): 0.940
+PE-3, Total (ms): 0.937
 ===================================
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/DD.mtx
+Graph File: dataset/DD.mtx
+Graph File: dataset/DD.mtx
+Graph File: dataset/DD.mtx
+Graph File: dataset/DD.mtx
+Graph File: dataset/DD.mtx
+Graph File: dataset/DD.mtx
+Graph File: dataset/DD.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -116,21 +116,55 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-numNodes: 3072441, nodesPerPE: 384056
-numNodes: 3072441, nodesPerPE: 384056
-numNodes: 3072441, nodesPerPE: 384056
-numNodes: 3072441, nodesPerPE: 384056
-numNodes: 3072441, nodesPerPE: 384056
-numNodes: 3072441, nodesPerPE: 384056
-numNodes: 3072441, nodesPerPE: 384056
-numNodes: 3072441, nodesPerPE: 384056
-PE-6, Total (ms): 5.363
-PE-5, Total (ms): 5.901
-PE-4, Total (ms): 7.293
-PE-1, Total (ms): 7.866
-PE-0, Total (ms): 8.154
-PE-3, Total (ms): 8.782
-PE-2, Total (ms): 9.139
-PE-7, Total (ms): 3279.444
-MPI time (ms) 3280.273
+numNodes: 334925, nodesPerPE: 41866
+numNodes: 334925, nodesPerPE: 41866
+numNodes: 334925, nodesPerPE: 41866
+numNodes: 334925, nodesPerPE: 41866
+numNodes: 334925, nodesPerPE: 41866
+numNodes: 334925, nodesPerPE: 41866
+numNodes: 334925, nodesPerPE: 41866
+numNodes: 334925, nodesPerPE: 41866
+PE-7, Total (ms): 0.250
+PE-1, Total (ms): 0.243
+PE-0, Total (ms): 0.265
+MPI time (ms) 0.249
+PE-2, Total (ms): 0.264
+PE-6, Total (ms): 0.267
+PE-5, Total (ms): 0.250
+PE-4, Total (ms): 0.275
+PE-3, Total (ms): 0.233
+===================================
+Graph File: dataset/SW-620H.mtx
+Graph File: dataset/SW-620H.mtx
+Graph File: dataset/SW-620H.mtx
+Graph File: dataset/SW-620H.mtx
+Graph File: dataset/SW-620H.mtx
+Graph File: dataset/SW-620H.mtx
+Graph File: dataset/SW-620H.mtx
+Graph File: dataset/SW-620H.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 1889971, nodesPerPE: 236247
+numNodes: 1889971, nodesPerPE: 236247
+numNodes: 1889971, nodesPerPE: 236247
+numNodes: 1889971, nodesPerPE: 236247
+numNodes: 1889971, nodesPerPE: 236247
+numNodes: 1889971, nodesPerPE: 236247
+numNodes: 1889971, nodesPerPE: 236247
+numNodes: 1889971, nodesPerPE: 236247
+PE-5, Total (ms): 1.000
+PE-4, Total (ms): 1.064
+PE-7, Total (ms): 1.036
+PE-6, Total (ms): 1.064
+PE-0, Total (ms): 1.066
+MPI time (ms) 1.028
+PE-2, Total (ms): 1.057
+PE-1, Total (ms): 1.013
+PE-3, Total (ms): 1.061
 ===================================

@@ -1,0 +1,72 @@
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Graph File: dataset/enwiki-2013.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 4203323, nodesPerPE: 1050831
+numNodes: 4203323, nodesPerPE: 1050831
+numNodes: 4203323, nodesPerPE: 1050831
+numNodes: 4203323, nodesPerPE: 1050831
+PE-2, Total (ms): 69.914
+PE-0, Total (ms): 71.179
+PE-3, Total (ms): 76.997
+MPI time (ms) 184.846
+PE-1, Total (ms): 184.866
+===================================
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Graph File: dataset/ogbn-products.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 2449029, nodesPerPE: 612258
+numNodes: 2449029, nodesPerPE: 612258
+numNodes: 2449029, nodesPerPE: 612258
+numNodes: 2449029, nodesPerPE: 612258
+PE-2, Total (ms): 17.061
+PE-1, Total (ms): 18.345
+PE-3, Total (ms): 18.430
+PE-0, Total (ms): 29.708
+MPI time (ms) 29.690
+===================================
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Graph File: dataset/ogbn-proteins.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 132534, nodesPerPE: 33134
+numNodes: 132534, nodesPerPE: 33134
+numNodes: 132534, nodesPerPE: 33134
+numNodes: 132534, nodesPerPE: 33134
+PE-0, Total (ms): 6.561
+PE-1, Total (ms): 7.444
+PE-3, Total (ms): 7.795
+PE-2, Total (ms): 9.435
+MPI time (ms) 9.438
+===================================
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Graph File: dataset/com-Orkut.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+numNodes: 3072441, nodesPerPE: 768111
+numNodes: 3072441, nodesPerPE: 768111
+numNodes: 3072441, nodesPerPE: 768111
+numNodes: 3072441, nodesPerPE: 768111
+PE-2, Total (ms): 11.901
+PE-0, Total (ms): 12.916
+PE-1, Total (ms): 14.736
+MPI time (ms) 3290.987
+PE-3, Total (ms): 3291.148
+===================================

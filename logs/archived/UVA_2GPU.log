@@ -1,0 +1,45 @@
+Graph File: dataset/amazon0505.mtx
+Complete loading graphs !!
+SAG_host_single_ref: grid: 102559, block: 128
+SAG_cuda_kernel_ref: grid: 51280, block: 128
+Time (ms): 1.60
+SAG_cuda_kernel_ref: grid: 51280, block: 128
+Time (ms): 9.81
+validate: True
+===================================
+Graph File: dataset/artist.mtx
+Complete loading graphs !!
+SAG_host_single_ref: grid: 12629, block: 128
+SAG_cuda_kernel_ref: grid: 6315, block: 128
+Time (ms): 0.59
+SAG_cuda_kernel_ref: grid: 6315, block: 128
+Time (ms): 3.13
+validate: True
+===================================
+Graph File: dataset/com-amazon.mtx
+Complete loading graphs !!
+SAG_host_single_ref: grid: 137138, block: 128
+SAG_cuda_kernel_ref: grid: 68569, block: 128
+Time (ms): 0.31
+SAG_cuda_kernel_ref: grid: 68569, block: 128
+Time (ms): 11.64
+validate: True
+===================================
+Graph File: dataset/soc-BlogCatalog.mtx
+Complete loading graphs !!
+SAG_host_single_ref: grid: 22196, block: 128
+SAG_cuda_kernel_ref: grid: 11098, block: 128
+Time (ms): 0.98
+SAG_cuda_kernel_ref: grid: 11098, block: 128
+Time (ms): 4.36
+validate: True
+===================================
+Graph File: dataset/amazon0601.mtx
+Complete loading graphs !!
+SAG_host_single_ref: grid: 100849, block: 128
+SAG_cuda_kernel_ref: grid: 50425, block: 128
+Time (ms): 0.27
+SAG_cuda_kernel_ref: grid: 50425, block: 128
+Time (ms): 12.46
+validate: True
+===================================

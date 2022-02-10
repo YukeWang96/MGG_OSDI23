@@ -1,4 +1,5 @@
-enwiki-2013.mtx,170.668
-ogbn-products.mtx,21.489
-ogbn-proteins.mtx,5.912
-com-Orkut.mtx,3230.233
+PROTEINS.mtx,0.082
+OVCAR-8H.mtx,1.018
+Yeast.mtx,0.991
+DD.mtx,0.262
+SW-620H.mtx,1.102
