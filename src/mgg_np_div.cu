@@ -9,6 +9,7 @@
 #include <nvshmemx.h>
 #include <cublas_v2.h>
 
+#include "graph.h"
 #include "utils.cuh"
 #include "neighbor_utils.cuh"
 #include "csr_formatter.h"
@@ -27,22 +28,37 @@ int main(int argc, char* argv[]){
     }
 
     cout << "Graph File: " << argv[1] << '\n';
-	CSR asym = assemble_csr_matrix_new(argv[1]);
-    cout << "Complete loading graphs !!" << endl;
+	// CSR asym = assemble_csr_matrix_new(argv[1]);
+    // auto global_row_ptr = asym.row_ptr;
+    // auto global_col_ind = asym.col_ind;
 
-    int numNodes = asym.row_ptr.size() - 1;
-    // std::cout << "max node: " << *std::max_element(std::begin(asym.col_ind), std::end(asym.col_ind)) << '\n';
-    int numEdges = asym.col_ind.size();    
+    // const char *beg_file = "dataset/base_0/citeseer_beg_pos.bin";
+	// const char *csr_file = "dataset/base_0/citeseer_csr.bin";
+	// const char *weight_file = "dataset/base_0/citeseer_weight.bin";
+    
+    // const char *beg_file = argv[1];
+	// const char *csr_file = "dataset/base_0/citeseer_csr.bin";
+	// const char *weight_file = "dataset/base_0/citeseer_weight.bin";
+    graph<long, long, int, int, int, int>* ginst = new graph<long, long, int, int, int, int>(beg_file, csr_file, weight_file);
+    std::vector<int> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);
+    std::vector<int> global_col_ind(ginst->csr, ginst->csr + ginst->edge_count);
+
+
+    cout << "Complete loading graphs !!" << endl;
+    int numNodes = global_row_ptr.size() - 1;
+    int numEdges = global_col_ind.size();    
+
     int num_GPUs = atoi(argv[2]);           // 2
     int partSize = atoi(argv[3]);           // 32
     int warpPerBlock = atoi(argv[4]);       // 4
     int dim = atoi(argv[5]);                // 16
     int interleaved_dist = atoi(argv[6]);   // 2
     int hiddenSize = atoi(argv[7]);
-
+    // std::cout << "max node: " << *std::max_element(std::begin(global_col_ind), std::end(global_col_ind)) << '\n';
+    
     double t1, t2; 
-    // print_array<int>("asym.row_ptr", asym.row_ptr, asym.row_ptr.size());
-    // print_array<int>("asym.col_ind", asym.col_ind, asym.col_ind.size());
+    // print_array<int>("global_row_ptr", global_row_ptr, global_row_ptr.size());
+    // print_array<int>("global_col_ind", global_col_ind, global_col_ind.size());
     int rank, nranks;
     cudaStream_t stream;
     nvshmemx_init_attr_t attr;
@@ -64,17 +80,16 @@ int main(int argc, char* argv[]){
     // printf("numNodes: %d, nodesPerPE: %d\n", numNodes, nodesPerPE);
     int lb = nodesPerPE * mype_node;
     int ub = (lb + nodesPerPE) < numNodes? (lb + nodesPerPE) : numNodes;
-    int local_edges = asym.row_ptr[ub] - asym.row_ptr[lb];
-    int edge_beg = asym.row_ptr[lb];
+    int local_edges = global_row_ptr[ub] - global_row_ptr[lb];
+    int edge_beg = global_row_ptr[lb];
 
     // Divide the CSR into the local and remote for each GPU.
-    auto split_output = split_CSR<int>(asym.row_ptr, asym.col_ind, lb, ub);
+    auto split_output = split_CSR<int>(global_row_ptr, global_col_ind, lb, ub);
     // printf("lb: %d, ub: %d\n", lb, ub);
     auto local_ptr_vec = split_output[0];       // with the base start from lb.
     auto remote_ptr_vec = split_output[1];      // with the base start from ub.
     auto local_col_idx_vec = split_output[2];
     auto remote_col_idx_vec = split_output[3];
-
     printf("PE[%d]. local: %d, remote: %d\n", mype_node, local_col_idx_vec.size(), remote_col_idx_vec.size());
 
     // Allocate memory on each device.
@@ -116,10 +131,10 @@ int main(int argc, char* argv[]){
     int* d_row_ptr_ref, *d_col_ind_ref;
     if (mype_node == validate)
     {
-        gpuErrchk(cudaMalloc((void**)&d_row_ptr_ref, asym.row_ptr.size()*sizeof(int))); 
-        gpuErrchk(cudaMalloc((void**)&d_col_ind_ref, asym.col_ind.size()*sizeof(int))); 
-        gpuErrchk(cudaMemcpy(d_row_ptr_ref, &asym.row_ptr[0], asym.row_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
-        gpuErrchk(cudaMemcpy(d_col_ind_ref, &asym.col_ind[0], asym.col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
+        gpuErrchk(cudaMalloc((void**)&d_row_ptr_ref, global_row_ptr.size()*sizeof(int))); 
+        gpuErrchk(cudaMalloc((void**)&d_col_ind_ref, global_col_ind.size()*sizeof(int))); 
+        gpuErrchk(cudaMemcpy(d_row_ptr_ref, &global_row_ptr[0], global_row_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
+        gpuErrchk(cudaMemcpy(d_col_ind_ref, &global_col_ind[0], global_col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
         gpuErrchk(cudaMemcpy(d_input_ref, h_input_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
         gpuErrchk(cudaMemcpy(d_output_ref, h_output_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
         
@@ -138,21 +153,19 @@ int main(int argc, char* argv[]){
     //
     // Compute on each GPU device.
     //
-    // std::clock_t c_start = std::clock();    
-    // MPI_Barrier(MPI_COMM_WORLD);
-    // nvshmem_sync_all();
-    // t1 = MPI_Wtime(); 
+    std::clock_t c_start = std::clock();    
+    MPI_Barrier(MPI_COMM_WORLD);
+    t1 = MPI_Wtime(); 
 
     mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
                     lb, ub, dim, nodesPerPE, mype_node);
 
-    // nvshmem_sync_all();
-    // std::clock_t c_end = std::clock();
-    // float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
-    // printf("PE-%d, Total (ms): %.3f\n", mype_node, time_elapsed_ms);
-    // MPI_Barrier(MPI_COMM_WORLD); 
-    // t2 = MPI_Wtime(); 
-    // if (mype_node == 0) printf( "MPI time (ms) %.3f\n", (t2 - t1)*1e3); 
+    std::clock_t c_end = std::clock();
+    float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
+    printf("PE-%d, Total (ms): %.3f\n", mype_node, time_elapsed_ms);
+    MPI_Barrier(MPI_COMM_WORLD); 
+    t2 = MPI_Wtime(); 
+    if (mype_node == 0) printf( "MPI time (ms) %.3f\n", (t2 - t1)*1e3); 
     
     gpuErrchk(cudaMemcpy(h_output, d_output, nodesPerPE*dim*sizeof(float), cudaMemcpyDeviceToHost));
 

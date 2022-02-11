@@ -196,8 +196,10 @@ int main(int argc, char* argv[]){
     free(h_output);
 
     #ifdef validate
-    cudaFree(d_output_ref);
-    free(h_output_ref);
+    if (mype_node == validate){
+        cudaFree(d_output_ref);
+        free(h_output_ref);
+    }
     #endif
 
     MPI_Finalize();

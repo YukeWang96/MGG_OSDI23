@@ -37,7 +37,7 @@ interleaved_dist = 2
 ###############################################
 
 dataset = [
-        # ('citeseer'	        		, 3703	    , 6   ),  
+        ('citeseer'	        		, 3703	    , 6   ),  
         # ('cora' 	        		, 1433	    , 7   ),  
         # ('pubmed'	        		, 500	    , 3   ),      
         # ('ppi'	            		, 50	    , 121 ),   
@@ -48,13 +48,13 @@ dataset = [
         # ('DD'                        , 89       , 2) ,
         # ('SW-620H'                   , 66       , 2) ,
 
-        ( 'amazon0505'               , 96	  , 22),
-        ( 'artist'                   , 100	  , 12),
-        ( 'com-amazon'               , 96	  , 22),
-        ( 'soc-BlogCatalog'	         , 128	  , 39),      
-        ( 'amazon0601'  	         , 96	  , 22), 
+        # ( 'amazon0505'               , 96	  , 22),
+        # ( 'artist'                   , 100	  , 12),
+        # ( 'com-amazon'               , 96	  , 22),
+        # ( 'soc-BlogCatalog'	         , 128	  , 39),      
+        # ( 'amazon0601'  	         , 96	  , 22), 
 
-        ( 'Reddit'                      , 128      	, 41),
+        # ( 'Reddit'                      , 128      	, 41),
         # ( 'enwiki-2013'	                , 100	        , 12),      
         # ( 'ogbn-products'	        , 100	        , 47),
         # ( 'ogbn-proteins'		, 128		, 112),

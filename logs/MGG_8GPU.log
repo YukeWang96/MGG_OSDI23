@@ -1,165 +1,34 @@
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
+Graph File: dataset/citeseer.mtx
+Complete loading graphs !!
+Graph File: dataset/citeseer.mtx
+Complete loading graphs !!
+Graph File: dataset/citeseer.mtx
+Graph File: dataset/citeseer.mtx
+Complete loading graphs !!
+Complete loading graphs !!
+Graph File: dataset/citeseer.mtx
+Graph File: dataset/citeseer.mtx
+Graph File: dataset/citeseer.mtx
+Complete loading graphs !!
+Graph File: dataset/citeseer.mtx
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-PE[5]. local: 1772006, remote: 12486903
-PE[0]. local: 1947636, remote: 12985839
-PE[6]. local: 1692318, remote: 12230545
-PE[7]. local: 1638666, remote: 12047043
-PE[2]. local: 1862502, remote: 12745815
-PE[1]. local: 1825986, remote: 12638374
-PE[3]. local: 1768826, remote: 12465571
-PE[4]. local: 1833360, remote: 12674502
-PE[7] time (ms): 10.592
-PE[6] time (ms): 10.641
-PE[2] time (ms): 10.724
-PE[3] time (ms): 10.875
-PE[5] time (ms): 11.130
-PE[4] time (ms): 10.924
-PE[0] time (ms): 10.872
-PE[1] time (ms): 11.011
-===================================
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Graph File: dataset/enwiki-2013.mtx
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-PE[4]. local: 8814200, remote: 9333351
-PE[6]. local: 11305866, remote: 10980742
-PE[5]. local: 17278052, remote: 10152869
-PE[1]. local: 13061890, remote: 11867546
-PE[7]. local: 13521396, remote: 10614511
-PE[2]. local: 12446316, remote: 10453728
-PE[3]. local: 15359000, remote: 12856091
-PE[0]. local: 20589454, remote: 13988214
-PE[5] time (ms): 66.942
-PE[2] time (ms): 68.608
-PE[4] time (ms): 69.358
-PE[7] time (ms): 69.676
-PE[6] time (ms): 70.440
-PE[0] time (ms): 71.707
-PE[1] time (ms): 73.022
-PE[3] time (ms): 83.452
-===================================
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Graph File: dataset/ogbn-products.mtx
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-PE[7]. local: 1187310, remote: 10726129
-PE[5]. local: 1191960, remote: 10732886
-PE[4]. local: 1196888, remote: 10758168
-PE[6]. local: 1210650, remote: 10808763
-PE[2]. local: 1203110, remote: 10786567
-PE[3]. local: 1195556, remote: 10749551
-PE[1]. local: 1182562, remote: 10712349
-PE[0]. local: 14994410, remote: 25081421
-PE[2] time (ms): 42.152
-PE[7] time (ms): 42.151
-PE[1] time (ms): 42.253
-PE[5] time (ms): 42.305
-PE[4] time (ms): 42.451
-PE[6] time (ms): 42.650
-PE[3] time (ms): 42.479
-PE[0] time (ms): 60.793
-===================================
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Graph File: dataset/ogbn-proteins.mtx
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-PE[1]. local: 2379448, remote: 2446297
-PE[4]. local: 6246888, remote: 4899222
-PE[2]. local: 5671266, remote: 1721074
-PE[6]. local: 4699252, remote: 6902592
-PE[3]. local: 5397098, remote: 4070370
-PE[7]. local: 3657532, remote: 6545041
-PE[0]. local: 9491116, remote: 2257128
-PE[5]. local: 9169412, remote: 3568768
-PE[1] time (ms): 3.872
-PE[2] time (ms): 3.981
-PE[3] time (ms): 4.991
-PE[0] time (ms): 5.297
-PE[5] time (ms): 5.945
-PE[4] time (ms): 6.014
-PE[7] time (ms): 6.160
-PE[6] time (ms): 6.668
-===================================
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Graph File: dataset/com-Orkut.mtx
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-PE[6]. local: 747213, remote: 5040422
-PE[5]. local: 510097, remote: 6144785
-PE[1]. local: 1977318, remote: 7241984
-PE[0]. local: 10677831, remote: 4400263
-PE[4]. local: 1623961, remote: 7681504
-PE[3]. local: 2415532, remote: 10183433
-PE[2]. local: 4772399, remote: 10120081
-PE[7]. local: 40733505, remote: 2914755
-PE[6] time (ms): 43.923
-PE[5] time (ms): 45.044
-PE[0] time (ms): 47.105
-PE[1] time (ms): 48.839
-PE[2] time (ms): 50.600
-PE[4] time (ms): 51.726
-PE[3] time (ms): 54.589
-PE[7] time (ms): 540.028
+numNodes: 3327, nodesPerPE: 416
+numNodes: 3327, nodesPerPE: 416
+numNodes: 3327, nodesPerPE: 416
+numNodes: 3327, nodesPerPE: 416
+numNodes: 3327, nodesPerPE: 416
+numNodes: 3327, nodesPerPE: 416
+numNodes: 3327, nodesPerPE: 416
+numNodes: 3327, nodesPerPE: 416
+PE-4, Total (ms): 0.120
+PE-7, Total (ms): 0.095
+PE-0, Total (ms): 0.125
+MPI time (ms) 0.133
+PE-1, Total (ms): 0.132
+PE-3, Total (ms): 0.151
+PE-6, Total (ms): 0.128
+PE-5, Total (ms): 0.094
+PE-2, Total (ms): 0.159
 ===================================
