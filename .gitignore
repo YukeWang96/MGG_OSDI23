@@ -1,7 +1,8 @@
-dataset/
+dataset/bin
 build/
 local/
 *.tar.gz
 openmpi-4.1.1/
 *.deb
 report*
+*.bin

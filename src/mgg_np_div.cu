@@ -35,6 +35,8 @@ int main(int argc, char* argv[]){
     // const char *beg_file = "dataset/base_0/citeseer_beg_pos.bin";
 	// const char *csr_file = "dataset/base_0/citeseer_csr.bin";
 	// const char *weight_file = "dataset/base_0/citeseer_weight.bin";
+    
+    cout << "Graph File: " << argv[1] << '\n';
     const char *beg_file = argv[1];
 	const char *csr_file = argv[2];
 	const char *weight_file = argv[3];
