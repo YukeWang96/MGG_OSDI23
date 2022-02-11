@@ -27,7 +27,7 @@ int main(int argc, char* argv[]){
         return -1;
     }
 
-    cout << "Graph File: " << argv[1] << '\n';
+    // cout << "Graph File: " << argv[1] << '\n';
 	// CSR asym = assemble_csr_matrix_new(argv[1]);
     // auto global_row_ptr = asym.row_ptr;
     // auto global_col_ind = asym.col_ind;
@@ -35,6 +35,9 @@ int main(int argc, char* argv[]){
     // const char *beg_file = "dataset/base_0/citeseer_beg_pos.bin";
 	// const char *csr_file = "dataset/base_0/citeseer_csr.bin";
 	// const char *weight_file = "dataset/base_0/citeseer_weight.bin";
+    const char *beg_file = argv[1];
+	const char *csr_file = argv[2];
+	const char *weight_file = argv[3];
     
     // const char *beg_file = argv[1];
 	// const char *csr_file = "dataset/base_0/citeseer_csr.bin";
@@ -43,17 +46,16 @@ int main(int argc, char* argv[]){
     std::vector<int> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);
     std::vector<int> global_col_ind(ginst->csr, ginst->csr + ginst->edge_count);
 
-
     cout << "Complete loading graphs !!" << endl;
     int numNodes = global_row_ptr.size() - 1;
     int numEdges = global_col_ind.size();    
 
-    int num_GPUs = atoi(argv[2]);           // 2
-    int partSize = atoi(argv[3]);           // 32
-    int warpPerBlock = atoi(argv[4]);       // 4
-    int dim = atoi(argv[5]);                // 16
-    int interleaved_dist = atoi(argv[6]);   // 2
-    int hiddenSize = atoi(argv[7]);
+    int num_GPUs = atoi(argv[4]);           // 2
+    int partSize = atoi(argv[5]);           // 32
+    int warpPerBlock = atoi(argv[6]);       // 4
+    int dim = atoi(argv[7]);                // 16
+    int interleaved_dist = atoi(argv[8]);   // 2
+    int hiddenSize = atoi(argv[9]);
     // std::cout << "max node: " << *std::max_element(std::begin(global_col_ind), std::end(global_col_ind)) << '\n';
     
     double t1, t2; 
