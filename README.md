@@ -8,8 +8,11 @@ tar -zxvf local.tar.gz
 ```
 + Datasets [link](https://drive.google.com/file/d/1MwxbZJxSXBJrfNWQkD2N655lfNcvenYS/view?usp=sharing). You can also use the following command
 ```
-wget https://project-datasets.s3.us-west-2.amazonaws.com/mgg/dataset.tar.gz
-tar -zxvf dataset.tar.gz
+mkdir dataset
+cd dataset
+wget https://storage.googleapis.com/project_source_files/GLCC/graph_bin.tar.gz
+tar -zxvf graph_bin.tar.gz
+cd ..
 ```
 
 # Compile
