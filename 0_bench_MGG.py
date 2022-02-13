@@ -55,13 +55,13 @@ dataset = [
         # ( 'amazon0601'  	         , 96	  , 22), 
 
         ( 'Reddit'                      , 128      	, 41),
-        ( 'enwiki-2013'	                , 100	        , 12),      
-        ( 'ogbn-products'	        , 100	        , 47),
-        ( 'ogbn-proteins'		, 128		, 112),
-        ( 'com-Orkut'		        , 128		, 128),
+        # ( 'enwiki-2013'	                , 100	        , 12),      
+        # ( 'ogbn-products'	        , 100	        , 47),
+        # ( 'ogbn-proteins'		, 128		, 112),
+        # ( 'com-Orkut'		        , 128		, 128),
 
-        ( 'web-Google'				    , 128		, 128),
-        ( 'wiki-Talk'				    , 128		, 128),
+        # ( 'web-Google'				    , 128		, 128),
+        # ( 'wiki-Talk'				    , 128		, 128),
 ]
 
 
@@ -81,11 +81,11 @@ pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
 # command = "build/MGG_np_pipeline {}".format(data_path)
 
 
-# command = "build/MGG"
-# command = "build/MGG_basic"
-# command = "build/MGG_np"
-command = "build/MGG_np_div "
-# command = "build/MGG_np_pipeline"
+# command = "build/MGG "
+# command = "build/MGG_basic "
+# command = "build/MGG_np "
+# command = "build/MGG_np_div "
+command = "build/MGG_np_pipeline "
 
 
 for data, d, c in dataset:
