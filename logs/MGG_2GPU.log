@@ -1,16 +1,98 @@
 Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
 Graph File: dataset/bin/Reddit_beg_pos.bin
 Expected edge count: 114615892
+Expected edge count: 114615892
 114615892 114615892
 114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.19786 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.19631 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.21007 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.20889 second(s)
 numNodes: 232965, nodesPerPE: 116483
 numNodes: 232965, nodesPerPE: 116483
-PE[1]. local: 27737006, remote: 28640093
-PE[0]. local: 29598700, remote: 28640093
-PE-0, Total (ms): 38.394
-PE-1, Total (ms): 38.614
-MPI time (ms) 38.573
+PE-0, Total (ms): 36.155
+PE-1, Total (ms): 36.539
+MPI time (ms) 36.664
+===================================
+Graph File: dataset/bin/enwiki-2013_beg_pos.bin
+Graph File: dataset/bin/enwiki-2013_beg_pos.bin
+Expected edge count: 202623226
+Expected edge count: 202623226
+202623226 202623226
+202623226 202623226
+Graph load (success): 4203323 verts, 202623226 edges 2.13213 second(s)
+Graph load (success): 4203323 verts, 202623226 edges 2.13098 second(s)
+numNodes: 4203323, nodesPerPE: 2101662
+numNodes: 4203323, nodesPerPE: 2101662
+PE-1, Total (ms): 122.226
+PE-0, Total (ms): 153.584
+MPI time (ms) 153.595
+===================================
+Graph File: dataset/bin/ogbn-products_beg_pos.bin
+Graph File: dataset/bin/ogbn-products_beg_pos.bin
+Expected edge count: 123718280
+Expected edge count: 123718280
+123718280 123718280
+123718280 123718280
+Graph load (success): 2449029 verts, 123718280 edges 1.30577 second(s)
+Graph load (success): 2449029 verts, 123718280 edges 1.30578 second(s)
+numNodes: 2449029, nodesPerPE: 1224515
+numNodes: 2449029, nodesPerPE: 1224515
+PE-1, Total (ms): 94.605
+PE-0, Total (ms): 101.333
+MPI time (ms) 101.321
+===================================
+Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
+Expected edge count: 79122504
+Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
+Expected edge count: 79122504
+79122504 79122504
+79122504 79122504
+Graph load (success): 132534 verts, 79122504 edges 0.836032 second(s)
+Graph load (success): 132534 verts, 79122504 edges 0.831952 second(s)
+numNodes: 132534, nodesPerPE: 66267
+numNodes: 132534, nodesPerPE: 66267
+PE-0, Total (ms): 13.657
+PE-1, Total (ms): 17.090
+MPI time (ms) 17.096
+===================================
+Graph File: dataset/bin/com-Orkut_beg_pos.bin
+Graph File: dataset/bin/com-Orkut_beg_pos.bin
+Expected edge count: 117185083
+Expected edge count: 117185083
+117185083 117185083
+117185083 117185083
+Graph load (success): 3072441 verts, 117185083 edges 1.23155 second(s)
+Graph load (success): 3072441 verts, 117185083 edges 1.23113 second(s)
+numNodes: 3072441, nodesPerPE: 1536221
+numNodes: 3072441, nodesPerPE: 1536221
+PE-0, Total (ms): 56.913
+PE-1, Total (ms): 115.256
+MPI time (ms) 115.241
+===================================
+Graph File: dataset/bin/web-Google_beg_pos.bin
+Graph File: dataset/bin/web-Google_beg_pos.bin
+Expected edge count: 5105039
+Expected edge count: 5105039
+5105039 5105039
+5105039 5105039
+Graph load (success): 916428 verts, 5105039 edges 0.0633311 second(s)
+Graph load (success): 916428 verts, 5105039 edges 0.0624621 second(s)
+numNodes: 916428, nodesPerPE: 458214
+numNodes: 916428, nodesPerPE: 458214
+PE-1, Total (ms): 14.565
+PE-0, Total (ms): 15.049
+MPI time (ms) 15.047
+===================================
+Graph File: dataset/bin/wiki-Talk_beg_pos.bin
+Graph File: dataset/bin/wiki-Talk_beg_pos.bin
+Expected edge count: 5021410
+Expected edge count: 5021410
+5021410 5021410
+5021410 5021410
+Graph load (success): 2394385 verts, 5021410 edges 0.0762818 second(s)
+Graph load (success): 2394385 verts, 5021410 edges 0.0758259 second(s)
+numNodes: 2394385, nodesPerPE: 1197193
+numNodes: 2394385, nodesPerPE: 1197193
+PE-1, Total (ms): 13.342
+PE-0, Total (ms): 17.550
+MPI time (ms) 17.535
 ===================================

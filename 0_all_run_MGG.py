@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 import os
 
-# num_gpus = [2, 3, 4, 5, 6, 7, 8]
-# num_gpus = [2, 4, 8]
 os.system("mv *.csv csvs/")
-# num_gpus = [2,4,8]
+# num_gpus = [2, 3, 4, 5, 6, 7, 8]
+num_gpus = [2,4,8]
 # num_gpus = [4,8]
-num_gpus = [2]
+# num_gpus = [8]
 
 
 for gpu in num_gpus:

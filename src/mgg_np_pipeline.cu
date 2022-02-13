@@ -15,7 +15,7 @@
 #include "csr_formatter.h"
 #include "layer.h"
 
-// #define validate 0 // the number (< num_GPUs) indicates the validation on which PE.
+// #define validate 1 // the number (< num_GPUs) indicates the validation on which PE.
 
 using namespace cudl;
 using namespace std;
@@ -80,8 +80,7 @@ int main(int argc, char* argv[]){
     auto remote_ptr_vec = split_output[1];      // with the base start from ub.
     auto local_col_idx_vec = split_output[2];
     auto remote_col_idx_vec = split_output[3];
-
-    printf("PE[%d]. local: %d, remote: %d\n", mype_node, local_col_idx_vec.size(), remote_col_idx_vec.size());
+    // printf("PE[%d]. local: %d, remote: %d\n", mype_node, local_col_idx_vec.size(), remote_col_idx_vec.size());
 
     // Allocate memory on each device.
     float *d_input, *d_output, *h_input, *h_output;
