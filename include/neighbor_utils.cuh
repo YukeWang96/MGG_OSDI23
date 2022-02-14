@@ -720,12 +720,14 @@ const int* column_index_r,
 const int lb,
 const int ub,
 const int dim,
-const int nodePerPE
+const int nodePerPE,
+const int np_size,
+const int warpPerBlock
 ){
   const int num_nodes = ub - lb;
   
-  const int warpPerBlock = 16;
-  const int np_size = 16;   // for implicit neighbor partition size = 4.
+//   const int warpPerBlock = 16;
+//   const int np_size = 16;   // for implicit neighbor partition size = 4.
 
   const int block = warpPerBlock * WARP_SIZE;
   const int grid = num_nodes; // one node per block.
@@ -1057,9 +1059,9 @@ void mgg_SAG_np_pipeline_cuda(
                     // atomicAdd_F(&output[bid * dim + d], input[local_nid * dim + d]);
                     tmp[blk_wid * dim + d] += input[local_nid * dim + d];      
                 }
-                // //
-                // // Process the common remote neighbors.
-                // //
+                //
+                // Process the common remote neighbors.
+                //
                 // int warp_eidx_r = eidx_s_r + eidx;
                 // int nid_r = column_index_r[warp_eidx_r]; 
                 // int r_GPUid = nid_r / nodePerPE; 

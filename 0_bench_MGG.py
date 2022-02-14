@@ -7,14 +7,14 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/openmpi-4.1.1/lib/'
 os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
-hidden = 16
+hidden = 128
 # hidden = [int(sys.argv[1])]
 
-# num_GPUs = 2
-num_GPUs = int(sys.argv[1])
+num_GPUs = 4
+# num_GPUs = int(sys.argv[1])
 ###############################################
 partSize = 16
-warpPerblock = 1
+warpPerblock = int(sys.argv[1])
 interleaved_dist = 2
 ###############################################
 # # interleaved_dist = 1

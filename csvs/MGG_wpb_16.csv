@@ -1,1 +1,7 @@
-Reddit.mtx,7.944
+Reddit_beg_pos.bin,60.34
+enwiki-2013_beg_pos.bin,262.19
+ogbn-products_beg_pos.bin,168.565
+ogbn-proteins_beg_pos.bin,25.668
+com-Orkut_beg_pos.bin,166.255
+web-Google_beg_pos.bin,22.276
+wiki-Talk_beg_pos.bin,33.605

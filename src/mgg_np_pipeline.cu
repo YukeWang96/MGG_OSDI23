@@ -149,7 +149,8 @@ int main(int argc, char* argv[]){
 
     mgg_SAG_np_pipeline(d_output, d_input, 
                     d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                    lb, ub, dim, nodesPerPE);
+                    lb, ub, dim, nodesPerPE, 
+                    partSize, warpPerBlock);
 
     gpuErrchk(cudaGetLastError());
     gpuErrchk(cudaDeviceSynchronize());
