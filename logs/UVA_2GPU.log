@@ -1,63 +1,63 @@
 Graph File: dataset/bin/Reddit_beg_pos.bin
 Expected edge count: 114615892
 114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.2082 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.2129 second(s)
 SAG_cuda_kernel_ref: grid: 29121, block: 128
-Time (ms): 13.19
+Time (ms): 50.55
 SAG_cuda_kernel_ref: grid: 29121, block: 128
-Time (ms): 44.34
+Time (ms): 85.00
 ===================================
 Graph File: dataset/bin/enwiki-2013_beg_pos.bin
 Expected edge count: 202623226
 202623226 202623226
-Graph load (success): 4203323 verts, 202623226 edges 2.11581 second(s)
+Graph load (success): 4203323 verts, 202623226 edges 2.12592 second(s)
 SAG_cuda_kernel_ref: grid: 525416, block: 128
-Time (ms): 251.81
+Time (ms): 843.37
 SAG_cuda_kernel_ref: grid: 525416, block: 128
-Time (ms): 262.23
+Time (ms): 757.81
 ===================================
 Graph File: dataset/bin/ogbn-products_beg_pos.bin
 Expected edge count: 123718280
 123718280 123718280
-Graph load (success): 2449029 verts, 123718280 edges 1.31604 second(s)
+Graph load (success): 2449029 verts, 123718280 edges 1.31025 second(s)
 SAG_cuda_kernel_ref: grid: 306129, block: 128
-Time (ms): 13.63
+Time (ms): 50.91
 SAG_cuda_kernel_ref: grid: 306129, block: 128
-Time (ms): 112.36
+Time (ms): 259.72
 ===================================
 Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
 Expected edge count: 79122504
 79122504 79122504
-Graph load (success): 132534 verts, 79122504 edges 0.840372 second(s)
+Graph load (success): 132534 verts, 79122504 edges 0.851155 second(s)
 SAG_cuda_kernel_ref: grid: 16567, block: 128
-Time (ms): 6.28
+Time (ms): 19.39
 SAG_cuda_kernel_ref: grid: 16567, block: 128
-Time (ms): 29.40
+Time (ms): 46.65
 ===================================
 Graph File: dataset/bin/com-Orkut_beg_pos.bin
 Expected edge count: 117185083
 117185083 117185083
-Graph load (success): 3072441 verts, 117185083 edges 1.22884 second(s)
+Graph load (success): 3072441 verts, 117185083 edges 1.23587 second(s)
 SAG_cuda_kernel_ref: grid: 384056, block: 128
-Time (ms): 7.39
+Time (ms): 28.25
 SAG_cuda_kernel_ref: grid: 384055, block: 128
-Time (ms): 111.36
+Time (ms): 284.91
 ===================================
 Graph File: dataset/bin/web-Google_beg_pos.bin
 Expected edge count: 5105039
 5105039 5105039
-Graph load (success): 916428 verts, 5105039 edges 0.0699389 second(s)
+Graph load (success): 916428 verts, 5105039 edges 0.0666871 second(s)
 SAG_cuda_kernel_ref: grid: 114554, block: 128
-Time (ms): 0.66
+Time (ms): 1.99
 SAG_cuda_kernel_ref: grid: 114554, block: 128
-Time (ms): 26.21
+Time (ms): 81.34
 ===================================
 Graph File: dataset/bin/wiki-Talk_beg_pos.bin
 Expected edge count: 5021410
 5021410 5021410
-Graph load (success): 2394385 verts, 5021410 edges 0.0800481 second(s)
+Graph load (success): 2394385 verts, 5021410 edges 0.0831919 second(s)
 SAG_cuda_kernel_ref: grid: 299299, block: 128
-Time (ms): 59.14
+Time (ms): 184.08
 SAG_cuda_kernel_ref: grid: 299298, block: 128
-Time (ms): 32.46
+Time (ms): 91.03
 ===================================

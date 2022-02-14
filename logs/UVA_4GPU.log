@@ -1,91 +1,91 @@
 Graph File: dataset/bin/Reddit_beg_pos.bin
 Expected edge count: 114615892
 114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.222 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.23061 second(s)
 SAG_cuda_kernel_ref: grid: 14561, block: 128
-Time (ms): 11.06
+Time (ms): 45.31
 SAG_cuda_kernel_ref: grid: 14561, block: 128
-Time (ms): 27.65
+Time (ms): 55.02
 SAG_cuda_kernel_ref: grid: 14561, block: 128
-Time (ms): 30.90
+Time (ms): 69.23
 SAG_cuda_kernel_ref: grid: 14560, block: 128
-Time (ms): 29.88
+Time (ms): 66.10
 ===================================
 Graph File: dataset/bin/enwiki-2013_beg_pos.bin
 Expected edge count: 202623226
 202623226 202623226
-Graph load (success): 4203323 verts, 202623226 edges 2.12358 second(s)
+Graph load (success): 4203323 verts, 202623226 edges 2.13884 second(s)
 SAG_cuda_kernel_ref: grid: 262708, block: 128
-Time (ms): 77.66
+Time (ms): 281.71
 SAG_cuda_kernel_ref: grid: 262708, block: 128
-Time (ms): 367.21
+Time (ms): 1113.54
 SAG_cuda_kernel_ref: grid: 262708, block: 128
-Time (ms): 186.16
+Time (ms): 572.52
 SAG_cuda_kernel_ref: grid: 262708, block: 128
-Time (ms): 201.64
+Time (ms): 606.94
 ===================================
 Graph File: dataset/bin/ogbn-products_beg_pos.bin
 Expected edge count: 123718280
 123718280 123718280
-Graph load (success): 2449029 verts, 123718280 edges 1.31137 second(s)
+Graph load (success): 2449029 verts, 123718280 edges 1.33158 second(s)
 SAG_cuda_kernel_ref: grid: 153065, block: 128
-Time (ms): 11.40
+Time (ms): 41.50
 SAG_cuda_kernel_ref: grid: 153065, block: 128
-Time (ms): 63.62
+Time (ms): 185.78
 SAG_cuda_kernel_ref: grid: 153065, block: 128
-Time (ms): 63.58
+Time (ms): 189.76
 SAG_cuda_kernel_ref: grid: 153064, block: 128
-Time (ms): 64.86
+Time (ms): 189.12
 ===================================
 Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
 Expected edge count: 79122504
 79122504 79122504
-Graph load (success): 132534 verts, 79122504 edges 0.843628 second(s)
+Graph load (success): 132534 verts, 79122504 edges 0.847943 second(s)
 SAG_cuda_kernel_ref: grid: 8284, block: 128
-Time (ms): 4.04
+Time (ms): 13.55
 SAG_cuda_kernel_ref: grid: 8284, block: 128
-Time (ms): 16.94
+Time (ms): 28.99
 SAG_cuda_kernel_ref: grid: 8284, block: 128
-Time (ms): 19.10
+Time (ms): 30.65
 SAG_cuda_kernel_ref: grid: 8283, block: 128
-Time (ms): 20.20
+Time (ms): 31.16
 ===================================
 Graph File: dataset/bin/com-Orkut_beg_pos.bin
 Expected edge count: 117185083
 117185083 117185083
-Graph load (success): 3072441 verts, 117185083 edges 1.23655 second(s)
+Graph load (success): 3072441 verts, 117185083 edges 1.24758 second(s)
 SAG_cuda_kernel_ref: grid: 192028, block: 128
-Time (ms): 3.79
+Time (ms): 13.21
 SAG_cuda_kernel_ref: grid: 192028, block: 128
-Time (ms): 64.11
+Time (ms): 151.81
 SAG_cuda_kernel_ref: grid: 192028, block: 128
-Time (ms): 69.41
+Time (ms): 188.85
 SAG_cuda_kernel_ref: grid: 192027, block: 128
-Time (ms): 79.70
+Time (ms): 213.08
 ===================================
 Graph File: dataset/bin/web-Google_beg_pos.bin
 Expected edge count: 5105039
 5105039 5105039
-Graph load (success): 916428 verts, 5105039 edges 0.0675409 second(s)
+Graph load (success): 916428 verts, 5105039 edges 0.0709519 second(s)
 SAG_cuda_kernel_ref: grid: 57277, block: 128
-Time (ms): 0.50
+Time (ms): 1.41
 SAG_cuda_kernel_ref: grid: 57277, block: 128
-Time (ms): 20.98
+Time (ms): 59.08
 SAG_cuda_kernel_ref: grid: 57277, block: 128
-Time (ms): 21.37
+Time (ms): 62.82
 SAG_cuda_kernel_ref: grid: 57277, block: 128
-Time (ms): 20.67
+Time (ms): 60.12
 ===================================
 Graph File: dataset/bin/wiki-Talk_beg_pos.bin
 Expected edge count: 5021410
 5021410 5021410
-Graph load (success): 2394385 verts, 5021410 edges 0.0814581 second(s)
+Graph load (success): 2394385 verts, 5021410 edges 0.080982 second(s)
 SAG_cuda_kernel_ref: grid: 149650, block: 128
-Time (ms): 60.46
+Time (ms): 192.64
 SAG_cuda_kernel_ref: grid: 149650, block: 128
-Time (ms): 34.98
+Time (ms): 106.59
 SAG_cuda_kernel_ref: grid: 149650, block: 128
-Time (ms): 29.55
+Time (ms): 68.02
 SAG_cuda_kernel_ref: grid: 149649, block: 128
-Time (ms): 21.26
+Time (ms): 50.28
 ===================================
