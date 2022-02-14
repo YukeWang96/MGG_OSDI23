@@ -1,0 +1,8 @@
+Dataset,Time (ms)
+Reddit_beg_pos.bin,23.67
+enwiki-2013_beg_pos.bin,335.38
+ogbn-products_beg_pos.bin,52.23
+ogbn-proteins_beg_pos.bin,14.86
+com-Orkut_beg_pos.bin,57.88
+web-Google_beg_pos.bin,19.33
+wiki-Talk_beg_pos.bin,63.59

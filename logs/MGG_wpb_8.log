@@ -1,27 +1,182 @@
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-PE-3-local, num_nodes: 58239, part_size, 16, num_parts, 444967
-PE-3-remote, num_nodes: 58239, part_size, 16, num_parts, 1337096
-PE-2-local, num_nodes: 58242, part_size, 16, num_parts, 479496
-PE-1-local, num_nodes: 58242, part_size, 16, num_parts, 482399
-PE-2-remote, num_nodes: 58242, part_size, 16, num_parts, 1374884
-PE-0-local, num_nodes: 58242, part_size, 16, num_parts, 499829
-PE-1-remote, num_nodes: 58242, part_size, 16, num_parts, 1376744
-PE-0-remote, num_nodes: 58242, part_size, 16, num_parts, 1393828
-PreProcess time (s) 1.647
-grid: 171861, block: 256, shared_memory (KB): 1.536
-grid: 174229, block: 256, shared_memory (KB): 1.536
-grid: 167137, block: 256, shared_memory (KB): 1.536
-grid: 172093, block: 256, shared_memory (KB): 1.536
-PE-3, Total (ms): 7.652, Dense (ms): 0.000
-PE-2, Total (ms): 8.013, Dense (ms): 0.000
-PE-0, Total (ms): 8.290, Dense (ms): 0.000
-PE-1, Total (ms): 7.848, Dense (ms): 0.000
-MPI time (ms) 7.910
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+Graph load (success): 232965 verts, 114615892 edges 1.26496 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.28507 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.29277 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.28887 second(s)
+numNodes: 232965, nodesPerPE: 58242
+numNodes: 232965, nodesPerPE: 58242
+numNodes: 232965, nodesPerPE: 58242
+numNodes: 232965, nodesPerPE: 58242
+PE-3, Total (ms): 53.824
+PE-1, Total (ms): 54.105
+PE-0, Total (ms): 54.874
+PE-2, Total (ms): 58.120
+MPI time (ms) 58.147
+===================================
+Graph File: dataset/bin/enwiki-2013_beg_pos.bin
+Graph File: dataset/bin/enwiki-2013_beg_pos.bin
+Graph File: dataset/bin/enwiki-2013_beg_pos.bin
+Graph File: dataset/bin/enwiki-2013_beg_pos.bin
+Expected edge count: 202623226
+Expected edge count: 202623226
+Expected edge count: 202623226
+Expected edge count: 202623226
+202623226 202623226
+202623226 202623226
+202623226 202623226
+202623226 202623226
+Graph load (success): 4203323 verts, 202623226 edges 2.23634 second(s)
+Graph load (success): 4203323 verts, 202623226 edges 2.24149 second(s)
+Graph load (success): 4203323 verts, 202623226 edges 2.25907 second(s)
+Graph load (success): 4203323 verts, 202623226 edges 2.25707 second(s)
+numNodes: 4203323, nodesPerPE: 1050831
+numNodes: 4203323, nodesPerPE: 1050831
+numNodes: 4203323, nodesPerPE: 1050831
+numNodes: 4203323, nodesPerPE: 1050831
+PE-0, Total (ms): 133.035
+PE-3, Total (ms): 133.885
+PE-2, Total (ms): 145.622
+MPI time (ms) 297.096
+PE-1, Total (ms): 297.020
+===================================
+Graph File: dataset/bin/ogbn-products_beg_pos.bin
+Graph File: dataset/bin/ogbn-products_beg_pos.bin
+Graph File: dataset/bin/ogbn-products_beg_pos.bin
+Graph File: dataset/bin/ogbn-products_beg_pos.bin
+Expected edge count: 123718280
+Expected edge count: 123718280
+Expected edge count: 123718280
+Expected edge count: 123718280
+123718280 123718280
+123718280 123718280
+123718280 123718280
+123718280 123718280
+Graph load (success): 2449029 verts, 123718280 edges 1.35786 second(s)
+Graph load (success): 2449029 verts, 123718280 edges 1.37493 second(s)
+Graph load (success): 2449029 verts, 123718280 edges 1.38207 second(s)
+Graph load (success): 2449029 verts, 123718280 edges 1.3798 second(s)
+numNodes: 2449029, nodesPerPE: 612258
+numNodes: 2449029, nodesPerPE: 612258
+numNodes: 2449029, nodesPerPE: 612258
+numNodes: 2449029, nodesPerPE: 612258
+PE-2, Total (ms): 70.284
+PE-3, Total (ms): 72.111
+PE-1, Total (ms): 72.592
+PE-0, Total (ms): 96.136
+MPI time (ms) 96.113
+===================================
+Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
+Expected edge count: 79122504
+Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
+Expected edge count: 79122504
+Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
+Expected edge count: 79122504
+Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
+Expected edge count: 79122504
+79122504 79122504
+79122504 79122504
+79122504 79122504
+79122504 79122504
+Graph load (success): 132534 verts, 79122504 edges 0.873164 second(s)
+Graph load (success): 132534 verts, 79122504 edges 0.891262 second(s)
+Graph load (success): 132534 verts, 79122504 edges 0.901076 second(s)
+Graph load (success): 132534 verts, 79122504 edges 0.891871 second(s)
+numNodes: 132534, nodesPerPE: 33134
+numNodes: 132534, nodesPerPE: 33134
+numNodes: 132534, nodesPerPE: 33134
+numNodes: 132534, nodesPerPE: 33134
+PE-0, Total (ms): 14.458
+PE-1, Total (ms): 18.905
+PE-3, Total (ms): 21.263
+MPI time (ms) 23.131
+PE-2, Total (ms): 23.101
+===================================
+Graph File: dataset/bin/com-Orkut_beg_pos.bin
+Graph File: dataset/bin/com-Orkut_beg_pos.bin
+Graph File: dataset/bin/com-Orkut_beg_pos.bin
+Expected edge count: 117185083
+Graph File: dataset/bin/com-Orkut_beg_pos.bin
+Expected edge count: 117185083
+Expected edge count: 117185083
+Expected edge count: 117185083
+117185083 117185083
+117185083 117185083
+117185083 117185083
+117185083 117185083
+Graph load (success): 3072441 verts, 117185083 edges 1.28654 second(s)
+Graph load (success): 3072441 verts, 117185083 edges 1.29269 second(s)
+Graph load (success): 3072441 verts, 117185083 edges 1.31598 second(s)
+Graph load (success): 3072441 verts, 117185083 edges 1.31023 second(s)
+numNodes: 3072441, nodesPerPE: 768111
+numNodes: 3072441, nodesPerPE: 768111
+numNodes: 3072441, nodesPerPE: 768111
+numNodes: 3072441, nodesPerPE: 768111
+PE-0, Total (ms): 22.853
+PE-1, Total (ms): 63.571
+PE-3, Total (ms): 79.610
+PE-2, Total (ms): 88.950
+MPI time (ms) 88.935
+===================================
+Graph File: dataset/bin/web-Google_beg_pos.bin
+Graph File: dataset/bin/web-Google_beg_pos.bin
+Expected edge count: 5105039
+Expected edge count: 5105039
+Graph File: dataset/bin/web-Google_beg_pos.bin
+Graph File: dataset/bin/web-Google_beg_pos.bin
+Expected edge count: 5105039
+Expected edge count: 5105039
+5105039 5105039
+5105039 5105039
+5105039 5105039
+5105039 5105039
+Graph load (success): 916428 verts, 5105039 edges 0.065146 second(s)
+Graph load (success): 916428 verts, 5105039 edges 0.0655789 second(s)
+Graph load (success): 916428 verts, 5105039 edges 0.0719011 second(s)
+Graph load (success): 916428 verts, 5105039 edges 0.072222 second(s)
+numNodes: 916428, nodesPerPE: 229107
+numNodes: 916428, nodesPerPE: 229107
+numNodes: 916428, nodesPerPE: 229107
+numNodes: 916428, nodesPerPE: 229107
+PE-3, Total (ms): 8.492
+PE-2, Total (ms): 8.595
+PE-0, Total (ms): 8.622
+PE-1, Total (ms): 8.644
+MPI time (ms) 8.675
+===================================
+Graph File: dataset/bin/wiki-Talk_beg_pos.bin
+Graph File: dataset/bin/wiki-Talk_beg_pos.bin
+Graph File: dataset/bin/wiki-Talk_beg_pos.bin
+Expected edge count: 5021410
+Graph File: dataset/bin/wiki-Talk_beg_pos.bin
+Expected edge count: 5021410
+Expected edge count: 5021410
+Expected edge count: 5021410
+5021410 5021410
+5021410 5021410
+5021410 5021410
+5021410 5021410
+Graph load (success): 2394385 verts, 5021410 edges 0.0787959 second(s)
+Graph load (success): 2394385 verts, 5021410 edges 0.078619 second(s)
+Graph load (success): 2394385 verts, 5021410 edges 0.0882399 second(s)
+Graph load (success): 2394385 verts, 5021410 edges 0.0874159 second(s)
+numNodes: 2394385, nodesPerPE: 598597
+numNodes: 2394385, nodesPerPE: 598597
+numNodes: 2394385, nodesPerPE: 598597
+numNodes: 2394385, nodesPerPE: 598597
+PE-2, Total (ms): 8.627
+PE-3, Total (ms): 8.569
+PE-1, Total (ms): 8.952
+PE-0, Total (ms): 65.100
+MPI time (ms) 65.102
 ===================================

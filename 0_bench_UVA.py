@@ -7,13 +7,13 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/openmpi-4.1.1/lib/'
 os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
-hidden = 16
+hidden = 128
 # hidden = [int(sys.argv[1])]
 
 # num_GPUs = 2
 num_GPUs = int(sys.argv[1])
 
-partSize = 4000
+partSize = 16
 # partSize = 180
 # partSize = int(sys.argv[1])
 
@@ -32,35 +32,38 @@ dataset = [
         # ('DD'                        , 89       , 2) ,
         # ('SW-620H'                   , 66       , 2) ,
 
-        ( 'amazon0505'               , 96	  , 22),
-        ( 'artist'                   , 100	  , 12),
-        ( 'com-amazon'               , 96	  , 22),
-        ( 'soc-BlogCatalog'	         , 128	  , 39),      
-        ( 'amazon0601'  	         , 96	  , 22), 
+        # ( 'amazon0505'               , 96	  , 22),
+        # ( 'artist'                   , 100	  , 12),
+        # ( 'com-amazon'               , 96	  , 22),
+        # ( 'soc-BlogCatalog'	         , 128	  , 39),      
+        # ( 'amazon0601'  	         , 96	  , 22), 
 
-        # ( 'Reddit'                      , 602      	, 41),
-        # ( 'enwiki-2013'	                , 100	    , 12),      
-        # ( 'ogbn-products'	            , 100	    , 47),
-        # ( 'ogbn-proteins'		        , 8		    , 112),
-        # ( 'com-Orkut'				    , 128		, 128),
+        ( 'Reddit'                      , 602      	, 41),
+        ( 'enwiki-2013'	                , 100	    , 12),      
+        ( 'ogbn-products'	            , 100	    , 47),
+        ( 'ogbn-proteins'		        , 8		    , 112),
+        ( 'com-Orkut'				    , 128		, 128),
 
-        # ( 'web-Google'				    , 128		, 128),
-        # ( 'wiki-Talk'				    , 128		, 128),
+        ( 'web-Google'				    , 128		, 128),
+        ( 'wiki-Talk'				    , 128		, 128),
 ]
 
 
-data_path = 'dataset/'
 # command = "ncu --devices 0 --metrics regex:.* \
 #         build/unified_memory {}".format(data_path)
-command = ""
+
 # command += "nsys profile \
 #             --force-overwrite=true	\
 #             --cuda-um-gpu-page-faults=true \
 #             --cuda-um-cpu-page-faults=true \
 #             --export=json "
-command += "build/unified_memory {}".format(data_path)
 
-# command = "build/unified_memory {}".format(data_path)
+command = "build/unified_memory "
+
 for data, d, c in dataset:
-    os.system(command + "{0}.mtx {1} {2} {3} {4}".\
-    format(data, num_GPUs, partSize, warpPerblock, hidden))
+        beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
+        csr_file = "dataset/bin/{}_csr.bin".format(data)
+        weight_file = "dataset/bin/{}_weight.bin".format(data)
+        os.system(command + "{0} {1} {2} {3} {4} {5} {6}".\
+                format(beg_file, csr_file, weight_file, 
+                        num_GPUs, partSize, warpPerblock, hidden))

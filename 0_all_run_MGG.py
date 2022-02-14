@@ -20,8 +20,8 @@ os.system("mv *.csv csvs/")
     # os.system("./1_analysis.py MGG_Dist_{0}.log {1}".format(dist, 4))
     # os.system("mv MGG_Dist_{0}.log logs/".format(dist))
 
-for wpb in [1,2,4,8,32]:
-# for wpb in [16]:
+# for wpb in [1,2,4,8,16,32]:
+for wpb in [16]:
     os.system("./0_bench_MGG.py {0}| tee MGG_wpb_{0}.log".format(wpb))
     os.system("./1_analysis.py MGG_wpb_{0}.log {1}".format(wpb, 4))
     os.system("mv MGG_wpb_{0}.log logs/".format(wpb))

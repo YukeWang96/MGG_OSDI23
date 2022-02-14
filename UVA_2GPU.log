@@ -1,0 +1,36 @@
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+114615892 114615892
+Graph load (success): 232965 verts, 114615892 edges 1.2129 second(s)
+SAG_cuda_kernel_ref: grid: 29121, block: 128
+Time (ms): 50.55
+SAG_cuda_kernel_ref: grid: 29121, block: 128
+Time (ms): 85.00
+===================================
+Graph File: dataset/bin/enwiki-2013_beg_pos.bin
+Expected edge count: 202623226
+202623226 202623226
+Graph load (success): 4203323 verts, 202623226 edges 2.12592 second(s)
+SAG_cuda_kernel_ref: grid: 525416, block: 128
+Time (ms): 843.37
+SAG_cuda_kernel_ref: grid: 525416, block: 128
+Time (ms): 757.81
+===================================
+Graph File: dataset/bin/ogbn-products_beg_pos.bin
+Expected edge count: 123718280
+123718280 123718280
+Graph load (success): 2449029 verts, 123718280 edges 1.31025 second(s)
+SAG_cuda_kernel_ref: grid: 306129, block: 128
+Time (ms): 50.91
+SAG_cuda_kernel_ref: grid: 306129, block: 128
+Time (ms): 259.72
+===================================
+Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
+Expected edge count: 79122504
+79122504 79122504
+Graph load (success): 132534 verts, 79122504 edges 0.851155 second(s)
+SAG_cuda_kernel_ref: grid: 16567, block: 128
+Time (ms): 19.39
+SAG_cuda_kernel_ref: grid: 16567, block: 128
+Time (ms): 46.65
+===================================
