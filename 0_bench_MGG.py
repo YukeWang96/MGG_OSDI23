@@ -10,11 +10,11 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 hidden = 128
 # hidden = [int(sys.argv[1])]
 
-num_GPUs = 4
-# num_GPUs = int(sys.argv[1])
+# num_GPUs = 4
+num_GPUs = int(sys.argv[1])
 ###############################################
-partSize = 16
-warpPerblock = int(sys.argv[1])
+partSize = 4
+warpPerblock = 16
 interleaved_dist = 2
 ###############################################
 # # interleaved_dist = 1
@@ -64,29 +64,14 @@ dataset = [
         ( 'wiki-Talk'				    , 128		, 128),
 ]
 
-
-data_path = 'dataset/'
-# pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
-#               ncu --devices 0 -k regex:SAG \
-#               --target-processes all \
-#               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
-
 pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
-              
-# command = "build/MGG {}".format(data_path)
-# command = "build/MGG_basic {}".format(data_path)
-# command = "build/MGG_np {}".format(data_path)
-# command = "build/MGG_np_div {}".format(data_path)
-# command = "build/MGG_np_pipeline {}".format(data_path)
-
 
 # command = "build/MGG "
 # command = "build/MGG_basic "
 # command = "build/MGG_np "
 # command = "build/MGG_np_div "
 command = "build/MGG_np_pipeline "
-
 
 for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
