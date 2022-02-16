@@ -7,7 +7,7 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/openmpi-4.1.1/lib/'
 os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
-hidden = 128
+hidden = 32
 # hidden = [int(sys.argv[1])]
 
 # num_GPUs = 4
@@ -58,10 +58,10 @@ dataset = [
         ( 'enwiki-2013'	                , 100	        , 12),      
         ( 'ogbn-products'	        , 100	        , 47),
         ( 'ogbn-proteins'		, 128		, 112),
-        ( 'com-Orkut'		        , 128		, 128),
+        # ( 'com-Orkut'		        , 128		, 128),
 
-        ( 'web-Google'				    , 128		, 128),
-        ( 'wiki-Talk'				    , 128		, 128),
+        # ( 'web-Google'				    , 128		, 128),
+        # ( 'wiki-Talk'				    , 128		, 128),
 ]
 
 pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
@@ -70,8 +70,8 @@ pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
 # command = "build/MGG "
 # command = "build/MGG_basic "
 # command = "build/MGG_np "
-# command = "build/MGG_np_div "
-command = "build/MGG_np_pipeline "
+command = "build/MGG_np_div "
+# command = "build/MGG_np_pipeline "
 
 for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)

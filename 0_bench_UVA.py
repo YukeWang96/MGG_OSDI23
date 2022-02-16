@@ -39,13 +39,13 @@ dataset = [
         # ( 'amazon0601'  	         , 96	  , 22), 
 
         ( 'Reddit'                      , 602      	, 41),
-        ( 'enwiki-2013'	                , 100	    , 12),      
-        ( 'ogbn-products'	            , 100	    , 47),
-        ( 'ogbn-proteins'		        , 8		    , 112),
-        ( 'com-Orkut'				    , 128		, 128),
+        # ( 'enwiki-2013'	                , 100	    , 12),      
+        # ( 'ogbn-products'	            , 100	    , 47),
+        # ( 'ogbn-proteins'		        , 8		    , 112),
+        # ( 'com-Orkut'				    , 128		, 128),
 
-        ( 'web-Google'				    , 128		, 128),
-        ( 'wiki-Talk'				    , 128		, 128),
+        # ( 'web-Google'				    , 128		, 128),
+        # ( 'wiki-Talk'				    , 128		, 128),
 ]
 
 
@@ -58,7 +58,8 @@ dataset = [
 #             --cuda-um-cpu-page-faults=true \
 #             --export=json "
 
-command = "build/unified_memory "
+# command = "build/unified_memory "
+command = "build/MGG_single_kernel "
 
 for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
