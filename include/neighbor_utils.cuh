@@ -10,6 +10,10 @@
 
 #define WARP_SIZE 32
 
+
+__global__ void warmup(){}
+
+
 template <typename T>
 std::vector<std::vector<T>> build_part(std::string name,
     // T* partPtr, T* part2Node,
@@ -61,6 +65,19 @@ void SAG_cuda_kernel(
     const paraType dim,
     const paraType dimWorker,
     const paraType warpPerBlock
+);
+
+
+__global__ 
+void SAG_inPart_cuda_kernel(
+    float*  output,
+    const float* input,
+    const int* row_pointers, 
+    const int* column_index,
+    const int num_nodes, 
+    const int dim,
+    const int partSize,
+    const int warpPerBlock
 );
 
 template <typename T>
@@ -1254,18 +1271,46 @@ void SAG_host_ref(
     const int* column_index,
     const int lb_src,
     const int ub_src,
-    const int dim
+    const int dim,
+    const int num_edges
 )
 {
+    const int partSize = 16;
     const int warpPerBlock = 4;
     const int pe_num_nodes = ub_src - lb_src;
 
-    const int block = warpPerBlock * WARP_SIZE;
-    const int grid = (pe_num_nodes * WARP_SIZE + block  - 1) / block; 
-    printf("SAG_cuda_kernel_ref: grid: %d, block: %d\n", grid, block);
+    // const int block = warpPerBlock * WARP_SIZE;
+    // const int grid = (pe_num_nodes * WARP_SIZE + block  - 1) / block; 
+    // printf("SAG_cuda_kernel_ref: grid: %d, block: %d\n", grid, block);
 
-    SAG_cuda_kernel_ref<<<grid, block>>>(output, input, row_ptr, column_index, 
-                                            lb_src, pe_num_nodes, dim);
+    // SAG_cuda_kernel_ref<<<grid, block>>>(output, input, row_ptr, column_index, 
+    //                                         lb_src, pe_num_nodes, dim);
+    const int block = warpPerBlock * WARP_SIZE;
+    const int grid = pe_num_nodes;
+    const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    const int PROFILE = 1;
+
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+
+    for (int i=0; i<PROFILE; i++) {
+        warmup<<<1,1>>>();
+    }
+	
+    cudaEventRecord(start, 0);
+    for (int i=0; i<PROFILE; i++)                                    
+    SAG_inPart_cuda_kernel<<<grid, block, shared_memory>>>(output, input, row_ptr, column_index, 
+                                                            pe_num_nodes, dim, 
+                                                            partSize, warpPerBlock); 
+    cudaEventRecord(stop, 0);
+    cudaEventSynchronize(stop);
+
+    float milliseconds;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    // printf("SAG_inPart_cuda_kernel -- Time (ms): %.3f\n", milliseconds/PROFILE);
+    float gflop = 2*num_edges*1.0f/1e6*dim;
+    printf("SAG_inPart_cuda_kernel -- Time (ms): %.3f, GFLOPs: %.3f\n", milliseconds/PROFILE, gflop/(milliseconds/PROFILE));
 
     cudaError_t error = cudaGetLastError();
     if(error != cudaSuccess){
@@ -2105,6 +2150,76 @@ void SAG_cuda_kernel_ref(float* d_output, const float* d_input, const int* d_row
         }
     }
 }
+
+__global__ 
+void SAG_inPart_cuda_kernel(
+    float*  output,
+    const float* input,
+    const int* row_pointers, 
+    const int* column_index,
+    const int num_nodes, 
+    const int dim,
+    const int partSize,
+    const int warpPerBlock
+) 
+{
+    int srcId = blockIdx.x;                                     // each node allocate 
+    int block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
+    int laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
+
+    extern __shared__ int part_meta[];                          // part information.
+    int*  warp_nbs = (int*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
+
+    if (srcId < num_nodes){
+        const int neighborBeg = row_pointers[srcId];        // partitioning pointer start
+        const int neighborEnd = row_pointers[srcId + 1];    // part pointer end
+
+        #pragma unroll
+        for (int d = laneid; d < dim; d += 32){
+            part_meta[block_warpId*dim + d] = 0.0f;
+        }
+
+        __syncwarp();
+
+        for (int nidx_b = neighborBeg; nidx_b < neighborEnd; nidx_b += partSize*warpPerBlock){
+
+            const int w_start = nidx_b + partSize * block_warpId;
+            const int w_end = w_start + partSize < neighborEnd?  w_start + partSize: neighborEnd;
+            
+            const int n_base = block_warpId * partSize;
+            for(int nidx_w = w_start + laneid; nidx_w < w_end; nidx_w += WARP_SIZE){  
+                warp_nbs[n_base + nidx_w - w_start] = column_index[nidx_w];
+            }
+
+            __syncwarp();
+
+            for(int nidx = 0; nidx < w_end - w_start; nidx++){  
+                int nid = column_index[w_start + nidx];
+                // int nid = warp_nbs[n_base + nidx];
+                #pragma unroll
+                for (int d = laneid; d < dim; d += 32){
+                    part_meta[block_warpId*dim + d] += input[nid * dim + d];
+                    // atomicAdd_F((float*)&output[srcId][d], input[nid][d]);
+
+                }
+            }
+        }
+        // __syncthreads();
+        // if (block_warpId == 0){
+        //     for(int w_iter = 0; w_iter < warpPerBlock; w_iter++){
+        //         #pragma unroll
+        //         for (int d = laneid; d < dim; d += dimWorker){
+        //             output[srcId][d] += part_meta[w_iter*dim + d];
+        //         }
+        //     }
+        // }
+        for (int d = laneid; d < dim; d += 32){
+            // output[srcId][d] += part_meta[w_iter*dim + d];
+            atomicAdd_F((float*)&output[srcId * dim + d], part_meta[block_warpId*dim + d]);
+        }
+    }
+}
+
 
 
 __global__ 

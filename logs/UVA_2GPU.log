@@ -1,8 +1,10 @@
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.33989 second(s)
+Graph File: dataset/bin/amazon0505_beg_pos.bin
+Expected edge count: 4878874
+4878874 4878874
+Graph load (success): 410236 verts, 4878874 edges 0.0729928 second(s)
 Complete loading graphs !!
-SAG_cuda_kernel_ref: grid: 58242, block: 128
-Total (ms): 97.993
+SAG_inPart_cuda_kernel -- Time (ms): 4.030, GFLOPs: 309.922
+
+================================
+Total (ms): 23.964
 ===================================

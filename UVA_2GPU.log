@@ -1,0 +1,6 @@
+Graph File: dataset/bin/citeseer_beg_pos.bin
+Expected edge count: 9464
+9464 9464
+Graph load (success): 3327 verts, 9464 edges 0.000351906 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 0.056, GFLOPs: 43.264
+===================================

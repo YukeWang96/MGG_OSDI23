@@ -14,14 +14,13 @@ hidden = 128
 num_GPUs = int(sys.argv[1])
 
 partSize = 16
-# partSize = 180
 # partSize = int(sys.argv[1])
 
 warpPerblock = 4
 # warpPerblock = int(sys.argv[1])
 
 dataset = [
-        # ('citeseer'	        		, 3703	    , 6   ),  
+        ('citeseer'	        		, 3703	    , 6   ),  
         # ('cora' 	        		, 1433	    , 7   ),  
         # ('pubmed'	        		, 500	    , 3   ),      
         # ('ppi'	            		, 50	    , 121 ),   
@@ -38,7 +37,7 @@ dataset = [
         # ( 'soc-BlogCatalog'	         , 128	  , 39),      
         # ( 'amazon0601'  	         , 96	  , 22), 
 
-        ( 'Reddit'                      , 602      	, 41),
+        # ( 'Reddit'                      , 602      	, 41),
         # ( 'enwiki-2013'	                , 100	    , 12),      
         # ( 'ogbn-products'	            , 100	    , 47),
         # ( 'ogbn-proteins'		        , 8		    , 112),
