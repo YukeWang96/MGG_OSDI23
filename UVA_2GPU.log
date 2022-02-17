@@ -1,6 +1,168 @@
 Graph File: dataset/bin/citeseer_beg_pos.bin
 Expected edge count: 9464
 9464 9464
-Graph load (success): 3327 verts, 9464 edges 0.000351906 second(s)
-SAG_inPart_cuda_kernel -- Time (ms): 0.056, GFLOPs: 43.264
+Graph load (success): 3327 verts, 9464 edges 0.000204086 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 0.052, GFLOPs: 46.449
+SAG_inPart_cuda_kernel -- Time (ms): 0.048, GFLOPs: 50.848
+Total (ms): 0.621
+===================================
+Graph File: dataset/bin/cora_beg_pos.bin
+Expected edge count: 10858
+10858 10858
+Graph load (success): 2708 verts, 10858 edges 0.000349045 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 0.064, GFLOPs: 43.585
+SAG_inPart_cuda_kernel -- Time (ms): 0.060, GFLOPs: 46.106
+Total (ms): 0.629
+===================================
+Graph File: dataset/bin/pubmed_beg_pos.bin
+Expected edge count: 88676
+88676 88676
+Graph load (success): 19717 verts, 88676 edges 0.00131512 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 0.170, GFLOPs: 133.498
+SAG_inPart_cuda_kernel -- Time (ms): 0.180, GFLOPs: 126.072
+Total (ms): 0.882
+===================================
+Graph File: dataset/bin/ppi_beg_pos.bin
+Expected edge count: 818716
+818716 818716
+Graph load (success): 56944 verts, 818716 edges 0.0108829 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 0.608, GFLOPs: 344.541
+SAG_inPart_cuda_kernel -- Time (ms): 0.618, GFLOPs: 339.417
+Total (ms): 1.862
+===================================
+Graph File: dataset/bin/PROTEINS_beg_pos.bin
+Expected edge count: 162088
+162088 162088
+Graph load (success): 43471 verts, 162088 edges 0.00330591 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 0.317, GFLOPs: 130.980
+SAG_inPart_cuda_kernel -- Time (ms): 0.340, GFLOPs: 122.008
+Total (ms): 1.215
+===================================
+Graph File: dataset/bin/OVCAR-8H_beg_pos.bin
+Expected edge count: 3946402
+3946402 3946402
+Graph load (success): 1890931 verts, 3946402 edges 0.0649321 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 11.774, GFLOPs: 85.804
+SAG_inPart_cuda_kernel -- Time (ms): 11.802, GFLOPs: 85.599
+Total (ms): 26.335
+===================================
+Graph File: dataset/bin/Yeast_beg_pos.bin
+Expected edge count: 3636546
+3636546 3636546
+Graph load (success): 1714644 verts, 3636546 edges 0.058953 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 10.163, GFLOPs: 91.599
+SAG_inPart_cuda_kernel -- Time (ms): 10.188, GFLOPs: 91.380
+Total (ms): 23.028
+===================================
+Graph File: dataset/bin/DD_beg_pos.bin
+Expected edge count: 1686092
+1686092 1686092
+Graph load (success): 334925 verts, 1686092 edges 0.0221391 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 2.406, GFLOPs: 179.391
+SAG_inPart_cuda_kernel -- Time (ms): 2.435, GFLOPs: 177.255
+Total (ms): 6.083
+===================================
+Graph File: dataset/bin/SW-620H_beg_pos.bin
+Expected edge count: 3944206
+3944206 3944206
+Graph load (success): 1889971 verts, 3944206 edges 0.063076 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 12.196, GFLOPs: 82.792
+SAG_inPart_cuda_kernel -- Time (ms): 12.229, GFLOPs: 82.569
+Total (ms): 27.305
+===================================
+Graph File: dataset/bin/amazon0505_beg_pos.bin
+Expected edge count: 4878874
+4878874 4878874
+Graph load (success): 410236 verts, 4878874 edges 0.0694871 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 4.024, GFLOPs: 310.391
+SAG_inPart_cuda_kernel -- Time (ms): 4.051, GFLOPs: 308.338
+Total (ms): 9.504
+===================================
+Graph File: dataset/bin/artist_beg_pos.bin
+Expected edge count: 1638396
+1638396 1638396
+Graph load (success): 50515 verts, 1638396 edges 0.0205669 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 1.000, GFLOPs: 419.550
+SAG_inPart_cuda_kernel -- Time (ms): 1.006, GFLOPs: 416.934
+Total (ms): 2.625
+===================================
+Graph File: dataset/bin/com-amazon_beg_pos.bin
+Expected edge count: 1851744
+1851744 1851744
+Graph load (success): 548551 verts, 1851744 edges 0.026145 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 4.005, GFLOPs: 118.365
+SAG_inPart_cuda_kernel -- Time (ms): 4.039, GFLOPs: 117.369
+Total (ms): 9.769
+===================================
+Graph File: dataset/bin/soc-BlogCatalog_beg_pos.bin
+Expected edge count: 2093195
+2093195 2093195
+Graph load (success): 88784 verts, 2093195 edges 0.0255411 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 1.027, GFLOPs: 521.847
+SAG_inPart_cuda_kernel -- Time (ms): 1.063, GFLOPs: 504.141
+Total (ms): 2.770
+===================================
+Graph File: dataset/bin/amazon0601_beg_pos.bin
+Expected edge count: 3387388
+3387388 3387388
+Graph load (success): 403394 verts, 3387388 edges 0.041862 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 3.381, GFLOPs: 256.489
+SAG_inPart_cuda_kernel -- Time (ms): 3.402, GFLOPs: 254.892
+Total (ms): 8.168
+===================================
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+114615892 114615892
+Graph load (success): 232965 verts, 114615892 edges 1.34474 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 41.068, GFLOPs: 714.473
+SAG_inPart_cuda_kernel -- Time (ms): 41.246, GFLOPs: 711.389
+Total (ms): 83.346
+===================================
+Graph File: dataset/bin/enwiki-2013_beg_pos.bin
+Expected edge count: 202623226
+202623226 202623226
+Graph load (success): 4203323 verts, 202623226 edges 2.33234 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 175.928, GFLOPs: 294.845
+SAG_inPart_cuda_kernel -- Time (ms): 162.992, GFLOPs: 318.246
+Total (ms): 341.447
+===================================
+Graph File: dataset/bin/ogbn-products_beg_pos.bin
+Expected edge count: 123718280
+123718280 123718280
+Graph load (success): 2449029 verts, 123718280 edges 1.45662 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 66.867, GFLOPs: 473.658
+SAG_inPart_cuda_kernel -- Time (ms): 66.657, GFLOPs: 475.147
+Total (ms): 136.511
+===================================
+Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
+Expected edge count: 79122504
+79122504 79122504
+Graph load (success): 132534 verts, 79122504 edges 0.940972 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 19.370, GFLOPs: 1045.695
+SAG_inPart_cuda_kernel -- Time (ms): 19.383, GFLOPs: 1045.003
+Total (ms): 39.539
+===================================
+Graph File: dataset/bin/com-Orkut_beg_pos.bin
+Expected edge count: 117185083
+117185083 117185083
+Graph load (success): 3072441 verts, 117185083 edges 1.37201 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 51.033, GFLOPs: 587.847
+SAG_inPart_cuda_kernel -- Time (ms): 51.081, GFLOPs: 587.296
+Total (ms): 104.542
+===================================
+Graph File: dataset/bin/web-Google_beg_pos.bin
+Expected edge count: 5105039
+5105039 5105039
+Graph load (success): 916428 verts, 5105039 edges 0.0663481 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 7.270, GFLOPs: 179.758
+SAG_inPart_cuda_kernel -- Time (ms): 7.300, GFLOPs: 179.032
+Total (ms): 17.120
+===================================
+Graph File: dataset/bin/wiki-Talk_beg_pos.bin
+Expected edge count: 5021410
+5021410 5021410
+Graph load (success): 2394385 verts, 5021410 edges 0.0799508 second(s)
+SAG_inPart_cuda_kernel -- Time (ms): 33.212, GFLOPs: 38.706
+SAG_inPart_cuda_kernel -- Time (ms): 34.084, GFLOPs: 37.715
+Total (ms): 70.107
 ===================================

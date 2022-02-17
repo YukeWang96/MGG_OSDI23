@@ -42,7 +42,8 @@ int main(int argc, char* argv[]){
     int partSize = atoi(argv[5]);           // 32
     int warpPerBlock = atoi(argv[6]);       // 4
     int dim = atoi(argv[7]);                // 16
-    int dim1 = 16;               
+    int dim1 = 128;               
+    int dim2 = 128;
 
     int lb = 0;
     int ub = numNodes;
@@ -62,9 +63,9 @@ int main(int argc, char* argv[]){
     gpuErrchk(cudaMemcpy(d_col_ind_ref, &global_col_ind[0], global_col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_input_ref, h_input_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_output_ref, h_output_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
-
-
+    //
     // dense-1 layer param
+    //
     const float alpha = 1.0f;
     const float beta = 0.0;
 
@@ -77,16 +78,28 @@ int main(int argc, char* argv[]){
     CUDA_CHECK(cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking));
     CUBLAS_CHECK(cublasSetStream(cublasH, stream));
     
-    float* h_W1, *d_W1, *d_out1;
+    float* h_W1, *d_W1, *d_out1, *d_out1_sag;
     h_W1 = (float *) malloc (dim * dim1 * sizeof(float));      // CPU host memory (input_ref)
     std::fill_n(h_W1, dim * dim1, 1.0f); // filled with all zeros.
     gpuErrchk(cudaMalloc((void**)&d_W1, dim * dim1 * sizeof(float))); // GPU device memory (input_ref)
     gpuErrchk(cudaMemcpy(d_W1, h_W1, dim * dim1 * sizeof(float), cudaMemcpyHostToDevice));
-    // output at layer1
     gpuErrchk(cudaMalloc((void**)&d_out1, numNodes * dim1 * sizeof(float)));
+    gpuErrchk(cudaMalloc((void**)&d_out1_sag, numNodes * dim1 * sizeof(float)));
 
-    const int m = dim1, n = numNodes, k = dim; // (XW) --> W_T X X_T for column-major store.
-    const int ldx = dim, ldw = dim1, ldout1 = dim1;
+    const int m1 = dim1, n1 = numNodes, k1 = dim; // (XW) --> W_T x X_T for column-major store.
+    const int ldx1 = dim, ldw1 = dim1, ldout1 = dim1;
+    //
+    // dense-2 layer param
+    //    
+    float* h_W2, *d_W2, *d_out2;
+    h_W2 = (float *) malloc (dim1 * dim2 * sizeof(float));      // CPU host memory (input_ref)
+    std::fill_n(h_W1, dim1 * dim2, 1.0f); // filled with all zeros.
+    gpuErrchk(cudaMalloc((void**)&d_W2,  dim1 * dim2 * sizeof(float))); // GPU device memory (input_ref)
+    gpuErrchk(cudaMemcpy(d_W2, h_W2,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMalloc((void**)&d_out2, numNodes * dim2 * sizeof(float)));
+
+    const int m2 = dim2, n2 = numNodes, k2 = dim1; // (XW) --> W_T X X_T for column-major store.
+    const int ldx2 = dim1, ldw2 = dim2, ldout2 = dim2;
 
     //
     // xecute model.
@@ -97,13 +110,16 @@ int main(int argc, char* argv[]){
                 d_row_ptr_ref, d_col_ind_ref, 
                 lb, ub, dim, global_col_ind.size());
     // gpuErrchk(cudaMemcpy(h_output_ref, d_output_ref, numNodes * dim * sizeof(float), cudaMemcpyDeviceToHost));
-    
+    // dense layer-1
+    CUBLAS_CHECK(cublasSgemm(cublasH, transa, transb, m1, n1, k1, &alpha, d_W1, ldw1, d_output_ref, ldx1, &beta, d_out1, ldout1));
+    // CUDA_CHECK(cudaMemcpyAsync(C.data(), d_C, sizeof(data_type) * C.size(), cudaMemcpyDeviceToHost, stream));    
+    // sparse layer-2
+    SAG_host_ref(d_out1_sag, d_out1, 
+        d_row_ptr_ref, d_col_ind_ref, 
+        lb, ub, dim1, global_col_ind.size());
     // dense layer-2
-    CUBLAS_CHECK(cublasSgemm(cublasH, transa, transb, m, n, k, &alpha, d_W1, ldw, d_output_ref, ldx, &beta, d_out1, ldout1));
-    /* step 4: copy data to host */
-    // CUDA_CHECK(cudaMemcpyAsync(C.data(), d_C, sizeof(data_type) * C.size(), cudaMemcpyDeviceToHost, stream));
-
-    CUDA_CHECK(cudaStreamSynchronize(stream));
+    CUBLAS_CHECK(cublasSgemm(cublasH, transa, transb, m2, n2, k2, &alpha, d_W2, ldw2, d_out1_sag, ldx2, &beta, d_out2, ldout2));
+    // CUDA_CHECK(cudaStreamSynchronize(stream));
     // for (int nid = 0; nid < 10; nid++){
     //     printf("out [%d] ", nid);
     //     for (int d = 0; d < dim; d++){
@@ -111,7 +127,6 @@ int main(int argc, char* argv[]){
     //     }
     //     printf("\n");
     // }
-
     std::clock_t c_end = std::clock();
     float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
     printf("Total (ms): %.3f\n", time_elapsed_ms);
