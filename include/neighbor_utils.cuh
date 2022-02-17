@@ -1288,30 +1288,30 @@ void SAG_host_ref(
     const int block = warpPerBlock * WARP_SIZE;
     const int grid = pe_num_nodes;
     const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
-    const int PROFILE = 1;
+    // const int PROFILE = 1;
 
-	cudaEvent_t start, stop;
-	cudaEventCreate(&start);
-    cudaEventCreate(&stop);
+	// cudaEvent_t start, stop;
+	// cudaEventCreate(&start);
+    // cudaEventCreate(&stop);
 
-    for (int i=0; i<PROFILE; i++) {
-        warmup<<<1,1>>>();
-    }
+    // for (int i=0; i<PROFILE; i++) {
+    //     warmup<<<1,1>>>();
+    // }
 	
-    cudaEventRecord(start, 0);
-    for (int i=0; i<PROFILE; i++)                                    
+    // cudaEventRecord(start, 0);
+    // for (int i=0; i<PROFILE; i++)                                    
     SAG_inPart_cuda_kernel<<<grid, block, shared_memory>>>(output, input, row_ptr, column_index, 
                                                             pe_num_nodes, dim, 
                                                             partSize, warpPerBlock); 
-    cudaEventRecord(stop, 0);
-    cudaEventSynchronize(stop);
+    // cudaEventRecord(stop, 0);
+    // cudaEventSynchronize(stop);
 
-    float milliseconds;
-    cudaEventElapsedTime(&milliseconds, start, stop);
+    // float milliseconds;
+    // cudaEventElapsedTime(&milliseconds, start, stop);
     // printf("SAG_inPart_cuda_kernel -- Time (ms): %.3f\n", milliseconds/PROFILE);
-    float gflop = 2*num_edges*1.0f/1e6*dim;
-    printf("SAG_inPart_cuda_kernel -- Time (ms): %.3f, GFLOPs: %.3f\n", milliseconds/PROFILE, gflop/(milliseconds/PROFILE));
-
+    // float gflop = 2*num_edges*1.0f/1e6*dim;
+    // printf("SAG_inPart_cuda_kernel -- Time (ms): %.3f, GFLOPs: %.3f\n", milliseconds/PROFILE, gflop/(milliseconds/PROFILE));
+    cudaDeviceSynchronize();
     cudaError_t error = cudaGetLastError();
     if(error != cudaSuccess){
         printf("CUDA error @ SAG_cuda_kernel_ref: %s\n", cudaGetErrorString(error));

@@ -72,11 +72,11 @@ int main(int argc, char* argv[]){
     cublasOperation_t transa = CUBLAS_OP_N;
     cublasOperation_t transb = CUBLAS_OP_N;
     cublasHandle_t cublasH = NULL;
-    cudaStream_t stream = NULL;
+    // cudaStream_t stream = NULL;
 
     CUBLAS_CHECK(cublasCreate(&cublasH));
-    CUDA_CHECK(cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking));
-    CUBLAS_CHECK(cublasSetStream(cublasH, stream));
+    // CUDA_CHECK(cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking));
+    // CUBLAS_CHECK(cublasSetStream(cublasH, stream));
     
     float* h_W1, *d_W1, *d_out1, *d_out1_sag;
     h_W1 = (float *) malloc (dim * dim1 * sizeof(float));      // CPU host memory (input_ref)
@@ -126,6 +126,12 @@ int main(int argc, char* argv[]){
     //         printf("%.3f,", h_output_ref[nid * dim + d]);
     //     }
     //     printf("\n");
+    // }
+
+    // cudaError_t error = cudaGetLastError();
+    // if(error != cudaSuccess){
+    //     printf("CUDA error @ SAG_cuda_kernel_ref: %s\n", cudaGetErrorString(error));
+    //     exit(-1);
     // }
     std::clock_t c_end = std::clock();
     float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
