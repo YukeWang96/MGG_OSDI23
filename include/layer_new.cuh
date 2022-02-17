@@ -8,14 +8,17 @@
 class sparse_param_beg{
 
 public:
-    sparse_param_beg(int *d_row_ptr_in, int *d_col_ind_in, int numNodes_in, int dim_in){
+    sparse_param_beg(const char* name_in, int *d_row_ptr_in, int *d_col_ind_in, int numNodes_in, int dim_in){
+        strncpy(name, name_in, 8);
 
         numNodes = numNodes_in;
         dim = dim_in;
         d_row_ptr = d_row_ptr_in;
         d_col_ind = d_col_ind_in;
+
         // allocate memory space.
         _mem_alloc();
+        _kernel_param();
     }    
 
     void _mem_alloc(){
@@ -33,10 +36,25 @@ public:
         CUDA_CHECK(cudaMemcpy(d_out, h_out, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
     }
 
+    void _kernel_param(){
+        
+        warpPerBlock = 4;
+        partSize = 16;
+        WARP_SIZE = 32;
+
+       block = warpPerBlock * WARP_SIZE;
+       grid = numNodes;
+       shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    }
+
 public:
     int numNodes, dim;
     float *h_in, *h_out, *d_in, *d_out;
     int* d_row_ptr, *d_col_ind;
+
+    int warpPerBlock, partSize, WARP_SIZE;
+    int block, grid, shared_memory;
+    char name[8];
 };
 
 
@@ -44,7 +62,8 @@ class sparse_param_hidden{
 
 
 public:
-    sparse_param_hidden(float* d_in_input, int *d_row_ptr_in, int *d_col_ind_in,  int numNodes_in, int dim_in){
+    sparse_param_hidden(const char* name_in, float* d_in_input, int *d_row_ptr_in, int *d_col_ind_in,  int numNodes_in, int dim_in){
+        strncpy(name, name_in, 8);
 
         numNodes = numNodes_in;
         dim = dim_in;
@@ -52,8 +71,9 @@ public:
         d_row_ptr = d_row_ptr_in;
         d_col_ind = d_col_ind_in;
 
-        // allocate memory space.
         _mem_alloc();
+        _kernel_param();
+
     }    
 
     void _mem_alloc(){
@@ -72,17 +92,36 @@ public:
         CUDA_CHECK(cudaMemcpy(d_out, h_out, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
     }
 
+    void _kernel_param(){
+        
+        warpPerBlock = 4;
+        partSize = 16;
+        WARP_SIZE = 32;
+
+       block = warpPerBlock * WARP_SIZE;
+       grid = numNodes;
+       shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    }
+
 public:
     int numNodes, dim;
     float *h_in, *h_out, *d_in, *d_out;
     int* d_row_ptr, *d_col_ind;
+
+    int warpPerBlock, partSize, WARP_SIZE;
+    int block, grid, shared_memory;
+
+    char name[8];
 };
 
 
 class dense_param_beg{
 
 public:
-    dense_param_beg(int numNodes_in, int dim1_in, int dim2_in){
+    dense_param_beg(const char* name_in, int numNodes_in, int dim1_in, int dim2_in){
+        
+        strncpy(name, name_in, 8);
+
         numNodes = numNodes_in;
         dim1 = dim1_in;
         dim2 = dim2_in;
@@ -120,13 +159,18 @@ public:
     float alpha, beta;
     cublasOperation_t transa, transb;
     cublasHandle_t cublasH;
+
+    char name[8];
 };
 
 
 class dense_param_hidden{
 
 public:
-    dense_param_hidden(float *d_in_input, int numNodes_in, int dim1_in, int dim2_in){
+    dense_param_hidden(const char* name_in, float *d_in_input, int numNodes_in, int dim1_in, int dim2_in){
+
+        strncpy(name, name_in, 8);
+
         numNodes = numNodes_in;
         dim1 = dim1_in;
         dim2 = dim2_in;
@@ -165,5 +209,7 @@ public:
     float alpha, beta;
     cublasOperation_t transa, transb;
     cublasHandle_t cublasH;
+
+    char name[8];
 };
 #endif // layer_new_cuh

@@ -3,10 +3,9 @@
 #include <stdio.h>
 #include <ctime>
 #include <algorithm>
-
-#include <mpi.h>
-#include <nvshmem.h>
-#include <nvshmemx.h>
+// #include <mpi.h>
+// #include <nvshmem.h>
+// #include <nvshmemx.h>
 #include <cublas_v2.h>
 
 #include "graph.h"
@@ -54,27 +53,33 @@ int main(int argc, char* argv[]){
     CUDA_CHECK(cudaMemcpy(d_row_ptr, &global_row_ptr[0], global_row_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
     CUDA_CHECK(cudaMemcpy(d_col_ind, &global_col_ind[0], global_col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
 
-    sparse_param_beg* sp1 = new sparse_param_beg(d_row_ptr, d_col_ind, numNodes, dim);
-    dense_param_hidden* dp1 = new dense_param_hidden(sp1->d_out, numNodes, dim, dim1);
-    sparse_param_hidden* sp2 = new sparse_param_hidden(dp1->d_out, d_row_ptr, d_col_ind, numNodes, dim1);
-    dense_param_hidden* dp2 = new dense_param_hidden(sp2->d_out, numNodes, dim1, dim2);
+    // 
+    // define model
+    // 
+    sparse_param_beg* sp1 = new sparse_param_beg("s-1", d_row_ptr, d_col_ind, numNodes, dim);
+    dense_param_hidden* dp1 = new dense_param_hidden("d-1", sp1->d_out, numNodes, dim, dim1);
+    sparse_param_hidden* sp2 = new sparse_param_hidden("s-2",  dp1->d_out, d_row_ptr, d_col_ind, numNodes, dim1);
+    dense_param_hidden* dp2 = new dense_param_hidden("d-2", sp2->d_out, numNodes, dim1, dim2);
 
     //
     // xecute model.
     //
     std::clock_t c_start = std::clock();    
     // sparse layer-1
-    SAG_host_ref(sp1->d_out, sp1->d_in, d_row_ptr, d_col_ind, lb, ub, dim1, global_col_ind.size());
+    sparse_beg_forward(sp1);
     // dense layer-1
-    CUBLAS_CHECK(cublasSgemm(dp1->cublasH, dp1->transa, dp1->transb, dp1->m, dp1->n, dp1->k, &(dp1->alpha), dp1->d_W, dp1->ldw, dp1->d_out, dp1->ldx, &(dp1->beta), dp1->d_out, dp1->ldout));
+    dense_hidden_forward(dp1);
+    // CUBLAS_CHECK(cublasSgemm(dp1->cublasH, dp1->transa, dp1->transb, dp1->m, dp1->n, dp1->k, &(dp1->alpha), dp1->d_W, dp1->ldw, dp1->d_out, dp1->ldx, &(dp1->beta), dp1->d_out, dp1->ldout));
     // sparse layer-2
-    SAG_host_ref(sp2->d_out, sp2->d_in, d_row_ptr, d_col_ind, lb, ub, dim1, global_col_ind.size());
+    sparse_hidden_forward(sp2);
+    // SAG_host_ref(sp2->d_out, sp2->d_in, d_row_ptr, d_col_ind, lb, ub, dim1, global_col_ind.size());
     // dense layer-2
-    CUBLAS_CHECK(cublasSgemm(dp2->cublasH, dp2->transa, dp2->transb, dp2->m, dp2->n, dp2->k, &(dp2->alpha), dp2->d_W, dp2->ldw, dp2->d_in, dp2->ldx, &(dp2->beta), dp2->d_out, dp2->ldout));
+    dense_hidden_forward(dp2);
+    // CUBLAS_CHECK(cublasSgemm(dp2->cublasH, dp2->transa, dp2->transb, dp2->m, dp2->n, dp2->k, &(dp2->alpha), dp2->d_W, dp2->ldw, dp2->d_in, dp2->ldx, &(dp2->beta), dp2->d_out, dp2->ldout));
 
     std::clock_t c_end = std::clock();
     float time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;
-    printf("Total (ms): %.3f\n", time_elapsed_ms);
+    printf("Time (ms): %.3f\n", time_elapsed_ms);
 
     printf("===================================\n");
 

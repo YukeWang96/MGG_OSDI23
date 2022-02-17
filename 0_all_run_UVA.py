@@ -9,8 +9,8 @@ num_gpus = [2]
 # os.system("mv *.log logs/")
 for gpu in num_gpus:
     os.system("./0_bench_UVA.py {0}| tee UVA_{0}GPU.log".format(gpu))
-    # os.system("./1_analysis_UVA.py UVA_{0}GPU.log {0}".format(gpu))
-    # os.system("mv UVA_{0}GPU.log logs/".format(gpu))
+    os.system("./1_analysis_UVA.py UVA_{0}GPU.log {0}".format(gpu))
+    os.system("mv UVA_{0}GPU.log logs/".format(gpu))
 
 # for gpu in num_gpus:
     # os.system("./0_bench_UVA.py {0}| tee UVA_{0}GPU_metrics.log".format(gpu))
