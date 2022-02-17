@@ -20,8 +20,8 @@ link_directories(${MPI_HOME}/lib)
 link_directories(/usr/local/lib)
 link_directories(${NCCL_HOME}/lib)
 
-add_executable(MGG_single_kernel 
-    src/mgg_single_kernel.cu 
+add_executable(MGG_gcn_2layer 
+    src/mgg_gcn_2layer.cu 
     include/loss.cu 
     include/layer.cu
 )
@@ -78,7 +78,7 @@ add_executable(mgg_profile
 
 
 #############################################################################
-target_include_directories(MGG_single_kernel 
+target_include_directories(MGG_gcn_2layer 
     PRIVATE 
     ${NVSHMEM_HOME}/include 
     ${CUDA_HOME}/include 
@@ -87,7 +87,7 @@ target_include_directories(MGG_single_kernel
     include
 )
 
-target_compile_options(MGG_single_kernel PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+target_compile_options(MGG_gcn_2layer PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                         -Xcompiler 
                         -pthread 
                         -rdc=true 
@@ -95,10 +95,10 @@ target_compile_options(MGG_single_kernel PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
                         -arch ${SM_ARCH}
                        >)
 
-set_target_properties(MGG_single_kernel PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-set_target_properties(MGG_single_kernel PROPERTIES CUDA_ARCHITECTURES "80")
+set_target_properties(MGG_gcn_2layer PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(MGG_gcn_2layer PROPERTIES CUDA_ARCHITECTURES "80")
 
-target_link_libraries(MGG_single_kernel
+target_link_libraries(MGG_gcn_2layer
     nvshmem 
     cuda
     mpi_cxx 

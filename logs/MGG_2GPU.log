@@ -4,13 +4,13 @@ Graph File: dataset/bin/Reddit_beg_pos.bin
 Expected edge count: 114615892
 114615892 114615892
 114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.25021 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.24799 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.43927 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.46178 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
-PE-1, Total (ms): 34.214
-PE-0, Total (ms): 34.391
-MPI time (ms) 34.387
+PE-1, Total (ms): 34.040
+PE-0, Total (ms): 34.374
+MPI time (ms) 34.348
 ===================================
 Graph File: dataset/bin/enwiki-2013_beg_pos.bin
 Graph File: dataset/bin/enwiki-2013_beg_pos.bin
@@ -18,13 +18,13 @@ Expected edge count: 202623226
 Expected edge count: 202623226
 202623226 202623226
 202623226 202623226
-Graph load (success): 4203323 verts, 202623226 edges 2.20331 second(s)
-Graph load (success): 4203323 verts, 202623226 edges 2.20576 second(s)
+Graph load (success): 4203323 verts, 202623226 edges 2.72861 second(s)
+Graph load (success): 4203323 verts, 202623226 edges 2.7564 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
-PE-1, Total (ms): 131.600
-PE-0, Total (ms): 155.999
-MPI time (ms) 155.998
+PE-1, Total (ms): 130.356
+PE-0, Total (ms): 152.921
+MPI time (ms) 152.917
 ===================================
 Graph File: dataset/bin/ogbn-products_beg_pos.bin
 Graph File: dataset/bin/ogbn-products_beg_pos.bin
@@ -32,13 +32,13 @@ Expected edge count: 123718280
 Expected edge count: 123718280
 123718280 123718280
 123718280 123718280
-Graph load (success): 2449029 verts, 123718280 edges 1.35487 second(s)
-Graph load (success): 2449029 verts, 123718280 edges 1.35294 second(s)
+Graph load (success): 2449029 verts, 123718280 edges 1.62969 second(s)
+Graph load (success): 2449029 verts, 123718280 edges 1.63747 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
-PE-1, Total (ms): 88.235
-PE-0, Total (ms): 99.346
-MPI time (ms) 99.354
+PE-1, Total (ms): 88.116
+PE-0, Total (ms): 99.122
+MPI time (ms) 99.114
 ===================================
 Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
 Expected edge count: 79122504
@@ -46,11 +46,11 @@ Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
 Expected edge count: 79122504
 79122504 79122504
 79122504 79122504
-Graph load (success): 132534 verts, 79122504 edges 0.863096 second(s)
-Graph load (success): 132534 verts, 79122504 edges 0.861925 second(s)
+Graph load (success): 132534 verts, 79122504 edges 1.03751 second(s)
+Graph load (success): 132534 verts, 79122504 edges 1.05272 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
-PE-0, Total (ms): 13.075
-PE-1, Total (ms): 16.558
-MPI time (ms) 16.565
+PE-0, Total (ms): 13.105
+PE-1, Total (ms): 16.532
+MPI time (ms) 16.524
 ===================================
