@@ -1,6 +1,25 @@
 Graph File: dataset/bin/citeseer_beg_pos.bin
 Expected edge count: 9464
 9464 9464
-Graph load (success): 3327 verts, 9464 edges 0.000346899 second(s)
-Time (ms): 1.558
-===================================
+Graph load (success): 3327 verts, 9464 edges 0.000187159 second(s)
+CUDA error @ SGC_beg_forward: too many blocks in cooperative launch
+Graph File: dataset/bin/cora_beg_pos.bin
+Expected edge count: 10858
+10858 10858
+Graph load (success): 2708 verts, 10858 edges 0.00156999 second(s)
+CUDA error @ SGC_beg_forward: too many blocks in cooperative launch
+Graph File: dataset/bin/pubmed_beg_pos.bin
+Expected edge count: 88676
+88676 88676
+Graph load (success): 19717 verts, 88676 edges 0.00406289 second(s)
+CUDA error @ SGC_beg_forward: too many blocks in cooperative launch
+Graph File: dataset/bin/ppi_beg_pos.bin
+Expected edge count: 818716
+818716 818716
+Graph load (success): 56944 verts, 818716 edges 0.014194 second(s)
+CUDA error @ SGC_beg_forward: too many blocks in cooperative launch
+Graph File: dataset/bin/PROTEINS_beg_pos.bin
+Expected edge count: 162088
+162088 162088
+Graph load (success): 43471 verts, 162088 edges 0.00662804 second(s)
+CUDA error @ SGC_beg_forward: too many blocks in cooperative launch

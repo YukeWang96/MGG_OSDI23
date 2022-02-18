@@ -79,29 +79,74 @@ void AGNN_base_cuda_kernel(  //https://docs.dgl.ai/api/python/nn.pytorch.html?hi
     }
 }
 
-void AGNN_beg_forward(AGNN_param_beg*sp){
 
-    AGNN_base_cuda_kernel<<<sp->grid, sp->block>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
-                                                    sp->d_row_ptr, sp->d_col_ind, 
-                                                    sp->numNodes, sp->dim, sp->warpPerBlock); 
-    cudaDeviceSynchronize();
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess){
-        printf("CUDA error @ AGNN_base_cuda_kernel: %s\n", cudaGetErrorString(error));
-        exit(-1);
+
+__device__ 
+void SGC_cuda_kernel(
+    float*  output,
+    const float* input,
+    const int* row_pointers, 
+    const int* column_index,
+    const int num_nodes, 
+    const int dim,
+    const int partSize,
+    const int warpPerBlock
+) 
+{
+    int srcId = blockIdx.x;                                     // each node allocate 
+    int block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
+    int laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
+
+    extern __shared__ int part_meta[];                          // part information.
+    int*  warp_nbs = (int*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
+
+    if (srcId < num_nodes){
+        const int neighborBeg = row_pointers[srcId];        // partitioning pointer start
+        const int neighborEnd = row_pointers[srcId + 1];    // part pointer end
+
+        #pragma unroll
+        for (int d = laneid; d < dim; d += 32){
+            part_meta[block_warpId*dim + d] = 0.0f;
+        }
+
+        __syncwarp();
+
+        for (int nidx_b = neighborBeg; nidx_b < neighborEnd; nidx_b += partSize*warpPerBlock){
+
+            const int w_start = nidx_b + partSize * block_warpId;
+            const int w_end = w_start + partSize < neighborEnd?  w_start + partSize: neighborEnd;
+            
+            const int n_base = block_warpId * partSize;
+            for(int nidx_w = w_start + laneid; nidx_w < w_end; nidx_w += WARP_SIZE){  
+                warp_nbs[n_base + nidx_w - w_start] = column_index[nidx_w];
+            }
+
+            __syncwarp();
+
+            for(int nidx = 0; nidx < w_end - w_start; nidx++){  
+                int nid = warp_nbs[n_base + nidx];
+                #pragma unroll
+                for (int d = laneid; d < dim; d += 32){
+                    part_meta[block_warpId*dim + d] += input[nid * dim + d];
+                    // atomicAdd_F((float*)&output[srcId][d], input[nid][d]);
+
+                }
+            }
+        }
+        // __syncthreads();
+        // if (block_warpId == 0){
+        //     for(int w_iter = 0; w_iter < warpPerBlock; w_iter++){
+        //         #pragma unroll
+        //         for (int d = laneid; d < dim; d += dimWorker){
+        //             output[srcId][d] += part_meta[w_iter*dim + d];
+        //         }
+        //     }
+        // }
+        for (int d = laneid; d < dim; d += 32){
+            // output[srcId][d] += part_meta[w_iter*dim + d];
+            atomicAdd_F((float*)&output[srcId * dim + d], part_meta[block_warpId*dim + d]);
+        }
     }
 }
 
-void AGNN_hidden_forward(AGNN_param_hidden*sp)
-{                               
-    AGNN_base_cuda_kernel<<<sp->grid, sp->block>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
-                                                    sp->d_row_ptr, sp->d_col_ind, 
-                                                    sp->numNodes, sp->dim, sp->warpPerBlock); 
-    cudaDeviceSynchronize();
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess){
-        printf("CUDA error @ AGNN_hidden_forward: %s\n", cudaGetErrorString(error));
-        exit(-1);
-    }
-}
 #endif // gnn_kernel_cuh

@@ -315,4 +315,203 @@ public:
 
 
 
+class SGC_param_beg{
+
+public:
+    SGC_param_beg(const char* name_in, int *d_row_ptr_in, int *d_col_ind_in, int numNodes_in, int dim_in, int k=2){
+        strncpy(name, name_in, 8);
+
+        numNodes = numNodes_in;
+        dim = dim_in;
+        d_row_ptr = d_row_ptr_in;
+        d_col_ind = d_col_ind_in;
+        khop = k;
+
+        _mem_alloc();
+        _kernel_param();
+    }    
+
+    void _mem_alloc(){
+
+        h_in = (float *) malloc (numNodes * dim * sizeof(float));      // CPU host memory (input_ref)
+        h_out = (float *) malloc (numNodes * dim * sizeof(float));     //  CPU host memory (output_ref)
+        std::fill_n(h_in, numNodes * dim, 1.0f); // filled with all zeros.
+        std::fill_n(h_out, numNodes * dim, 0.0f); // filled with all zeros.
+        CUDA_CHECK(cudaMalloc((void**)&d_in, numNodes * dim * sizeof(float))); // GPU device memory (input_ref)
+        CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim * sizeof(float))); // GPU device memory (output_ref)
+    
+        CUDA_CHECK(cudaMemcpy(d_in, h_in, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
+        CUDA_CHECK(cudaMemcpy(d_out, h_out, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
+    }
+
+    void _kernel_param(){
+        
+        warpPerBlock = 4;
+        partSize = 16;
+        WARP_SIZE = 32;
+
+       block = warpPerBlock * WARP_SIZE;
+       grid = numNodes;
+       shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    }
+
+public:
+    int numNodes, dim, khop;
+    float *h_in, *h_out, *d_in, *d_out;
+    int* d_row_ptr, *d_col_ind;
+
+    int warpPerBlock, partSize, WARP_SIZE;
+    int block, grid, shared_memory;
+    char name[8];
+};
+
+
+class SGC_param_hidden{
+
+public:
+    SGC_param_hidden(const char* name_in, float* d_in_input, int *d_row_ptr_in, int *d_col_ind_in,  int numNodes_in, int dim_in, int k=2){
+        strncpy(name, name_in, 8);
+
+        numNodes = numNodes_in;
+        dim = dim_in;
+        d_in = d_in_input;
+        d_row_ptr = d_row_ptr_in;
+        d_col_ind = d_col_ind_in;
+        khop = k;
+
+        _mem_alloc();
+        _kernel_param();
+
+    }    
+
+    void _mem_alloc(){
+        h_out = (float *) malloc (numNodes * dim * sizeof(float));  
+        std::fill_n(h_out, numNodes * dim, 0.0f); 
+
+        CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim * sizeof(float)));
+        CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim * sizeof(float)));
+    }
+
+    void _kernel_param(){
+        
+        warpPerBlock = 4;
+        partSize = 16;
+        WARP_SIZE = 32;
+
+       block = warpPerBlock * WARP_SIZE;
+       grid = numNodes;
+       shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    }
+
+public:
+    int numNodes, dim, khop;
+    float *h_in, *h_out, *d_in, *d_out;
+    int* d_row_ptr, *d_col_ind;
+
+    int warpPerBlock, partSize, WARP_SIZE;
+    int block, grid, shared_memory;
+
+    char name[8];
+};
+
+class TAG_param_beg{
+
+public:
+    TAG_param_beg(const char* name_in, int *d_row_ptr_in, int *d_col_ind_in, int numNodes_in, int dim_in, int k=2){
+        strncpy(name, name_in, 8);
+
+        numNodes = numNodes_in;
+        dim = dim_in;
+        d_row_ptr = d_row_ptr_in;
+        d_col_ind = d_col_ind_in;
+        khop = k;
+
+        _mem_alloc();
+        _kernel_param();
+    }    
+
+    void _mem_alloc(){
+
+        h_in = (float *) malloc (numNodes * dim * sizeof(float));      // CPU host memory (input_ref)
+        h_out = (float *) malloc (numNodes * dim * sizeof(float));     //  CPU host memory (output_ref)
+        std::fill_n(h_in, numNodes * dim, 1.0f); // filled with all zeros.
+        std::fill_n(h_out, numNodes * dim, 0.0f); // filled with all zeros.
+        CUDA_CHECK(cudaMalloc((void**)&d_in, numNodes * dim * sizeof(float))); // GPU device memory (input_ref)
+        CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim * sizeof(float))); // GPU device memory (output_ref)
+    
+        CUDA_CHECK(cudaMemcpy(d_in, h_in, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
+        CUDA_CHECK(cudaMemcpy(d_out, h_out, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
+    }
+
+    void _kernel_param(){
+        
+        warpPerBlock = 4;
+        partSize = 16;
+        WARP_SIZE = 32;
+
+       block = warpPerBlock * WARP_SIZE;
+       grid = numNodes;
+       shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    }
+
+public:
+    int numNodes, dim, khop;
+    float *h_in, *h_out, *d_in, *d_out;
+    int* d_row_ptr, *d_col_ind;
+
+    int warpPerBlock, partSize, WARP_SIZE;
+    int block, grid, shared_memory;
+    char name[8];
+};
+
+
+class TAG_param_hidden{
+
+public:
+    TAG_param_hidden(const char* name_in, float* d_in_input, int *d_row_ptr_in, int *d_col_ind_in,  int numNodes_in, int dim_in, int k=2){
+        strncpy(name, name_in, 8);
+
+        numNodes = numNodes_in;
+        dim = dim_in;
+        d_in = d_in_input;
+        d_row_ptr = d_row_ptr_in;
+        d_col_ind = d_col_ind_in;
+        khop = k;
+
+        _mem_alloc();
+        _kernel_param();
+
+    }    
+
+    void _mem_alloc(){
+        h_out = (float *) malloc (numNodes * dim * sizeof(float));  
+        std::fill_n(h_out, numNodes * dim, 0.0f); 
+
+        CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim * sizeof(float)));
+        CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim * sizeof(float)));
+    }
+
+    void _kernel_param(){
+        
+        warpPerBlock = 4;
+        partSize = 16;
+        WARP_SIZE = 32;
+
+       block = warpPerBlock * WARP_SIZE;
+       grid = numNodes;
+       shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    }
+
+public:
+    int numNodes, dim, khop;
+    float *h_in, *h_out, *d_in, *d_out;
+    int* d_row_ptr, *d_col_ind;
+
+    int warpPerBlock, partSize, WARP_SIZE;
+    int block, grid, shared_memory;
+
+    char name[8];
+};
+
+
 #endif // layer_new_cuh

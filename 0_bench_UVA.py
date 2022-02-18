@@ -58,8 +58,12 @@ dataset = [
 #             --export=json "
 
 # command = "build/unified_memory "
+
+
+
 # command = "build/MGG_gcn_2layer "
-command = "build/MGG_agnn_2layer "
+# command = "build/MGG_agnn_2layer "
+command = "build/MGG_sgc_2layer "
 
 for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
