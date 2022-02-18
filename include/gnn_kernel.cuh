@@ -81,7 +81,7 @@ void AGNN_base_cuda_kernel(  //https://docs.dgl.ai/api/python/nn.pytorch.html?hi
 
 
 
-__device__ 
+__global__ 
 void SGC_cuda_kernel(
     float*  output,
     const float* input,
@@ -93,14 +93,16 @@ void SGC_cuda_kernel(
     const int warpPerBlock
 ) 
 {
-    int srcId = blockIdx.x;                                     // each node allocate 
+    // int srcId = blockIdx.x;                                   // each node allocate 
     int block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
     int laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
 
     extern __shared__ int part_meta[];                          // part information.
     int*  warp_nbs = (int*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
 
-    if (srcId < num_nodes){
+    // if (srcId < num_nodes){
+    for (int srcId = blockIdx.x; srcId < num_nodes; srcId += gridDim.x){
+
         const int neighborBeg = row_pointers[srcId];        // partitioning pointer start
         const int neighborEnd = row_pointers[srcId + 1];    // part pointer end
 

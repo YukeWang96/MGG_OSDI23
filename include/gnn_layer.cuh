@@ -36,32 +36,32 @@ void AGNN_hidden_forward(AGNN_param_hidden*sp)
 }
 
 
-__global__ void SGC_cuda_kernel_wrapper(SGC_param_beg* sp_beg)
-{
-    grid_group grid = this_grid();
-    SGC_cuda_kernel(sp_beg->d_out, sp_beg->d_in, sp_beg->d_row_ptr, sp_beg->d_col_ind, 
-                    sp_beg->numNodes, sp_beg->dim, sp_beg->partSize, sp_beg->warpPerBlock);
-    grid.sync();
-}
+// __global__ void SGC_cuda_kernel_wrapper(SGC_param_beg* sp_beg)
+// {
+//     grid_group grid = this_grid();
+//     SGC_cuda_kernel(sp_beg->d_out, sp_beg->d_in, sp_beg->d_row_ptr, sp_beg->d_col_ind, 
+//                     sp_beg->numNodes, sp_beg->dim, sp_beg->partSize, sp_beg->warpPerBlock);
+//     grid.sync();
+// }
 
 void SGC_beg_forward(SGC_param_beg*sp)
 {                                   
-
+    const int dev = 0;
     cudaDeviceProp deviceProp;
     cudaGetDeviceProperties(&deviceProp, dev);
     int numBlocksPerSm;
 
-    cudaFuncSetAttribute(SGC_cuda_kernel_wrapper, cudaFuncAttributeMaxDynamicSharedMemorySize, sp->shared_memory);
-    cudaOccupancyMaxActiveBlocksPerMultiprocessor(&numBlocksPerSm, SGC_cuda_kernel_wrapper, sp->block, sp->shared_memory);
+    cudaFuncSetAttribute(SGC_cuda_kernel, cudaFuncAttributeMaxDynamicSharedMemorySize, sp->shared_memory);
+    cudaOccupancyMaxActiveBlocksPerMultiprocessor(&numBlocksPerSm, SGC_cuda_kernel, sp->block, sp->shared_memory);
 
     void* args[] = {sp};
     printf("numBlocksPerSm: %d, SMs: %d,  Total: %d\n", numBlocksPerSm, deviceProp.multiProcessorCount, numBlocksPerSm*deviceProp.multiProcessorCount);
     // cudaLaunchCooperativeKernel((void*)SGC_cuda_kernel_wrapper, numBlocksPerSm*deviceProp.multiProcessorCount, sp->block, args, sp->shared_memory);
     // cudaLaunchCooperativeKernel((void*)SGC_cuda_kernel_wrapper, sp->grid, sp->block, args, sp->shared_memory);
 
-    // SGC_cuda_kernel<<<sp->grid, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_in, sp->d_row_ptr, sp->d_col_ind, 
-    //                                                             sp->numNodes, sp->dim, 
-    //                                                             sp->partSize, sp->warpPerBlock); 
+    SGC_cuda_kernel<<<numBlocksPerSm*deviceProp.multiProcessorCount, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_in, sp->d_row_ptr, sp->d_col_ind, 
+                                                                sp->numNodes, sp->dim, 
+                                                                sp->partSize, sp->warpPerBlock); 
 
     cudaDeviceSynchronize();
     cudaError_t error = cudaGetLastError();
