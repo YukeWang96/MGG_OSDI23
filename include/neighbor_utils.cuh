@@ -1265,79 +1265,6 @@ void SAG_host_unified(
 }
 
 
-void dense_beg_forward(dense_param_beg* dp)
-{
-    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
-        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
-}
-
-void dense_hidden_forward(dense_param_hidden* dp)
-{
-    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
-        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
-}
-
-void sparse_beg_forward(sparse_param_beg*sp)
-{
-	// cudaEvent_t start, stop;
-	// cudaEventCreate(&start);
-    // cudaEventCreate(&stop);
-
-    // for (int i=0; i<PROFILE; i++) {
-    //     warmup<<<1,1>>>();
-    // }
-	
-    // cudaEventRecord(start, 0);
-    // for (int i=0; i<PROFILE; i++)                                    
-    SAG_inPart_cuda_kernel<<<sp->grid, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_in, sp->d_row_ptr, sp->d_col_ind, 
-                                                            sp->numNodes, sp->dim, 
-                                                            sp->partSize, sp->warpPerBlock); 
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-
-    // float milliseconds;
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // printf("SAG_inPart_cuda_kernel -- Time (ms): %.3f\n", milliseconds/PROFILE);
-    // float gflop = 2*num_edges*1.0f/1e6*dim;
-    // printf("SAG_inPart_cuda_kernel -- Time (ms): %.3f, GFLOPs: %.3f\n", milliseconds/PROFILE, gflop/(milliseconds/PROFILE));
-    cudaDeviceSynchronize();
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess){
-        printf("CUDA error @ sparse_beg_forward: %s\n", cudaGetErrorString(error));
-        exit(-1);
-    }
-}
-
-void sparse_hidden_forward(sparse_param_hidden*sp)
-{
-	// cudaEvent_t start, stop;
-	// cudaEventCreate(&start);
-    // cudaEventCreate(&stop);
-
-    // for (int i=0; i<PROFILE; i++) {
-    //     warmup<<<1,1>>>();
-    // }
-	
-    // cudaEventRecord(start, 0);
-    // for (int i=0; i<PROFILE; i++)                                    
-    SAG_inPart_cuda_kernel<<<sp->grid, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_in, sp->d_row_ptr, sp->d_col_ind, 
-                                                            sp->numNodes, sp->dim, 
-                                                            sp->partSize, sp->warpPerBlock); 
-    // cudaEventRecord(stop, 0);
-    // cudaEventSynchronize(stop);
-
-    // float milliseconds;
-    // cudaEventElapsedTime(&milliseconds, start, stop);
-    // printf("SAG_inPart_cuda_kernel -- Time (ms): %.3f\n", milliseconds/PROFILE);
-    // float gflop = 2*num_edges*1.0f/1e6*dim;
-    // printf("SAG_inPart_cuda_kernel -- Time (ms): %.3f, GFLOPs: %.3f\n", milliseconds/PROFILE, gflop/(milliseconds/PROFILE));
-    cudaDeviceSynchronize();
-    cudaError_t error = cudaGetLastError();
-    if(error != cudaSuccess){
-        printf("CUDA error @ sparse_hidden_forward: %s\n", cudaGetErrorString(error));
-        exit(-1);
-    }
-}
 
 
 // Reference kernel for validation across multiple GPUs
@@ -2272,8 +2199,8 @@ void SAG_inPart_cuda_kernel(
             __syncwarp();
 
             for(int nidx = 0; nidx < w_end - w_start; nidx++){  
-                int nid = column_index[w_start + nidx];
-                // int nid = warp_nbs[n_base + nidx];
+                // int nid = column_index[w_start + nidx];
+                int nid = warp_nbs[n_base + nidx];
                 #pragma unroll
                 for (int d = laneid; d < dim; d += 32){
                     part_meta[block_warpId*dim + d] += input[nid * dim + d];
@@ -2296,6 +2223,9 @@ void SAG_inPart_cuda_kernel(
             atomicAdd_F((float*)&output[srcId * dim + d], part_meta[block_warpId*dim + d]);
         }
     }
+
+
+    
 }
 
 

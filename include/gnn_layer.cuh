@@ -6,8 +6,107 @@
 using namespace cooperative_groups;
 using namespace std;
 
+
+#include <cublas_v2.h>
+#include "cublas_utils.h"
+
 #include "neighbor_utils.cuh"
 #include "gnn_kernel.cuh"
+
+// #define PROFILE 100
+
+void dense_beg_forward(dense_param_beg* dp)
+{
+    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
+        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+}
+
+void dense_hidden_forward(dense_param_hidden* dp)
+{
+    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
+        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+}
+
+
+void sparse_beg_forward(sparse_param_beg*sp)
+{
+    #ifdef PROFILE
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+
+    for (int i=0; i<PROFILE; i++) {
+        warmup<<<1,1>>>();
+    }
+	
+    cudaEventRecord(start, 0);
+    for (int i=0; i<PROFILE; i++)        
+    #endif
+
+    SpMM_cuda_kernel<<<sp->grid, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_in, sp->d_row_ptr, sp->d_col_ind, 
+                                                            sp->numNodes, sp->dim, 
+                                                            sp->partSize, sp->warpPerBlock); 
+
+    #ifdef PROFILE
+    cudaEventRecord(stop, 0);
+    cudaEventSynchronize(stop);
+
+    float milliseconds;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    printf("SpMM_cuda_kernel -- Time (ms): %.3f\n", milliseconds/PROFILE);
+    float gflop = 2*num_edges*1.0f/1e6*dim;
+    printf("SpMM_cuda_kernel -- Time (ms): %.3f, GFLOPs: %.3f\n", milliseconds/PROFILE, gflop/(milliseconds/PROFILE));
+    #endif
+
+    cudaDeviceSynchronize();
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ sparse_beg_forward: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
+
+
+void sparse_hidden_forward(sparse_param_hidden*sp)
+{
+    #ifdef PROFILE
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+
+    for (int i=0; i<PROFILE; i++) {
+        warmup<<<1,1>>>();
+    }
+	
+    cudaEventRecord(start, 0);
+    for (int i=0; i<PROFILE; i++)        
+    #endif
+
+    SpMM_cuda_kernel<<<sp->grid, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_in, sp->d_row_ptr, sp->d_col_ind, 
+                                                                sp->numNodes, sp->dim, 
+                                                                sp->partSize, sp->warpPerBlock); 
+
+    #ifdef PROFILE
+    cudaEventRecord(stop, 0);
+    cudaEventSynchronize(stop);
+
+    float milliseconds;
+    cudaEventElapsedTime(&milliseconds, start, stop);
+    printf("SpMM_cuda_kernel -- Time (ms): %.3f\n", milliseconds/PROFILE);
+    float gflop = 2*num_edges*1.0f/1e6*dim;
+    printf("SpMM_cuda_kernel -- Time (ms): %.3f, GFLOPs: %.3f\n", milliseconds/PROFILE, gflop/(milliseconds/PROFILE));
+    #endif
+
+    cudaDeviceSynchronize();
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ sparse_hidden_forward: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
+
+
+
 
 void AGNN_beg_forward(AGNN_param_beg*sp){
 

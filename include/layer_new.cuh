@@ -137,20 +137,26 @@ public:
 
 
     void _mem_alloc(){
-        h_W = (float *) malloc (dim1 * dim2 * sizeof(float));              // CPU host memory (input_ref)
-        std::fill_n(h_W, dim1 * dim2, 1.0f);                                // filled with all zeros.
+        h_W = (float *) malloc (dim1 * dim2 * sizeof(float));     
+        h_in = (float *) malloc (numNodes * dim1 * sizeof(float));                   
+        std::fill_n(h_W, dim1 * dim2, 1.0f);                               
+        std::fill_n(h_in, numNodes * dim1, 1.0f);                               
 
-        CUDA_CHECK(cudaMalloc((void**)&d_in, numNodes * dim1 * sizeof(float))); // GPU device memory (output_ref)
-        CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float))); // GPU device memory (input_ref)
+        CUDA_CHECK(cudaMalloc((void**)&d_in, numNodes * dim1 * sizeof(float))); 
+        CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float)));
         CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float)));
 
         CUDA_CHECK(cudaMemcpy(d_W, h_W,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
+        CUDA_CHECK(cudaMemcpy(d_in, h_in,  numNodes * dim1 * sizeof(float), cudaMemcpyHostToDevice));
+
+        CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim2 * sizeof(float)));
+
     }
 
 public:
     int m, n, k, ldx, ldw, ldout;
     int numNodes, dim1, dim2;
-    float* h_W, *d_W, *d_out, *d_in;
+    float* h_W, *d_W, *d_out, *d_in, *h_in;
     float alpha, beta;
     cublasOperation_t transa, transb;
     cublasHandle_t cublasH;
@@ -188,12 +194,13 @@ public:
 
 
     void _mem_alloc(){
-        h_W = (float *) malloc (dim1 * dim2 * sizeof(float));              // CPU host memory (input_ref)
-        std::fill_n(h_W, dim1 * dim2, 1.0f);                                // filled with all zeros.
+        h_W = (float *) malloc (dim1 * dim2 * sizeof(float));             
+        std::fill_n(h_W, dim1 * dim2, 1.0f);                               
 
-        CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float))); // GPU device memory (input_ref)
-        CUDA_CHECK(cudaMemcpy(d_W, h_W,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
+        CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float))); 
         CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float)));
+
+        CUDA_CHECK(cudaMemcpy(d_W, h_W,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
         CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim2 * sizeof(float)));
     }
 

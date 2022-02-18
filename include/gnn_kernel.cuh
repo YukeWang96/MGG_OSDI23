@@ -2,6 +2,67 @@
 #define gnn_kernel_cuh
 
 __global__ 
+void SpMM_cuda_kernel(
+    float*  output,
+    const float* input,
+    const int* row_pointers, 
+    const int* column_index,
+    const int num_nodes, 
+    const int dim,
+    const int partSize,
+    const int warpPerBlock
+) 
+{
+    int srcId = blockIdx.x;                                     // each node allocate 
+    int block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
+    int laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
+
+    extern __shared__ int part_meta[];                          // part information.
+    int*  warp_nbs = (int*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
+
+    if (srcId < num_nodes){
+    // for (int srcId = blockIdx.x; srcId < num_nodes; srcId += gridDim.x){
+
+        const int neighborBeg = row_pointers[srcId];        // partitioning pointer start
+        const int neighborEnd = row_pointers[srcId + 1];    // part pointer end
+
+        #pragma unroll
+        for (int d = laneid; d < dim; d += 32){
+            part_meta[block_warpId*dim + d] = 0.0f;
+        }
+
+        __syncwarp();
+
+        for (int nidx_b = neighborBeg; nidx_b < neighborEnd; nidx_b += partSize*warpPerBlock){
+
+            const int w_start = nidx_b + partSize * block_warpId;
+            const int w_end = w_start + partSize < neighborEnd?  w_start + partSize: neighborEnd;
+            
+            const int n_base = block_warpId * partSize;
+            for(int nidx_w = w_start + laneid; nidx_w < w_end; nidx_w += WARP_SIZE){  
+                warp_nbs[n_base + nidx_w - w_start] = column_index[nidx_w];
+            }
+
+            __syncwarp();
+
+            for(int nidx = 0; nidx < w_end - w_start; nidx++){  
+                int nid = warp_nbs[n_base + nidx];
+                #pragma unroll
+                for (int d = laneid; d < dim; d += 32){
+                    part_meta[block_warpId*dim + d] += input[nid * dim + d];
+
+                }
+            }
+        }
+        for (int d = laneid; d < dim; d += 32){
+            atomicAdd_F((float*)&output[srcId * dim + d], part_meta[block_warpId*dim + d]);
+        }
+    }    
+}
+
+
+
+__global__ 
 void AGNN_base_cuda_kernel(  //https://docs.dgl.ai/api/python/nn.pytorch.html?highlight=dotgat#agnnconv
     float*  output,
     float* edge_feat,   // [1, E]

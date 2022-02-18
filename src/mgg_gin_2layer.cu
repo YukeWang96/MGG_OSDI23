@@ -3,18 +3,14 @@
 #include <stdio.h>
 #include <ctime>
 #include <algorithm>
-
-#include <mpi.h>
-#include <nvshmem.h>
-#include <nvshmemx.h>
 #include <cublas_v2.h>
 
 #include "graph.h"
 #include "utils.cuh"
 #include "neighbor_utils.cuh"
 #include "cublas_utils.h"
-// #include "csr_formatter.h"
-// #include "layer.h"
+#include "layer_new.cuh"
+#include "gnn_layer.cuh"
 
 // using namespace cudl;
 using namespace std;
@@ -41,104 +37,43 @@ int main(int argc, char* argv[]){
     int num_GPUs = atoi(argv[4]);           // 2
     int partSize = atoi(argv[5]);           // 32
     int warpPerBlock = atoi(argv[6]);       // 4
-    int dim = atoi(argv[7]);                // 16
-    int dim1 = 128;               
-    int dim2 = 128;
+    int dim = atoi(argv[7]);                // input
+    int dim1 = atoi(argv[8]);               // hidden
+    int dim2 = atoi(argv[9]);               // output
 
     int lb = 0;
     int ub = numNodes;
-
-    float *h_input_ref, *h_output_ref,  *d_input_ref, *d_output_ref;
-    h_input_ref = (float *) malloc (numNodes * dim * sizeof(float));      // CPU host memory (input_ref)
-    h_output_ref = (float *) malloc (numNodes * dim * sizeof(float));     //  CPU host memory (output_ref)
-    std::fill_n(h_input_ref, numNodes * dim, 1.0f); // filled with all zeros.
-    std::fill_n(h_output_ref, numNodes * dim, 0.0f); // filled with all zeros.
-    gpuErrchk(cudaMalloc((void**)&d_input_ref, numNodes * dim * sizeof(float))); // GPU device memory (input_ref)
-    gpuErrchk(cudaMalloc((void**)&d_output_ref, numNodes * dim * sizeof(float))); // GPU device memory (output_ref)
-
-    int* d_row_ptr_ref, *d_col_ind_ref;
-    gpuErrchk(cudaMalloc((void**)&d_row_ptr_ref, global_row_ptr.size()*sizeof(int))); 
-    gpuErrchk(cudaMalloc((void**)&d_col_ind_ref, global_col_ind.size()*sizeof(int))); 
-    gpuErrchk(cudaMemcpy(d_row_ptr_ref, &global_row_ptr[0], global_row_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_col_ind_ref, &global_col_ind[0], global_col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_input_ref, h_input_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_output_ref, h_output_ref, numNodes * dim * sizeof(float), cudaMemcpyHostToDevice));
-    //
-    // dense-1 layer param
-    //
-    const float alpha = 1.0f;
-    const float beta = 0.0;
-
-    cublasOperation_t transa = CUBLAS_OP_N;
-    cublasOperation_t transb = CUBLAS_OP_N;
-    cublasHandle_t cublasH = NULL;
-    // cudaStream_t stream = NULL;
-
-    CUBLAS_CHECK(cublasCreate(&cublasH));
-    // CUDA_CHECK(cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking));
-    // CUBLAS_CHECK(cublasSetStream(cublasH, stream));
     
-    float* h_W1, *d_W1, *d_out1, *d_out1_sag;
-    h_W1 = (float *) malloc (dim * dim1 * sizeof(float));      // CPU host memory (input_ref)
-    std::fill_n(h_W1, dim * dim1, 1.0f); // filled with all zeros.
-    gpuErrchk(cudaMalloc((void**)&d_W1, dim * dim1 * sizeof(float))); // GPU device memory (input_ref)
-    gpuErrchk(cudaMemcpy(d_W1, h_W1, dim * dim1 * sizeof(float), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMalloc((void**)&d_out1, numNodes * dim1 * sizeof(float)));
-    gpuErrchk(cudaMalloc((void**)&d_out1_sag, numNodes * dim1 * sizeof(float)));
-
-    const int m1 = dim1, n1 = numNodes, k1 = dim; // (XW) --> W_T x X_T for column-major store.
-    const int ldx1 = dim, ldw1 = dim1, ldout1 = dim1;
-    //
-    // dense-2 layer param
-    //    
-    float* h_W2, *d_W2, *d_out2;
-    h_W2 = (float *) malloc (dim1 * dim2 * sizeof(float));      // CPU host memory (input_ref)
-    std::fill_n(h_W1, dim1 * dim2, 1.0f); // filled with all zeros.
-    gpuErrchk(cudaMalloc((void**)&d_W2,  dim1 * dim2 * sizeof(float))); // GPU device memory (input_ref)
-    gpuErrchk(cudaMemcpy(d_W2, h_W2,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMalloc((void**)&d_out2, numNodes * dim2 * sizeof(float)));
-
-    const int m2 = dim2, n2 = numNodes, k2 = dim1; // (XW) --> W_T X X_T for column-major store.
-    const int ldx2 = dim1, ldw2 = dim2, ldout2 = dim2;
+    int* d_row_ptr, *d_col_ind;
+    CUDA_CHECK(cudaMalloc((void**)&d_row_ptr, global_row_ptr.size()*sizeof(int))); 
+    CUDA_CHECK(cudaMalloc((void**)&d_col_ind, global_col_ind.size()*sizeof(int))); 
+    CUDA_CHECK(cudaMemcpy(d_row_ptr, &global_row_ptr[0], global_row_ptr.size()*sizeof(int), cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_col_ind, &global_col_ind[0], global_col_ind.size()*sizeof(int), cudaMemcpyHostToDevice));
+    // 
+    // define model
+    // 
+    sparse_param_beg* sp1 = new sparse_param_beg("s-1", d_row_ptr, d_col_ind, numNodes, dim);
+    dense_param_hidden* dp1 = new dense_param_hidden("d-1", sp1->d_out, numNodes, dim, dim1);
+    sparse_param_hidden* sp2 = new sparse_param_hidden("s-2",  dp1->d_out, d_row_ptr, d_col_ind, numNodes, dim1);
+    dense_param_hidden* dp2 = new dense_param_hidden("d-2", sp2->d_out, numNodes, dim1, dim2);
 
     //
     // xecute model.
     //
     std::clock_t c_start = std::clock();    
     // sparse layer-1
-    SAG_host_ref(d_output_ref, d_input_ref, 
-                d_row_ptr_ref, d_col_ind_ref, 
-                lb, ub, dim, global_col_ind.size());
-    // gpuErrchk(cudaMemcpy(h_output_ref, d_output_ref, numNodes * dim * sizeof(float), cudaMemcpyDeviceToHost));
+    sparse_beg_forward(sp1);
     // dense layer-1
-    CUBLAS_CHECK(cublasSgemm(cublasH, transa, transb, m1, n1, k1, &alpha, d_W1, ldw1, d_output_ref, ldx1, &beta, d_out1, ldout1));
-    // CUDA_CHECK(cudaMemcpyAsync(C.data(), d_C, sizeof(data_type) * C.size(), cudaMemcpyDeviceToHost, stream));    
+    dense_hidden_forward(dp1);
     // sparse layer-2
-    SAG_host_ref(d_out1_sag, d_out1, 
-        d_row_ptr_ref, d_col_ind_ref, 
-        lb, ub, dim1, global_col_ind.size());
+    sparse_hidden_forward(sp2);
     // dense layer-2
-    CUBLAS_CHECK(cublasSgemm(cublasH, transa, transb, m2, n2, k2, &alpha, d_W2, ldw2, d_out1_sag, ldx2, &beta, d_out2, ldout2));
-    // CUDA_CHECK(cudaStreamSynchronize(stream));
-    // for (int nid = 0; nid < 10; nid++){
-    //     printf("out [%d] ", nid);
-    //     for (int d = 0; d < dim; d++){
-    //         printf("%.3f,", h_output_ref[nid * dim + d]);
-    //     }
-    //     printf("\n");
-    // }
+    dense_hidden_forward(dp2);
 
-    // cudaError_t error = cudaGetLastError();
-    // if(error != cudaSuccess){
-    //     printf("CUDA error @ SAG_cuda_kernel_ref: %s\n", cudaGetErrorString(error));
-    //     exit(-1);
-    // }
     std::clock_t c_end = std::clock();
-    float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
-    printf("Total (ms): %.3f\n", time_elapsed_ms);
+    float time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;
+    printf("Time (ms): %.3f\n", time_elapsed_ms);
 
-    cudaFree(d_output_ref);
-    free(h_output_ref);
     printf("===================================\n");
 
     return 0;
