@@ -58,7 +58,7 @@ dataset = [
         ( 'enwiki-2013'	                , 100	        , 12),      
         ( 'ogbn-products'	        , 100	        , 47),
         ( 'ogbn-proteins'		, 128		, 112),
-        # ( 'com-Orkut'		        , 128		, 128),
+        ( 'com-Orkut'		        , 128		, 128),
 
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),

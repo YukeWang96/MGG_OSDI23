@@ -5,5 +5,6 @@ cd build/
 # make MGG_np_div
 # make MGG_np_pipeline
 # make unified_memory
-make MGG_gcn_2layer
+# make MGG_gcn_2layer
+make MGG_agnn_2layer
 cd ..

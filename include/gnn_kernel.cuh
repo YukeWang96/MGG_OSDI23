@@ -1,0 +1,107 @@
+#ifndef gnn_kernel_cuh
+#define gnn_kernel_cuh
+
+__global__ 
+void AGNN_base_cuda_kernel(  //https://docs.dgl.ai/api/python/nn.pytorch.html?highlight=dotgat#agnnconv
+    float*  output,
+    float* edge_feat,   // [1, E]
+    const float* input,
+    const int* row_pointers, 
+    const int* column_index,
+    const int num_nodes, 
+    const int dim,
+    const int warpPerBlock
+)
+{
+
+    #define FULL_MASK 0xffffffff
+    int tid =  blockIdx.x * blockDim.x + threadIdx.x;         // global thread-id
+    int warpId = tid / WARP_SIZE;                             // global warp-id
+    int laneid = threadIdx.x % WARP_SIZE;                     // warp thread-id -- laneid
+
+    if (warpId < num_nodes){
+        const int nb_begin = row_pointers[warpId];       
+        const int nb_end = row_pointers[warpId + 1];   
+        
+        float src_v2 = 0.0f;
+        float cos_edge_sum = 0.0f;
+
+        // compute the current node |v_src|
+        for (int d = laneid; d < dim; d += 32){
+            src_v2 += input[warpId*dim + d] * input[warpId * dim + d];
+        }
+
+        // warp_reduce for src_v2 -> lanid-0
+        for (int offset = 16; offset > 0; offset /= 2)
+            src_v2 += __shfl_down_sync(FULL_MASK, src_v2, offset);
+
+        // compute the e_i,j = v_src . v_dst
+        for (int nidx = nb_begin; nidx < nb_end; nidx++){
+            int nid = column_index[nidx];
+
+            float dot_sum = 0.0f;
+            float dst_v2 = 0.0f;   
+            float cos_edge = 0.0f;
+
+            for (int d = laneid; d < dim; d += 32){
+                dot_sum += input[warpId*dim + d] * input[nid*dim + d]; // add atomics
+                dst_v2 += input[nid*dim + d] * input[nid*dim + d];
+            }
+
+            // warp_reduce dot_prod -> lanid-0
+            for (int offset = 16; offset > 0; offset /= 2)
+                dot_sum += __shfl_down_sync(FULL_MASK, dot_sum, offset);
+
+            // warp_reduce dst_v2 -> lanid-0
+            for (int offset = 16; offset > 0; offset /= 2)
+                dst_v2 += __shfl_down_sync(FULL_MASK, dst_v2, offset);
+
+            // compute cosine function + softmax accumulation.
+            if (laneid == 0){   
+                cos_edge = dot_sum / (sqrt(dst_v2) * sqrt(src_v2));
+                edge_feat[nidx] = expf(cos_edge);
+                cos_edge_sum += edge_feat[nidx];
+            }
+        }
+
+        // broadcast edge_feat from lanid-0 to all threads in a warp.
+        cos_edge_sum = __shfl_sync(FULL_MASK, cos_edge_sum, 0);
+
+        // aggregation with attention. p_j = \sum a_(i,j) * p_j
+        for (int nidx = nb_begin; nidx < nb_end; nidx++){
+            int nid = column_index[nidx];
+            float tmp = edge_feat[nidx];
+            float att = tmp / cos_edge_sum;
+            for (int d = laneid; d < dim; d += 32){
+                atomicAdd_F((float*)&output[warpId * dim + d], att*input[nid * dim + d]);
+            }
+        }
+    }
+}
+
+void AGNN_beg_forward(AGNN_param_beg*sp){
+
+    AGNN_base_cuda_kernel<<<sp->grid, sp->block>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
+                                                    sp->d_row_ptr, sp->d_col_ind, 
+                                                    sp->numNodes, sp->dim, sp->warpPerBlock); 
+    cudaDeviceSynchronize();
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ AGNN_base_cuda_kernel: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
+
+void AGNN_hidden_forward(AGNN_param_hidden*sp)
+{                               
+    AGNN_base_cuda_kernel<<<sp->grid, sp->block>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
+                                                    sp->d_row_ptr, sp->d_col_ind, 
+                                                    sp->numNodes, sp->dim, sp->warpPerBlock); 
+    cudaDeviceSynchronize();
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ AGNN_hidden_forward: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
+#endif // gnn_kernel_cuh

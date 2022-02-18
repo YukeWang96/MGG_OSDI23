@@ -87,8 +87,14 @@ int main(int argc, char* argv[]){
     int local_edges = global_row_ptr[ub] - global_row_ptr[lb];
     int edge_beg = global_row_ptr[lb];
 
+    std::clock_t c_start_proc = std::clock();    
     // Divide the CSR into the local and remote for each GPU.
     auto split_output = split_CSR<int>(global_row_ptr, global_col_ind, lb, ub);
+    std::clock_t c_end_proc = std::clock();
+    float preproc_time_elapsed_ms = 1000.0 * (c_end_proc - c_start_proc) / CLOCKS_PER_SEC;
+    if (mype_node == 0)
+    printf("Preproc (ms): %.3f\n", preproc_time_elapsed_ms);
+
     // printf("lb: %d, ub: %d\n", lb, ub);
     auto local_ptr_vec = split_output[0];       // with the base start from lb.
     auto remote_ptr_vec = split_output[1];      // with the base start from ub.

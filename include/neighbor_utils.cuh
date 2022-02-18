@@ -2318,4 +2318,10 @@ void SAG_cuda_kernel_single_ref(float* d_output, const float* d_input, const int
     }
 }
 
+
+
+
+
+
+
 #endif
