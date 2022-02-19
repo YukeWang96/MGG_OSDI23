@@ -68,7 +68,7 @@ int main(int argc, char* argv[]){
     // dense layer-2
     dense_hidden_forward(dp2);
     // sparse layer-2
-    // sparse_hidden_forward(sp2);
+    sparse_hidden_forward(sp2);
 
     std::clock_t c_end = std::clock();
     float time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;

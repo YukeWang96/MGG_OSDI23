@@ -12,7 +12,7 @@ dataset_li = []
 time_li = []
 for line in fp:
     if "Graph File:" in line:
-        dataset = line.split("/")[-1].strip('.mtx').strip('\n')
+        dataset = line.split("/")[-1].strip('._beg_pos.bin').strip('\n')
         for i in range(num_GPUs):
             dataset_li.append(dataset)
     if "Time (ms):" in line:

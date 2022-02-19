@@ -1,6 +1,30 @@
 Graph File: dataset/bin/amazon0505_beg_pos.bin
 Expected edge count: 4878874
 4878874 4878874
-Graph load (success): 410236 verts, 4878874 edges 0.0683289 second(s)
-Time (ms): 5.245
+Graph load (success): 410236 verts, 4878874 edges 0.0652518 second(s)
+Time (ms): 10.391
+===================================
+Graph File: dataset/bin/artist_beg_pos.bin
+Expected edge count: 1638396
+1638396 1638396
+Graph load (success): 50515 verts, 1638396 edges 0.019923 second(s)
+Time (ms): 2.708
+===================================
+Graph File: dataset/bin/com-amazon_beg_pos.bin
+Expected edge count: 1851744
+1851744 1851744
+Graph load (success): 548551 verts, 1851744 edges 0.0279191 second(s)
+Time (ms): 11.022
+===================================
+Graph File: dataset/bin/soc-BlogCatalog_beg_pos.bin
+Expected edge count: 2093195
+2093195 2093195
+Graph load (success): 88784 verts, 2093195 edges 0.026036 second(s)
+Time (ms): 2.961
+===================================
+Graph File: dataset/bin/amazon0601_beg_pos.bin
+Expected edge count: 3387388
+3387388 3387388
+Graph load (success): 403394 verts, 3387388 edges 0.045109 second(s)
+Time (ms): 9.082
 ===================================
