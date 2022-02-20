@@ -5,7 +5,6 @@
 #include "cublas_utils.h"
 
 #include "utils.cuh"
-// #include "gnn_kernel.h"
 
 class sparse_param_beg{
 

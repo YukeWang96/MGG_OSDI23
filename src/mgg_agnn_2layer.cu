@@ -10,7 +10,7 @@
 #include "neighbor_utils.cuh"
 #include "cublas_utils.h"
 #include "layer_new.cuh"
-#include "gnn_kernel.cuh"
+#include "gnn_layer.cuh"
 
 // using namespace cudl;
 using namespace std;
@@ -40,9 +40,10 @@ int main(int argc, char* argv[]){
     int dim = atoi(argv[7]);                // 16
     int dim1 = 128;               
     int dim2 = 128;
+    int num_profiles = 200;
 
-    int lb = 0;
-    int ub = numNodes;
+    // int lb = 0;
+    // int ub = numNodes;
     
     int* d_row_ptr, *d_col_ind;
     CUDA_CHECK(cudaMalloc((void**)&d_row_ptr, global_row_ptr.size()*sizeof(int))); 
@@ -61,6 +62,9 @@ int main(int argc, char* argv[]){
     // xecute model.
     //
     std::clock_t c_start = std::clock();    
+
+    for (int i = 0; i < num_profiles; i++)
+    {
     // AGNN layer-1
     AGNN_beg_forward(sp1);
     // dense layer-1
@@ -70,6 +74,7 @@ int main(int argc, char* argv[]){
     // dense layer-2
     dense_hidden_forward(dp2);
     // model end
+    }
     std::clock_t c_end = std::clock();
 
     float time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;

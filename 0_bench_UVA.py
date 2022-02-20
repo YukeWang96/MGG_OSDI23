@@ -13,7 +13,7 @@ hidden = 128
 # num_GPUs = 2
 num_GPUs = int(sys.argv[1])
 
-partSize = 8
+partSize = 4
 # partSize = int(sys.argv[1])
 
 warpPerblock = 2
@@ -62,8 +62,8 @@ dataset = [
 
 
 # command = "build/MGG_gcn_2layer "
-# command = "build/MGG_agnn_2layer "
-command = "build/MGG_sgc_2layer "
+# command = "build/MGG_sgc_2layer "
+command = "build/MGG_agnn_2layer "
 
 for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)

@@ -6,7 +6,7 @@
 #include "cublas_utils.h"
 
 #include "neighbor_utils.cuh"
-#include "gnn_kernel.h"
+#include "gnn_kernel.cuh"
 
 using namespace cooperative_groups;
 using namespace std;
