@@ -16,7 +16,7 @@ num_GPUs = int(sys.argv[1])
 partSize = 8
 # partSize = int(sys.argv[1])
 
-warpPerblock = 2
+warpPerblock = 4
 # warpPerblock = int(sys.argv[1])
 
 dataset = [

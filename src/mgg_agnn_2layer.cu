@@ -41,9 +41,6 @@ int main(int argc, char* argv[]){
     int dim1 = 128;               
     int dim2 = 128;
     int num_profiles = 200;
-
-    // int lb = 0;
-    // int ub = numNodes;
     
     int* d_row_ptr, *d_col_ind;
     CUDA_CHECK(cudaMalloc((void**)&d_row_ptr, global_row_ptr.size()*sizeof(int))); 

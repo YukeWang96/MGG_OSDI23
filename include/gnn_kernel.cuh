@@ -95,7 +95,6 @@ void AGNN_base_cuda_kernel(  //https://docs.dgl.ai/api/python/nn.pytorch.html?hi
         
         float src_v2 = 0.0f;
         float cos_edge_sum = 0.0f;
-        // float cos_edge_sum = 1.0f;
 
         // compute the current node |v_src|
         for (int d = laneid; d < dim; d += 32){
@@ -115,8 +114,9 @@ void AGNN_base_cuda_kernel(  //https://docs.dgl.ai/api/python/nn.pytorch.html?hi
             float cos_edge = 0.0f;
 
             for (int d = laneid; d < dim; d += 32){
-                dot_sum += input[warpId*dim + d] * input[nid*dim + d]; // add atomics
-                dst_v2 += input[nid*dim + d] * input[nid*dim + d];
+                float dst_remote = input[nid*dim + d];
+                dot_sum += input[warpId*dim + d] * dst_remote; // add atomics
+                dst_v2 += dst_remote * dst_remote;
             }
 
             // warp_reduce dot_prod -> lanid-0
@@ -128,11 +128,11 @@ void AGNN_base_cuda_kernel(  //https://docs.dgl.ai/api/python/nn.pytorch.html?hi
                 dst_v2 += __shfl_down_sync(FULL_MASK, dst_v2, offset);
 
             // compute cosine function + softmax accumulation.
-            if (laneid == 0){   
-                cos_edge = dot_sum / (sqrt(dst_v2) * sqrt(src_v2));
-                edge_feat[nidx] = expf(cos_edge);
+            // if (laneid == 0){   
+                cos_edge = dot_sum / (__fsqrt_rn(dst_v2) * __fsqrt_rn(src_v2));
+                edge_feat[nidx] = __expf(cos_edge);
                 cos_edge_sum += edge_feat[nidx];
-            }
+            // }
         }
 
         // broadcast edge_feat from lanid-0 to all threads in a warp.
