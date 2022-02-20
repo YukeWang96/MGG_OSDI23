@@ -219,7 +219,8 @@ public:
 class AGNN_param_beg{
     // https://docs.dgl.ai/api/python/nn.pytorch.html?highlight=dotgat#agnnconv
 public:
-    AGNN_param_beg(const char* name_in, int *d_row_ptr_in, int *d_col_ind_in, int numNodes_in, int numEdges_in, int dim_in){
+    AGNN_param_beg(const char* name_in, int *d_row_ptr_in, int *d_col_ind_in, 
+                    int numNodes_in, int numEdges_in, int dim_in,  int warpPerBlock_in, int partSize_in){
         strncpy(name, name_in, 8);
 
         numEdges = numEdges_in;
@@ -229,6 +230,9 @@ public:
         
         d_row_ptr = d_row_ptr_in;
         d_col_ind = d_col_ind_in;
+
+        warpPerBlock = warpPerBlock_in;
+        partSize = partSize_in;
 
         _mem_alloc();
         _kernel_param();
@@ -250,13 +254,14 @@ public:
 
     void _kernel_param(){
         
-        warpPerBlock = 4;
-        partSize = 16;
+        // warpPerBlock = 2;
+        // partSize = 16;
         WARP_SIZE = 32;
 
        block = warpPerBlock * WARP_SIZE;
        grid = (numNodes * WARP_SIZE + block - 1) / block;
-    //    shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+        // grid  = numNodes;
+       shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
     }
 
 public:
@@ -275,7 +280,8 @@ public:
 class AGNN_param_hidden{
     // https://docs.dgl.ai/api/python/nn.pytorch.html?highlight=dotgat#agnnconv
 public:
-    AGNN_param_hidden(const char* name_in, float* d_in_input, int *d_row_ptr_in, int *d_col_ind_in,  int numNodes_in, int numEdges_in, int dim_in){
+    AGNN_param_hidden(const char* name_in, float* d_in_input, int *d_row_ptr_in, int *d_col_ind_in,  
+                        int numNodes_in, int numEdges_in, int dim_in, int warpPerBlock_in, int partSize_in){
         strncpy(name, name_in, 8);
 
         numNodes = numNodes_in;
@@ -285,6 +291,9 @@ public:
         d_in = d_in_input;
         d_row_ptr = d_row_ptr_in;
         d_col_ind = d_col_ind_in;
+
+        warpPerBlock = warpPerBlock_in;
+        partSize = partSize_in;
 
         _mem_alloc();
         _kernel_param();
@@ -300,13 +309,14 @@ public:
 
     void _kernel_param(){
         
-        warpPerBlock = 4;
-        partSize = 16;
+        // warpPerBlock = 2;
+        // partSize = 16;
         WARP_SIZE = 32;
 
        block = warpPerBlock * WARP_SIZE;
        grid = (numNodes * WARP_SIZE + block - 1) / block;
-       shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    //    grid = numNodes;
+    //    shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
     }
 
 public:
@@ -361,8 +371,8 @@ public:
 
     void _kernel_param(){
         
-        warpPerBlock = 4;
-        partSize = 16;
+        // warpPerBlock = 4;
+        // partSize = 16;
         WARP_SIZE = 32;
 
        block = warpPerBlock * WARP_SIZE;

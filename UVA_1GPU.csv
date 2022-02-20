@@ -1,11 +1,6 @@
 Dataset,Time (ms)
-PROTEINS_beg_pos.bin,202.948
-OVCAR-8H_beg_pos.bin,4717.231
-Yeast_beg_pos.bin,4431.077
-DD_beg_pos.bin,1446.77
-SW-620H_beg_pos.bin,4711.37
-amazon0505_beg_pos.bin,6673.422
-artist_beg_pos.bin,3409.279
-com-amazon_beg_pos.bin,2990.634
-c-BlogCatalog_beg_pos.bin,4640.182
-amazon0601_beg_pos.bin,2624.673
+DD_beg_pos.bin,4.327
+amazon0505_beg_pos.bin,20.733
+artist_beg_pos.bin,8.739
+c-BlogCatalog_beg_pos.bin,11.786
+amazon0601_beg_pos.bin,7.732

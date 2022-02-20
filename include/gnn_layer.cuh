@@ -106,6 +106,19 @@ void AGNN_beg_forward(AGNN_param_beg*sp){
     AGNN_base_cuda_kernel<<<sp->grid, sp->block>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
                                                     sp->d_row_ptr, sp->d_col_ind, 
                                                     sp->numNodes, sp->dim, sp->warpPerBlock); 
+
+    // AGNN_v2_cuda_kernel<<<sp->grid, sp->block>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
+    //                                                 sp->d_row_ptr, sp->d_col_ind, 
+    //                                                 sp->numNodes, sp->dim, sp->partSize, sp->warpPerBlock);
+
+//   AGNN_updated_cuda_kernel<<<sp->grid, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
+//                                                                         sp->d_row_ptr, sp->d_col_ind, 
+//                                                                         sp->numNodes, sp->dim, sp->partSize, sp->warpPerBlock); 
+
+    // SpMM_cuda_kernel<<<sp->grid, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_in, sp->d_row_ptr, sp->d_col_ind, 
+    //                                                             sp->numNodes, sp->dim, 
+    //                                                             sp->partSize, sp->warpPerBlock); 
+
     cudaDeviceSynchronize();
     cudaError_t error = cudaGetLastError();
     if(error != cudaSuccess){
@@ -118,7 +131,18 @@ void AGNN_hidden_forward(AGNN_param_hidden*sp)
 {                               
     AGNN_base_cuda_kernel<<<sp->grid, sp->block>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
                                                     sp->d_row_ptr, sp->d_col_ind, 
-                                                    sp->numNodes, sp->dim, sp->warpPerBlock); 
+                                                    sp->numNodes, sp->dim, sp->warpPerBlock);
+
+    // AGNN_v2_cuda_kernel<<<sp->grid, sp->block>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
+    //                                                 sp->d_row_ptr, sp->d_col_ind, 
+    //                                                 sp->numNodes, sp->dim, sp->partSize, sp->warpPerBlock);
+    // AGNN_updated_cuda_kernel<<<sp->grid, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_edge_att, sp->d_in, 
+    //                                                                         sp->d_row_ptr, sp->d_col_ind, 
+    //                                                                         sp->numNodes, sp->dim, sp->partSize, sp->warpPerBlock);  
+
+    // SpMM_cuda_kernel<<<sp->grid, sp->block, sp->shared_memory>>>(sp->d_out, sp->d_in, sp->d_row_ptr, sp->d_col_ind, 
+    //                                                         sp->numNodes, sp->dim, 
+    //                                                         sp->partSize, sp->warpPerBlock); 
     cudaDeviceSynchronize();
     cudaError_t error = cudaGetLastError();
     if(error != cudaSuccess){

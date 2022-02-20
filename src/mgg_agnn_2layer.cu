@@ -53,9 +53,9 @@ int main(int argc, char* argv[]){
     // 
     // define AGNN model
     // 
-    AGNN_param_beg* sp1 = new AGNN_param_beg("s-1", d_row_ptr, d_col_ind, numNodes, numEdges, dim);
+    AGNN_param_beg* sp1 = new AGNN_param_beg("s-1", d_row_ptr, d_col_ind, numNodes, numEdges, dim, partSize, warpPerBlock);
     dense_param_hidden* dp1 = new dense_param_hidden("d-1", sp1->d_out, numNodes, dim, dim1);
-    AGNN_param_hidden* sp2 = new AGNN_param_hidden("s-2",  dp1->d_out, d_row_ptr, d_col_ind, numNodes, numEdges, dim1);
+    AGNN_param_hidden* sp2 = new AGNN_param_hidden("s-2",  dp1->d_out, d_row_ptr, d_col_ind, numNodes, numEdges, dim1, partSize, warpPerBlock);
     dense_param_hidden* dp2 = new dense_param_hidden("d-2", sp2->d_out, numNodes, dim1, dim2);
 
     //
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]){
     }
     std::clock_t c_end = std::clock();
 
-    float time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;
+    float time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC / num_profiles;
     printf("Time (ms): %.3f\n", time_elapsed_ms);
     printf("===================================\n");
 
