@@ -41,6 +41,7 @@ int main(int argc, char* argv[]){
     int dim1 = 128;               
     int dim2 = 128;
     int khop = 2;
+    int num_profiles = 200;
 
     int* d_row_ptr, *d_col_ind;
     CUDA_CHECK(cudaMalloc((void**)&d_row_ptr, global_row_ptr.size()*sizeof(int))); 
@@ -57,19 +58,22 @@ int main(int argc, char* argv[]){
     //
     // xecute model.
     //
-    std::clock_t c_start = std::clock();    
-    // AGNN layer-1
-    SGC_beg_forward(sp1);
-    // dense layer-1
-    dense_hidden_forward(dp1);
-    // AGNN layer-2
-    SGC_hidden_forward(sp2);
-    // dense layer-2
-    dense_hidden_forward(dp2);
-    // model end
+    std::clock_t c_start = std::clock();
+    //
+    for (int i = 0; i < num_profiles; i++)
+    {    
+        // SGC layer-1
+        SGC_beg_forward(sp1);
+        // SGC layer-1
+        dense_hidden_forward(dp1);
+        // SGC layer-2
+        SGC_hidden_forward(sp2);
+        // SGC layer-2
+        dense_hidden_forward(dp2);
+    }
     std::clock_t c_end = std::clock();
 
-    float time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;
+    float time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC / num_profiles;
     printf("Time (ms): %.3f\n", time_elapsed_ms);
     printf("===================================\n");
 

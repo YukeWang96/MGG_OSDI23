@@ -1,6 +1,11 @@
 #ifndef gnn_kernel_cuh
 #define gnn_kernel_cuh
 
+#include <cooperative_groups.h>
+
+using namespace cooperative_groups;
+
+
 __global__ 
 void SpMM_cuda_kernel(
     float*  output,
@@ -19,7 +24,10 @@ void SpMM_cuda_kernel(
 
     extern __shared__ int part_meta[];                          // part information.
     int*  warp_nbs = (int*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
+    
+    // grid_group grid = this_grid();
 
+    // for (int k = 0; k < 2; k++){ // iterate through k-hop
     if (srcId < num_nodes){
     // for (int srcId = blockIdx.x; srcId < num_nodes; srcId += gridDim.x){
 
@@ -58,6 +66,8 @@ void SpMM_cuda_kernel(
             atomicAdd_F((float*)&output[srcId * dim + d], part_meta[block_warpId*dim + d]);
         }
     }    
+    // grid.sync();
+    // } // end K iteration
 }
 
 
@@ -154,16 +164,17 @@ void SGC_cuda_kernel(
     const int warpPerBlock
 ) 
 {
-    // int srcId = blockIdx.x;                                   // each node allocate 
+    int srcId = blockIdx.x;                                   // each node allocate 
     int block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
     int laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
 
     extern __shared__ int part_meta[];                          // part information.
     int*  warp_nbs = (int*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
 
-    // if (srcId < num_nodes){
-    for (int srcId = blockIdx.x; srcId < num_nodes; srcId += gridDim.x){
-
+    // grid_group grid = this_grid();
+    for (int k = 0; k < 2; k++){ // iterate through k-hop
+    if (srcId < num_nodes){
+    // for (int srcId = blockIdx.x; srcId < num_nodes; srcId += gridDim.x){
         const int neighborBeg = row_pointers[srcId];        // partitioning pointer start
         const int neighborEnd = row_pointers[srcId + 1];    // part pointer end
 
@@ -191,25 +202,32 @@ void SGC_cuda_kernel(
                 #pragma unroll
                 for (int d = laneid; d < dim; d += 32){
                     part_meta[block_warpId*dim + d] += input[nid * dim + d];
-                    // atomicAdd_F((float*)&output[srcId][d], input[nid][d]);
 
                 }
             }
         }
-        // __syncthreads();
-        // if (block_warpId == 0){
-        //     for(int w_iter = 0; w_iter < warpPerBlock; w_iter++){
-        //         #pragma unroll
-        //         for (int d = laneid; d < dim; d += dimWorker){
-        //             output[srcId][d] += part_meta[w_iter*dim + d];
-        //         }
-        //     }
-        // }
         for (int d = laneid; d < dim; d += 32){
-            // output[srcId][d] += part_meta[w_iter*dim + d];
             atomicAdd_F((float*)&output[srcId * dim + d], part_meta[block_warpId*dim + d]);
         }
     }
+    //  grid.sync();
+    // __threadfence_system();
+    __threadfence();
+    } // end K iteration
 }
+
+
+// __global__ void SGC_cuda_kernel_beg_wrapper(SGC_param_beg* sp_beg)
+// {
+//     SGC_cuda_kernel(sp_beg->d_out, sp_beg->d_in, sp_beg->d_row_ptr, sp_beg->d_col_ind, 
+//                     sp_beg->numNodes, sp_beg->dim, sp_beg->partSize, sp_beg->warpPerBlock);
+// }
+
+// __global__ void SGC_cuda_kernel_hidden_wrapper(SGC_param_hidden* sp_beg)
+// {
+//     SGC_cuda_kernel(sp_beg->d_out, sp_beg->d_in, sp_beg->d_row_ptr, sp_beg->d_col_ind, 
+//                     sp_beg->numNodes, sp_beg->dim, sp_beg->partSize, sp_beg->warpPerBlock);
+// }
+
 
 #endif // gnn_kernel_cuh

@@ -3,12 +3,15 @@
 
 #include <cublas_v2.h>
 #include "cublas_utils.h"
+
 #include "utils.cuh"
+// #include "gnn_kernel.h"
 
 class sparse_param_beg{
 
 public:
-    sparse_param_beg(const char* name_in, int *d_row_ptr_in, int *d_col_ind_in, int numNodes_in, int dim_in){
+    sparse_param_beg(const char* name_in, int *d_row_ptr_in, int *d_col_ind_in, 
+                    int numNodes_in, int dim_in, int partSize_in, int warpPerBlock_in){
         strncpy(name, name_in, 8);
 
         numNodes = numNodes_in;
@@ -16,7 +19,9 @@ public:
         d_row_ptr = d_row_ptr_in;
         d_col_ind = d_col_ind_in;
 
-        // allocate memory space.
+        warpPerBlock = warpPerBlock_in;
+        partSize = partSize_in;
+        
         _mem_alloc();
         _kernel_param();
     }    
@@ -36,10 +41,9 @@ public:
 
     void _kernel_param(){
         
-        warpPerBlock = 4;
-        partSize = 16;
-        WARP_SIZE = 32;
-
+        // warpPerBlock = 8;
+        // partSize = 16;
+       WARP_SIZE = 32;
        block = warpPerBlock * WARP_SIZE;
        grid = numNodes;
        shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
@@ -59,14 +63,19 @@ public:
 class sparse_param_hidden{
 
 public:
-    sparse_param_hidden(const char* name_in, float* d_in_input, int *d_row_ptr_in, int *d_col_ind_in,  int numNodes_in, int dim_in){
+    sparse_param_hidden(const char* name_in, float* d_in_input, int *d_row_ptr_in, int *d_col_ind_in,  
+                        int numNodes_in, int dim_in, int partSize_in, int warpPerBlock_in){
         strncpy(name, name_in, 8);
 
         numNodes = numNodes_in;
         dim = dim_in;
+        
         d_in = d_in_input;
         d_row_ptr = d_row_ptr_in;
         d_col_ind = d_col_ind_in;
+
+        warpPerBlock = warpPerBlock_in;
+        partSize = partSize_in;
 
         _mem_alloc();
         _kernel_param();
@@ -74,15 +83,14 @@ public:
     }    
 
     void _mem_alloc(){
-
         CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim * sizeof(float))); // GPU device memory (output_ref)
         CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim * sizeof(float)));
     }
 
     void _kernel_param(){
         
-        warpPerBlock = 4;
-        partSize = 16;
+        // warpPerBlock = 8;
+        // partSize = 16;
         WARP_SIZE = 32;
 
        block = warpPerBlock * WARP_SIZE;
@@ -329,7 +337,15 @@ public:
 
         _mem_alloc();
         _kernel_param();
+        _gpu_ready();
     }    
+
+    void _gpu_ready()
+    {
+        CUDA_CHECK(cudaMalloc((void**)&gpu, sizeof(SGC_param_beg)));
+        CUDA_CHECK(cudaMemcpy(this->gpu, this, sizeof(SGC_param_beg), cudaMemcpyHostToDevice));
+        // return this->gpu;
+    }
 
     void _mem_alloc(){
 
@@ -352,6 +368,7 @@ public:
 
        block = warpPerBlock * WARP_SIZE;
        grid = numNodes;
+    //    grid = 6 * 108;
        shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
     }
 
@@ -362,6 +379,9 @@ public:
 
     int warpPerBlock, partSize, WARP_SIZE;
     int block, grid, shared_memory;
+
+
+    SGC_param_beg* gpu;
     char name[8];
 };
 
@@ -381,8 +401,17 @@ public:
 
         _mem_alloc();
         _kernel_param();
+        _kernel_launch();
 
+        _gpu_ready();
     }    
+
+    void _gpu_ready()
+    {
+        CUDA_CHECK(cudaMalloc((void**)&gpu, sizeof(SGC_param_hidden)));
+        CUDA_CHECK(cudaMemcpy(this->gpu, this, sizeof(SGC_param_hidden), cudaMemcpyHostToDevice));
+        // return this->gpu;
+    }
 
     void _mem_alloc(){
         h_out = (float *) malloc (numNodes * dim * sizeof(float));  
@@ -400,7 +429,17 @@ public:
 
        block = warpPerBlock * WARP_SIZE;
        grid = numNodes;
+        // grid = 6 * 108;
        shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    }
+
+    void _kernel_launch(){
+        const int dev = 0;
+        cudaDeviceProp deviceProp;
+        cudaGetDeviceProperties(&deviceProp, dev);
+        multiProcessorCount = deviceProp.multiProcessorCount;
+        // cudaFuncSetAttribute(SGC_cuda_kernel_hidden_wrapper, cudaFuncAttributeMaxDynamicSharedMemorySize, shared_memory);
+        // cudaOccupancyMaxActiveBlocksPerMultiprocessor(&numBlocksPerSm, SGC_cuda_kernel_hidden_wrapper, block, shared_memory);
     }
 
 public:
@@ -410,6 +449,9 @@ public:
 
     int warpPerBlock, partSize, WARP_SIZE;
     int block, grid, shared_memory;
+    int numBlocksPerSm, multiProcessorCount;
+
+    SGC_param_hidden* gpu;
 
     char name[8];
 };

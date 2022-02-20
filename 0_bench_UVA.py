@@ -13,10 +13,10 @@ hidden = 128
 # num_GPUs = 2
 num_GPUs = int(sys.argv[1])
 
-partSize = 16
+partSize = 8
 # partSize = int(sys.argv[1])
 
-warpPerblock = 4
+warpPerblock = 2
 # warpPerblock = int(sys.argv[1])
 
 dataset = [
@@ -25,11 +25,11 @@ dataset = [
         # ('pubmed'	        		, 500	    , 3   ),      
         # ('ppi'	            		, 50	    , 121 ),   
         
-        # ('PROTEINS'                  , 29       , 2) ,   
-        # ('OVCAR-8H'                  , 66       , 2) , 
-        # ('Yeast'                     , 74       , 2) ,
-        # ('DD'                        , 89       , 2) ,
-        # ('SW-620H'                   , 66       , 2) ,
+        ('PROTEINS'                  , 29       , 2) ,   
+        ('OVCAR-8H'                  , 66       , 2) , 
+        ('Yeast'                     , 74       , 2) ,
+        ('DD'                        , 89       , 2) ,
+        ('SW-620H'                   , 66       , 2) ,
 
         ( 'amazon0505'               , 96	  , 22),
         ( 'artist'                   , 100	  , 12),
@@ -61,9 +61,9 @@ dataset = [
 
 
 
-command = "build/MGG_gcn_2layer "
+# command = "build/MGG_gcn_2layer "
 # command = "build/MGG_agnn_2layer "
-# command = "build/MGG_sgc_2layer "
+command = "build/MGG_sgc_2layer "
 
 for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
