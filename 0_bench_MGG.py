@@ -59,7 +59,7 @@ dataset = [
         # ( 'amazon0601'  	         , 96	  , 22), 
 
         ( 'Reddit'                      , 128      	, 41),
-        ( 'enwiki-2013'	                , 100	        , 12),      
+        # ( 'enwiki-2013'	                , 100	        , 12),      
         ( 'ogbn-products'	        , 100	        , 47),
         ( 'ogbn-proteins'		, 128		, 112),
         ( 'com-Orkut'		        , 128		, 128),

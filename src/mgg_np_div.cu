@@ -163,7 +163,7 @@ int main(int argc, char* argv[]){
     //
     // Compute on each GPU device.
     //
-    int num_profiles  = 100;
+    int num_profiles  = 20;
     std::clock_t c_start = std::clock();    
     MPI_Barrier(MPI_COMM_WORLD);
     t1 = MPI_Wtime(); 
@@ -177,7 +177,7 @@ int main(int argc, char* argv[]){
     printf("PE-%d, Total (ms): %.3f\n", mype_node, time_elapsed_ms);
     MPI_Barrier(MPI_COMM_WORLD); 
     t2 = MPI_Wtime(); 
-    if (mype_node == 0) printf( "MPI time (ms) %.3f\n", (t2 - t1)*1e3); 
+    if (mype_node == 0) printf( "MPI time (ms) %.3f\n", (t2 - t1)*1e3/num_profiles); 
     
     gpuErrchk(cudaMemcpy(h_output, d_output, nodesPerPE*dim*sizeof(float), cudaMemcpyDeviceToHost));
 
