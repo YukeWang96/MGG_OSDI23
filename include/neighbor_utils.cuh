@@ -684,12 +684,14 @@ const int lb,
 const int ub,
 const int dim,
 const int nodePerPE,
-const int peid
+const int peid,
+const int np_size,
+const int warpPerBlock
 ){
   const int num_nodes = ub - lb;
   
-  const int warpPerBlock = 16;
-  const int np_size = 16;   // for implicit neighbor partition size = 4.
+//   const int warpPerBlock = 16;
+//   const int np_size = 16;   // for implicit neighbor partition size = 4.
 
   const int block = warpPerBlock * WARP_SIZE;
   const int grid = num_nodes; // one node per block.

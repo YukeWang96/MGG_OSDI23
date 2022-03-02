@@ -27,6 +27,6 @@ cnt = 0
 for data in dataset_li:
     if cnt % num_GPUs == 0:
         tmp_t = time_li[int(cnt/num_GPUs)]
-        fout.write("{},{}\n".format(data, tmp_t))
+        fout.write("{},{}\n".format(data.strip(".bin"), tmp_t))
     cnt += 1
 fout.close()

@@ -10,11 +10,15 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 hidden = 32
 # hidden = [int(sys.argv[1])]
 
-# num_GPUs = 4
-num_GPUs = int(sys.argv[1])
+num_GPUs = 4
+# num_GPUs = int(sys.argv[1])
 ###############################################
-partSize = 4
-warpPerblock = 16
+# partSize = 4
+partSize = int(sys.argv[1])
+
+warpPerblock = 1
+# warpPerblock = int(sys.argv[1])
+
 interleaved_dist = 2
 ###############################################
 # # interleaved_dist = 1
@@ -64,7 +68,11 @@ dataset = [
         # ( 'wiki-Talk'				    , 128		, 128),
 ]
 
-pre_condit = 'CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 OMPI_MCA_plm_rsh_agent=sh\
+
+# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
+
+pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 
 # command = "build/MGG "

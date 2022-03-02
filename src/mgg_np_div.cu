@@ -163,15 +163,17 @@ int main(int argc, char* argv[]){
     //
     // Compute on each GPU device.
     //
+    int num_profiles  = 100;
     std::clock_t c_start = std::clock();    
     MPI_Barrier(MPI_COMM_WORLD);
     t1 = MPI_Wtime(); 
 
+    for (int i = 0; i < num_profiles; i++)
     mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                    lb, ub, dim, nodesPerPE, mype_node);
+                    lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock);
 
     std::clock_t c_end = std::clock();
-    float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
+    float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC / num_profiles;
     printf("PE-%d, Total (ms): %.3f\n", mype_node, time_elapsed_ms);
     MPI_Barrier(MPI_COMM_WORLD); 
     t2 = MPI_Wtime(); 
