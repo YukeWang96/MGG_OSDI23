@@ -28,16 +28,18 @@ dataset = [
         # ('PROTEINS'                  , 29       , 2) ,   
         # ('OVCAR-8H'                  , 66       , 2) , 
         # ('Yeast'                     , 74       , 2) ,
-        ('DD'                        , 89       , 2) ,
+        # ('DD'                        , 89       , 2) ,
         # ('SW-620H'                   , 66       , 2) ,
 
-        ( 'amazon0505'               , 96	  , 22),
-        ( 'artist'                   , 100	  , 12),
+        # ( 'amazon0505'               , 96	  , 22),
+        # ( 'artist'                   , 100	  , 12),
         # ( 'com-amazon'               , 96	  , 22),
-        ( 'soc-BlogCatalog'	     , 128	  , 39),      
-        ( 'amazon0601'  	     , 96	  , 22), 
+        # ( 'soc-BlogCatalog'	     , 128	  , 39),      
+        # ( 'amazon0601'  	     , 96	  , 22), 
 
-        # ( 'Reddit'                      , 602       , 41),
+        # ('paper100M'                  , 128       , 172)
+
+        ( 'Reddit'                      , 602       , 41),
         # ( 'enwiki-2013'	                , 100	    , 12),      
         # ( 'ogbn-products'	        , 100	    , 47),
         # ( 'ogbn-proteins'	        , 8	    , 112),
@@ -57,18 +59,16 @@ dataset = [
 #             --cuda-um-cpu-page-faults=true \
 #             --export=json "
 
-# command = "build/unified_memory "
-
-
-
+command = "build/unified_memory "
 # command = "build/MGG_gcn_2layer "
 # command = "build/MGG_sgc_2layer "
-command = "build/MGG_agnn_2layer "
+# command = "build/MGG_agnn_2layer "
 
 for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
         csr_file = "dataset/bin/{}_csr.bin".format(data)
         weight_file = "dataset/bin/{}_weight.bin".format(data)
-        os.system(command + "{0} {1} {2} {3} {4} {5} {6} {7} {8}".\
+        # os.system(command + "{0} {1} {2} {3} {4} {5} {6} {7} {8}".\
+        os.system(command + "{5} {6} {7} {8}".\
                 format(beg_file, csr_file, weight_file, 
                         num_GPUs, partSize, warpPerblock, hidden, hidden, hidden))

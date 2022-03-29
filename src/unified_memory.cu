@@ -120,10 +120,11 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     cudaEventRecord(start);
 
     // #ifdef validate
-    SAG_host_ref(d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim);
+    // SAG_host_ref(d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim);
+    SAG_host_UVM_ref(d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim);
     // #endif
 
-    // // Aggregation on the local tile.
+    // Aggregation on the local tile.
     // SAG_host_unified<int, float, int>(d_output, 
     //                                     d_input,
     //                                     d_col_ind,

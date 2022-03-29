@@ -1266,9 +1266,6 @@ void SAG_host_unified(
     }
 }
 
-
-
-
 // Reference kernel for validation across multiple GPUs
 void SAG_host_ref(sparse_param_beg*sp)
 {
@@ -1325,6 +1322,41 @@ void SAG_host_ref(sparse_param_beg*sp)
         exit(-1);
     }
 }
+
+
+// UVM Reference kernel for multi-GPU.
+void SAG_host_UVM_ref(float* d_out,
+                    const float* d_in,
+                    const int* d_row_ptr,
+                    const int* d_col_ind,
+                    const int lb_src,
+                    const int ub_src,
+                    const int dim
+                )
+{
+
+
+    // d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim.
+    const int partSize = 16;
+    const int warpPerBlock = 4;
+    const int pe_num_nodes = ub_src - lb_src;
+
+    const int block = warpPerBlock * WARP_SIZE;
+    const int grid = pe_num_nodes;
+    const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+	                               
+    SAG_inPart_cuda_kernel<<<grid, block, shared_memory>>>(d_out, d_in, d_row_ptr, d_col_ind, 
+                                                            pe_num_nodes, dim, 
+                                                            partSize, warpPerBlock); 
+
+    cudaDeviceSynchronize();
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ SAG_host_UVM_ref: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
+
 
 
 // A single kernel for validation
