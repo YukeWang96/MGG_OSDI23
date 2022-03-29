@@ -45,10 +45,10 @@ interleaved_dist = 2
 ###############################################
 
 dataset = [
-        # ('citeseer'	        		, 3703	    , 6   ),  
-        # ('cora' 	        		, 1433	    , 7   ),  
-        # ('pubmed'	        		, 500	    , 3   ),      
-        # ('ppi'	            		, 50	    , 121 ),   
+        ('citeseer'	        		, 3703	    , 6   ),  
+        ('cora' 	        		, 1433	    , 7   ),  
+        ('pubmed'	        		, 500	    , 3   ),      
+        ('ppi'	            		, 50	    , 121 ),   
         
         # ('PROTEINS'             , 29       , 2) ,   
         # ('OVCAR-8H'                  , 66       , 2) , 
@@ -69,15 +69,15 @@ dataset = [
         # ( 'com-Orkut'		        , 128		, 128),
 
         # ('paper100M'                  , 128       , 172)
-        ('mag240m'                  , 128       , 172)
+        # ('mag240m'                  , 128       , 172)
 
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),
 ]
 
 
-GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
-# GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
 
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)

@@ -1,1 +1,5 @@
 Dataset,Time (ms)
+citeseer_beg_pos.bin,0.06
+cora_beg_pos.bin,0.07
+ubmed_beg_pos.bin,0.14
+,0.62

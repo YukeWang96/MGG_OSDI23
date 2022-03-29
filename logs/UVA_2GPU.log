@@ -1,0 +1,28 @@
+Graph File: dataset/bin/citeseer_beg_pos.bin
+Expected edge count: 9464
+9464 9464
+Graph load (success): 3327 verts, 9464 edges 0.000339985 second(s)
+Time (ms): 0.04
+Time (ms): 1.37
+===================================
+Graph File: dataset/bin/cora_beg_pos.bin
+Expected edge count: 10858
+10858 10858
+Graph load (success): 2708 verts, 10858 edges 0.000362158 second(s)
+Time (ms): 0.04
+Time (ms): 2.12
+===================================
+Graph File: dataset/bin/pubmed_beg_pos.bin
+Expected edge count: 88676
+88676 88676
+Graph load (success): 19717 verts, 88676 edges 0.00266004 second(s)
+Time (ms): 0.06
+Time (ms): 2.42
+===================================
+Graph File: dataset/bin/ppi_beg_pos.bin
+Expected edge count: 818716
+818716 818716
+Graph load (success): 56944 verts, 818716 edges 0.0134189 second(s)
+Time (ms): 0.16
+Time (ms): 4.19
+===================================
