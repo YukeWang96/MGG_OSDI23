@@ -82,6 +82,19 @@ void SAG_inPart_cuda_kernel(
     const int warpPerBlock
 );
 
+__global__ 
+void SAG_UVM_updated_cuda_kernel(
+    float*  output,
+    float** input,
+    const int* row_pointers, 
+    const int* column_index,
+    const int num_nodes, 
+    const int dim,
+    const int partSize,
+    const int warpPerBlock,
+    const int currGPUid
+);
+
 template <typename T>
 std::vector<std::vector<T>> split_CSR(std::vector<T>& origin_ptr, 
                                       std::vector<T>& origin_col_idx, 
@@ -1357,7 +1370,39 @@ void SAG_host_UVM_ref(float* d_out,
     }
 }
 
+// Updated UVM kernel for multi-GPU.
+void SAG_host_UVM_updated(float* d_out,
+                            float** d_in,
+                            const int* d_row_ptr,
+                            const int* d_col_ind,
+                            const int lb_src,
+                            const int ub_src,
+                            const int dim,
+                            const int num_GPUs,
+                            const int currGPUid,
+                            const int pe_num_nodes
+                )
+{
 
+    // d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim.
+    const int partSize = 16;
+    const int warpPerBlock = 4;
+
+    const int block = warpPerBlock * WARP_SIZE;
+    const int grid = ub_src - lb_src;
+    const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+	                               
+    SAG_UVM_updated_cuda_kernel<<<grid, block, shared_memory>>>(d_out, d_in, d_row_ptr, d_col_ind, 
+                                                                pe_num_nodes, dim, 
+                                                                partSize, warpPerBlock, currGPUid); 
+
+    cudaDeviceSynchronize();
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ SAG_host_UVM_updated: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
 
 // A single kernel for validation
 void SAG_host_single_ref(
@@ -2256,13 +2301,77 @@ void SAG_inPart_cuda_kernel(
             // output[srcId][d] += part_meta[w_iter*dim + d];
             atomicAdd_F((float*)&output[srcId * dim + d], part_meta[block_warpId*dim + d]);
         }
-    }
-
-
-    
+    } 
 }
 
+__global__ 
+void SAG_UVM_updated_cuda_kernel(
+    float* output,
+    float** input,
+    const int* row_pointers, 
+    const int* column_index,
+    const int num_nodes, 
+    const int dim,
+    const int partSize,
+    const int warpPerBlock,
+    const int currGPUid
+) 
+{
+    int srcId = blockIdx.x + currGPUid * num_nodes;             // each node allocate 
+    int srcId_local = blockIdx.x;
+    int block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
+    int laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
 
+    extern __shared__ int part_meta[];                          // part information.
+    int*  warp_nbs = (int*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
+
+    if (srcId < num_nodes){
+        const int neighborBeg = row_pointers[srcId];        // partitioning pointer start
+        const int neighborEnd = row_pointers[srcId + 1];    // part pointer end
+
+        #pragma unroll
+        for (int d = laneid; d < dim; d += 32){
+            part_meta[block_warpId*dim + d] = 0.0f;
+        }
+
+        __syncwarp();
+
+        for (int nidx_b = neighborBeg; nidx_b < neighborEnd; nidx_b += partSize*warpPerBlock){
+
+            const int w_start = nidx_b + partSize * block_warpId;
+            const int w_end = w_start + partSize < neighborEnd?  w_start + partSize: neighborEnd;
+            
+            const int n_base = block_warpId * partSize;
+            for(int nidx_w = w_start + laneid; nidx_w < w_end; nidx_w += WARP_SIZE){  
+                warp_nbs[n_base + nidx_w - w_start] = column_index[nidx_w];
+            }
+
+            __syncwarp();
+
+            for(int nidx = 0; nidx < w_end - w_start; nidx++){  
+                // int nid = column_index[w_start + nidx];
+                int nid = warp_nbs[n_base + nidx];
+                int gpuid = nid / num_nodes;
+                int gpu_local_nid = nid % num_nodes;
+                // if (gpuid != currGPUid) continue;
+                // printf("gpuid: %d\n", gpuid);
+                #pragma unroll
+                for (int d = laneid; d < dim; d += 32){
+                    // part_meta[block_warpId*dim + d] += input[gpuid][0];
+                    part_meta[block_warpId*dim + d] += input[gpuid][gpu_local_nid * dim + d];
+                    // atomicAdd_F((float*)&output[srcId][d], input[nid][d]);
+                }
+            }
+        }
+        for (int d = laneid; d < dim; d += 32){
+            // output[srcId][d] += part_meta[w_iter*dim + d];
+            // atomicAdd_F((float*)&output[currGPUid][srcId * dim + d], part_meta[block_warpId*dim + d]);
+
+            atomicAdd_F((float*)&output[srcId_local * dim + d], part_meta[block_warpId*dim + d]);
+            // atomicAdd_F((float*)&output[0], part_meta[block_warpId*dim + d]);
+        }
+    } 
+}
 
 __global__ 
 void SAG_cuda_kernel_single_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int num_nodes, const int dim){

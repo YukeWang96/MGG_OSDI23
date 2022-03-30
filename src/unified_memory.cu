@@ -40,9 +40,9 @@ int main(int argc, char* argv[]){
     float* h_output = (float*)malloc(numNodes*dim*sizeof(float));
     float* h_ref = (float*)malloc(numNodes*dim*sizeof(float));
 
-    std::fill(h_input, h_input+numNodes*dim, 1.0);      // sets every value in the array to 1.0
-    std::fill(h_output, h_output+numNodes*dim, 0.0);    // sets every value in the array to 0.0
-    std::fill(h_ref, h_ref+numNodes*dim, 0.0);          // sets every value in the array to 0.0
+    // std::fill(h_input, h_input+numNodes*dim, 1.0);      // sets every value in the array to 1.0
+    // std::fill(h_output, h_output+numNodes*dim, 0.0);    // sets every value in the array to 0.0
+    // std::fill(h_ref, h_ref+numNodes*dim, 0.0);          // sets every value in the array to 0.0
 
     // memset(input, 0, numNodes*dim*sizeof(float));
     float *d_output, *d_input;
@@ -55,18 +55,18 @@ int main(int argc, char* argv[]){
     // auto partPtr = global_part_info[0];
     // auto part2Node = global_part_info[1];
     // auto node2Part = global_part_info[2];
+    cudaSetDevice(1);
 
     // UVM data: output, input, row_ptr, col_ind 
-    gpuErrchk(cudaMallocManaged((void**)&d_ref,     numNodes*dim*sizeof(float))); 
+    // gpuErrchk(cudaMallocManaged((void**)&d_ref,     numNodes*dim*sizeof(float))); 
     gpuErrchk(cudaMallocManaged((void**)&d_output,  numNodes*dim*sizeof(float))); 
     gpuErrchk(cudaMallocManaged((void**)&d_input,   numNodes*dim*sizeof(float))); 
     gpuErrchk(cudaMallocManaged((void**)&d_row_ptr, (numNodes+1)*sizeof(int)));
     gpuErrchk(cudaMallocManaged((void**)&d_col_ind, numEdges*sizeof(int))); 
 
-
-    cudaMemset(d_ref,       0, numNodes*dim*sizeof(float));
-    cudaMemset(d_output,    0, numNodes*dim*sizeof(float));
-    gpuErrchk(cudaMemcpy(d_input,   h_input,            numNodes*dim*sizeof(float),   cudaMemcpyHostToDevice));
+    // cudaMemset(d_ref,       0, numNodes*dim*sizeof(float));
+    cudaMemset(d_output,            0,                    numNodes*dim*sizeof(float));
+    gpuErrchk(cudaMemcpy(d_input,   h_input,              numNodes*dim*sizeof(float),   cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_row_ptr, &global_row_ptr[0],   (numNodes+1)*sizeof(int),     cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_col_ind, &global_col_ind[0],   numEdges*sizeof(int),         cudaMemcpyHostToDevice));
 
@@ -154,19 +154,14 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     #endif
     printf("===================================\n");
 
-    cudaFree(d_ref);    
+    // cudaFree(d_ref);    
     cudaFree(d_input);    
     cudaFree(d_output);
     cudaFree(d_col_ind);
     cudaFree(d_row_ptr);
-
-
-    free(h_ref);
-    free(h_output);
-    free(h_input);
-    // delete asym;
-    // cudaFree(d_part_ptr);
-    // cudaFree(d_part2Node);
+    // free(h_ref);
+    // free(h_output);
+    // free(h_input);
 
     return 0;
 }

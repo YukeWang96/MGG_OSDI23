@@ -83,15 +83,23 @@ add_executable(MGG_np_pipeline
 add_executable(NCCL 
     src/nccl_example.cu 
 )
+
 add_executable(HOST2DEV 
     src/host2device.cu 
 )
+
 add_executable(unified_memory
 src/unified_memory.cu
 )
+
+add_executable(unified_memory_updated
+src/unified_memory_updated.cu
+)
+
 add_executable(uvm_profile
 src/uvm_profile.cu
 )
+
 add_executable(mgg_profile 
     src/mgg_profile.cu 
     include/loss.cu 
@@ -465,7 +473,7 @@ target_link_libraries(HOST2DEV
     cublas 
 )
 
-
+##############################################################################
 target_include_directories(unified_memory 
     PRIVATE 
     ${NVSHMEM_HOME}/include 
@@ -493,7 +501,33 @@ target_link_libraries(unified_memory
     cublas 
 )
 
+##############################################################################
+target_include_directories(unified_memory_updated 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    include
+)
 
+target_compile_options(unified_memory_updated PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch ${SM_ARCH}
+                       >)
+
+set_target_properties(unified_memory_updated PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(unified_memory_updated PROPERTIES CUDA_ARCHITECTURES "80")
+target_link_libraries(unified_memory_updated
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+)
+##############################################################################
 
 target_include_directories(uvm_profile 
     PRIVATE 
