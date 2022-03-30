@@ -1391,6 +1391,8 @@ void SAG_host_UVM_updated(float* d_out,
     const int block = warpPerBlock * WARP_SIZE;
     const int grid = ub_src - lb_src;
     const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+
+    printf("grid: %d, block: %d, shared_memory:%d\n", grid, block, shared_memory);
 	                               
     SAG_UVM_updated_cuda_kernel<<<grid, block, shared_memory>>>(d_out, d_in, d_row_ptr, d_col_ind, 
                                                                 pe_num_nodes, dim, 
@@ -1399,7 +1401,7 @@ void SAG_host_UVM_updated(float* d_out,
     cudaDeviceSynchronize();
     cudaError_t error = cudaGetLastError();
     if(error != cudaSuccess){
-        printf("CUDA error @ SAG_host_UVM_updated: %s\n", cudaGetErrorString(error));
+        printf("CUDA error @ SAG_UVM_updated_cuda_kernel: %s\n", cudaGetErrorString(error));
         exit(-1);
     }
 }
@@ -2317,8 +2319,8 @@ void SAG_UVM_updated_cuda_kernel(
     const int currGPUid
 ) 
 {
-    int srcId = blockIdx.x + currGPUid * num_nodes;             // each node allocate 
     int srcId_local = blockIdx.x;
+    int srcId = blockIdx.x + currGPUid * num_nodes;             // global node id.
     int block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
     int laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
 
@@ -2353,11 +2355,9 @@ void SAG_UVM_updated_cuda_kernel(
                 int nid = warp_nbs[n_base + nidx];
                 int gpuid = nid / num_nodes;
                 int gpu_local_nid = nid % num_nodes;
-                // if (gpuid != currGPUid) continue;
-                // printf("gpuid: %d\n", gpuid);
+
                 #pragma unroll
                 for (int d = laneid; d < dim; d += 32){
-                    // part_meta[block_warpId*dim + d] += input[gpuid][0];
                     part_meta[block_warpId*dim + d] += input[gpuid][gpu_local_nid * dim + d];
                     // atomicAdd_F((float*)&output[srcId][d], input[nid][d]);
                 }
@@ -2374,7 +2374,10 @@ void SAG_UVM_updated_cuda_kernel(
 }
 
 __global__ 
-void SAG_cuda_kernel_single_ref(float* d_output, const float* d_input, const int* d_row_ptr, const int* d_col_ind, const int num_nodes, const int dim){
+void SAG_cuda_kernel_single_ref(float* d_output, const float* d_input, 
+                                const int* d_row_ptr, const int* d_col_ind, 
+                                const int num_nodes, const int dim){
+
     const int tid = blockIdx.x * blockDim.x + threadIdx.x;
     const int wid = tid/32;
     const int lanid = tid%32;

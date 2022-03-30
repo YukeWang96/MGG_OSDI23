@@ -1,7 +1,8 @@
 Graph File: dataset/bin/citeseer_beg_pos.bin
 Expected edge count: 9464
 9464 9464
-Graph load (success): 3327 verts, 9464 edges 0.000360012 second(s)
+Graph load (success): 3327 verts, 9464 edges 0.000378847 second(s)
 mype_node: 0, nodesPerPE: 1664
 mype_node: 1, nodesPerPE: 1664
-CUDA error @ SAG_host_UVM_updated: an illegal memory access was encountered
+grid: 1664, block: 128, shared_memory:512
+CUDA error @ SAG_UVM_updated_cuda_kernel: invalid argument
