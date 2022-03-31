@@ -8,7 +8,7 @@
 #include "neighbor_utils.cuh"
 #include "csr_formatter.h"
 
-// #define validate 0 //--> for results validation
+#define validate 0 //--> for results validation
 
 using namespace std;
 
@@ -45,13 +45,14 @@ int main(int argc, char* argv[]){
     float **d_input;
     gpuErrchk(cudaMallocManaged((void**)&d_input,  num_GPUs*sizeof(float*))); 
 
-// #ifdef validate
-//     float* h_ref = (float*)malloc(nodesPerPE*dim*sizeof(float));
-//     float *d_ref;
-//     gpuErrchk(cudaMallocManaged((void**)&d_ref,   nodesPerPE*dim*sizeof(float))); // input: device 2D pointer
-//     std::fill(h_ref, h_ref+nodesPerPE*dim, 0.0);          // sets every value in the array to 0.0
-//     cudaMemset(d_ref, 0, nodesPerPE*dim*sizeof(float));
-// #endif
+#ifdef validate
+    float *hd_ref, *hd_input_ref;
+    gpuErrchk(cudaMallocManaged((void**)&hd_ref,         nodesPerPE*dim*sizeof(float)));   // output reference
+    gpuErrchk(cudaMallocManaged((void**)&hd_input_ref,   numNodes*dim*sizeof(float)));   // input reference.
+
+    std::fill(hd_input_ref, hd_input_ref + numNodes*dim, 1.0);                           
+    std::fill(hd_ref, hd_ref + nodesPerPE*dim, 0.0);                                  
+#endif
 
 #pragma omp parallel for
 for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
@@ -66,7 +67,7 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 
     printf("mype_node: %d, nodesPerPE: %d\n", mype_node, nodesPerPE);
 
-    // UVM data: output, input, row_ptr, col_ind 
+    // UVM
     gpuErrchk(cudaMallocManaged((void**)&d_input[mype_node],   nodesPerPE*dim*sizeof(float))); // input: device 2D pointer
     gpuErrchk(cudaMallocManaged((void**)&h_output[mype_node],  nodesPerPE*dim*sizeof(float))); // output: host pointer
     gpuErrchk(cudaMallocManaged((void**)&d_row_ptr[mype_node], (numNodes+1)*sizeof(int)));
@@ -78,11 +79,13 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 }
 
 
-// #ifdef validate
-//     cudaSetDevice(validate);
-//     SAG_host_single_ref(d_ref,      d_input[validate],  d_row_ptr[validate], d_col_ind[validate], numNodes, dim);
-//     gpuErrchk(cudaMemcpy(h_ref,     d_ref,              nodesPerPE*dim*sizeof(float),   cudaMemcpyDeviceToHost));
-// #endif
+#ifdef validate
+    cudaSetDevice(validate);
+    int lb_src_val = nodesPerPE * validate;
+    int ub_src_val = min_val(lb_src_val+nodesPerPE, numNodes);
+
+    SAG_UVM_ref(hd_ref, hd_input_ref,  d_row_ptr[validate], d_col_ind[validate], ub_src_val, lb_src_val, numNodes, dim);
+#endif
 
 // One GPU per threads
 #pragma omp parallel for
@@ -112,29 +115,30 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     printf("Time (ms): %.2f\n", milliseconds);
 }
 
-// #pragma omp parallel for
-// for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
-// {
-    // gpuErrchk(cudaMemcpy(h_output[mype_node],  h_output[mype_node], nodesPerPE*dim*sizeof(float), cudaMemcpyDeviceToHost));
-    // #ifdef validate
-    // bool status = compare_array(h_ref, h_output[mype_node], nodesPerPE*dim);
-    // printf(status ? "validate: True\n" : "validate: False\n");
-    // #endif
+#pragma omp parallel for
+for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
+{
+    #ifdef validate
+    bool status = compare_array(hd_ref, h_output[mype_node], nodesPerPE*dim);
+    if (status)
+        printf("PE-%d: validate: True\n", mype_node);
+    else
+        printf("PE-%d: validate: False\n", mype_node);
+    #endif
 
-    // cudaFree(d_ref);    
-    // cudaFree(d_input[mype_node]);    
-    // cudaFree(d_output[mype_node]);
-    // cudaFree(d_col_ind[mype_node]);
-    // cudaFree(d_row_ptr[mype_node]);
-    // cudaFree(d_input);
-// }
+    // cudaFree(hd_ref);
+    cudaFree(h_output[mype_node]);
+    cudaFree(d_input[mype_node]);    
+    cudaFree(d_col_ind[mype_node]);
+    cudaFree(d_row_ptr[mype_node]);
+}
 
-    // free(d_output);
-    // free(d_col_ind);
-    // free(d_row_ptr);
+    free(h_output);
 
+    cudaFree(d_input);
+    cudaFree(d_col_ind);
+    cudaFree(d_row_ptr);
     // free(h_ref);
-    // free(h_output);
     // free(h_input);
 
     return 0;

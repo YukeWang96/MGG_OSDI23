@@ -95,6 +95,12 @@ void SAG_UVM_updated_cuda_kernel(
     const int currGPUid
 );
 
+__global__ 
+void SAG_cuda_UVM_kernel(float* d_output, const float* d_input, 
+                        const int* d_row_ptr, const int* d_col_ind, 
+                        const int ub_src_val, const int lb_src_val,
+                        const int num_nodes, const int dim);
+
 template <typename T>
 std::vector<std::vector<T>> split_CSR(std::vector<T>& origin_ptr, 
                                       std::vector<T>& origin_col_idx, 
@@ -1391,8 +1397,7 @@ void SAG_host_UVM_updated(float* d_out,
     const int grid = ub_src - lb_src;
     const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
 
-    printf("grid: %d, block: %d, shared_memory: %d\n", grid, block, shared_memory);
-	                               
+    // printf("grid: %d, block: %d, shared_memory: %d\n", grid, block, shared_memory);  
     SAG_UVM_updated_cuda_kernel<<<grid, block, shared_memory>>>(d_out, d_in, d_row_ptr, d_col_ind, 
                                                                 pe_num_nodes, dim, 
                                                                 partSize, warpPerBlock, currGPUid); 
@@ -1429,8 +1434,31 @@ void SAG_host_single_ref(
     }
 }
 
+// A single kernel for validation
+void SAG_UVM_ref(
+                    float* output,
+                const float* input,
+                const int* row_ptr,
+                const int* column_index,
+                const int ub_src_val,
+                const int lb_src_val,
+                const int num_nodes,
+                const int dim
+)
+{
+    const int warpPerBlock = 4;
+    const int block = warpPerBlock * WARP_SIZE;
+    const int grid = ((ub_src_val - lb_src_val) * WARP_SIZE + block  - 1) / block; 
+    printf("SAG_cuda_UVM_kernel: grid: %d, block: %d\n", grid, block);
 
+    SAG_cuda_UVM_kernel<<<grid, block>>>(output, input, row_ptr, column_index, ub_src_val, lb_src_val, num_nodes, dim);
 
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ SAG_cuda_UVM_kernel: %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
+}
 
 
 template <typename IDType, typename dataType, typename paraType>
@@ -2393,6 +2421,29 @@ void SAG_cuda_kernel_single_ref(float* d_output, const float* d_input,
     }
 }
 
+
+
+__global__ 
+void SAG_cuda_UVM_kernel(float* d_output, const float* d_input, 
+                        const int* d_row_ptr, const int* d_col_ind, 
+                        const int ub_src_val, const int lb_src_val,
+                        const int num_nodes, const int dim){
+
+    const int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    const int wid = tid/32;
+    const int lanid = tid%32;
+
+    if (wid < ub_src_val - lb_src_val){
+        const int src_nid = wid + lb_src_val;
+        const int eidx_s =  d_row_ptr[src_nid];
+        const int eidx_e = d_row_ptr[src_nid + 1];
+        for (int eidx = eidx_s; eidx < eidx_e; eidx++){
+            int nid = d_col_ind[eidx]; 
+            for (int d = lanid; d < dim; d += WARP_SIZE)
+                d_output[wid * dim + d] += d_input[nid * dim + d];
+        }
+    }
+}
 
 
 
