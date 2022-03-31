@@ -1,8 +1,10 @@
 Graph File: dataset/bin/citeseer_beg_pos.bin
 Expected edge count: 9464
 9464 9464
-Graph load (success): 3327 verts, 9464 edges 0.000378847 second(s)
+Graph load (success): 3327 verts, 9464 edges 0.0003829 second(s)
 mype_node: 0, nodesPerPE: 1664
 mype_node: 1, nodesPerPE: 1664
-grid: 1664, block: 128, shared_memory:512
-CUDA error @ SAG_UVM_updated_cuda_kernel: invalid argument
+grid: 1664, block: 128, shared_memory: 512
+Time (ms): 0.54
+grid: 1663, block: 128, shared_memory: 512
+Time (ms): 0.02

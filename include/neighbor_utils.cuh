@@ -1380,8 +1380,7 @@ void SAG_host_UVM_updated(float* d_out,
                             const int dim,
                             const int num_GPUs,
                             const int currGPUid,
-                            const int pe_num_nodes
-                )
+                            const int pe_num_nodes)
 {
 
     // d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim.
@@ -1392,7 +1391,7 @@ void SAG_host_UVM_updated(float* d_out,
     const int grid = ub_src - lb_src;
     const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
 
-    printf("grid: %d, block: %d, shared_memory:%d\n", grid, block, shared_memory);
+    printf("grid: %d, block: %d, shared_memory: %d\n", grid, block, shared_memory);
 	                               
     SAG_UVM_updated_cuda_kernel<<<grid, block, shared_memory>>>(d_out, d_in, d_row_ptr, d_col_ind, 
                                                                 pe_num_nodes, dim, 

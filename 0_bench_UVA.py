@@ -20,8 +20,8 @@ warpPerblock = 4
 # warpPerblock = int(sys.argv[1])
 
 dataset = [
-        # ('citeseer'	        		, 3703	    , 6   ),  
-        ('cora' 	        		, 1433	    , 7   ),  
+        ('citeseer'	        		, 3703	    , 6   ),  
+        # ('cora' 	        		, 1433	    , 7   ),  
         # ('pubmed'	        		, 500	    , 3   ),      
         # ('ppi'	            		, 50	    , 121 ),   
         
@@ -59,7 +59,7 @@ dataset = [
 #             --cuda-um-cpu-page-faults=true \
 #             --export=json "
 
-GPU_avail = "CUDA_VISIBLE_DEVICES=7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=4,7 "
 
 command = GPU_avail + "build/unified_memory_updated "
 # command = GPU_avail + "build/unified_memory "
