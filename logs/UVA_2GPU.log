@@ -1,171 +1,18 @@
-Graph File: dataset/bin/citeseer_beg_pos.bin
-Expected edge count: 9464
-9464 9464
-Graph load (success): 3327 verts, 9464 edges 0.000372171 second(s)
-mype_node: 0, nodesPerPE: 1664
-mype_node: 1, nodesPerPE: 1664
-Time (ms): 0.57
-Time (ms): 0.18
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Expected edge count: 1615685872
+1615685872 1615685872
+Graph load (success): 111059956 verts, 1615685872 edges 18.3415 second(s)
+mype_node: 0, nodesPerPE: 55529978
+mype_node: 1, nodesPerPE: 55529978
+Time (ms): 1469.58
+Time (ms): 1684.41
 PE-1: validate: True
-Graph File: dataset/bin/cora_beg_pos.bin
-Expected edge count: 10858
-10858 10858
-Graph load (success): 2708 verts, 10858 edges 0.000391006 second(s)
-mype_node: 0, nodesPerPE: 1354
-mype_node: 1, nodesPerPE: 1354
-Time (ms): 1.05
-Time (ms): 0.38
-PE-1: validate: True
-Graph File: dataset/bin/pubmed_beg_pos.bin
-Expected edge count: 88676
-88676 88676
-Graph load (success): 19717 verts, 88676 edges 0.002707 second(s)
-mype_node: 0, nodesPerPE: 9859
-mype_node: 1, nodesPerPE: 9859
-Time (ms): 3.11
-Time (ms): 0.75
-PE-1: validate: True
-Graph File: dataset/bin/ppi_beg_pos.bin
-Expected edge count: 818716
-818716 818716
-Graph load (success): 56944 verts, 818716 edges 0.0150261 second(s)
-mype_node: 0, nodesPerPE: 28472
-mype_node: 1, nodesPerPE: 28472
-Time (ms): 3.19
-Time (ms): 1.02
-PE-1: validate: True
-Graph File: dataset/bin/PROTEINS_beg_pos.bin
-Expected edge count: 162088
-162088 162088
-Graph load (success): 43471 verts, 162088 edges 0.00490189 second(s)
-mype_node: 0, nodesPerPE: 21736
-mype_node: 1, nodesPerPE: 21736
-Time (ms): 3.07
-Time (ms): 0.67
-PE-1: validate: True
-Graph File: dataset/bin/OVCAR-8H_beg_pos.bin
-Expected edge count: 3946402
-3946402 3946402
-Graph load (success): 1890931 verts, 3946402 edges 0.0656219 second(s)
-mype_node: 0, nodesPerPE: 945466
-mype_node: 1, nodesPerPE: 945466
-Time (ms): 16.28
-Time (ms): 16.10
-PE-1: validate: True
-Graph File: dataset/bin/Yeast_beg_pos.bin
-Expected edge count: 3636546
-3636546 3636546
-Graph load (success): 1714644 verts, 3636546 edges 0.0630019 second(s)
-mype_node: 0, nodesPerPE: 857322
-mype_node: 1, nodesPerPE: 857322
-Time (ms): 18.36
-Time (ms): 14.28
-PE-1: validate: True
-Graph File: dataset/bin/DD_beg_pos.bin
-Expected edge count: 1686092
-1686092 1686092
-Graph load (success): 334925 verts, 1686092 edges 0.027844 second(s)
-mype_node: 0, nodesPerPE: 167463
-mype_node: 1, nodesPerPE: 167463
-Time (ms): 5.37
-Time (ms): 3.42
-PE-1: validate: True
-Graph File: dataset/bin/SW-620H_beg_pos.bin
-Expected edge count: 3944206
-3944206 3944206
-Graph load (success): 1889971 verts, 3944206 edges 0.0689559 second(s)
-mype_node: 0, nodesPerPE: 944986
-mype_node: 1, nodesPerPE: 944986
-Time (ms): 19.29
-Time (ms): 16.37
-PE-1: validate: True
-Graph File: dataset/bin/amazon0505_beg_pos.bin
-Expected edge count: 4878874
-4878874 4878874
-Graph load (success): 410236 verts, 4878874 edges 0.0731471 second(s)
-mype_node: 0, nodesPerPE: 205118
-mype_node: 1, nodesPerPE: 205118
-Time (ms): 7.11
-Time (ms): 4.66
-PE-1: validate: True
-Graph File: dataset/bin/artist_beg_pos.bin
-Expected edge count: 1638396
-1638396 1638396
-Graph load (success): 50515 verts, 1638396 edges 0.022805 second(s)
-mype_node: 0, nodesPerPE: 25258
-mype_node: 1, nodesPerPE: 25258
-Time (ms): 5.52
-Time (ms): 1.17
-PE-1: validate: True
-Graph File: dataset/bin/com-amazon_beg_pos.bin
-Expected edge count: 1851744
-1851744 1851744
-Graph load (success): 548551 verts, 1851744 edges 0.031774 second(s)
-mype_node: 0, nodesPerPE: 274276
-mype_node: 1, nodesPerPE: 274276
-Time (ms): 5.72
-Time (ms): 6.70
-PE-1: validate: True
-Graph File: dataset/bin/soc-BlogCatalog_beg_pos.bin
-Expected edge count: 2093195
-2093195 2093195
-Graph load (success): 88784 verts, 2093195 edges 0.0294111 second(s)
-mype_node: 0, nodesPerPE: 44392
-mype_node: 1, nodesPerPE: 44392
-Time (ms): 2.43
-Time (ms): 1.94
-PE-1: validate: True
-Graph File: dataset/bin/amazon0601_beg_pos.bin
-Expected edge count: 3387388
-3387388 3387388
-Graph load (success): 403394 verts, 3387388 edges 0.0488281 second(s)
-mype_node: 0, nodesPerPE: 201697
-mype_node: 1, nodesPerPE: 201697
-Time (ms): 4.87
-Time (ms): 4.74
-PE-1: validate: True
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.21187 second(s)
-mype_node: 0, nodesPerPE: 116483
-mype_node: 1, nodesPerPE: 116483
-Time (ms): 13.31
-Time (ms): 14.84
-PE-1: validate: True
-Graph File: dataset/bin/enwiki-2013_beg_pos.bin
-Expected edge count: 202623226
-202623226 202623226
-Graph load (success): 4203323 verts, 202623226 edges 2.20383 second(s)
-mype_node: 0, nodesPerPE: 2101662
-mype_node: 1, nodesPerPE: 2101662
-Time (ms): 131.46
-Time (ms): 93.79
-PE-1: validate: True
-Graph File: dataset/bin/ogbn-products_beg_pos.bin
-Expected edge count: 123718280
-123718280 123718280
-Graph load (success): 2449029 verts, 123718280 edges 1.37226 second(s)
-mype_node: 0, nodesPerPE: 1224515
-mype_node: 1, nodesPerPE: 1224515
-Time (ms): 41.66
-Time (ms): 43.73
-PE-1: validate: True
-Graph File: dataset/bin/ogbn-proteins_beg_pos.bin
-Expected edge count: 79122504
-79122504 79122504
-Graph load (success): 132534 verts, 79122504 edges 0.857924 second(s)
-mype_node: 0, nodesPerPE: 66267
-mype_node: 1, nodesPerPE: 66267
-Time (ms): 7.31
-Time (ms): 9.10
-PE-1: validate: True
-Graph File: dataset/bin/com-Orkut_beg_pos.bin
-Expected edge count: 117185083
-117185083 117185083
-Graph load (success): 3072441 verts, 117185083 edges 1.31544 second(s)
-mype_node: 0, nodesPerPE: 1536221
-mype_node: 1, nodesPerPE: 1536221
-Time (ms): 33.51
-Time (ms): 42.83
+Graph File: dataset/bin/mag240m_beg_pos.bin
+Expected edge count: 1297748926
+1297748926 1297748926
+Graph load (success): 121751664 verts, 1297748926 edges 15.0109 second(s)
+mype_node: 0, nodesPerPE: 60875832
+mype_node: 1, nodesPerPE: 60875832
+Time (ms): 1559.87
+Time (ms): 1807.58
 PE-1: validate: True
