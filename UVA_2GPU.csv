@@ -1,2 +1,20 @@
 Dataset,Time (ms)
-citeseer_beg_pos.bin,0.32
+citeseer_beg_pos.bin,0.57
+cora_beg_pos.bin,1.05
+ubmed_beg_pos.bin,3.11
+,3.19
+PROTEINS_beg_pos.bin,3.07
+OVCAR-8H_beg_pos.bin,16.28
+Yeast_beg_pos.bin,18.36
+DD_beg_pos.bin,5.37
+SW-620H_beg_pos.bin,19.29
+amazon0505_beg_pos.bin,7.11
+artist_beg_pos.bin,5.52
+com-amazon_beg_pos.bin,6.7
+c-BlogCatalog_beg_pos.bin,2.43
+amazon0601_beg_pos.bin,4.87
+Reddit_beg_pos.bin,14.84
+wiki-2013_beg_pos.bin,131.46
+-products_beg_pos.bin,43.73
+-proteins_beg_pos.bin,9.1
+com-Orkut_beg_pos.bin,42.83

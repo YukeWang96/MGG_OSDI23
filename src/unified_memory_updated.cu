@@ -8,7 +8,7 @@
 #include "neighbor_utils.cuh"
 #include "csr_formatter.h"
 
-#define validate 0 //--> for results validation
+#define validate 1 //--> for results validation
 
 using namespace std;
 
@@ -83,7 +83,6 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     cudaSetDevice(validate);
     int lb_src_val = nodesPerPE * validate;
     int ub_src_val = min_val(lb_src_val+nodesPerPE, numNodes);
-
     SAG_UVM_ref(hd_ref, hd_input_ref,  d_row_ptr[validate], d_col_ind[validate], ub_src_val, lb_src_val, numNodes, dim);
 #endif
 
@@ -105,7 +104,7 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     SAG_host_UVM_updated(h_output[mype_node], d_input, 
                         d_row_ptr[mype_node], d_col_ind[mype_node], 
                         lb_src, ub_src, dim, num_GPUs, 
-                        mype_node, nodesPerPE);
+                        mype_node, nodesPerPE, numNodes);
 
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
@@ -119,11 +118,14 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 {
     #ifdef validate
-    bool status = compare_array(hd_ref, h_output[mype_node], nodesPerPE*dim);
-    if (status)
-        printf("PE-%d: validate: True\n", mype_node);
-    else
-        printf("PE-%d: validate: False\n", mype_node);
+    if (mype_node == validate)
+    {
+        bool status = compare_array(hd_ref, h_output[mype_node], nodesPerPE*dim);
+        if (status)
+            printf("PE-%d: validate: True\n", mype_node);
+        else
+            printf("PE-%d: validate: False\n", mype_node);
+    }
     #endif
 
     // cudaFree(hd_ref);

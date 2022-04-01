@@ -88,7 +88,8 @@ void SAG_UVM_updated_cuda_kernel(
     float** input,
     const int* row_pointers, 
     const int* column_index,
-    const int num_nodes, 
+    const int nodePerPE,
+    const int numNodes, 
     const int dim,
     const int partSize,
     const int warpPerBlock,
@@ -1386,7 +1387,8 @@ void SAG_host_UVM_updated(float* d_out,
                             const int dim,
                             const int num_GPUs,
                             const int currGPUid,
-                            const int pe_num_nodes)
+                            const int pe_num_nodes,
+                            const int numNodes)
 {
 
     // d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim.
@@ -1397,9 +1399,12 @@ void SAG_host_UVM_updated(float* d_out,
     const int grid = ub_src - lb_src;
     const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
 
-    // printf("grid: %d, block: %d, shared_memory: %d\n", grid, block, shared_memory);  
+    // if (currGPUid == 1){
+    //     printf("currGPUid: %d, grid: %d, block: %d, shared_memory: %d\n", currGPUid, grid, block, shared_memory);  
+    // }
+ 
     SAG_UVM_updated_cuda_kernel<<<grid, block, shared_memory>>>(d_out, d_in, d_row_ptr, d_col_ind, 
-                                                                pe_num_nodes, dim, 
+                                                                pe_num_nodes, numNodes, dim, 
                                                                 partSize, warpPerBlock, currGPUid); 
 
     cudaDeviceSynchronize();
@@ -1449,7 +1454,7 @@ void SAG_UVM_ref(
     const int warpPerBlock = 4;
     const int block = warpPerBlock * WARP_SIZE;
     const int grid = ((ub_src_val - lb_src_val) * WARP_SIZE + block  - 1) / block; 
-    printf("SAG_cuda_UVM_kernel: grid: %d, block: %d\n", grid, block);
+    // printf("SAG_cuda_UVM_kernel: grid: %d, block: %d\n", grid, block);
 
     SAG_cuda_UVM_kernel<<<grid, block>>>(output, input, row_ptr, column_index, ub_src_val, lb_src_val, num_nodes, dim);
 
@@ -2339,7 +2344,8 @@ void SAG_UVM_updated_cuda_kernel(
     float** input,
     const int* row_pointers, 
     const int* column_index,
-    const int num_nodes, 
+    const int nodePerPE,
+    const int numNodes, 
     const int dim,
     const int partSize,
     const int warpPerBlock,
@@ -2347,14 +2353,15 @@ void SAG_UVM_updated_cuda_kernel(
 ) 
 {
     int srcId_local = blockIdx.x;
-    int srcId = blockIdx.x + currGPUid * num_nodes;             // global node id.
+    int srcId = blockIdx.x + currGPUid * nodePerPE;             // global node id.
     int block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
     int laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
 
     extern __shared__ int part_meta[];                          // part information.
     int*  warp_nbs = (int*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
 
-    if (srcId < num_nodes){
+    if (srcId < numNodes){
+
         const int neighborBeg = row_pointers[srcId];        // partitioning pointer start
         const int neighborEnd = row_pointers[srcId + 1];    // part pointer end
 
@@ -2380,8 +2387,8 @@ void SAG_UVM_updated_cuda_kernel(
             for(int nidx = 0; nidx < w_end - w_start; nidx++){  
                 // int nid = column_index[w_start + nidx];
                 int nid = warp_nbs[n_base + nidx];
-                int gpuid = nid / num_nodes;
-                int gpu_local_nid = nid % num_nodes;
+                int gpuid = nid / nodePerPE;
+                int gpu_local_nid = nid % nodePerPE;
 
                 #pragma unroll
                 for (int d = laneid; d < dim; d += 32){
@@ -2393,7 +2400,6 @@ void SAG_UVM_updated_cuda_kernel(
         for (int d = laneid; d < dim; d += 32){
             // output[srcId][d] += part_meta[w_iter*dim + d];
             // atomicAdd_F((float*)&output[currGPUid][srcId * dim + d], part_meta[block_warpId*dim + d]);
-
             atomicAdd_F((float*)&output[srcId_local * dim + d], part_meta[block_warpId*dim + d]);
             // atomicAdd_F((float*)&output[0], part_meta[block_warpId*dim + d]);
         }
