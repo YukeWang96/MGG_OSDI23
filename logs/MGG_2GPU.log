@@ -1,15 +1,4 @@
-Graph File: dataset/bin/mag240m_beg_pos.bin
-Graph File: dataset/bin/mag240m_beg_pos.bin
-Expected edge count: 1297748926
-Expected edge count: 1297748926
-1297748926 1297748926
-1297748926 1297748926
-Graph load (success): 121751664 verts, 1297748926 edges 15.0904 second(s)
-Graph load (success): 121751664 verts, 1297748926 edges 15.0967 second(s)
-Complete loading graphs !!
-Complete loading graphs !!
-Preproc (ms): 25064.881
-PE-0, Total (ms): 422.085
-PE-1, Total (ms): 423.499
-MPI time (ms) 423.561
-===================================
+2 total processes failed to start
+2 total processes failed to start
+2 total processes failed to start
+2 total processes failed to start

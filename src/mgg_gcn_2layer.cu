@@ -18,7 +18,7 @@ using namespace std;
 int main(int argc, char* argv[]){
 	
     if (argc < 8){
-        printf("Usage: ./main graph.mtx num_GPUs partSize warpPerblock dim\n");
+        printf("Usage: ./main graph_beg.bin graph_csr.bin graph_weight.bin num_GPUs partSize warpPerblock dim\n");
         return -1;
     }
     
