@@ -44,7 +44,6 @@ int main(int argc, char* argv[]){
     int num_profiles = 200;
     std::vector<float> time_li;
 
-    
     int* d_row_ptr, *d_col_ind;
     CUDA_CHECK(cudaMalloc((void**)&d_row_ptr, global_row_ptr.size()*sizeof(int))); 
     CUDA_CHECK(cudaMalloc((void**)&d_col_ind, global_col_ind.size()*sizeof(int))); 

@@ -7,4 +7,4 @@
 
 # root mode
 # docker run -it --rm --gpus all -v $PWD/../:/MGG happy233/mgg:with_ncu /bin/bash
-docker run -it --rm --gpus all -v $PWD/../:/MGG mgg:latest /bin/bash
+docker run -it --rm --gpus all -v $PWD/../:/MGG -v /data/datasets/graphs/mgg:/MGG/dataset/bin mgg:latest /bin/bash

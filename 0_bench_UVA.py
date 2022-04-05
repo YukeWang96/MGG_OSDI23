@@ -37,11 +37,23 @@ dataset = [
         # ( 'soc-BlogCatalog'	     , 128	  , 39),      
         # ( 'amazon0601'  	     , 96	  , 22), 
 
-        ( 'Reddit'                      , 602       , 41),
-        ( 'enwiki-2013'	                , 100	    , 12),      
-        ( 'ogbn-products'	        , 100	    , 47),
-        ( 'ogbn-proteins'	        , 8	    , 112),
+        # ( 'Reddit'                      , 602       , 41),
+        # ( 'enwiki-2013'	                , 100	    , 12),      
+        # ( 'ogbn-products'	        , 100	    , 47),
+        # ( 'ogbn-proteins'	        , 8	    , 112),
         # ( 'com-Orkut'	                , 128       , 128),
+
+        # ( 'Reddit_p4'                      , 128      	, 41),
+        # ( 'enwiki-2013_p4'	                , 100	        , 12),      
+        # ( 'ogbn-products_p4'	        , 100	        , 47),
+        # ( 'ogbn-proteins_p4'		, 128		, 112),
+        # ( 'com-Orkut_p4'		        , 128		, 128),
+
+        ( 'Reddit_p8'                      , 128      	, 41),
+        ( 'enwiki-2013_p8'	                , 100	        , 12),      
+        ( 'ogbn-products_p8'	        , 100	        , 47),
+        ( 'ogbn-proteins_p8'		, 128		, 112),
+        ( 'com-Orkut_p8'		        , 128		, 128),
 
         # ('paper100M'                  , 128       , 172),
         # ('mag240m'                  , 128       , 172)
@@ -61,7 +73,7 @@ dataset = [
 #             --export=json "
 
 # GPU_avail = "CUDA_VISIBLE_DEVICES=4,7 "
-GPU_avail = "CUDA_VISIBLE_DEVICES=7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=2,3 "
 
 # command = GPU_avail + "build/unified_memory_updated "
 # command = GPU_avail + "build/unified_memory "

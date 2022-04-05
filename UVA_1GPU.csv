@@ -1,5 +1,5 @@
 Dataset,Time (ms)
-Reddit_beg_pos.bin,30.014
-wiki-2013_beg_pos.bin,142.643
--products_beg_pos.bin,99.616
--proteins_beg_pos.bin,18.067
+Reddit_p8_beg_pos.bin,6.186
+wiki-2013_p8_beg_pos.bin,62.564
+-products_p8_beg_pos.bin,35.374
+-proteins_p8_beg_pos.bin,3.59
