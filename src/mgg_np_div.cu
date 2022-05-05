@@ -17,6 +17,10 @@
 
 // #define validate 1 // the number (< num_GPUs) indicates the validation on which PE.
 
+// using nidType = int;
+using nidType = long;
+
+
 using namespace cudl;
 using namespace std;
 
@@ -44,13 +48,13 @@ int main(int argc, char* argv[]){
     // const char *beg_file = argv[1];
 	// const char *csr_file = "dataset/base_0/citeseer_csr.bin";
 	// const char *weight_file = "dataset/base_0/citeseer_weight.bin";
-    graph<long, long, int, int, int, int>* ginst = new graph<long, long, int, int, int, int>(beg_file, csr_file, weight_file);
-    std::vector<int> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);
-    std::vector<int> global_col_ind(ginst->csr, ginst->csr + ginst->edge_count);
+    graph<long, long, nidType, nidType, nidType, nidType>* ginst = new graph<long, long, nidType, nidType, nidType, nidType>(beg_file, csr_file, weight_file);
+    std::vector<nidType> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);
+    std::vector<nidType> global_col_ind(ginst->csr, ginst->csr + ginst->edge_count);
 
     cout << "Complete loading graphs !!" << endl;
-    int numNodes = global_row_ptr.size() - 1;
-    int numEdges = global_col_ind.size();    
+    nidType numNodes = global_row_ptr.size() - 1;
+    nidType numEdges = global_col_ind.size();    
 
     int num_GPUs = atoi(argv[4]);           // 2
     int partSize = atoi(argv[5]);           // 32
@@ -80,16 +84,16 @@ int main(int argc, char* argv[]){
     cudaStreamCreate(&stream);
 
     // Set the workload on each device.
-    int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
+    nidType nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
     // printf("numNodes: %d, nodesPerPE: %d\n", numNodes, nodesPerPE);
-    int lb = nodesPerPE * mype_node;
-    int ub = (lb + nodesPerPE) < numNodes? (lb + nodesPerPE) : numNodes;
-    int local_edges = global_row_ptr[ub] - global_row_ptr[lb];
-    int edge_beg = global_row_ptr[lb];
+    nidType lb = nodesPerPE * mype_node;
+    nidType ub = (lb + nodesPerPE) < numNodes? (lb + nodesPerPE) : numNodes;
+    nidType local_edges = global_row_ptr[ub] - global_row_ptr[lb];
+    nidType edge_beg = global_row_ptr[lb];
 
     std::clock_t c_start_proc = std::clock();    
     // Divide the CSR into the local and remote for each GPU.
-    auto split_output = split_CSR<int>(global_row_ptr, global_col_ind, lb, ub);
+    auto split_output = split_CSR<nidType>(global_row_ptr, global_col_ind, lb, ub);
     std::clock_t c_end_proc = std::clock();
     float preproc_time_elapsed_ms = 1000.0 * (c_end_proc - c_start_proc) / CLOCKS_PER_SEC;
     if (mype_node == 0)
@@ -126,16 +130,16 @@ int main(int argc, char* argv[]){
     }
     #endif
 
-    int *d_row_ptr_l, *d_col_ind_l,  *d_row_ptr_r, *d_col_ind_r;
-    gpuErrchk(cudaMalloc((void**)&d_row_ptr_l, local_ptr_vec.size()*sizeof(int))); 
-    gpuErrchk(cudaMalloc((void**)&d_col_ind_l, local_col_idx_vec.size()*sizeof(int))); 
-    gpuErrchk(cudaMalloc((void**)&d_row_ptr_r, remote_ptr_vec.size()*sizeof(int))); 
-    gpuErrchk(cudaMalloc((void**)&d_col_ind_r, remote_col_idx_vec.size()*sizeof(int))); 
+    nidType *d_row_ptr_l, *d_col_ind_l,  *d_row_ptr_r, *d_col_ind_r;
+    gpuErrchk(cudaMalloc((void**)&d_row_ptr_l, local_ptr_vec.size()*sizeof(nidType))); 
+    gpuErrchk(cudaMalloc((void**)&d_col_ind_l, local_col_idx_vec.size()*sizeof(nidType))); 
+    gpuErrchk(cudaMalloc((void**)&d_row_ptr_r, remote_ptr_vec.size()*sizeof(nidType))); 
+    gpuErrchk(cudaMalloc((void**)&d_col_ind_r, remote_col_idx_vec.size()*sizeof(nidType))); 
 
-    gpuErrchk(cudaMemcpy(d_row_ptr_l, &local_ptr_vec[0], local_ptr_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_col_ind_l, &local_col_idx_vec[0], local_col_idx_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_row_ptr_r, &remote_ptr_vec[0], remote_ptr_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_col_ind_r, &remote_col_idx_vec[0], remote_col_idx_vec.size()*sizeof(int), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_row_ptr_l, &local_ptr_vec[0], local_ptr_vec.size()*sizeof(nidType), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_col_ind_l, &local_col_idx_vec[0], local_col_idx_vec.size()*sizeof(nidType), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_row_ptr_r, &remote_ptr_vec[0], remote_ptr_vec.size()*sizeof(nidType), cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_col_ind_r, &remote_col_idx_vec[0], remote_col_idx_vec.size()*sizeof(nidType), cudaMemcpyHostToDevice));
 
     #ifdef validate
     int* d_row_ptr_ref, *d_col_ind_ref;

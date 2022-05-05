@@ -260,12 +260,12 @@ __global__
 void mgg_SAG_np_div_cuda(
           float* output,
     const float* input,
-    const int* row_pointers_l,
-    const int* column_index_l,
-    const int* row_pointers_r,
-    const int* column_index_r,
-    const int lb,
-    const int ub,
+    const nidType* row_pointers_l,
+    const nidType* column_index_l,
+    const nidType* row_pointers_r,
+    const nidType* column_index_r,
+    const nidType lb,
+    const nidType ub,
     const int dim,
     const int nodePerPE,
     const int partSize,
@@ -297,9 +297,9 @@ std::vector<std::vector<T>> split_CSR(std::vector<T>& origin_ptr, std::vector<T>
     
     // iterate through the local range of the CSR.
     // split the CSR into two different range.
-    for(int i = lb; i < ub; i++){
-        for (int j = origin_ptr[i]; j < origin_ptr[i+1]; j++){
-            int nid = origin_col_idx[j];
+    for(T i = lb; i < ub; i++){
+        for (T j = origin_ptr[i]; j < origin_ptr[i+1]; j++){
+            T nid = origin_col_idx[j];
             
             if (lb <= nid && nid < ub){
                 local_col_idx.push_back(nid);
@@ -698,26 +698,26 @@ const int nodePerPE
 void mgg_SAG_np_div(
     float* output, // NVSHMEM 
 const float* input,  // NVSHMEM
-const int* row_pointers_l,
-const int* column_index_l,
-const int* row_pointers_r,
-const int* column_index_r,
-const int lb,
-const int ub,
+const nidType* row_pointers_l,
+const nidType* column_index_l,
+const nidType* row_pointers_r,
+const nidType* column_index_r,
+const nidType lb,
+const nidType ub,
 const int dim,
 const int nodePerPE,
 const int peid,
 const int np_size,
 const int warpPerBlock
 ){
-  const int num_nodes = ub - lb;
+  const nidType num_nodes = ub - lb;
   
 //   const int warpPerBlock = 16;
 //   const int np_size = 16;   // for implicit neighbor partition size = 4.
 
-  const int block = warpPerBlock * WARP_SIZE;
-  const int grid = num_nodes; // one node per block.
-  const int dyn_shared_mem = 2 * warpPerBlock * dim * sizeof(float); // for temporal  caching the NVSHMEM result.
+  const nidType block = warpPerBlock * WARP_SIZE;
+  const nidType grid = num_nodes; // one node per block.
+  const nidType dyn_shared_mem = 2 * warpPerBlock * dim * sizeof(float); // for temporal  caching the NVSHMEM result.
 
 //   cudaEvent_t start, stop;
 //   cudaEventCreate(&start);
@@ -744,7 +744,7 @@ const int warpPerBlock
   gpuErrchk(cudaDeviceSynchronize());
   cudaError_t error = cudaGetLastError();
   if(error != cudaSuccess){
-      printf("CUDA error @mgg_SAG_np_cuda: %s\n", cudaGetErrorString(error));
+      printf("CUDA error @mgg_SAG_np_div_cuda: %s\n", cudaGetErrorString(error));
       exit(-1);
   }
 }
@@ -923,22 +923,22 @@ __global__
 void mgg_SAG_np_div_cuda(
           float* output,
     const float* input,
-    const int* row_pointers_l,
-    const int* column_index_l,
-    const int* row_pointers_r,
-    const int* column_index_r,
-    const int lb,
-    const int ub,
+    const nidType* row_pointers_l,
+    const nidType* column_index_l,
+    const nidType* row_pointers_r,
+    const nidType* column_index_r,
+    const nidType lb,
+    const nidType ub,
     const int dim,
     const int nodePerPE,
     const int partSize,
     const int warpPerBlock
 ){
     // const int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    const int bid = blockIdx.x;                // global warp-id
-    const int blk_wid = threadIdx.x / 32;     // block-level warp-id.
-    const int lanid = threadIdx.x % 32;       // lane-id
-    const int num_nodes = ub - lb;           // num of nodes per PE.
+    const nidType bid = blockIdx.x;                // global warp-id
+    const nidType blk_wid = threadIdx.x / 32;     // block-level warp-id.
+    const nidType lanid = threadIdx.x % 32;       // lane-id
+    const nidType num_nodes = ub - lb;           // num of nodes per PE.
     extern __shared__ float tmp[];
     float* tmp2 = (float*) &tmp[warpPerBlock * dim];
 
@@ -953,22 +953,22 @@ void mgg_SAG_np_div_cuda(
         // Get the local neighbor partition.
         //
         // Get the neighbor range of a node.
-        int eidx_s = row_pointers_l[bid];           
-        int eidx_e = row_pointers_l[bid + 1];
+        nidType eidx_s = row_pointers_l[bid];           
+        nidType eidx_e = row_pointers_l[bid + 1];
         // if ((bid == 3456 || bid == 3457) && lb == 0)
         //     printf("local: %d, remote: %d\n", eidx_e - eidx_s, row_pointers_r[bid + 1] - row_pointers_r[bid]);
         
         // Get the neighbor partition of a warp. (w_eidx_beg, w_eidx_beg + partSize)
-        for (int b_eidx_beg = eidx_s; b_eidx_beg < eidx_e; b_eidx_beg += warpPerBlock * partSize){
+        for (nidType b_eidx_beg = eidx_s; b_eidx_beg < eidx_e; b_eidx_beg += warpPerBlock * partSize){
             
-            int warp_eidx_beg = b_eidx_beg + blk_wid * partSize;            
-            int warp_eidx_end = warp_eidx_beg + partSize;         
+            nidType warp_eidx_beg = b_eidx_beg + blk_wid * partSize;            
+            nidType warp_eidx_end = warp_eidx_beg + partSize;         
             // Iterater over the neighbor partition of a warp.
-            for (int eidx = warp_eidx_beg; eidx < min(warp_eidx_end, eidx_e); eidx++){
+            for (nidType eidx = warp_eidx_beg; eidx < min(warp_eidx_end, eidx_e); eidx++){
 
-                int nid = column_index_l[eidx]; 
+                nidType nid = column_index_l[eidx]; 
                 // printf("eidx: %d, nid: %d, nodePerPE: %d\n", eidx, nid, nodePerPE);
-                int local_nid = nid % nodePerPE;
+                nidType local_nid = nid % nodePerPE;
                 for (int d = lanid; d < dim; d += WARP_SIZE){
                     // output[bid * dim + d] += input[local_nid * dim + d];
                     // atomicAdd_F(&output[bid * dim + d], input[local_nid * dim + d]);
@@ -996,16 +996,16 @@ void mgg_SAG_np_div_cuda(
         eidx_s = row_pointers_r[bid];           
         eidx_e = row_pointers_r[bid + 1];
         // Get the neighbor partition of a warp. (w_eidx_beg, w_eidx_beg + partSize)
-        for (int b_eidx_beg = eidx_s; b_eidx_beg < eidx_e; b_eidx_beg += warpPerBlock * partSize){
+        for (nidType b_eidx_beg = eidx_s; b_eidx_beg < eidx_e; b_eidx_beg += warpPerBlock * partSize){
 
-            int warp_eidx_beg = b_eidx_beg + blk_wid * partSize;            
-            int warp_eidx_end = warp_eidx_beg + partSize;
+            nidType warp_eidx_beg = b_eidx_beg + blk_wid * partSize;            
+            nidType warp_eidx_end = warp_eidx_beg + partSize;
             // Iterater over the neighbor partition of a warp.
-            for (int eidx = warp_eidx_beg; eidx < min(warp_eidx_end, eidx_e); eidx++){
+            for (nidType eidx = warp_eidx_beg; eidx < min(warp_eidx_end, eidx_e); eidx++){
 
-                int nid = column_index_r[eidx]; 
-                int r_GPUid = nid / nodePerPE; 
-                int r_offset = nid % nodePerPE;
+                nidType nid = column_index_r[eidx]; 
+                nidType r_GPUid = nid / nodePerPE; 
+                nidType r_offset = nid % nodePerPE;
                 // if (r_GPUid > 1) printf("nid: %d, nodePerPE: %d, GPU id: %d\n", nid, nodePerPE, r_GPUid);
 
                 // nvshmemx_float_get_warp((float*)&tmp[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);

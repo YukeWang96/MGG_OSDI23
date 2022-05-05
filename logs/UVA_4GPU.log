@@ -1,24 +1,12 @@
-Graph File: dataset/bin/twitter-2010_beg_pos.bin
-Expected edge count: 1468365181
-1468365181 1468365181
-Graph load (success): 41652230 verts, 1468365181 edges 16.5976 second(s)
-mype_node: 0, nodesPerPE: 10413058
-mype_node: 1, nodesPerPE: 10413058
-mype_node: 2, nodesPerPE: 10413058
-mype_node: 3, nodesPerPE: 10413058
-Time (ms): 408.38
-Time (ms): 445.68
-Time (ms): 1000.87
-Time (ms): 430.59
-Graph File: dataset/bin/com-friendster_beg_pos.bin
-Expected edge count: 1806067135
-1806067135 1806067135
-Graph load (success): 124836180 verts, 1806067135 edges 22.1995 second(s)
-mype_node: 0, nodesPerPE: 31209045
-mype_node: 1, nodesPerPE: 31209045
-mype_node: 2, nodesPerPE: 31209045
-mype_node: 3, nodesPerPE: 31209045
-Time (ms): 1323.19
-Time (ms): 1329.80
-Time (ms): 855.76
-Time (ms): 784.89
+Graph File: dataset/bin/uk-2006-05_beg_pos.bin
+Expected edge count: 2951370103
+2951370103 2951370103
+Graph load (success): 77741046 verts, 2951370103 edges 17.9672 second(s)
+mype_node: 0, nodesPerPE: 19435262
+mype_node: 1, nodesPerPE: 19435262
+mype_node: 2, nodesPerPE: 19435262
+mype_node: 3, nodesPerPE: 19435262
+Time (ms): 681.43
+Time (ms): 696.98
+Time (ms): 729.85
+Time (ms): 777.39
