@@ -1,24 +1,24 @@
-Graph File: dataset/bin/Reddit_p8_beg_pos.bin
-Expected edge count: 14326986
-14326986 14326986
-Graph load (success): 232965 verts, 14326986 edges 0.148512 second(s)
-Time (ms): 6.186
+Graph File: dataset/bin/Reddit_p4_beg_pos.bin
+Expected edge count: 28653973
+28653973 28653973
+Graph load (success): 232965 verts, 28653973 edges 0.312531 second(s)
+Time (ms): 9.678
 ===================================
-Graph File: dataset/bin/enwiki-2013_p8_beg_pos.bin
-Expected edge count: 25327903
-25327903 25327903
-Graph load (success): 4203281 verts, 25327903 edges 0.301473 second(s)
-Time (ms): 62.564
+Graph File: dataset/bin/enwiki-2013_p4_beg_pos.bin
+Expected edge count: 50655806
+50655806 50655806
+Graph load (success): 4203285 verts, 50655806 edges 0.564922 second(s)
+Time (ms): 55.598
 ===================================
-Graph File: dataset/bin/ogbn-products_p8_beg_pos.bin
-Expected edge count: 15464785
-15464785 15464785
-Graph load (success): 2449029 verts, 15464785 edges 0.20338 second(s)
-Time (ms): 35.374
+Graph File: dataset/bin/ogbn-products_p4_beg_pos.bin
+Expected edge count: 30929570
+30929570 30929570
+Graph load (success): 2449029 verts, 30929570 edges 0.355603 second(s)
+Time (ms): 17.317
 ===================================
-Graph File: dataset/bin/ogbn-proteins_p8_beg_pos.bin
-Expected edge count: 9890313
-9890313 9890313
-Graph load (success): 132455 verts, 9890313 edges 0.116291 second(s)
-Time (ms): 3.590
+Graph File: dataset/bin/ogbn-proteins_p4_beg_pos.bin
+Expected edge count: 19780626
+19780626 19780626
+Graph load (success): 132494 verts, 19780626 edges 0.212269 second(s)
+Time (ms): 4.523
 ===================================

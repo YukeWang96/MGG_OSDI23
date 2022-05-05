@@ -1,12 +1,3 @@
 Dataset,Time (ms)
-citeseer_beg_pos.bin,0.603
-cora_beg_pos.bin,1.875
-pubmed_beg_pos.bin,29.937
-ppi_beg_pos.bin,26.627
-PROTEINS_beg_pos.bin,29.97
-OVCAR-8H_beg_pos.bin,9.994
-Yeast_beg_pos.bin,8.38
-DD_beg_pos.bin,332.462
-SW-620H_beg_pos.bin,140.557
-amazon0505_beg_pos.bin,122.231
-artist_beg_pos.bin,76.58
+twitter-2010_beg_pos.bin,1203.02
+com-friendster_beg_pos.bin,1872.9

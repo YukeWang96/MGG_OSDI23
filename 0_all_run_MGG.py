@@ -4,9 +4,11 @@ import os
 os.system("mv *.csv csvs/")
 # num_gpus = [2, 3, 4, 5, 6, 7, 8]
 num_gpus = [2,4,8]
-# num_gpus = [2]
+# num_gpus = [2, 4]
 # num_gpus = [4]
+# num_gpus = [2]
 # num_gpus = [8]
+# num_gpus = [4,8]
 
 for gpu in num_gpus:
     os.system("./0_bench_MGG.py {0}| tee MGG_{0}GPU.log".format(gpu))

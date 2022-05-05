@@ -12,6 +12,8 @@
 
 #define WARP_SIZE 32
 
+// using nidType = int;
+using nidType = long;
 
 __global__ void warmup(){}
 
@@ -86,10 +88,10 @@ __global__
 void SAG_UVM_updated_cuda_kernel(
     float*  output,
     float** input,
-    const int* row_pointers, 
-    const int* column_index,
-    const int nodePerPE,
-    const int numNodes, 
+    const nidType* row_pointers, 
+    const nidType* column_index,
+    const nidType nodePerPE,
+    const nidType numNodes, 
     const int dim,
     const int partSize,
     const int warpPerBlock,
@@ -1380,10 +1382,10 @@ void SAG_host_UVM_ref(float* d_out,
 // Updated UVM kernel for multi-GPU.
 void SAG_host_UVM_updated(float* d_out,
                             float** d_in,
-                            const int* d_row_ptr,
-                            const int* d_col_ind,
-                            const int lb_src,
-                            const int ub_src,
+                            const nidType* d_row_ptr,
+                            const nidType* d_col_ind,
+                            const nidType lb_src,
+                            const nidType ub_src,
                             const int dim,
                             const int num_GPUs,
                             const int currGPUid,
@@ -1395,9 +1397,9 @@ void SAG_host_UVM_updated(float* d_out,
     const int partSize = 16;
     const int warpPerBlock = 4;
 
-    const int block = warpPerBlock * WARP_SIZE;
-    const int grid = ub_src - lb_src;
-    const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
+    const nidType block = warpPerBlock * WARP_SIZE;
+    const nidType grid = ub_src - lb_src;
+    const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(nidType);
 
     // if (currGPUid == 1){
     //     printf("currGPUid: %d, grid: %d, block: %d, shared_memory: %d\n", currGPUid, grid, block, shared_memory);  
@@ -2342,28 +2344,28 @@ __global__
 void SAG_UVM_updated_cuda_kernel(
     float* output,
     float** input,
-    const int* row_pointers, 
-    const int* column_index,
-    const int nodePerPE,
-    const int numNodes, 
+    const nidType* row_pointers, 
+    const nidType* column_index,
+    const nidType nodePerPE,
+    const nidType numNodes, 
     const int dim,
     const int partSize,
     const int warpPerBlock,
     const int currGPUid
 ) 
 {
-    int srcId_local = blockIdx.x;
-    int srcId = blockIdx.x + currGPUid * nodePerPE;             // global node id.
-    int block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
-    int laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
+    nidType srcId_local = blockIdx.x;
+    nidType srcId = blockIdx.x + currGPUid * nodePerPE;             // global node id.
+    nidType block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
+    nidType laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
 
     extern __shared__ int part_meta[];                          // part information.
-    int*  warp_nbs = (int*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
+    nidType* warp_nbs = (nidType*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
 
     if (srcId < numNodes){
 
-        const int neighborBeg = row_pointers[srcId];        // partitioning pointer start
-        const int neighborEnd = row_pointers[srcId + 1];    // part pointer end
+        const nidType neighborBeg = row_pointers[srcId];        // partitioning pointer start
+        const nidType neighborEnd = row_pointers[srcId + 1];    // part pointer end
 
         #pragma unroll
         for (int d = laneid; d < dim; d += 32){
@@ -2372,23 +2374,23 @@ void SAG_UVM_updated_cuda_kernel(
 
         __syncwarp();
 
-        for (int nidx_b = neighborBeg; nidx_b < neighborEnd; nidx_b += partSize*warpPerBlock){
+        for (nidType nidx_b = neighborBeg; nidx_b < neighborEnd; nidx_b += partSize*warpPerBlock){
 
-            const int w_start = nidx_b + partSize * block_warpId;
-            const int w_end = w_start + partSize < neighborEnd?  w_start + partSize: neighborEnd;
+            const nidType w_start = nidx_b + partSize * block_warpId;
+            const nidType w_end = w_start + partSize < neighborEnd?  w_start + partSize: neighborEnd;
             
-            const int n_base = block_warpId * partSize;
-            for(int nidx_w = w_start + laneid; nidx_w < w_end; nidx_w += WARP_SIZE){  
+            const nidType n_base = block_warpId * partSize;
+            for(nidType nidx_w = w_start + laneid; nidx_w < w_end; nidx_w += WARP_SIZE){  
                 warp_nbs[n_base + nidx_w - w_start] = column_index[nidx_w];
             }
 
             __syncwarp();
 
-            for(int nidx = 0; nidx < w_end - w_start; nidx++){  
+            for(nidType nidx = 0; nidx < w_end - w_start; nidx++){  
                 // int nid = column_index[w_start + nidx];
-                int nid = warp_nbs[n_base + nidx];
-                int gpuid = nid / nodePerPE;
-                int gpu_local_nid = nid % nodePerPE;
+                nidType nid = warp_nbs[n_base + nidx];
+                nidType gpuid = nid / nodePerPE;
+                nidType gpu_local_nid = nid % nodePerPE;
 
                 #pragma unroll
                 for (int d = laneid; d < dim; d += 32){

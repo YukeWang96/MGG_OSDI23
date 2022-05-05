@@ -57,6 +57,15 @@ int main(int argc, char* argv[]){
 
     dense_param_hidden* dp2 = new dense_param_hidden("d-2", sp1->d_out, numNodes, dim1, dim2);
     sparse_param_hidden* sp2 = new sparse_param_hidden("s-2", dp2->d_out, d_row_ptr, d_col_ind, numNodes, dim2, partSize, warpPerBlock);
+    
+     for (int i = 0; i < 10; i++)
+    {
+        dense_beg_forward(dp1);
+        sparse_hidden_forward(sp1);
+        dense_hidden_forward(dp2);
+        sparse_hidden_forward(sp2);
+    }
+
     //
     // Execute Model
     //

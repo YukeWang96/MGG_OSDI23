@@ -1,13 +1,40 @@
-Graph File: dataset/bin/citeseer_beg_pos.bin
-Expected edge count: 9464
-9464 9464
-Graph load (success): 3327 verts, 9464 edges 0.000344038 second(s)
-mype_node: 0, nodesPerPE: 416
-mype_node: 1, nodesPerPE: 416
-mype_node: 2, nodesPerPE: 416
-mype_node: 3, nodesPerPE: 416
-mype_node: 4, nodesPerPE: 416
-mype_node: 5, nodesPerPE: 416
-mype_node: 6, nodesPerPE: 416
-mype_node: 7, nodesPerPE: 416
-CUDA error @ SAG_host_UVM_updated: invalid device ordinal
+Graph File: dataset/bin/twitter-2010_beg_pos.bin
+Expected edge count: 1468365181
+1468365181 1468365181
+Graph load (success): 41652230 verts, 1468365181 edges 16.5759 second(s)
+mype_node: 0, nodesPerPE: 5206529
+mype_node: 1, nodesPerPE: 5206529
+mype_node: 2, nodesPerPE: 5206529
+mype_node: 3, nodesPerPE: 5206529
+mype_node: 4, nodesPerPE: 5206529
+mype_node: 5, nodesPerPE: 5206529
+mype_node: 6, nodesPerPE: 5206529
+mype_node: 7, nodesPerPE: 5206529
+Time (ms): 341.69
+Time (ms): 324.37
+Time (ms): 312.28
+Time (ms): 337.81
+Time (ms): 905.56
+Time (ms): 334.90
+Time (ms): 335.24
+Time (ms): 376.65
+Graph File: dataset/bin/com-friendster_beg_pos.bin
+Expected edge count: 1806067135
+1806067135 1806067135
+Graph load (success): 124836180 verts, 1806067135 edges 22.4191 second(s)
+mype_node: 0, nodesPerPE: 15604523
+mype_node: 1, nodesPerPE: 15604523
+mype_node: 2, nodesPerPE: 15604523
+mype_node: 3, nodesPerPE: 15604523
+mype_node: 4, nodesPerPE: 15604523
+mype_node: 5, nodesPerPE: 15604523
+mype_node: 6, nodesPerPE: 15604523
+mype_node: 7, nodesPerPE: 15604523
+Time (ms): 1088.90
+Time (ms): 945.94
+Time (ms): 879.87
+Time (ms): 770.13
+Time (ms): 594.52
+Time (ms): 572.83
+Time (ms): 456.82
+Time (ms): 340.56

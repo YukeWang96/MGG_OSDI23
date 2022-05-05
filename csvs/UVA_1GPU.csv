@@ -1,6 +1,5 @@
 Dataset,Time (ms)
-DD_beg_pos.bin,4.474
-amazon0505_beg_pos.bin,20.533
-artist_beg_pos.bin,8.661
-c-BlogCatalog_beg_pos.bin,11.594
-amazon0601_beg_pos.bin,7.698
+Reddit_p4_beg_pos.bin,9.678
+wiki-2013_p4_beg_pos.bin,55.598
+-products_p4_beg_pos.bin,17.317
+-proteins_p4_beg_pos.bin,4.523

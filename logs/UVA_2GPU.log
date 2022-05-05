@@ -1,18 +1,8 @@
-Graph File: dataset/bin/paper100M_beg_pos.bin
-Expected edge count: 1615685872
-1615685872 1615685872
-Graph load (success): 111059956 verts, 1615685872 edges 18.3415 second(s)
-mype_node: 0, nodesPerPE: 55529978
-mype_node: 1, nodesPerPE: 55529978
-Time (ms): 1469.58
-Time (ms): 1684.41
-PE-1: validate: True
-Graph File: dataset/bin/mag240m_beg_pos.bin
-Expected edge count: 1297748926
-1297748926 1297748926
-Graph load (success): 121751664 verts, 1297748926 edges 15.0109 second(s)
-mype_node: 0, nodesPerPE: 60875832
-mype_node: 1, nodesPerPE: 60875832
-Time (ms): 1559.87
-Time (ms): 1807.58
-PE-1: validate: True
+Graph File: dataset/bin/uk-2006-05_beg_pos.bin
+Expected edge count: 2951370103
+2951370103 2951370103
+Graph load (success): 77741046 verts, 2951370103 edges 17.8753 second(s)
+mype_node: 0, nodesPerPE: 38870523
+mype_node: 1, nodesPerPE: 38870523
+Time (ms): 927.41
+Time (ms): 1077.56

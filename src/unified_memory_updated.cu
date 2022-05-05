@@ -8,9 +8,12 @@
 #include "neighbor_utils.cuh"
 #include "csr_formatter.h"
 
-#define validate 1 //--> for results validation
+// #define validate 1 //--> for results validation
 
 using namespace std;
+
+// using nidType = int;
+using nidType = long;
 
 int main(int argc, char* argv[]){
 	
@@ -24,12 +27,12 @@ int main(int argc, char* argv[]){
 	const char *csr_file = argv[2];
 	const char *weight_file = argv[3];
     
-    graph<long, long, int, int, int, int>* ginst = new graph<long, long, int, int, int, int>(beg_file, csr_file, weight_file);
-    std::vector<int> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);
-    std::vector<int> global_col_ind(ginst->csr, ginst->csr + ginst->edge_count);
+    graph<long, long, nidType, nidType, nidType, nidType>* ginst = new graph<long, long, nidType, nidType, nidType, nidType>(beg_file, csr_file, weight_file);
+    std::vector<nidType> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);
+    std::vector<nidType> global_col_ind(ginst->csr, ginst->csr + ginst->edge_count);
 
-    int numNodes = global_row_ptr.size() - 1;
-    int numEdges = global_col_ind.size();    
+    nidType numNodes = global_row_ptr.size() - 1;
+    nidType numEdges = global_col_ind.size();    
 
     int num_GPUs = atoi(argv[4]);
     int partSize = atoi(argv[5]);
@@ -39,8 +42,8 @@ int main(int argc, char* argv[]){
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
     float** h_input = new float*[num_GPUs];
     float** h_output = new float*[num_GPUs];
-    int **d_row_ptr = new int*[num_GPUs]; 
-    int **d_col_ind = new int*[num_GPUs]; 
+    nidType **d_row_ptr = new nidType*[num_GPUs]; 
+    nidType **d_col_ind = new nidType*[num_GPUs]; 
 
     float **d_input;
     gpuErrchk(cudaMallocManaged((void**)&d_input,  num_GPUs*sizeof(float*))); 
@@ -70,12 +73,12 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     // UVM
     gpuErrchk(cudaMallocManaged((void**)&d_input[mype_node],   nodesPerPE*dim*sizeof(float))); // input: device 2D pointer
     gpuErrchk(cudaMallocManaged((void**)&h_output[mype_node],  nodesPerPE*dim*sizeof(float))); // output: host pointer
-    gpuErrchk(cudaMallocManaged((void**)&d_row_ptr[mype_node], (numNodes+1)*sizeof(int)));
-    gpuErrchk(cudaMallocManaged((void**)&d_col_ind[mype_node], numEdges*sizeof(int))); 
+    gpuErrchk(cudaMallocManaged((void**)&d_row_ptr[mype_node], (numNodes+1)*sizeof(nidType)));
+    gpuErrchk(cudaMallocManaged((void**)&d_col_ind[mype_node], numEdges*sizeof(nidType))); 
 
     gpuErrchk(cudaMemcpy(d_input[mype_node],   h_input[mype_node],  nodesPerPE*dim*sizeof(float), cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_row_ptr[mype_node], &global_row_ptr[0],  (numNodes+1)*sizeof(int),     cudaMemcpyHostToDevice));
-    gpuErrchk(cudaMemcpy(d_col_ind[mype_node], &global_col_ind[0],  numEdges*sizeof(int),         cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_row_ptr[mype_node], &global_row_ptr[0],  (numNodes+1)*sizeof(nidType),     cudaMemcpyHostToDevice));
+    gpuErrchk(cudaMemcpy(d_col_ind[mype_node], &global_col_ind[0],  numEdges*sizeof(nidType),         cudaMemcpyHostToDevice));
 }
 
 

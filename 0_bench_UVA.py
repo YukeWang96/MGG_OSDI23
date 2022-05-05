@@ -13,10 +13,10 @@ hidden = 16
 # num_GPUs = 2
 num_GPUs = int(sys.argv[1])
 
-partSize = 32
+partSize = 16
 # partSize = int(sys.argv[1])
 
-warpPerblock = 16
+warpPerblock = 4
 # warpPerblock = int(sys.argv[1])
 
 dataset = [
@@ -49,15 +49,19 @@ dataset = [
         # ( 'ogbn-proteins_p4'		, 128		, 112),
         # ( 'com-Orkut_p4'		        , 128		, 128),
 
-        ( 'Reddit_p8'                      , 128      	, 41),
-        ( 'enwiki-2013_p8'	                , 100	        , 12),      
-        ( 'ogbn-products_p8'	        , 100	        , 47),
-        ( 'ogbn-proteins_p8'		, 128		, 112),
-        ( 'com-Orkut_p8'		        , 128		, 128),
+        # ( 'Reddit_p8'                      , 128      	, 41),
+        # ( 'enwiki-2013_p8'	                , 100	        , 12),      
+        # ( 'ogbn-products_p8'	        , 100	        , 47),
+        # ( 'ogbn-proteins_p8'		, 128		, 112),
+        # ( 'com-Orkut_p8'		        , 128		, 128),
 
         # ('paper100M'                  , 128       , 172),
-        # ('mag240m'                  , 128       , 172)
+        # ('mag240m'                  , 128       , 172),
 
+        # ('twitter-2010'         , 128       , 172),
+        # ('com-friendster'     , 128       , 172),
+        ('uk-2006-05'         , 128       , 172),
+        
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),
 ]
@@ -73,11 +77,14 @@ dataset = [
 #             --export=json "
 
 # GPU_avail = "CUDA_VISIBLE_DEVICES=4,7 "
-GPU_avail = "CUDA_VISIBLE_DEVICES=2,3 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=2,3 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
 
-# command = GPU_avail + "build/unified_memory_updated "
+command = GPU_avail + "build/unified_memory_updated "
 # command = GPU_avail + "build/unified_memory "
-command = "build/MGG_gcn_2layer "
+# command = "build/MGG_gcn_2layer "
 # command = "build/MGG_sgc_2layer "
 # command = "build/MGG_agnn_2layer "
 

@@ -1,2 +1,27 @@
-4 total processes failed to start
-4 total processes failed to start
+Graph File: dataset/bin/com-friendster_beg_pos.bin
+Graph File: dataset/bin/com-friendster_beg_pos.bin
+Graph File: dataset/bin/com-friendster_beg_pos.bin
+Graph File: dataset/bin/com-friendster_beg_pos.bin
+Expected edge count: 1806067135
+Expected edge count: 1806067135
+Expected edge count: 1806067135
+Expected edge count: 1806067135
+1806067135 1806067135
+1806067135 1806067135
+1806067135 1806067135
+1806067135 1806067135
+Graph load (success): 124836180 verts, 1806067135 edges 11.7559 second(s)
+Graph load (success): 124836180 verts, 1806067135 edges 11.8292 second(s)
+Graph load (success): 124836180 verts, 1806067135 edges 12.4075 second(s)
+Graph load (success): 124836180 verts, 1806067135 edges 12.8065 second(s)
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Preproc (ms): 32944.207
+PE-3, Total (ms): 104.482
+PE-2, Total (ms): 247.972
+PE-1, Total (ms): 441.136
+PE-0, Total (ms): 611.360
+MPI time (ms) 611.374
+===================================
