@@ -4,7 +4,12 @@ Expected edge count: 2951370103
 Expected edge count: 2951370103
 2951370103 2951370103
 2951370103 2951370103
-Graph load (success): 77741046 verts, 2951370103 edges 17.5484 second(s)
-Graph load (success): 77741046 verts, 2951370103 edges 17.8231 second(s)
+Graph load (success): 77741046 verts, 2951370103 edges 17.5022 second(s)
+Graph load (success): 77741046 verts, 2951370103 edges 18.114 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
+Preproc (ms): 63949.375
+PE-0, Total (ms): 617.936
+PE-1, Total (ms): 637.481
+MPI time (ms) 637.875
+===================================
