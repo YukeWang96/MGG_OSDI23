@@ -1,8 +1,8 @@
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Expected edge count: 2951370103
-2951370103 2951370103
-Graph load (success): 77741046 verts, 2951370103 edges 17.9681 second(s)
-mype_node: 0, nodesPerPE: 38870523
-mype_node: 1, nodesPerPE: 38870523
-Time (ms): 1068.51
-Time (ms): 1211.57
+Graph File: dataset/bin/twitter-2010_beg_pos.bin
+Expected edge count: 1468365181
+1468365181 1468365181
+Graph load (success): 41652230 verts, 1468365181 edges 8.49682 second(s)
+mype_node: 0, nodesPerPE: 20826115
+mype_node: 1, nodesPerPE: 20826115
+Time (ms): 1732.30
+Time (ms): 3284.38

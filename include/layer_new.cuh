@@ -2,9 +2,55 @@
 #define layer_new_cuh
 
 #include <cublas_v2.h>
+#include <cudnn.h>
 #include "cublas_utils.h"
-
 #include "utils.cuh"
+
+class softmax_param{
+
+public:
+    softmax_param(const char* name_in, float *d_in_input, int numNodes_in, int dim_in){
+
+        strncpy(name, name_in, 8);
+
+        numNodes = numNodes_in;
+        dim = dim_in;
+        d_in = d_in_input;
+
+        alpha = 1.0f;
+        beta = 0.0;
+        cudnnCreate(&cudnnHandle);
+        
+        // allocate memory space.
+        _mem_alloc();
+
+        // softmaxForward(n, c, h, w, dstData, &srcData);
+        cudnnCreateTensorDescriptor(&srcTensorDesc);
+        cudnnCreateTensorDescriptor(&sftTensorDesc);
+        cudnnSetTensor4dDescriptor(srcTensorDesc, CUDNN_TENSOR_NCHW, CUDNN_DATA_FLOAT,
+                numNodes, dim, 1, 1);
+        cudnnSetTensor4dDescriptor(sftTensorDesc, CUDNN_TENSOR_NCHW, CUDNN_DATA_FLOAT,
+                numNodes, dim, 1, 1);
+    }    
+
+
+    void _mem_alloc(){                           
+        CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim * sizeof(float)));
+        CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim * sizeof(float)));
+    }
+
+public:
+    int numNodes, dim;
+    float *d_out, *d_in;
+    float alpha, beta;
+
+    cudnnHandle_t cudnnHandle;
+    cudnnTensorDescriptor_t srcTensorDesc, sftTensorDesc;
+
+    char name[8];
+};
+
+
 
 class sparse_param_beg{
 

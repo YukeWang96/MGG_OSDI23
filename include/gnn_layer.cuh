@@ -4,12 +4,20 @@
 #include <cooperative_groups.h>
 #include <cublas_v2.h>
 #include "cublas_utils.h"
+#include <cudnn.h>
 
 #include "neighbor_utils.cuh"
 #include "gnn_kernel.cuh"
 
 using namespace cooperative_groups;
 using namespace std;
+
+void softmax_forward(softmax_param* smx){
+    cudnnSoftmaxForward(smx->cudnnHandle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_CHANNEL,
+            &(smx->alpha), smx->srcTensorDesc, smx->d_in,  &(smx->beta), smx->sftTensorDesc, smx->d_out);
+
+    cudaDeviceSynchronize();
+}
 
 void dense_beg_forward(dense_param_beg* dp)
 {

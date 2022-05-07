@@ -15,11 +15,15 @@
 #include "csr_formatter.h"
 #include "layer.h"
 
+#include "cublas_utils.h"
+#include "layer_new.cuh"
+#include "gnn_layer.cuh"
+
+
 // #define validate 1 // the number (< num_GPUs) indicates the validation on which PE.
 
-// using nidType = int;
-using nidType = long;
-
+using nidType = int;
+// using nidType = long;
 
 using namespace cudl;
 using namespace std;
@@ -117,6 +121,9 @@ int main(int argc, char* argv[]){
     gpuErrchk(cudaMemcpy(d_input, h_input, nodesPerPE * dim * sizeof(float), cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_output, h_output, nodesPerPE * dim * sizeof(float), cudaMemcpyHostToDevice));
 
+    dense_param_hidden* dp2 = new dense_param_hidden("d-2", d_output, nodesPerPE, dim, dim);
+    softmax_param* smx2 = new softmax_param("smx-2", dp2->d_out, nodesPerPE, dim);
+
     #ifdef validate
     float *h_input_ref, *h_output_ref,  *d_input_ref, *d_output_ref;
     if (mype_node == validate)
@@ -173,8 +180,12 @@ int main(int argc, char* argv[]){
     t1 = MPI_Wtime(); 
 
     for (int i = 0; i < num_profiles; i++)
-    mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                    lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock);
+    {
+        mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock);
+        dense_hidden_forward(dp2);
+        softmax_forward(smx2);
+    }
 
     std::clock_t c_end = std::clock();
     float time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC / num_profiles;

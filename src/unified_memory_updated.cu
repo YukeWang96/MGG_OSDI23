@@ -8,6 +8,11 @@
 #include "neighbor_utils.cuh"
 #include "csr_formatter.h"
 
+
+#include "cublas_utils.h"
+#include "layer_new.cuh"
+#include "gnn_layer.cuh"
+
 // #define validate 1 //--> for results validation
 
 using namespace std;

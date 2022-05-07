@@ -7,7 +7,7 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/openmpi-4.1.1/lib/'
 os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
-hidden = 16
+hidden = 64
 # hidden = [int(sys.argv[1])]
 
 # num_GPUs = 2
@@ -58,10 +58,10 @@ dataset = [
         # ('paper100M'                  , 128       , 172),
         # ('mag240m'                  , 128       , 172),
 
-        # ('twitter-2010'         , 128       , 172),
         # ('com-friendster'     , 128       , 172),
         ('uk-2006-05'         , 128       , 172),
         
+        # ('twitter-2010'         , 128       , 172),
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),
 ]
@@ -79,8 +79,8 @@ dataset = [
 # GPU_avail = "CUDA_VISIBLE_DEVICES=4,7 "
 # GPU_avail = "CUDA_VISIBLE_DEVICES=2,3 "
 # GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3 "
-# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
-GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
 
 command = GPU_avail + "build/unified_memory_updated "
 # command = GPU_avail + "build/unified_memory "
