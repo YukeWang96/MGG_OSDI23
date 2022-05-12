@@ -183,7 +183,18 @@ int main(int argc, char* argv[]){
     {
         mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
                         lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock);
+        MPI_Barrier(MPI_COMM_WORLD); 
+
         dense_hidden_forward(dp2);
+        MPI_Barrier(MPI_COMM_WORLD); 
+
+        mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock);
+        MPI_Barrier(MPI_COMM_WORLD); 
+
+        dense_hidden_forward(dp2);
+        MPI_Barrier(MPI_COMM_WORLD); 
+
         softmax_forward(smx2);
     }
 

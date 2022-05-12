@@ -10,18 +10,18 @@ Expected edge count: 114615892
 114615892 114615892
 114615892 114615892
 114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.50437 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.52613 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.53259 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.52713 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.23435 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.23975 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.24712 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.24262 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-Preproc (ms): 924.615
-PE-3, Total (ms): 29.580
-PE-1, Total (ms): 29.897
-PE-0, Total (ms): 31.902
-PE-2, Total (ms): 33.465
-MPI time (ms) 33.436
+Preproc (ms): 942.189
+PE-3, Total (ms): 67.848
+PE-1, Total (ms): 68.926
+PE-2, Total (ms): 67.852
+PE-0, Total (ms): 67.845
+MPI time (ms) 69.078
 ===================================
