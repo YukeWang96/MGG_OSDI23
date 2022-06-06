@@ -5,6 +5,10 @@
 #include <cudnn.h>
 #include "cublas_utils.h"
 #include "utils.cuh"
+#include <nvshmem.h>
+#include <nvshmemx.h>
+
+int n_partition = 1;
 
 class softmax_param{
 
@@ -90,7 +94,7 @@ public:
         // partSize = 16;
        WARP_SIZE = 32;
        block = warpPerBlock * WARP_SIZE;
-       grid = numNodes;
+       grid = numNodes/n_partition;
        shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
     }
 
@@ -139,7 +143,7 @@ public:
         WARP_SIZE = 32;
 
        block = warpPerBlock * WARP_SIZE;
-       grid = numNodes;
+       grid = numNodes/n_partition;
        shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(int);
     }
 
@@ -189,7 +193,11 @@ public:
         std::fill_n(h_in, numNodes * dim1, 1.0f);                               
 
         CUDA_CHECK(cudaMalloc((void**)&d_in, numNodes * dim1 * sizeof(float))); 
-        CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float)));
+
+        // CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float)));
+        d_W = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+        d_W_new = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+
         CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float)));
 
         CUDA_CHECK(cudaMemcpy(d_W, h_W,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
@@ -202,7 +210,7 @@ public:
 public:
     int m, n, k, ldx, ldw, ldout;
     int numNodes, dim1, dim2;
-    float* h_W, *d_W, *d_out, *d_in, *h_in;
+    float* h_W, *d_W, *d_W_new, *d_out, *d_in, *h_in;
     float alpha, beta;
     cublasOperation_t transa, transb;
     cublasHandle_t cublasH;
@@ -243,7 +251,10 @@ public:
         h_W = (float *) malloc (dim1 * dim2 * sizeof(float));             
         std::fill_n(h_W, dim1 * dim2, 1.0f);                               
 
-        CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float))); 
+        // CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float))); 
+        d_W = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+        d_W_new = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+
         CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float)));
 
         CUDA_CHECK(cudaMemcpy(d_W, h_W,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
@@ -253,7 +264,7 @@ public:
 public:
     int m, n, k, ldx, ldw, ldout;
     int numNodes, dim1, dim2;
-    float* h_W, *d_W, *d_out, *d_in;
+    float* h_W, *d_W, *d_W_new, *d_out, *d_in;
     float alpha, beta;
     cublasOperation_t transa, transb;
     cublasHandle_t cublasH;

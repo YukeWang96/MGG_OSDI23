@@ -1,27 +1,54 @@
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-114615892 114615892
-114615892 114615892
-114615892 114615892
-114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.23435 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.23975 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.24712 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.24262 second(s)
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+1615685872 1615685872
+1615685872 1615685872
+1615685872 1615685872
+1615685872 1615685872
+Graph load (success): 111059956 verts, 1615685872 edges 8.50882 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.41718 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.41141 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.419 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-Preproc (ms): 942.189
-PE-3, Total (ms): 67.848
-PE-1, Total (ms): 68.926
-PE-2, Total (ms): 67.852
-PE-0, Total (ms): 67.845
-MPI time (ms) 69.078
+Preproc (ms): 18592.504
+PE-3, Total (ms): 1337.037
+PE-1, Total (ms): 1337.042
+PE-0, Total (ms): 1336.848
+PE-2, Total (ms): 1337.095
+MPI time (ms) 1337.059
+===================================
+Graph File: dataset/bin/mag240m_beg_pos.bin
+Graph File: dataset/bin/mag240m_beg_pos.bin
+Graph File: dataset/bin/mag240m_beg_pos.bin
+Graph File: dataset/bin/mag240m_beg_pos.bin
+Expected edge count: 1297748926
+Expected edge count: 1297748926
+Expected edge count: 1297748926
+Expected edge count: 1297748926
+1297748926 1297748926
+1297748926 1297748926
+1297748926 1297748926
+1297748926 1297748926
+Graph load (success): 121751664 verts, 1297748926 edges 7.19676 second(s)
+Graph load (success): 121751664 verts, 1297748926 edges 7.44943 second(s)
+Graph load (success): 121751664 verts, 1297748926 edges 7.44729 second(s)
+Graph load (success): 121751664 verts, 1297748926 edges 7.49865 second(s)
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Preproc (ms): 14440.956
+PE-3, Total (ms): 1028.987
+PE-1, Total (ms): 1029.023
+PE-0, Total (ms): 1028.996
+PE-2, Total (ms): 1028.990
+MPI time (ms) 1029.005
 ===================================

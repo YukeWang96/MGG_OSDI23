@@ -1,12 +1,6 @@
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Expected edge count: 2951370103
-2951370103 2951370103
-Graph load (success): 77741046 verts, 2951370103 edges 17.4816 second(s)
-mype_node: 0, nodesPerPE: 19435262
-mype_node: 1, nodesPerPE: 19435262
-mype_node: 2, nodesPerPE: 19435262
-mype_node: 3, nodesPerPE: 19435262
-Time (ms): 3422.75
-Time (ms): 3151.02
-Time (ms): 2750.17
-Time (ms): 3039.57
+Graph File: dataset/bin/ppi_beg_pos.bin
+Expected edge count: 1612348
+1612348 1612348
+Graph load (success): 56944 verts, 1612348 edges 0.020808 second(s)
+Time (ms): 16.999
+===================================

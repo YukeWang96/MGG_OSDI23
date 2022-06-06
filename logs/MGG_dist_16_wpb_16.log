@@ -1,0 +1,51 @@
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+Graph load (success): 232965 verts, 114615892 edges 1.32998 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.3156 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.36191 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.36381 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.35513 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.36474 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.3501 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.36542 second(s)
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Complete loading graphs !!
+Preproc (ms): 451.059
+PE-5, Total (ms): 33.773
+PE-7, Total (ms): 33.777
+PE-4, Total (ms): 33.769
+PE-6, Total (ms): 33.776
+PE-1, Total (ms): 33.775
+PE-2, Total (ms): 33.778
+PE-3, Total (ms): 33.767
+PE-0, Total (ms): 33.770
+MPI time (ms) 33.775
+===================================

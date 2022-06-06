@@ -18,6 +18,7 @@
 #include "cublas_utils.h"
 #include "layer_new.cuh"
 #include "gnn_layer.cuh"
+#include "nccl.h"
 
 
 // #define validate 1 // the number (< num_GPUs) indicates the validation on which PE.
@@ -66,6 +67,7 @@ int main(int argc, char* argv[]){
     int dim = atoi(argv[7]);                // 16
     int interleaved_dist = atoi(argv[8]);   // 2
     int hiddenSize = atoi(argv[9]);
+    // int outdim = atoi(argv[10]);
     // std::cout << "max node: " << *std::max_element(std::begin(global_col_ind), std::end(global_col_ind)) << '\n';
     
     double t1, t2; 
@@ -121,6 +123,7 @@ int main(int argc, char* argv[]){
     gpuErrchk(cudaMemcpy(d_input, h_input, nodesPerPE * dim * sizeof(float), cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_output, h_output, nodesPerPE * dim * sizeof(float), cudaMemcpyHostToDevice));
 
+    // dense_param_beg* dp1 = new dense_param_beg("d-1", numNodes, dim, dim1);
     dense_param_hidden* dp2 = new dense_param_hidden("d-2", d_output, nodesPerPE, dim, dim);
     softmax_param* smx2 = new softmax_param("smx-2", dp2->d_out, nodesPerPE, dim);
 
@@ -174,7 +177,7 @@ int main(int argc, char* argv[]){
     //
     // Compute on each GPU device.
     //
-    int num_profiles  = 20;
+    int num_profiles = 100;
     std::clock_t c_start = std::clock();    
     MPI_Barrier(MPI_COMM_WORLD);
     t1 = MPI_Wtime(); 
@@ -182,18 +185,20 @@ int main(int argc, char* argv[]){
     for (int i = 0; i < num_profiles; i++)
     {
         mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock);
+                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
         MPI_Barrier(MPI_COMM_WORLD); 
 
         dense_hidden_forward(dp2);
         MPI_Barrier(MPI_COMM_WORLD); 
+        nvshmem_float_sum_reduce(NVSHMEMX_TEAM_NODE, dp2->d_W_new, dp2->d_W, dp2->dim1*dp2->dim2);
 
         mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock);
+                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
         MPI_Barrier(MPI_COMM_WORLD); 
 
         dense_hidden_forward(dp2);
         MPI_Barrier(MPI_COMM_WORLD); 
+        nvshmem_float_sum_reduce(NVSHMEMX_TEAM_NODE, dp2->d_W_new, dp2->d_W, dp2->dim1*dp2->dim2);
 
         softmax_forward(smx2);
     }

@@ -1,35 +1,35 @@
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Graph File: dataset/bin/uk-2006-05_beg_pos.bin
-Expected edge count: 2951370103
-Expected edge count: 2951370103
-Expected edge count: 2951370103
-Expected edge count: 2951370103
-Expected edge count: 2951370103
-Expected edge count: 2951370103
-Expected edge count: 2951370103
-Expected edge count: 2951370103
-2951370103 2951370103
-2951370103 2951370103
-2951370103 2951370103
-2951370103 2951370103
-2951370103 2951370103
-2951370103 2951370103
-2951370103 2951370103
-2951370103 2951370103
-Graph load (success): 77741046 verts, 2951370103 edges 16.5912 second(s)
-Graph load (success): 77741046 verts, 2951370103 edges 17.0462 second(s)
-Graph load (success): 77741046 verts, 2951370103 edges 17.784 second(s)
-Graph load (success): 77741046 verts, 2951370103 edges 17.8842 second(s)
-Graph load (success): 77741046 verts, 2951370103 edges 17.9228 second(s)
-Graph load (success): 77741046 verts, 2951370103 edges 17.9348 second(s)
-Graph load (success): 77741046 verts, 2951370103 edges 17.9699 second(s)
-Graph load (success): 77741046 verts, 2951370103 edges 17.9938 second(s)
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Graph File: dataset/bin/paper100M_beg_pos.bin
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+Expected edge count: 1615685872
+1615685872 1615685872
+1615685872 1615685872
+1615685872 1615685872
+1615685872 1615685872
+1615685872 1615685872
+1615685872 1615685872
+1615685872 1615685872
+1615685872 1615685872
+Graph load (success): 111059956 verts, 1615685872 edges 9.39019 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.41349 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.4213 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.42508 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.43289 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.42984 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.43316 second(s)
+Graph load (success): 111059956 verts, 1615685872 edges 9.45355 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
@@ -38,14 +38,14 @@ Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-Preproc (ms): 10807.043
-PE-4, Total (ms): 202.499
-PE-7, Total (ms): 215.593
-PE-3, Total (ms): 217.691
-PE-5, Total (ms): 235.757
-PE-2, Total (ms): 237.470
-PE-6, Total (ms): 253.890
-PE-1, Total (ms): 300.875
-PE-0, Total (ms): 325.453
-MPI time (ms) 325.457
+Preproc (ms): 7912.283
+PE-3, Total (ms): 795.302
+PE-7, Total (ms): 795.216
+PE-5, Total (ms): 795.302
+PE-1, Total (ms): 795.299
+PE-0, Total (ms): 795.266
+PE-6, Total (ms): 795.324
+PE-2, Total (ms): 795.276
+PE-4, Total (ms): 795.343
+MPI time (ms) 795.325
 ===================================

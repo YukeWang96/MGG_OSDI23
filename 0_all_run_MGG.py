@@ -3,17 +3,32 @@ import os
 
 os.system("mv *.csv csvs/")
 # num_gpus = [2, 3, 4, 5, 6, 7, 8]
-# num_gpus = [2,4,8]
+# num_gpus = [2, 4, 8]
 # num_gpus = [2, 4]
-num_gpus = [4]
+# num_gpus = [4]
 # num_gpus = [2]
 # num_gpus = [8]
 # num_gpus = [4,8]
+num_gpus = 8
 
-for gpu in num_gpus:
-    os.system("./0_bench_MGG.py {0}| tee MGG_{0}GPU.log".format(gpu))
-    os.system("./1_analysis.py MGG_{0}GPU.log {0}".format(gpu))
-    os.system("mv MGG_{0}GPU.log logs/".format(gpu))
+# for gpu in num_gpus:
+#     os.system("./0_bench_MGG.py {0}| tee MGG_{0}GPU.log".format(gpu))
+#     os.system("./1_analysis.py MGG_{0}GPU.log {0}".format(gpu))
+#     os.system("mv MGG_{0}GPU.log logs/".format(gpu))
+
+# for dist in [1,2,4,8,16]:
+#     for ps in [1,2,4,8,16,32]:
+#         os.system("./0_bench_MGG.py {0} {1}| tee MGG_dist_{0}_ps_{1}.log".format(dist, ps))
+#         os.system("./1_analysis.py MGG_dist_{0}_ps_{1}.log {2}".format(dist, ps, num_gpus))
+#         os.system("mv MGG_dist_{0}_ps_{1}.log logs/".format(dist, ps))
+# os.system("./10_extract_search.py 6 > A100x8_dist_ps.csv")
+
+for dist in [1,2,4,8,16]:
+    for wpb in [1,2,4,8,16]:
+        os.system("./0_bench_MGG.py {0} {1}| tee MGG_dist_{0}_wpb_{1}.log".format(dist, wpb))
+        os.system("./1_analysis.py MGG_dist_{0}_wpb_{1}.log {2}".format(dist, wpb, num_gpus))
+        os.system("mv MGG_dist_{0}_wpb_{1}.log logs/".format(dist, wpb))
+os.system("./10_extract_search.py 5 > A100x8_dist_wpb.csv")
 
 # for dist in [1,2,4,8,16,32]:
 # for dist in [1,2,3,4]:
@@ -39,16 +54,3 @@ for gpu in num_gpus:
 
 # for gpu in num_gpus:
 #     os.system("./0_bench_MGG.py {0}| tee MGG_{0}GPU_metrics.log".format(gpu))
-
-# for dist in [1,2,4,8,16]:
-#     for ps in [1,2,4,8,16,32]:
-#         os.system("./0_bench_MGG.py {0} {1}| tee MGG_dist_{0}_ps_{1}.log".format(dist, ps))
-#         os.system("./1_analysis.py MGG_dist_{0}_ps_{1}.log {2}".format(dist, ps, 8))
-#         os.system("mv MGG_dist_{0}_ps_{1}.log logs/".format(dist, ps))
-
-
-# for wpb in [1,2,4,8,16]:
-#     for dist in [1,2,4,8,16]:
-#         os.system("./0_bench_MGG.py {0} {1}| tee MGG_wpb_{0}_dist_{1}.log".format(wpb, dist))
-#         os.system("./1_analysis.py MGG_wpb_{0}_dist_{1}.log {2}".format(wpb, dist, 8))
-#         os.system("mv MGG_wpb_{0}_dist_{1}.log logs/".format(wpb, dist))
