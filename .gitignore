@@ -6,3 +6,5 @@ openmpi-4.1.1/
 *.deb
 report*
 *.bin
+*.log
+*.csv

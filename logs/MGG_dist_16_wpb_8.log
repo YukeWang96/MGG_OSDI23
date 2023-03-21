@@ -6,46 +6,22 @@ Graph File: dataset/bin/Reddit_beg_pos.bin
 Expected edge count: 114615892
 Graph File: dataset/bin/Reddit_beg_pos.bin
 Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
 114615892 114615892
 114615892 114615892
 114615892 114615892
 114615892 114615892
-114615892 114615892
-114615892 114615892
-114615892 114615892
-114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.33122 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.33035 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.32023 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.33404 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.36145 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.37724 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.37482 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.35966 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.25584 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.30003 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.29859 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.30175 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Preproc (ms): 443.289
-PE-3, Total (ms): 26.562
-PE-5, Total (ms): 26.562
-PE-6, Total (ms): 26.533
-PE-2, Total (ms): 26.559
-PE-7, Total (ms): 26.562
-PE-4, Total (ms): 26.561
-PE-1, Total (ms): 26.563
-PE-0, Total (ms): 26.557
-MPI time (ms) 26.562
+Preproc (ms): 917.914
+PE-1, Total (ms): 30.103
+PE-2, Total (ms): 30.103
+PE-3, Total (ms): 30.106
+PE-0, Total (ms): 30.103
+MPI time (ms) 30.103
 ===================================

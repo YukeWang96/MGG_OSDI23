@@ -9,13 +9,11 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
 # os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '3690987520' # paper100M
 # os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '7381975040' # paper100M
-# os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
+os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
 
 hidden = 16
 # hidden = [int(sys.argv[1])]
-
-num_GPUs = 8
-# num_GPUs = int(sys.argv[1])
+num_GPUs = int(sys.argv[1])
 ###############################################
 # partSize = 1
 # partSize = int(sys.argv[1])
@@ -25,14 +23,17 @@ num_GPUs = 8
 
 # interleaved_dist = 1
 ###############################################
-# interleaved_dist = 1
-interleaved_dist = int(sys.argv[1])
+# num_GPUs = 4
+# warpPerblock = 16 # 8,16 is better than 4 on enwiki-2013
+# warpPerblock = 16 # 4 is for 8 GPUs
+warpPerblock = 4 
+# warpPerblock = int(sys.argv[1])
 
 partSize = 16
 # partSize = int(sys.argv[2])
 
-# warpPerblock = 1
-warpPerblock = int(sys.argv[2])
+interleaved_dist = 16
+# interleaved_dist = int(sys.argv[2])
 ###############################################
 # partSize = 8
 # # partSize = int(sys.argv[2])
@@ -62,22 +63,20 @@ dataset = [
         # ( 'soc-BlogCatalog'	         , 128	  , 39),      
         # ( 'amazon0601'  	         , 96	  , 22), 
 
-        ( 'Reddit'                      , 602      	, 41),
+        # ( 'Reddit'                      , 602      	, 41),
+        ( 'enwiki-2013'	                , 100	        , 12),   
+        # ( 'it-2004'                     , 128           , 172),
+        # ( 'paper100M'                   , 128           , 172),
+        # ( 'ogbn-products'	        , 100	        , 47),   
+        # ( 'ogbn-proteins'	        , 128		, 112),
         # ( 'com-Orkut'		        , 128		, 128),
-        # ( 'enwiki-2013'	                , 100	        , 12),      
-        # ( 'ogbn-products'	        , 100	        , 47),
-        # ( 'ogbn-proteins'		, 128		, 112),
 
-        # ('paper100M'                  , 128       , 172),
         # ('mag240m'                  , 128       , 172),
         # ('uk-2006-05'         , 128       , 172),
-        
         # ('com-friendster'       , 128       , 172), # 16,4
         # ('twitter-2010'         , 128       , 172), # 16,8
         # ( 'web-Google'				    , 128		, 128),
         # ( 'wiki-Talk'				    , 128		, 128),
-
-
         # ( 'Reddit_p4'                      , 128      	, 41),
         # ( 'enwiki-2013_p4'	                , 100	        , 12),      
         # ( 'ogbn-products_p4'	        , 100	        , 47),
@@ -87,14 +86,15 @@ dataset = [
 
 
 # GPU_avail = "CUDA_VISIBLE_DEVICES=2,3 "
-# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3 "
-GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
 # GPU_avail = "CUDA_VISIBLE_DEVICES=2,3,4,5 "
 # GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
 
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 
+# --map-by slot:PE=8 --bind-to core
 # command = "build/MGG "
 # command = "build/MGG_basic "
 # command = "build/MGG_np "

@@ -7,7 +7,7 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/openmpi-4.1.1/lib/'
 os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
-hidden = 1024
+hidden = 64
 # hidden = [int(sys.argv[1])]
 
 # num_GPUs = 2
@@ -23,7 +23,7 @@ dataset = [
         # ('citeseer'	        		, 3703	    , 6   ),  
         # ('cora' 	        		, 1433	    , 7   ),  
         # ('pubmed'	        		, 500	    , 3   ),      
-        ('ppi'	            		, 50	    , 121 ),   
+        # ('ppi'	            		, 50	    , 121 ),   
         
         # ('PROTEINS'                  , 29       , 2) ,   
         # ('OVCAR-8H'                  , 66       , 2) , 
@@ -57,6 +57,7 @@ dataset = [
 
         # ('paper100M'                  , 128       , 172),
         # ('mag240m'                  , 128       , 172),
+        ('it-2004'                  , 128       , 172),
 
         # ('com-friendster'     , 128       , 172),
         # ('uk-2006-05'         , 128       , 172),
@@ -79,12 +80,12 @@ dataset = [
 # GPU_avail = "CUDA_VISIBLE_DEVICES= "
 # GPU_avail = "CUDA_VISIBLE_DEVICES=2,3 "
 # GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3 "
-GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
-# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
 
-# command = GPU_avail + "build/unified_memory_updated "
+command = GPU_avail + "build/unified_memory_updated "
 # command = GPU_avail + "build/unified_memory "
-command = "build/MGG_gcn_2layer "
+# command = "build/MGG_gcn_2layer "
 # command = "build/MGG_sgc_2layer "
 # command = "build/MGG_agnn_2layer "
 

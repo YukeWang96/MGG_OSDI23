@@ -526,6 +526,7 @@ target_link_libraries(unified_memory_updated
     mpi_cxx 
     mpi 
     cublas 
+    cudnn
 )
 ##############################################################################
 

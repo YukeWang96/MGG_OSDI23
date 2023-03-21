@@ -1,51 +1,51 @@
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
-Graph File: dataset/Reddit.mtx
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+Graph File: dataset/bin/Reddit_beg_pos.bin
+Expected edge count: 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+114615892 114615892
+Graph load (success): 232965 verts, 114615892 edges 1.34378 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.35037 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.36627 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.35752 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.46957 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.47801 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
+Graph load (success): 232965 verts, 114615892 edges 1.54404 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.55556 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-PE-7-local, num_nodes: 29118, part_size, 8, num_parts, 217766
-PE-6-local, num_nodes: 29121, part_size, 8, num_parts, 224451
-PE-3-local, num_nodes: 29121, part_size, 8, num_parts, 234082
-PE-1-local, num_nodes: 29121, part_size, 8, num_parts, 241133
-PE-5-local, num_nodes: 29121, part_size, 8, num_parts, 234404
-PE-4-local, num_nodes: 29121, part_size, 8, num_parts, 242039
-PE-2-local, num_nodes: 29121, part_size, 8, num_parts, 245744
-PE-0-local, num_nodes: 29121, part_size, 8, num_parts, 256335
-PE-7-remote, num_nodes: 29118, part_size, 8, num_parts, 1518848
-PE-6-remote, num_nodes: 29121, part_size, 8, num_parts, 1541715
-PE-3-remote, num_nodes: 29121, part_size, 8, num_parts, 1571089
-PE-1-remote, num_nodes: 29121, part_size, 8, num_parts, 1592703
-PE-5-remote, num_nodes: 29121, part_size, 8, num_parts, 1573696
-PE-4-remote, num_nodes: 29121, part_size, 8, num_parts, 1597285
-PE-2-remote, num_nodes: 29121, part_size, 8, num_parts, 1606159
-PE-0-remote, num_nodes: 29121, part_size, 8, num_parts, 1636073
-PreProcess time (s) 1.647
-grid: 99831, block: 512, shared_memory (KB): 2.560
-grid: 100385, block: 512, shared_memory (KB): 2.560
-grid: 102255, block: 512, shared_memory (KB): 2.560
-grid: 96358, block: 512, shared_memory (KB): 2.560
-grid: 98356, block: 512, shared_memory (KB): 2.560
-grid: 99544, block: 512, shared_memory (KB): 2.560
-grid: 98194, block: 512, shared_memory (KB): 2.560
-grid: 94928, block: 512, shared_memory (KB): 2.560
-PE-6, Total (ms): 2.682, Dense (ms): 0.000
-PE-5, Total (ms): 2.812, Dense (ms): 0.000
-PE-2, Total (ms): 2.826, Dense (ms): 0.000
-PE-4, Total (ms): 2.818, Dense (ms): 0.000
-PE-0, Total (ms): 2.891, Dense (ms): 0.000
-PE-7, Total (ms): 3.037, Dense (ms): 0.000
-PE-3, Total (ms): 3.145, Dense (ms): 0.000
-MPI time (ms) 3.238
-PE-1, Total (ms): 3.253, Dense (ms): 0.000
+Preproc (ms): 453.387
+PE-3, Total (ms): 9.694
+PE-4, Total (ms): 9.694
+PE-6, Total (ms): 9.694
+PE-2, Total (ms): 9.695
+PE-5, Total (ms): 9.694
+PE-1, Total (ms): 9.694
+PE-7, Total (ms): 9.679
+PE-0, Total (ms): 9.694
+MPI time (ms) 9.694
 ===================================

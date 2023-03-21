@@ -18,7 +18,7 @@
 using namespace std;
 
 // using nidType = int;
-using nidType = long;
+// using nidType = long;
 
 int main(int argc, char* argv[]){
 	

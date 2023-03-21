@@ -110,7 +110,9 @@ int main(int argc, char* argv[]){
     auto remote_ptr_vec = split_output[1];      // with the base start from ub.
     auto local_col_idx_vec = split_output[2];
     auto remote_col_idx_vec = split_output[3];
-    // printf("PE[%d]. local: %d, remote: %d\n", mype_node, local_col_idx_vec.size(), remote_col_idx_vec.size());
+    printf("PE[%d]. local: %d, remote: %d\n", mype_node, local_col_idx_vec.size(), remote_col_idx_vec.size());
+    // MPI_Finalize();
+    // exit(0);
 
     // Allocate memory on each device.
     float *d_input, *d_output, *h_input, *h_output;
@@ -177,6 +179,14 @@ int main(int argc, char* argv[]){
     //
     // Compute on each GPU device.
     //
+
+    for (int i = 0; i < 10; i++)
+    {
+        mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
+        MPI_Barrier(MPI_COMM_WORLD); 
+    }
+    
     int num_profiles = 100;
     std::clock_t c_start = std::clock();    
     MPI_Barrier(MPI_COMM_WORLD);
@@ -188,19 +198,19 @@ int main(int argc, char* argv[]){
                         lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
         MPI_Barrier(MPI_COMM_WORLD); 
 
-        dense_hidden_forward(dp2);
-        MPI_Barrier(MPI_COMM_WORLD); 
-        nvshmem_float_sum_reduce(NVSHMEMX_TEAM_NODE, dp2->d_W_new, dp2->d_W, dp2->dim1*dp2->dim2);
+        // dense_hidden_forward(dp2);
+        // MPI_Barrier(MPI_COMM_WORLD); 
+        // nvshmem_float_sum_reduce(NVSHMEMX_TEAM_NODE, dp2->d_W_new, dp2->d_W, dp2->dim1*dp2->dim2);
 
-        mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
-        MPI_Barrier(MPI_COMM_WORLD); 
+        // mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+        //                 lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
+        // MPI_Barrier(MPI_COMM_WORLD); 
 
-        dense_hidden_forward(dp2);
-        MPI_Barrier(MPI_COMM_WORLD); 
-        nvshmem_float_sum_reduce(NVSHMEMX_TEAM_NODE, dp2->d_W_new, dp2->d_W, dp2->dim1*dp2->dim2);
+        // dense_hidden_forward(dp2);
+        // MPI_Barrier(MPI_COMM_WORLD); 
+        // nvshmem_float_sum_reduce(NVSHMEMX_TEAM_NODE, dp2->d_W_new, dp2->d_W, dp2->dim1*dp2->dim2);
 
-        softmax_forward(smx2);
+        // softmax_forward(smx2);
     }
 
     std::clock_t c_end = std::clock();

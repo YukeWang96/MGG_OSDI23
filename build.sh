@@ -6,7 +6,6 @@ make MGG_np_div
 
 # make MGG_np_pipeline
 # make unified_memory
-
 # make unified_memory_updated
 
 # make MGG_gcn_2layer

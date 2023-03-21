@@ -1,14 +1,6 @@
 Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
 Graph File: dataset/bin/Reddit_beg_pos.bin
 Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
-Expected edge count: 114615892
-Graph File: dataset/bin/Reddit_beg_pos.bin
 Expected edge count: 114615892
 Graph File: dataset/bin/Reddit_beg_pos.bin
 Expected edge count: 114615892
@@ -18,34 +10,18 @@ Expected edge count: 114615892
 114615892 114615892
 114615892 114615892
 114615892 114615892
-114615892 114615892
-114615892 114615892
-114615892 114615892
-114615892 114615892
-Graph load (success): 232965 verts, 114615892 edges 1.31445 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.32689 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.31307 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.32262 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.36291 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.36168 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.35928 second(s)
-Graph load (success): 232965 verts, 114615892 edges 1.355 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.27014 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.29224 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.34476 second(s)
+Graph load (success): 232965 verts, 114615892 edges 1.34286 second(s)
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
 Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Complete loading graphs !!
-Preproc (ms): 439.032
-PE-2, Total (ms): 27.943
-PE-5, Total (ms): 27.942
-PE-7, Total (ms): 27.936
-PE-3, Total (ms): 27.941
-PE-6, Total (ms): 27.942
-PE-4, Total (ms): 27.939
-PE-1, Total (ms): 27.944
-PE-0, Total (ms): 27.935
-MPI time (ms) 27.943
+Preproc (ms): 911.359
+PE-1, Total (ms): 33.277
+PE-2, Total (ms): 33.271
+PE-3, Total (ms): 33.279
+PE-0, Total (ms): 33.277
+MPI time (ms) 33.276
 ===================================
