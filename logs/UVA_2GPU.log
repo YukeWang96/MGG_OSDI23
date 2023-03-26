@@ -1,6 +1,0 @@
-Graph File: dataset/bin/ppi_beg_pos.bin
-Expected edge count: 1612348
-1612348 1612348
-Graph load (success): 56944 verts, 1612348 edges 0.021286 second(s)
-Time (ms): 17.025
-===================================
