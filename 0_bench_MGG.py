@@ -70,18 +70,6 @@ dataset = [
         # ( 'ogbn-products'	        , 100	        , 47),   
         # ( 'ogbn-proteins'	        , 128		, 112),
         # ( 'com-Orkut'		        , 128		, 128),
-
-        # ('mag240m'                  , 128       , 172),
-        # ('uk-2006-05'         , 128       , 172),
-        # ('com-friendster'       , 128       , 172), # 16,4
-        # ('twitter-2010'         , 128       , 172), # 16,8
-        # ( 'web-Google'				    , 128		, 128),
-        # ( 'wiki-Talk'				    , 128		, 128),
-        # ( 'Reddit_p4'                      , 128      	, 41),
-        # ( 'enwiki-2013_p4'	                , 100	        , 12),      
-        # ( 'ogbn-products_p4'	        , 100	        , 47),
-        # ( 'ogbn-proteins_p4'		, 128		, 112),
-        # ( 'com-Orkut_p4'		        , 128		, 128),
 ]
 
 

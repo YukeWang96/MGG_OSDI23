@@ -25,46 +25,25 @@ dataset = [
         # ('pubmed'	        		, 500	    , 3   ),      
         # ('ppi'	            		, 50	    , 121 ),   
         
-        # ('PROTEINS'                  , 29       , 2) ,   
+        # ('PROTEINS'             , 29       , 2) ,   
         # ('OVCAR-8H'                  , 66       , 2) , 
-        # ('Yeast'                     , 74       , 2) ,
+        # ('Yeas'                     , 74       , 2) ,
         # ('DD'                        , 89       , 2) ,
         # ('SW-620H'                   , 66       , 2) ,
 
         # ( 'amazon0505'               , 96	  , 22),
         # ( 'artist'                   , 100	  , 12),
         # ( 'com-amazon'               , 96	  , 22),
-        # ( 'soc-BlogCatalog'	     , 128	  , 39),      
-        # ( 'amazon0601'  	     , 96	  , 22), 
+        # ( 'soc-BlogCatalog'	         , 128	  , 39),      
+        # ( 'amazon0601'  	         , 96	  , 22), 
 
-        # ( 'Reddit'                      , 602       , 41),
-        # ( 'com-Orkut'	                , 128       , 128),
-        # ( 'enwiki-2013'	                , 100	    , 12),      
-        # ( 'ogbn-products'	        , 100	    , 47),
-        # ( 'ogbn-proteins'	        , 8	    , 112),
-
-        # ( 'Reddit_p4'                      , 128      	, 41),
-        # ( 'enwiki-2013_p4'	                , 100	        , 12),      
-        # ( 'ogbn-products_p4'	        , 100	        , 47),
-        # ( 'ogbn-proteins_p4'		, 128		, 112),
-        # ( 'com-Orkut_p4'		        , 128		, 128),
-
-        # ( 'Reddit_p8'                      , 128      	, 41),
-        # ( 'enwiki-2013_p8'	                , 100	        , 12),      
-        # ( 'ogbn-products_p8'	        , 100	        , 47),
-        # ( 'ogbn-proteins_p8'		, 128		, 112),
-        # ( 'com-Orkut_p8'		        , 128		, 128),
-
-        # ('paper100M'                  , 128       , 172),
-        # ('mag240m'                  , 128       , 172),
-        ('it-2004'                  , 128       , 172),
-
-        # ('com-friendster'     , 128       , 172),
-        # ('uk-2006-05'         , 128       , 172),
-        
-        # ('twitter-2010'         , 128       , 172),
-        # ( 'web-Google'				    , 128		, 128),
-        # ( 'wiki-Talk'				    , 128		, 128),
+        ( 'Reddit'                      , 602      	, 41),
+        ( 'enwiki-2013'	                , 100	        , 12),   
+        # ( 'it-2004'                     , 128           , 172),
+        # ( 'paper100M'                   , 128           , 172),
+        # ( 'ogbn-products'	        , 100	        , 47),   
+        # ( 'ogbn-proteins'	        , 128		, 112),
+        # ( 'com-Orkut'		        , 128		, 128),
 ]
 
 

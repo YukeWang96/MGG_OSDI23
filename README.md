@@ -36,8 +36,8 @@ mkdir build && cd build
 ./build.sh
 ```
 # 2. Run initial test experiment.
-+ Run MGG, `./0_all_run_MGG.py`.
-+ Run UVA baseline, `./0_all_run_UVA.py`.
++ Run MGG initial test, `./0_all_run_MGG.py`.
++ Run UVA initial test, `./0_all_run_UVA.py`.
 
 
 # 3. Reproduce the major results from paper.
