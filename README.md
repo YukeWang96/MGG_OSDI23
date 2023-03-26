@@ -17,7 +17,7 @@ tar -zxvf local.tar.gz
 + Download datasets. (around 3 minutes)
 ```
 wget https://storage.googleapis.com/mgg_data/dataset.tar.gz
-tar -zxvf graph_bin.tar.gz
+tar -zxvf dataset.tar.gz
 ```
 <!-- wget https://storage.googleapis.com/project_source_files/GLCC/graph_bin.tar.gz -->
 
