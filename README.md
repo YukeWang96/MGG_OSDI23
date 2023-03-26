@@ -1,4 +1,5 @@
-# Artifact for OSDI'23 paper "Accelerating Graph Neural Networks with Fine-grained intra-kernel Communication-Computation Pipelining on Multi-GPU Platforms"
+# Artifact for OSDI'23 paper 
+> Yuke Wang, et al. *Accelerating Graph Neural Networks with Fine-grained intra-kernel Communication-Computation Pipelining on Multi-GPU Platforms.* OSDI'23.
 
 # 1. Setup
 
@@ -8,26 +9,23 @@ git clone git@github.com:YukeWang96/MGG_new.git
 ```
 
 ## 1.2. Download libraries and datasets.
-> + Download libraries, including `cudnn-v8.2, nvshmem_src_2.0.3-0, openmpi-4.1.1` with the following commands. (around 1 minute)
++ Download libraries (`cudnn-v8.2, nvshmem_src_2.0.3-0, openmpi-4.1.1`).
 ```
 wget https://storage.googleapis.com/project_source_files/GLCC/local.tar.gz
 tar -zxvf local.tar.gz
 ```
-+ Download datasets. (around 0.5 minute)
++ Download datasets. (around 3 minutes)
 ```
-cd dataset
-wget https://storage.googleapis.com/project_source_files/GLCC/graph_bin.tar.gz
+wget https://storage.googleapis.com/mgg_data/dataset.tar.gz
 tar -zxvf graph_bin.tar.gz
-cd ..
 ```
+<!-- wget https://storage.googleapis.com/project_source_files/GLCC/graph_bin.tar.gz -->
 
 ## 1.3. Launch Docker 
 ```
-cd local/nvshmem_src_2.0.3-0/ 
-tar -zxvf build_cu112.tar.gz 
-cd ../../
+tar -zxvf local/nvshmem_src_2.0.3-0/build_cu112.tar.gz 
 cd Docker 
-launch.sh
+./launch.sh
 ```
 
 ## 1.4. Compile implementation.
