@@ -5,15 +5,16 @@
 
 ## 1.1. Clone this project from Github.
 ```
-git clone git@github.com:YukeWang96/MGG_new.git
+git clone --recursive git@github.com:YukeWang96/MGG_new.git
 ```
 
 ## 1.2. Download libraries and datasets.
 + Download libraries (`cudnn-v8.2, nvshmem_src_2.0.3-0, openmpi-4.1.1`).
 ```
-wget https://storage.googleapis.com/project_source_files/GLCC/local.tar.gz
+wget https://storage.googleapis.com/mgg_data/local.tar.gz
 tar -zxvf local.tar.gz
 ```
+<!-- wget https://storage.googleapis.com/project_source_files/GLCC/local.tar.gz -->
 + Download datasets. (around 3 minutes)
 ```
 wget https://storage.googleapis.com/mgg_data/dataset.tar.gz
