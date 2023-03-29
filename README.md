@@ -14,13 +14,11 @@ git clone --recursive git@github.com:YukeWang96/MGG_new.git
 wget https://storage.googleapis.com/mgg_data/local.tar.gz
 tar -zxvf local.tar.gz
 ```
-<!-- wget https://storage.googleapis.com/project_source_files/GLCC/local.tar.gz -->
 + Download datasets. (around 3 minutes)
 ```
 wget https://storage.googleapis.com/mgg_data/dataset.tar.gz
 tar -zxvf dataset.tar.gz
 ```
-<!-- wget https://storage.googleapis.com/project_source_files/GLCC/graph_bin.tar.gz -->
 
 ## 1.3. Launch Docker 
 ```
@@ -40,3 +38,34 @@ mkdir build && cd build
 
 
 # 3. Reproduce the major results from paper.
+
+## Compare with DGL on 4xA100 and 8xA100 (Figure).
+```
+./0_test_MGG_4GPU.py
+./0_test_MGG_8GPU.py
+```
+
+## Compare with UVM on 4xA100 and 8xA100 (Fig.8a and Fig.8b).
+```
+./0_test_MGG_4GPU.py
+./0_test_MGG_8GPU.py
+```
+
+## Compare with ROC on 8xA100 (Fig.9).
+```
+./0_test_UVM_4GPU.py
+./0_test_MGG_4GPU.py
+./0_test_UVM_8GPU.py
+./0_test_MGG_8GPU.py
+```
+
+## Compare NP with w/o NP (Fig.10a).
+
+
+## Compare WL with w/o WL (Fig.10b).
+
+
+## Compare API (Fig.10c).
+
+## Design Space Search (Fig.11a and Fig.11b)
+
