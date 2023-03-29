@@ -39,7 +39,7 @@ mkdir build && cd build
 
 # 3. Reproduce the major results from paper.
 
-## Compare with DGL on 4xA100 and 8xA100 (Figure).
+## Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
 ```
 ./0_test_MGG_4GPU.py
 ./0_test_MGG_8GPU.py
@@ -67,5 +67,5 @@ mkdir build && cd build
 
 ## Compare API (Fig.10c).
 
-## Design Space Search (Fig.11a and Fig.11b)
 
+## Design Space Search (Fig.11a and Fig.11b)
