@@ -110,7 +110,7 @@ int main(int argc, char* argv[]){
     auto remote_ptr_vec = split_output[1];      // with the base start from ub.
     auto local_col_idx_vec = split_output[2];
     auto remote_col_idx_vec = split_output[3];
-    printf("PE[%d]. local: %d, remote: %d\n", mype_node, local_col_idx_vec.size(), remote_col_idx_vec.size());
+    // printf("PE[%d]. local: %d, remote: %d\n", mype_node, local_col_idx_vec.size(), remote_col_idx_vec.size());
     // MPI_Finalize();
     // exit(0);
 
@@ -179,7 +179,6 @@ int main(int argc, char* argv[]){
     //
     // Compute on each GPU device.
     //
-
     for (int i = 0; i < 10; i++)
     {
         mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,

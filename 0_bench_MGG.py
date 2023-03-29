@@ -23,9 +23,7 @@ num_GPUs = int(sys.argv[1])
 
 # interleaved_dist = 1
 ###############################################
-# num_GPUs = 4
 # warpPerblock = 16 # 8,16 is better than 4 on enwiki-2013
-# warpPerblock = 16 # 4 is for 8 GPUs
 warpPerblock = 4 
 # warpPerblock = int(sys.argv[1])
 
@@ -46,43 +44,20 @@ interleaved_dist = 16
 ###############################################
 
 dataset = [
-        # ('citeseer'	        		, 3703	    , 6   ),  
-        # ('cora' 	        		, 1433	    , 7   ),  
-        # ('pubmed'	        		, 500	    , 3   ),      
-        # ('ppi'	            		, 50	    , 121 ),   
-        
-        # ('PROTEINS'             , 29       , 2) ,   
-        # ('OVCAR-8H'                  , 66       , 2) , 
-        # ('Yeas'                     , 74       , 2) ,
-        # ('DD'                        , 89       , 2) ,
-        # ('SW-620H'                   , 66       , 2) ,
-
-        # ( 'amazon0505'               , 96	  , 22),
-        # ( 'artist'                   , 100	  , 12),
-        # ( 'com-amazon'               , 96	  , 22),
-        # ( 'soc-BlogCatalog'	         , 128	  , 39),      
-        # ( 'amazon0601'  	         , 96	  , 22), 
-
         ( 'Reddit'                      , 602      	, 41),
         ( 'enwiki-2013'	                , 100	        , 12),   
-        # ( 'it-2004'                     , 128           , 172),
-        # ( 'paper100M'                   , 128           , 172),
-        # ( 'ogbn-products'	        , 100	        , 47),   
-        # ( 'ogbn-proteins'	        , 128		, 112),
-        # ( 'com-Orkut'		        , 128		, 128),
+        ( 'it-2004'                     , 128           , 172),
+        ( 'paper100M'                   , 128           , 172),
+        ( 'ogbn-products'	        , 100	        , 47),   
+        ( 'ogbn-proteins'	        , 128		, 112),
+        ( 'com-Orkut'		        , 128		, 128),
 ]
 
-
-# GPU_avail = "CUDA_VISIBLE_DEVICES=2,3 "
-GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3 "
-# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
-# GPU_avail = "CUDA_VISIBLE_DEVICES=2,3,4,5 "
-# GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
 
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 
-# --map-by slot:PE=8 --bind-to core
 # command = "build/MGG "
 # command = "build/MGG_basic "
 # command = "build/MGG_np "
@@ -93,10 +68,13 @@ for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
         csr_file = "dataset/bin/{}_csr.bin".format(data)
         weight_file = "dataset/bin/{}_weight.bin".format(data)
-        os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {0}".
-        format(command, beg_file, csr_file, weight_file,  
-                num_GPUs, partSize, warpPerblock, 
-                hidden, interleaved_dist, hidden))
-#     os.system(pre_condit + command + "{0}.mtx {1} {2} {3} {4} {5} {6}".\
-#     format(data, num_GPUs, partSize, warpPerblock, hidden, interleaved_dist, hidden))
-       
+        if data != 'enwiki-2013':
+                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {0}".
+                format(command, beg_file, csr_file, weight_file,  
+                        num_GPUs, partSize, warpPerblock, 
+                        hidden, interleaved_dist, hidden))
+        else:
+                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {0}".
+                format(command, beg_file, csr_file, weight_file,  
+                        num_GPUs, partSize, 16, 
+                        hidden, interleaved_dist, hidden))
