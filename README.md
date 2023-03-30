@@ -60,12 +60,19 @@ mkdir build && cd build
 ```
 
 ## Compare NP with w/o NP (Fig.10a).
-
+```
+python 3_MGG_NP.py
+```
 
 ## Compare WL with w/o WL (Fig.10b).
-
+```
+python 4_MGG_WL.py
+```
 
 ## Compare API (Fig.10c).
 
 
-## Design Space Search (Fig.11a and Fig.11b)
+## Design Space Search (Fig.11a)
+```
+python 6_MGG_DSE.py
+```
