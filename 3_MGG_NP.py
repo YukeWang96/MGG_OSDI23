@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+os.system("mv *.csv csvs/")
 
 num_gpus = [8]
 

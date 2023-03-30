@@ -2,7 +2,6 @@
 import os
 os.system("mv *.csv csvs/")
 
-
 num_gpus = 8
 for dist in [1,2,4,8,16]:
     for ps in [1,2,4,8,16,32]:
