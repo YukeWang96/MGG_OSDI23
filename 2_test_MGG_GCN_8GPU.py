@@ -2,7 +2,6 @@
 import os
 
 # os.system("mv *.csv csvs/")
-num_gpus = [4]
 num_gpus = [8]
 
 for gpu in num_gpus:
