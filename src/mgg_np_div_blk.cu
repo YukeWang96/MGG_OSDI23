@@ -181,7 +181,7 @@ int main(int argc, char* argv[]){
     //
     for (int i = 0; i < 10; i++)
     {
-        mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+        mgg_SAG_np_div_blk(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
                         lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
         MPI_Barrier(MPI_COMM_WORLD); 
     }
@@ -193,7 +193,7 @@ int main(int argc, char* argv[]){
 
     for (int i = 0; i < num_profiles; i++)
     {
-        mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+        mgg_SAG_np_div_blk(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
                         lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
         MPI_Barrier(MPI_COMM_WORLD); 
 
