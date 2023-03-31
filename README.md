@@ -39,24 +39,33 @@ mkdir build && cd build
 
 # 3. Reproduce the major results from paper.
 
-## Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
+## Run MGG on GCN.
 ```
 ./0_test_MGG_4GPU.py
 ./0_test_MGG_8GPU.py
+```
+
+
+## Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
+```
+cd Docker
+./launch.sh
+wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz
+./0_run_pydirect.sh
 ```
 
 ## Compare with UVM on 4xA100 and 8xA100 (Fig.8a and Fig.8b).
 ```
-./0_test_MGG_4GPU.py
-./0_test_MGG_8GPU.py
+./0_test_UVM_4GPU.py
+./0_test_UVM_8GPU.py
 ```
 
 ## Compare with ROC on 8xA100 (Fig.9).
 ```
-./0_test_UVM_4GPU.py
-./0_test_MGG_4GPU.py
-./0_test_UVM_8GPU.py
-./0_test_MGG_8GPU.py
+cd mgg-roc-internal
+git submodule update --init --recursive
+wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.gz && rm -rf data.tar.gz
+./docker/launch.sh
 ```
 
 ## Compare NP with w/o NP (Fig.10a).
