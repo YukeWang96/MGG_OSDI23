@@ -1,3 +1,6 @@
 [submodule "dgl_pydirect_internal"]
 	path = dgl_pydirect_internal
 	url = git@github.com:YukeWang96/dgl_pydirect_internal.git
+[submodule "mgg-roc-internal"]
+	path = mgg-roc-internal
+	url = git@github.com:YukeWang96/mgg-roc-internal.git
