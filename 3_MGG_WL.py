@@ -5,11 +5,13 @@ os.system("mv *.csv csvs/")
 num_gpus = [8]
 
 for gpu in num_gpus:
-    os.system("./bench_MGG_WL.py {0} > MGG_{0}GPU_WL.log".format(gpu))
-    os.system("./analysis_MGG.py MGG_{0}GPU_WL.log {0}".format(gpu))
-    os.system("mv MGG_{0}GPU_WL.log logs/".format(gpu))
+    os.system("./bench_MGG_WL.py {0} > MGG_WL.log".format(gpu))
+    os.system("./analysis_MGG.py MGG_WL.log {0}".format(gpu))
+    os.system("mv MGG_WL.log logs/".format(gpu))
 
 for gpu in num_gpus:
-    os.system("./bench_MGG_WO_WL.py {0} > MGG_{0}GPU_WO_WL.log".format(gpu))
-    os.system("./analysis_MGG.py MGG_{0}GPU_WO_WL.log {0}".format(gpu))
-    os.system("mv MGG_{0}GPU_WO_WL.log logs/".format(gpu))
+    os.system("./bench_MGG_WO_WL.py {0} > MGG_WO_WL.log".format(gpu))
+    os.system("./analysis_MGG.py MGG_WO_WL.log {0}".format(gpu))
+    os.system("mv MGG_WO_WL.log logs/".format(gpu))
+
+os.system("python combine_WL.py")
