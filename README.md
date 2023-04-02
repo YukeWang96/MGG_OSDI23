@@ -39,49 +39,59 @@ mkdir build && cd build
 
 # 3. Reproduce the major results from paper.
 
-## Run MGG on GCN.
+## 3.1 Run MGG on GCN .
 ```
 ./0_test_MGG_4GPU.py
 ./0_test_MGG_8GPU.py
 ```
 
-
-## Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
+> Note that the results can be check at `` and ``.
+## 3.2 Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
 ```
 cd Docker
 ./launch.sh
 wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz
+conda activate dgl
 ./0_run_pydirect.sh
-```
 
-## Compare with UVM on 4xA100 and 8xA100 (Fig.8a and Fig.8b).
+```
+> Note that the results can be found at `` and `` and compared with `` and ``, respectively.
+
+## 3.3 Compare with UVM on 4xA100 and 8xA100 (Fig.8a and Fig.8b).
 ```
 ./0_test_UVM_4GPU.py
 ./0_test_UVM_8GPU.py
 ```
+> Note that the results can be found at `` and `` and compared with `` and ``, respectively.
 
-## Compare with ROC on 8xA100 (Fig.9).
+## 3.4 Compare with ROC on 8xA100 (Fig.9).
 ```
 cd mgg-roc-internal
 git submodule update --init --recursive
 wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.gz && rm -rf data.tar.gz
 ./docker/launch.sh
 ```
+> Note that the results can be found at ` ` and compared with ``, respectively.
 
-## Compare NP with w/o NP (Fig.10a).
+## 3.5 Compare NP with w/o NP (Fig.10a).
 ```
 python 3_MGG_NP.py
 ```
 
-## Compare WL with w/o WL (Fig.10b).
+> Note that the results can be found at ` `.
+
+## 3.6 Compare WL with w/o WL (Fig.10b).
 ```
 python 4_MGG_WL.py
 ```
+> Note that the results can be found at ` `.
 
-## Compare API (Fig.10c).
+## 3.7 Compare API (Fig.10c).
 
+> Note that the results can be found at ` `.
 
-## Design Space Search (Fig.11a)
+## 3.8 Design Space Search (Fig.11a)
 ```
 python 6_MGG_DSE.py
 ```
+> Note that the results can be found at ` `.
