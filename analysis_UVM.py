@@ -22,7 +22,7 @@ for line in fp:
 fp.close()
 
 fout = open(sys.argv[1].strip(".log")+".csv", 'w')
-fout.write("Dataset,Time (ms)\n")
+# fout.write("Dataset,Time (ms)\n")
 # print(time_li)
 
 cnt = 0
