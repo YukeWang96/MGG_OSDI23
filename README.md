@@ -39,30 +39,23 @@ mkdir build && cd build
 
 # 3. Reproduce the major results from paper.
 
-## 3.1 Run MGG on GCN .
-```
-./0_test_MGG_4GPU.py
-./0_test_MGG_8GPU.py
-```
-
-> Note that the results can be check at `` and ``.
-## 3.2 Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
-```
-cd Docker
-./launch.sh
-wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz
-conda activate dgl
-./0_run_pydirect.sh
-
-```
-> Note that the results can be found at `1_dgl_gcn.csv`.
-
 ## 3.3 Compare with UVM on 4xA100 and 8xA100 (Fig.8a and Fig.8b).
 ```
 ./0_run_MGG_UVM_4G.sh
 ./0_run_MGG_UVM_8G.sh
 ```
 > Note that the results can be found at `UVM_MGG_4GPU_study.csv` and `UVM_MGG_8GPU_study.csv`.
+
+
+## 3.2 Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
+```
+wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz && tar -zxvf graphdata.tar.gz
+cd Docker
+./launch.sh
+conda activate dgl
+./0_run_dgl_gcn.sh
+```
+> Note that the results can be found at `1_dgl_gcn.csv`.
 
 ## 3.4 Compare with ROC on 8xA100 (Fig.9).
 ```
