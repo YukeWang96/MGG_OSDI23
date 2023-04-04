@@ -29,5 +29,5 @@ with open('UVM_MGG_8GPU_study.csv', 'w', newline='') as result_file:
     for i in range(len(col1)):
         writer.writerow([col0[i].rstrip("_beg_pos.bin"), col1[i], col2[i], "{:.3f}".format(ratio[i])])
 
-os.system("mv UVM_8GPU.csv csvs/")
+# os.system("mv UVM_8GPU.csv csvs/")
 os.system("mv MGG_8GPU.csv csvs/")
