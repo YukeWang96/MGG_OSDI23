@@ -55,14 +55,14 @@ conda activate dgl
 ./0_run_pydirect.sh
 
 ```
-> Note that the results can be found at `` and `` and compared with `` and ``, respectively.
+> Note that the results can be found at `1_dgl_gcn.csv`.
 
 ## 3.3 Compare with UVM on 4xA100 and 8xA100 (Fig.8a and Fig.8b).
 ```
-./0_test_UVM_4GPU.py
-./0_test_UVM_8GPU.py
+./0_run_MGG_UVM_4G.sh
+./0_run_MGG_UVM_8G.sh
 ```
-> Note that the results can be found at `` and `` and compared with `` and ``, respectively.
+> Note that the results can be found at `UVM_MGG_4GPU_study.csv` and `UVM_MGG_8GPU_study.csv`.
 
 ## 3.4 Compare with ROC on 8xA100 (Fig.9).
 ```
@@ -78,13 +78,13 @@ wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.g
 python 3_MGG_NP.py
 ```
 
-> Note that the results can be found at ` `.
+> Note that the results can be found at `MGG_NP_study.csv`.
 
 ## 3.6 Compare WL with w/o WL (Fig.10b).
 ```
 python 4_MGG_WL.py
 ```
-> Note that the results can be found at ` `.
+> Note that the results can be found at `MGG_WL_study.csv`.
 
 ## 3.7 Compare API (Fig.10c).
 
@@ -94,4 +94,4 @@ python 4_MGG_WL.py
 ```
 python 6_MGG_DSE.py
 ```
-> Note that the results can be found at ` `.
+> Note that the results can be found at `Reddit_8xA100_dist_ps.csv` and `Reddit_8xA100_dist_wpb.csv`.
