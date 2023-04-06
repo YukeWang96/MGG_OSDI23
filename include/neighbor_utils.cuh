@@ -1496,10 +1496,13 @@ void mgg_SAG_np_div_th_cuda(
 
                 // nvshmemx_float_get_warp((float*)&tmp[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
                 // #pragma unroll
-                for (int d = lanid; d < dim; d += WARP_SIZE){ 
-                    nvshmem_float_get((float*)&tmp2[blk_wid * dim + d], &input[r_offset * dim + d], 1, r_GPUid);
-                    // __syncwarp();
-                }
+                // for (int d = lanid; d < dim; d += WARP_SIZE){ 
+                //     nvshmem_float_get((float*)&tmp2[blk_wid * dim + d], &input[r_offset * dim + d], 1, r_GPUid);
+                //     // __syncwarp();
+                // }
+                if(lanid == 0)
+                nvshmem_float_get((float*)&tmp2[blk_wid* dim], &input[r_offset * dim], dim, r_GPUid);
+
                 __syncthreads();
                 // #pragma unroll
                 for (int d = lanid; d < dim; d += WARP_SIZE){
