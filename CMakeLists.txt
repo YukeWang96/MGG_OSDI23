@@ -79,6 +79,12 @@ add_executable(MGG_np_div_th
     include/layer.cu
 )
 
+add_executable(MGG_np_div_wrp 
+    src/mgg_np_div_wrp.cu 
+    include/loss.cu 
+    include/layer.cu
+)
+
 add_executable(MGG_np_div_blk 
     src/mgg_np_div_blk.cu 
     include/loss.cu 
@@ -474,6 +480,37 @@ target_link_libraries(MGG_np_div_blk
     curand
 )
 
+#############################################################################
+target_include_directories(MGG_np_div_wrp 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    ${CUDNN_HOME}/include
+    include
+)
+
+target_compile_options(MGG_np_div_wrp PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch ${SM_ARCH}
+                       >)
+
+set_target_properties(MGG_np_div_wrp PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(MGG_np_div_wrp PROPERTIES CUDA_ARCHITECTURES "80")
+
+target_link_libraries(MGG_np_div_wrp
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+    cudnn 
+    gomp 
+    curand
+)
 #############################################################################
 target_include_directories(MGG_np_div_th 
     PRIVATE 

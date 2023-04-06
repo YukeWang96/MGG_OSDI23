@@ -5,6 +5,7 @@ cd build/
 
 # make MGG_np_div_gin
 # make MGG_np_div
+make MGG_np_div_wrp
 make MGG_np_div_th
 make MGG_np_div_blk
 

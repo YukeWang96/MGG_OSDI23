@@ -68,20 +68,22 @@ wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.g
 
 ## 3.5 Compare NP with w/o NP (Fig.10a).
 ```
-python 3_MGG_NP.py
+python 2_MGG_NP.py
 ```
 
 > Note that the results can be found at `MGG_NP_study.csv`.
 
 ## 3.6 Compare WL with w/o WL (Fig.10b).
 ```
-python 4_MGG_WL.py
+python 3_MGG_WL.py
 ```
 > Note that the results can be found at `MGG_WL_study.csv`.
 
 ## 3.7 Compare API (Fig.10c).
-
-> Note that the results can be found at ` `.
+```
+python 4_MGG_API.py
+```
+> Note that the results can be found at `MGG_API_study.csv`.
 
 ## 3.8 Design Space Search (Fig.11a)
 ```

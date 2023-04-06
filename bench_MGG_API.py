@@ -10,7 +10,7 @@ os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080'
 
 hidden = 16
 num_GPUs = int(sys.argv[1])
-warpPerblock = 1 
+warpPerblock = 4 
 partSize = 16
 interleaved_dist = 16
 
@@ -29,7 +29,7 @@ choice = int(sys.argv[2])
 if choice == 0:
     command = "build/MGG_np_div_th "
 elif choice == 1:
-    command = "build/MGG_np_div "
+    command = "build/MGG_np_div_wrp "
 else:
     command = "build/MGG_np_div_blk "
 
