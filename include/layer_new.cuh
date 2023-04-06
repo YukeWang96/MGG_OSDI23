@@ -254,10 +254,14 @@ public:
         std::fill_n(h_W, dim1 * dim2, 1.0f);                               
 
         // CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float))); 
-        d_W = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
-        d_W_new = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+        // d_W = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+        // d_W_new = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
 
-        CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float)));
+        // CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float)));
+        // d_W = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+        CUDA_CHECK(cudaMalloc((void**)&d_W, dim1 * dim2 * sizeof(float)));
+        // CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float))); 
+        d_out = (float *) nvshmem_malloc (numNodes * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
 
         CUDA_CHECK(cudaMemcpy(d_W, h_W,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
         CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim2 * sizeof(float)));
