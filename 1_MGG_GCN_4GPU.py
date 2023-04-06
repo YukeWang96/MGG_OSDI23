@@ -5,6 +5,7 @@ import os
 num_gpus = [4]
 
 for gpu in num_gpus:
-    os.system("./bench_MGG.py {0} > MGG_{0}GPU.log".format(gpu))
+    os.system("./bench_MGG.py {0} > MGG_{0}GPU.log 2>MGG_{0}GPU.err".format(gpu))
     os.system("./analysis_MGG.py MGG_{0}GPU.log {0}".format(gpu))
     os.system("mv MGG_{0}GPU.log logs/".format(gpu))
+    os.system("mv MGG_{0}GPU.err logs/".format(gpu))

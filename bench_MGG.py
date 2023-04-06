@@ -12,45 +12,19 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
 
 hidden = 16
-# hidden = [int(sys.argv[1])]
 num_GPUs = int(sys.argv[1])
-###############################################
-# partSize = 1
-# partSize = int(sys.argv[1])
-
-# warpPerblock = 1
-# warpPerblock = int(sys.argv[2])
-
-# interleaved_dist = 1
-###############################################
-# warpPerblock = 16 # 8,16 is better than 4 on enwiki-2013
 warpPerblock = 4 
-# warpPerblock = int(sys.argv[1])
-
 partSize = 16
-# partSize = int(sys.argv[2])
-
 interleaved_dist = 16
-# interleaved_dist = int(sys.argv[2])
-###############################################
-# partSize = 8
-# # partSize = int(sys.argv[2])
-
-# # warpPerblock = 8
-# warpPerblock = int(sys.argv[1])
-
-# # interleaved_dist = 1
-# interleaved_dist = int(sys.argv[2])
-###############################################
 
 dataset = [
-        ( 'Reddit'                      , 602      	, 41),
-        ( 'enwiki-2013'	                , 100	        , 12),   
-        ( 'it-2004'                     , 128           , 172),
-        ( 'paper100M'                   , 128           , 172),
-        ( 'ogbn-products'	        , 100	        , 47),   
-        ( 'ogbn-proteins'	        , 128		, 112),
-        ( 'com-Orkut'		        , 128		, 128),
+            ( 'Reddit'                      , 602      	, 41),
+        #     ( 'enwiki-2013'	            , 300	, 12),   
+        #     ( 'it-2004'                     , 256       , 64),
+        #     ( 'paper100M'                   , 768       , 172),
+        #     ( 'ogbn-products'	            , 100	, 47),   
+        #     ( 'ogbn-proteins'	            , 8		, 112),
+        #     ( 'com-Orkut'		    , 128       , 32),
 ]
 
 GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
@@ -58,23 +32,21 @@ GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 
-# command = "build/MGG "
-# command = "build/MGG_basic "
-# command = "build/MGG_np "
 command = "build/MGG_np_div "
+# command = "build/MGG_gcn_2layer "
 # command = "build/MGG_np_pipeline "
 
-for data, d, c in dataset:
+for data, in_dim, out_dim in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
         csr_file = "dataset/bin/{}_csr.bin".format(data)
         weight_file = "dataset/bin/{}_weight.bin".format(data)
         if data != 'enwiki-2013':
-                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {0}".
+                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}".
                 format(command, beg_file, csr_file, weight_file,  
-                        num_GPUs, partSize, warpPerblock, 
-                        hidden, interleaved_dist, hidden))
+                        num_GPUs, partSize, warpPerblock, interleaved_dist,
+                        in_dim, hidden, out_dim))
         else:
-                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {0}".
+                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}".
                 format(command, beg_file, csr_file, weight_file,  
-                        num_GPUs, partSize, 16, 
-                        hidden, interleaved_dist, hidden))
+                        num_GPUs, partSize, 16, interleaved_dist, 
+                        in_dim, hidden, out_dim))
