@@ -179,14 +179,14 @@ int main(int argc, char* argv[]){
     //
     // Compute on each GPU device.
     //
-    for (int i = 0; i < 10; i++)
-    {
-        mgg_SAG_np_div_blk(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
-        MPI_Barrier(MPI_COMM_WORLD); 
-    }
+    // for (int i = 0; i < 10; i++)
+    // {
+    //     mgg_SAG_np_div_blk(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+    //                     lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
+    //     MPI_Barrier(MPI_COMM_WORLD); 
+    // }
     
-    int num_profiles = 100;
+    int num_profiles = 10;
     std::clock_t c_start = std::clock();    
     MPI_Barrier(MPI_COMM_WORLD);
     t1 = MPI_Wtime(); 
@@ -196,20 +196,6 @@ int main(int argc, char* argv[]){
         mgg_SAG_np_div_blk(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
                         lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
         MPI_Barrier(MPI_COMM_WORLD); 
-
-        // dense_hidden_forward(dp2);
-        // MPI_Barrier(MPI_COMM_WORLD); 
-        // nvshmem_float_sum_reduce(NVSHMEMX_TEAM_NODE, dp2->d_W_new, dp2->d_W, dp2->dim1*dp2->dim2);
-
-        // mgg_SAG_np_div(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-        //                 lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
-        // MPI_Barrier(MPI_COMM_WORLD); 
-
-        // dense_hidden_forward(dp2);
-        // MPI_Barrier(MPI_COMM_WORLD); 
-        // nvshmem_float_sum_reduce(NVSHMEMX_TEAM_NODE, dp2->d_W_new, dp2->d_W, dp2->dim1*dp2->dim2);
-
-        // softmax_forward(smx2);
     }
 
     std::clock_t c_end = std::clock();

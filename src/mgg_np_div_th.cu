@@ -179,14 +179,14 @@ int main(int argc, char* argv[]){
     //
     // Compute on each GPU device.
     //
-    for (int i = 0; i < 10; i++)
-    {
-        mgg_SAG_np_div_th(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                        lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
-        MPI_Barrier(MPI_COMM_WORLD); 
-    }
+    // for (int i = 0; i < 10; i++)
+    // {
+    //     mgg_SAG_np_div_th(d_output, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+    //                     lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
+    //     MPI_Barrier(MPI_COMM_WORLD); 
+    // }
     
-    int num_profiles = 100;
+    int num_profiles = 10;
     std::clock_t c_start = std::clock();    
     MPI_Barrier(MPI_COMM_WORLD);
     t1 = MPI_Wtime(); 

@@ -1502,8 +1502,8 @@ void mgg_SAG_np_div_th_cuda(
                 // }
                 if(lanid == 0)
                 nvshmem_float_get((float*)&tmp2[blk_wid* dim], &input[r_offset * dim], dim, r_GPUid);
-
                 __syncthreads();
+                
                 // #pragma unroll
                 for (int d = lanid; d < dim; d += WARP_SIZE){
                     // output[bid * dim + d] += tmp[blk_wid * dim + d];
