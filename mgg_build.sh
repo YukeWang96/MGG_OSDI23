@@ -10,7 +10,8 @@ cd build/
 # make MGG_np_div_th
 # make MGG_np_div_blk
 
-make uvm_gcn_2layer
+# make uvm_gcn_2layer
+make uvm_gin_5layer
 
 # make MGG_np_pipeline
 # make unified_memory
