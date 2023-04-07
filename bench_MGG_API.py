@@ -8,9 +8,9 @@ os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080'
 
-hidden = 16
+hidden = 64
 num_GPUs = int(sys.argv[1])
-warpPerblock = 4 
+warpPerblock = 1 
 partSize = 16
 interleaved_dist = 16
 

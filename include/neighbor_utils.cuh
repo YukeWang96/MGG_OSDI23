@@ -1312,7 +1312,6 @@ void mgg_SAG_np_div_blk_cuda(
     const nidType num_nodes = ub - lb;           // num of nodes per PE.
 
     // const nidType interleaved_dist = 8;
-    
     extern __shared__ float tmp[];
     float* tmp2 = (float*) &tmp[warpPerBlock * dim];
 
@@ -1343,7 +1342,7 @@ void mgg_SAG_np_div_blk_cuda(
                 nidType nid = column_index_l[eidx]; 
                 // printf("eidx: %d, nid: %d, nodePerPE: %d\n", eidx, nid, nodePerPE);
                 nidType local_nid = nid % nodePerPE;
-                for (int d = lanid; d < dim; d += WARP_SIZE){
+                for (int d = threadIdx.x; d < dim; d += WARP_SIZE * warpPerBlock){
                     // output[bid * dim + d] += input[local_nid * dim + d];
                     // atomicAdd_F(&output[bid * dim + d], input[local_nid * dim + d]);
                     tmp[blk_wid * dim + d] += input[local_nid * dim + d];      
@@ -1385,8 +1384,8 @@ void mgg_SAG_np_div_blk_cuda(
                 // nvshmemx_float_get_warp((float*)&tmp[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
                 nvshmemx_float_get_block((float*)&tmp2[blk_wid * dim], &input[r_offset * dim], dim, r_GPUid);
                 __syncthreads();
-                
-                for (int d = lanid; d < dim; d += WARP_SIZE){
+
+                for (int d = threadIdx.x; d < dim; d += WARP_SIZE * warpPerBlock){
                     // output[bid * dim + d] += tmp[blk_wid * dim + d];
                     // atomicAdd_F(&output[bid * dim + d], tmp2[blk_wid * dim + d]);
                     tmp[blk_wid * dim + d] += tmp2[blk_wid * dim + d];                    
@@ -1396,7 +1395,7 @@ void mgg_SAG_np_div_blk_cuda(
 
  
         // __syncthreads();
-        for (int d = lanid; d < dim; d += WARP_SIZE)
+        for (int d = threadIdx.x; d < dim; d += WARP_SIZE)
             // output[bid * dim + d] += tmp[warp_iter * dim + d];
             atomicAdd_F(&output[bid * dim + d], tmp[blk_wid * dim + d]);
     } // end if (wid)
