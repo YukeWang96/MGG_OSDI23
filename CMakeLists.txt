@@ -122,6 +122,14 @@ add_executable(unified_memory_updated
 src/unified_memory_updated.cu
 )
 
+add_executable(uvm_gcn_2layer
+src/uvm_gcn_2layer.cu
+)
+
+add_executable(uvm_gin_5layer
+src/uvm_gin_5layer.cu
+)
+
 add_executable(uvm_profile
 src/uvm_profile.cu
 )
@@ -672,6 +680,61 @@ target_compile_options(unified_memory_updated PRIVATE $<$<COMPILE_LANGUAGE:CUDA>
 set_target_properties(unified_memory_updated PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 set_target_properties(unified_memory_updated PROPERTIES CUDA_ARCHITECTURES "80")
 target_link_libraries(unified_memory_updated
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+    cudnn
+)
+
+##############################################################################
+target_include_directories(uvm_gcn_2layer 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    include
+)
+
+target_compile_options(uvm_gcn_2layer PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch ${SM_ARCH}
+                       >)
+
+set_target_properties(uvm_gcn_2layer PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(uvm_gcn_2layer PROPERTIES CUDA_ARCHITECTURES "80")
+target_link_libraries(uvm_gcn_2layer
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+    cudnn
+)
+##############################################################################
+target_include_directories(uvm_gin_5layer 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    include
+)
+
+target_compile_options(uvm_gin_5layer PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch ${SM_ARCH}
+                       >)
+
+set_target_properties(uvm_gin_5layer PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(uvm_gin_5layer PROPERTIES CUDA_ARCHITECTURES "80")
+target_link_libraries(uvm_gin_5layer
     nvshmem 
     cuda
     mpi_cxx 

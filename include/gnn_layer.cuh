@@ -25,12 +25,23 @@ void dense_beg_forward(dense_param_beg* dp)
         &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
 }
 
+void dense_beg_forward_uvm(dense_param_beg_uvm* dp)
+{
+    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
+        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+}
+
 void dense_hidden_forward(dense_param_hidden* dp)
 {
     CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
         &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
 }
 
+void dense_hidden_forward_uvm(dense_param_hidden_uvm* dp)
+{
+    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
+        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+}
 
 void sparse_beg_forward(sparse_param_beg*sp)
 {
