@@ -87,6 +87,22 @@ python 4_MGG_API.py
 
 ## 3.8 Design Space Search (Fig.11a)
 ```
-python 6_MGG_DSE.py
+python 5_MGG_DSE.py
 ```
 > Note that the results can be found at `Reddit_8xA100_dist_ps.csv` and `Reddit_8xA100_dist_wpb.csv`.
+
+
+## Reference
+* **NVIDIA OpenSHMEM Library (NVSHMEM) Documentation.** <br>
+https://docs.nvidia.com/nvshmem/api/index.html
+
+* **NVIDIA Unified Memory.** <br>
+https://developer.nvidia.com/blog/unified-memory-cuda-beginners/
+
+* [**Deep Graph Library**](https://github.com/dmlc/dgl) <br>
+Wang, Minjie, et al. 
+**Deep graph library: A graph-centric, highly-performant package for graph neural networks.**. *The International Conference on Learning Representations (ICLR), 2019.*
+
+* [**ROC**](https://github.com/jiazhihao/ROC) <br>
+Jia, Zhihao, et al. 
+**Improving the accuracy, scalability, and performance of graph neural networks with roc.** *Proceedings of Machine Learning and Systems 2 (2020): 187-198*.

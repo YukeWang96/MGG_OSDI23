@@ -13,10 +13,11 @@ os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
 
 hidden = 16
 partSize = 16
-num_GPUs = 8
 
 interleaved_dist = int(sys.argv[1])
 warpPerblock = int(sys.argv[2])
+
+num_GPUs = int(sys.argv[3])
 
 dataset = [
         ( 'Reddit'                      , 602      	, 41),
