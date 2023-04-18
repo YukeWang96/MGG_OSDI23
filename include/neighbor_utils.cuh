@@ -1308,7 +1308,7 @@ void mgg_SAG_np_div_blk_cuda(
     // const int tid = blockIdx.x * blockDim.x + threadIdx.x;
     const nidType bid = blockIdx.x;                // global warp-id
     const nidType blk_wid = threadIdx.x / 32;     // block-level warp-id.
-    const nidType lanid = threadIdx.x % 32;       // lane-id
+    // const nidType lanid = threadIdx.x % 32;       // lane-id
     const nidType num_nodes = ub - lb;           // num of nodes per PE.
 
     // const nidType interleaved_dist = 8;

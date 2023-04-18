@@ -21,12 +21,6 @@ num_GPUs = int(sys.argv[3])
 
 dataset = [
         ( 'Reddit'                      , 602      	, 41),
-        # ( 'enwiki-2013'	                , 100	        , 12),   
-        # ( 'it-2004'                     , 128           , 172),
-        # ( 'paper100M'                   , 128           , 172),
-        # ( 'ogbn-products'	        , 100	        , 47),   
-        # ( 'ogbn-proteins'	        , 128		, 112),
-        # ( 'com-Orkut'		        , 128		, 128),
 ]
 
 GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
@@ -37,8 +31,9 @@ pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
 # command = "build/MGG "
 # command = "build/MGG_basic "
 # command = "build/MGG_np "
-command = "build/MGG_np_div "
+# command = "build/MGG_np_div "
 # command = "build/MGG_np_pipeline "
+command = "build/MGG_np_div_kernel "
 
 for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
