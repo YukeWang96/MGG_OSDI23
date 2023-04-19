@@ -11,8 +11,8 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 # os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '7381975040' # paper100M
 os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
 
-hidden = 16
 num_GPUs = int(sys.argv[1])
+hidden = 16
 warpPerblock = 4 
 partSize = 16
 interleaved_dist = 16
@@ -27,12 +27,14 @@ dataset = [
         #     ( 'com-Orkut'		    , 128       , 32),
 ]
 
-GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
 
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 
-command = "build/MGG_np_div "
+# command = "build/MGG_np_div "
+command = "build/MGG_np_div_kernel "
 # command = "build/MGG_gcn_2layer "
 # command = "build/MGG_np_pipeline "
 

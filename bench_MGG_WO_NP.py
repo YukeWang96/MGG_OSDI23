@@ -34,17 +34,17 @@ pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
 command = "build/MGG_np_div "
 # command = "build/MGG_np_pipeline "
 
-for data, d, c in dataset:
+for data, in_dim, out_dim in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
         csr_file = "dataset/bin/{}_csr.bin".format(data)
         weight_file = "dataset/bin/{}_weight.bin".format(data)
         if data != 'enwiki-2013':
-                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {0}".
+                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}".
                 format(command, beg_file, csr_file, weight_file,  
-                        num_GPUs, partSize, warpPerblock, 
-                        hidden, interleaved_dist, hidden))
+                        num_GPUs, partSize, warpPerblock, interleaved_dist,
+                        in_dim, hidden, out_dim))
         else:
-                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {0}".
+                os.system(pre_condit + "{0} {1} {2} {3} {4} {5} {6} {7} {8} {9} {10}".
                 format(command, beg_file, csr_file, weight_file,  
-                        num_GPUs, partSize, 16, 
-                        hidden, interleaved_dist, hidden))
+                        num_GPUs, partSize, 16, interleaved_dist, 
+                        in_dim, hidden, out_dim))

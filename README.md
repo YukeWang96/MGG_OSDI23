@@ -100,6 +100,9 @@ https://docs.nvidia.com/nvshmem/api/index.html
 * **NVIDIA Unified Memory.** <br>
 https://developer.nvidia.com/blog/unified-memory-cuda-beginners/
 
+* **cuDNN Example for MNIST.** <br>
+https://github.com/haanjack/mnist-cudnn
+
 * [**Deep Graph Library**](https://github.com/dmlc/dgl) <br>
 Wang, Minjie, et al. 
 **Deep graph library: A graph-centric, highly-performant package for graph neural networks.**. *The International Conference on Learning Representations (ICLR), 2019.*
@@ -107,3 +110,4 @@ Wang, Minjie, et al.
 * [**ROC**](https://github.com/jiazhihao/ROC) <br>
 Jia, Zhihao, et al. 
 **Improving the accuracy, scalability, and performance of graph neural networks with roc.** *Proceedings of Machine Learning and Systems 2 (2020): 187-198*.
+

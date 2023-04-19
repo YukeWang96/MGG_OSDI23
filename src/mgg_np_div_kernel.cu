@@ -100,7 +100,7 @@ int main(int argc, char* argv[]){
     std::clock_t c_end_proc = std::clock();
     float preproc_time_elapsed_ms = 1000.0 * (c_end_proc - c_start_proc) / CLOCKS_PER_SEC;
     if (mype_node == 0)
-    printf("Preproc (ms): %.3f\n", preproc_time_elapsed_ms);
+        printf("Preproc (ms): %.3f\n", preproc_time_elapsed_ms);
 
     // printf("lb: %d, ub: %d\n", lb, ub);
     auto local_ptr_vec = split_output[0];       // with the base start from lb.
@@ -125,7 +125,9 @@ int main(int argc, char* argv[]){
     gpuErrchk(cudaMemcpy(dsp_out, h_output, nodesPerPE * hiddenSize * sizeof(float), cudaMemcpyHostToDevice));
 
     dense_param_beg* dp1 = new dense_param_beg("d-1", d_input, numNodes, dim, hiddenSize);
- 
+
+    // MPI_Finalize();
+
     #ifdef validate
     float *h_input_ref, *h_output_ref,  *d_input_ref, *d_output_ref;
     if (mype_node == validate)

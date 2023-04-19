@@ -2,7 +2,7 @@
 import os
 os.system("mv *.csv csvs/")
 
-num_gpus = [8]
+num_gpus = [4]
 
 for gpu in num_gpus:
     os.system("./bench_MGG_WL.py {0} > MGG_WL.log".format(gpu))
