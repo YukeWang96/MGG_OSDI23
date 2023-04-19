@@ -33,7 +33,7 @@ with open('MGG_API_study.csv', 'w', newline='') as result_file:
     writer = csv.writer(result_file)
     writer.writerow(['Norm.Time w.r.t. Thread', 'MGG_Thread', 'MGG_Warp', 'MGG_Block'])
     for i in range(len(col1)):
-        writer.writerow([col0[i].rstrip("_beg_pos"), "1.0x", "{:.3f}".format(ratio_1[i]), "{:.3f}".format(ratio_2[i])])
+        writer.writerow([col0[i].rstrip("_beg_pos"), "1.0", "{:.3f}".format(ratio_1[i]), "{:.3f}".format(ratio_2[i])])
 
 # os.system("mv MGG_WO_WL.csv csvs/")
 # os.system("mv MGG_WL.csv csvs/")

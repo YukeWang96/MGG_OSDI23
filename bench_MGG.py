@@ -20,7 +20,7 @@ interleaved_dist = 16
 dataset = [
             ( 'Reddit'                      , 602      	, 41),
             ( 'enwiki-2013'	            , 300	, 12),   
-            ( 'it-2004'                     , 256       , 64),
+        #     ( 'it-2004'                     , 256       , 64),
         #     ( 'paper100M'                   , 768       , 172),
             ( 'ogbn-products'	            , 100	, 47),   
             ( 'ogbn-proteins'	            , 8		, 112),

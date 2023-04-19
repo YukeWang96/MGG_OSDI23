@@ -19,13 +19,19 @@ for line in fp:
         time_li.append(float(time))
 fp.close()
 
-fout = open(sys.argv[1].strip(".log")+".csv", 'w')
+# fout = open(sys.argv[1].strip(".log")+".csv", 'w')
+fout = open("test.csv", 'w')
+
 # fout.write("Dataset,Time (ms)\n")
 # print(time_li)
 
 cnt = 0
+# print(dataset_li)
+# print(time_li)
+# print(len(dataset_li))
 for data in dataset_li:
     if cnt % num_GPUs == 0:
+        print("---", int(cnt/num_GPUs))
         tmp_t = time_li[int(cnt/num_GPUs)]
         fout.write("{},{}\n".format(data.strip(".bin"), tmp_t))
     cnt += 1
