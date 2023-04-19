@@ -17,4 +17,4 @@ for dist in [1,2,4,8,16]:
         os.system("mv MGG_dist_{0}_wpb_{1}.log logs/".format(dist, wpb))
 os.system("./extract_search.py 5 > Reddit_4xA100_dist_wpb.csv")
 
-os.system("mv MGG*.csv csvs/")
+os.system("mv MGG_*.csv csvs/")
