@@ -12,35 +12,30 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
 
 hidden = 64
-# hidden = [int(sys.argv[1])]
 num_GPUs = int(sys.argv[1])
 
-# warpPerblock = 16 # 8,16 is better than 4 on enwiki-2013
 warpPerblock = 4 
 partSize = 16
 interleaved_dist = 16
 
 dataset = [
-        ( 'Reddit'                      , 602      	, 41),
-        # ( 'enwiki-2013'	                , 100	        , 12),   
-        # ( 'it-2004'                     , 128           , 172),
-        # ( 'paper100M'                   , 128           , 172),
-        # ( 'ogbn-products'	        , 100	        , 47),   
-        # ( 'ogbn-proteins'	        , 128		, 112),
-        # ( 'com-Orkut'		        , 128		, 128),
+            ( 'Reddit'                      , 602      	, 41),
+            ( 'enwiki-2013'	            , 300	, 12),   
+            ( 'it-2004'                     , 256       , 64),
+        #     ( 'paper100M'                   , 768       , 172),
+            ( 'ogbn-products'	            , 100	, 47),   
+            ( 'ogbn-proteins'	            , 8		, 112),
+            ( 'com-Orkut'		    , 128       , 32),
 ]
 
-GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
 
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 
-# command = "build/MGG "
-# command = "build/MGG_basic "
-# command = "build/MGG_np "
 # command = "build/MGG_np_div "
 command = "build/MGG_np_div_gin "
-# command = "build/MGG_np_pipeline "
 
 for data, in_dim, out_classes in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)

@@ -55,6 +55,7 @@ int main(int argc, char* argv[]){
     int dim = atoi(argv[8]);                // 16
     int hiddenSize = atoi(argv[9]);
     int outdim = atoi(argv[10]);
+    float eps = 0.5;
 
     graph<long, long, nidType, nidType, nidType, nidType>* ginst = new graph<long, long, nidType, nidType, nidType, nidType>(beg_file, csr_file, weight_file);
     std::vector<nidType> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);
@@ -205,7 +206,7 @@ int main(int argc, char* argv[]){
     //
     // for (int i = 0; i < 10; i++)
     // {
-    //     mgg_SAG_np_div(dsp_out, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+    //     mgg_GIN_np_div(dsp_out, d_input, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
     //                     lb, ub, dim, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
     //     MPI_Barrier(MPI_COMM_WORLD); 
     // }
@@ -220,28 +221,28 @@ int main(int argc, char* argv[]){
         dense_beg_forward(dp1);
      
         // layer 1
-        mgg_SAG_np_div(dsp_out, dp1->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                        lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
+        mgg_GIN_np_div(dsp_out, dp1->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+                        lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist, eps);
         dense_hidden_forward(dp2);
        
         //layer 2
-        mgg_SAG_np_div(dsp_out_1, dp2->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-                        lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
+        mgg_GIN_np_div(dsp_out_1, dp2->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+                        lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist, eps);
         dense_hidden_forward(dp3);
     
         //layer 3
-        mgg_SAG_np_div(dsp_out_2, dp3->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-        lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
+        mgg_GIN_np_div(dsp_out_2, dp3->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+        lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist, eps);
         // dense_hidden_forward(dp4);
 
-        // //layer 4
-        mgg_SAG_np_div(dsp_out_3, dp4->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-            lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
+        //layer 4
+        mgg_GIN_np_div(dsp_out_3, dp4->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+            lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist, eps);
         // dense_hidden_forward(dp5);
 
         //layer 5
-        mgg_SAG_np_div(dsp_out_4, dp5->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
-            lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist);
+        mgg_GIN_np_div(dsp_out_4, dp5->d_out, d_row_ptr_l, d_col_ind_l, d_row_ptr_r, d_col_ind_r,
+            lb, ub, hiddenSize, nodesPerPE, mype_node, partSize, warpPerBlock, interleaved_dist, eps);
         dense_hidden_forward(dp6);
         softmax_forward(smx2);
     }

@@ -1402,7 +1402,7 @@ void mgg_GIN_np_div_cuda(
     if (bid < num_nodes){        
 
         for (int idx = threadIdx.x; idx < 2 * warpPerBlock * dim; idx += blockDim.x){
-            tmp[idx] = 0.0f;    
+            tmp[idx] = 0.0f;
         }
         __syncthreads();
 
@@ -1477,6 +1477,9 @@ void mgg_GIN_np_div_cuda(
 
  
         // __syncthreads();
+        for (int d = lanid; d < dim; d += WARP_SIZE)
+            output[bid * dim + d] = (1.0 + eps) * input[bid * dim + d];
+
         for (int d = lanid; d < dim; d += WARP_SIZE)
             // output[bid * dim + d] += tmp[warp_iter * dim + d];
             atomicAdd_F(&output[bid * dim + d], tmp[blk_wid * dim + d]);
