@@ -20,12 +20,12 @@ interleaved_dist = 16
 
 dataset = [
         ( 'Reddit'                      , 602      	, 41),
-        # ( 'enwiki-2013'	                , 100	        , 12),   
-        # ( 'ogbn-products'	        , 100	        , 47),   
+        ( 'enwiki-2013'	                , 100	        , 12),   
+        ( 'ogbn-products'	        , 100	        , 47),   
 ]
 
-# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
-GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
 
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)

@@ -23,13 +23,14 @@ dataset = [
         ( 'ogbn-products'	        , 100	        , 47),   
 ]
 
-# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
-GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
 
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 
-command = "build/MGG_np_div "
+# command = "build/MGG_np_div "
+command = "build/MGG_np_div_kernel "
 
 for data, in_dim, out_dim in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
