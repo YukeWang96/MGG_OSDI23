@@ -81,24 +81,42 @@ python 2_MGG_NP.py
 ```
 python 3_MGG_WL.py
 ```
-> Note that the results can be found at `MGG_WL_study.csv`.
+> Note that the results can be found at `MGG_WL_study.csv`. Results are similar to
+
+| Dataset      | MGG_WO_NP | MGG_W_NP | Speedup (x) |
+|--------------|----------:|---------:|------------:|
+| Reddit       |    75.035 |    18.92 |       3.966 |
+| enwiki-2013  |   292.022 |  104.878 |       2.784 |
+| ogbn-product |    86.632 |   29.941 |       2.893 |
 
 ## 3.6 Compare API (Fig.10c).
 ```
 python 4_MGG_API.py
 ```
-> Note that the results can be found at `MGG_API_study.csv`.
+> Note that the results can be found at `MGG_API_study.csv`. Results are similar to 
+
+| Norm.Time w.r.t. Thread | MGG_Thread | MGG_Warp | MGG_Block |
+|-------------------------|------------|----------|-----------|
+| Reddit                  | 1.0        | 0.299    | 0.295     |
+| enwiki-2013             | 1.0        | 0.267    | 0.263     |
+| ogbn-product            | 1.0        | 0.310    | 0.317     |
+
 
 ## 3.7 Design Space Search (Fig.11a)
 ```
 python 5_MGG_DSE_4GPU.py
 ```
-> Note that the results can be found at `Reddit_4xA100_dist_ps.csv` and `Reddit_4xA100_dist_wpb.csv`.
+> Note that the results can be found at `Reddit_4xA100_dist_ps.csv` and `Reddit_4xA100_dist_wpb.csv`. Results similar to 
+
+
+
 
 ```
 python 5_MGG_DSE_8GPU.py
 ```
-> Note that the results can be found at `Reddit_8xA100_dist_ps.csv` and `Reddit_8xA100_dist_wpb.csv`.
+> Note that the results can be found at `Reddit_8xA100_dist_ps.csv` and `Reddit_8xA100_dist_wpb.csv`. Results similar to
+
+
 
 ## Reference
 * **NVIDIA OpenSHMEM Library (NVSHMEM) Documentation.** <br>
@@ -112,9 +130,14 @@ https://github.com/haanjack/mnist-cudnn
 
 * [**Deep Graph Library**](https://github.com/dmlc/dgl) <br>
 Wang, Minjie, et al. 
-**Deep graph library: A graph-centric, highly-performant package for graph neural networks.**. *The International Conference on Learning Representations (ICLR), 2019.*
+**Deep graph library: A graph-centric, highly-performant package for graph neural networks.**. *The International Conference on Learning Representations (ICLR'19).*
 
 * [**ROC**](https://github.com/jiazhihao/ROC) <br>
 Jia, Zhihao, et al. 
-**Improving the accuracy, scalability, and performance of graph neural networks with roc.** *Proceedings of Machine Learning and Systems 2 (2020): 187-198*.
+**Improving the accuracy, scalability, and performance of graph neural networks with roc.** *Proceedings of Machine Learning and Systems 2 (MLsys'20).*
 
+* [**GNNAdvisor**](https://github.com/YukeWang96/OSDI21_AE) <br>
+Wang, Yuke, et al. **GNNAdvisor: An adaptive and efficient runtime system for GNN acceleration on GPUs.** *15th USENIX symposium on operating systems design and implementation (OSDI'21)*.
+
+* [**GE-SpMM**](https://github.com/hgyhungry/ge-spmm) <br>
+Huang, Guyue, et al. **Ge-spmm: General-purpose sparse matrix-matrix multiplication on gpus for graph neural networks.** *International Conference for High Performance Computing, Networking, Storage and Analysis (SC'20)*.
