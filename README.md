@@ -28,7 +28,7 @@ cd Docker
 
 ## 1.4. Compile implementation.
 ```
-mkdir build && cd build
+mkdir build && cd build && cmake .. && cd ..
 ./build.sh
 ```
 # 2. Run initial test experiment.
