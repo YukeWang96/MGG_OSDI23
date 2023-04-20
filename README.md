@@ -69,7 +69,13 @@ wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.g
 ```
 python 2_MGG_NP.py
 ```
-> Note that the results can be found at `MGG_NP_study.csv`.
+> Note that the results can be found at `MGG_NP_study.csv`. Similar to following table.
+
+| Dataset      | MGG_WO_NP | MGG_W_NP | Speedup (x) |
+|--------------|----------:|---------:|------------:|
+| Reddit       |    76.797 |   16.716 |       4.594 |
+| enwiki-2013  |   290.169 |   88.249 |       3.288 |
+| ogbn-product |    86.362 |   26.008 |       3.321 |
 
 ## 3.5 Compare WL with w/o WL (Fig.10b).
 ```
