@@ -7,19 +7,19 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/openmpi-4.1.1/lib/'
 os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
-hidden = 64
+hidden = 16
 num_GPUs = int(sys.argv[1])
 partSize = 16
 warpPerblock = 4
 
 dataset = [
-        ( 'Reddit'                      , 602      	, 41),
-        # ( 'enwiki-2013'	                , 100	        , 12),   
-        # ( 'it-2004'                     , 128           , 172),
-        # ( 'paper100M'                   , 128           , 172),
-        # ( 'ogbn-products'	        , 100	        , 47),   
-        # ( 'ogbn-proteins'	        , 128		, 112),
-        # ( 'com-Orkut'		        , 128		, 128),
+            ( 'Reddit'                      , 602      	, 41),
+            ( 'enwiki-2013'	            , 300	, 12),   
+            ( 'it-2004'                     , 256       , 64),
+            ( 'paper100M'                   , 128       , 64),
+            ( 'ogbn-products'	            , 100	, 47),   
+            ( 'ogbn-proteins'	            , 8		, 112),
+            ( 'com-Orkut'		    , 128       , 32),
 ]
 
 GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "

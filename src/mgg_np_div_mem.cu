@@ -117,14 +117,12 @@ int main(int argc, char* argv[]){
     
 
     // buffers for switching between input and output for each layer.
-    printf("d_buff_1: %.3f GB\n", (nodesPerPE * 1.0f * dim * sizeof(float))/1e9);
+    printf("d_buff_1: %.3f GB\n", (nodesPerPE * 1.0f * max_dim_1 * sizeof(float))/1e9);
     printf("nodesPerPE: %d, dim: %d\n", nodesPerPE, dim);
-    gpuErrchk(cudaMalloc((void**)&d_buff_1, static_cast<size_t>(nodesPerPE) * dim * sizeof(float))); 
+    gpuErrchk(cudaMalloc((void**)&d_buff_1, static_cast<size_t>(nodesPerPE) * max_dim_1 * sizeof(float))); 
     gpuErrchk(cudaMalloc((void**)&d_buff_2, static_cast<size_t>(nodesPerPE) * hiddenSize * sizeof(float))); 
-
-
    
-    h_input = (float *) malloc (static_cast<size_t>(nodesPerPE) * dim * sizeof(float));                  // CPU host memory (input)
+    h_input = (float *) malloc (static_cast<size_t>(nodesPerPE) * max_dim_1 * sizeof(float));                  // CPU host memory (input)
     // h_output = (float *) malloc (nodesPerPE * hiddenSize * sizeof(float));         //  CPU host memory (output)
     // hsp_output_1 = (float *) malloc (nodesPerPE * outdim * sizeof(float));         //  CPU host memory (output)
     std::fill_n(h_input, static_cast<size_t>(nodesPerPE)*dim, 1.0f);                                 // filled with all ones for input embeddings.
