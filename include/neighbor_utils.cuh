@@ -13,6 +13,7 @@
 #define WARP_SIZE 32
 
 using nidType = int;
+// using nidType = size_t;
 // using nidType = long;
 
 __global__ void warmup(){}

@@ -10,6 +10,7 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 # os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '3690987520' # paper100M
 # os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '7381975040' # paper100M
 os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
+# os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '21474836480' # paper100M
 
 num_GPUs = int(sys.argv[1])
 hidden = 16
@@ -20,8 +21,8 @@ interleaved_dist = 16
 dataset = [
             ( 'Reddit'                      , 602      	, 41),
             ( 'enwiki-2013'	            , 300	, 12),   
-        #     ( 'it-2004'                     , 256       , 64),
-        #     ( 'paper100M'                   , 768       , 172),
+            ( 'it-2004'                     , 256       , 64),
+            ( 'paper100M'                   , 128       , 64),
             ( 'ogbn-products'	            , 100	, 47),   
             ( 'ogbn-proteins'	            , 8		, 112),
             ( 'com-Orkut'		    , 128       , 32),
@@ -33,7 +34,9 @@ GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 
-command = "build/MGG_np_div "
+
+command = "build/MGG_np_div_mem "
+# command = "build/MGG_np_div "
 # command = "build/MGG_np_div_kernel "
 
 for data, in_dim, out_dim in dataset:

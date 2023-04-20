@@ -25,17 +25,43 @@ void dense_beg_forward(dense_param_beg* dp)
         &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
 }
 
+void dense_hidden_forward(dense_param_hidden* dp)
+{
+    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
+        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+}
+
+///////////////////////// new-memory reduction /////////////////////////
+
+void softmax_new_forward(softmax_new_param* smx){
+    cudnnSoftmaxForward(smx->cudnnHandle, CUDNN_SOFTMAX_ACCURATE, CUDNN_SOFTMAX_MODE_CHANNEL,
+            &(smx->alpha), smx->srcTensorDesc, smx->d_in,  &(smx->beta), smx->sftTensorDesc, smx->d_out);
+    // cudaDeviceSynchronize();
+}
+
+void dense_beg_new_forward(dense_param_new_beg* dp)
+{
+    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
+        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+}
+
+void dense_hidden_new_forward(dense_param_new_hidden* dp)
+{
+    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
+        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+}
+////////////////////////////////////////////////////
+
+
+
+
 void dense_beg_forward_uvm(dense_param_beg_uvm* dp)
 {
     CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
         &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
 }
 
-void dense_hidden_forward(dense_param_hidden* dp)
-{
-    CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
-        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
-}
+
 
 void dense_hidden_forward_uvm(dense_param_hidden_uvm* dp)
 {

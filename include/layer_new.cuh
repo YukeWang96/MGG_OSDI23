@@ -56,6 +56,54 @@ public:
 
 
 
+class softmax_new_param{
+
+public:
+    softmax_new_param(const char* name_in, float *d_in_input, float *d_out_ext, 
+                    int numNodes_in, int dim_in){
+
+        strncpy(name, name_in, 8);
+
+        numNodes = numNodes_in;
+        dim = dim_in;
+        d_in = d_in_input;
+        d_out = d_out_ext;
+
+        alpha = 1.0f;
+        beta = 0.0;
+        cudnnCreate(&cudnnHandle);
+        
+        // allocate memory space.
+        _mem_alloc();
+
+        // softmaxForward(n, c, h, w, dstData, &srcData);
+        cudnnCreateTensorDescriptor(&srcTensorDesc);
+        cudnnCreateTensorDescriptor(&sftTensorDesc);
+        cudnnSetTensor4dDescriptor(srcTensorDesc, CUDNN_TENSOR_NCHW, CUDNN_DATA_FLOAT,
+                numNodes, dim, 1, 1);
+        cudnnSetTensor4dDescriptor(sftTensorDesc, CUDNN_TENSOR_NCHW, CUDNN_DATA_FLOAT,
+                numNodes, dim, 1, 1);
+    }    
+
+
+    void _mem_alloc(){                           
+        // CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim * sizeof(float)));
+        // CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim * sizeof(float)));
+    }
+
+public:
+    int numNodes, dim;
+    float *d_out, *d_in;
+    float alpha, beta;
+
+    cudnnHandle_t cudnnHandle;
+    cudnnTensorDescriptor_t srcTensorDesc, sftTensorDesc;
+
+    char name[8];
+};
+
+
+
 class sparse_param_beg{
 
 public:
@@ -213,6 +261,130 @@ public:
     int m, n, k, ldx, ldw, ldout;
     int numNodes, dim1, dim2;
     float* h_W, *d_W, *d_W_new, *d_out, *d_in, *h_in;
+    float alpha, beta;
+    cublasOperation_t transa, transb;
+    cublasHandle_t cublasH;
+
+    char name[8];
+};
+
+
+class dense_param_new_beg{
+
+public:
+    dense_param_new_beg(const char* name_in, float* d_in_ext, float* d_out_ext, 
+                    int numNodes_in, int dim1_in, int dim2_in){
+        
+        strncpy(name, name_in, 8);
+
+
+        numNodes = numNodes_in;
+        dim1 = dim1_in;
+        dim2 = dim2_in;
+
+        m = dim2, n = numNodes, k = dim1; // (XW) --> W_T x X_T for column-major store.
+        ldx = dim1, ldw = dim2, ldout = dim2;
+
+        alpha = 1.0f;
+        beta = 0.0;
+
+        transa = CUBLAS_OP_N;
+        transb = CUBLAS_OP_N;
+        cublasH = NULL;
+        
+        d_in = d_in_ext;
+        d_out = d_out_ext;
+
+        CUBLAS_CHECK(cublasCreate(&cublasH));
+        // allocate memory space.
+        _mem_alloc();
+    }    
+
+
+    void _mem_alloc(){
+        h_W = (float *) malloc (dim1 * dim2 * sizeof(float));     
+        h_in = (float *) malloc (numNodes * dim1 * sizeof(float));                   
+        std::fill_n(h_W, dim1 * dim2, 1.0f);                               
+        // std::fill_n(h_in, numNodes * dim1, 1.0f);                               
+
+        // CUDA_CHECK(cudaMalloc((void**)&d_in, numNodes * dim1 * sizeof(float))); 
+        // CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float)));
+
+        // d_in = (float *) nvshmem_malloc (numNodes * dim1 * sizeof(float)); 
+        d_W = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  
+        // d_W_new = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float)); 
+        // d_out = (float *) nvshmem_malloc (numNodes * dim2 * sizeof(float)); 
+
+        // CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float)));
+        CUDA_CHECK(cudaMemcpy(d_W, h_W, dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
+        // CUDA_CHECK(cudaMemcpy(d_in, h_in, numNodes * dim1 * sizeof(float), cudaMemcpyHostToDevice));
+        CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim2 * sizeof(float)));
+    }
+
+public:
+    int m, n, k, ldx, ldw, ldout;
+    int numNodes, dim1, dim2;
+    float* h_W, *d_W, *d_W_new, *d_out, *d_in, *h_in;
+    float alpha, beta;
+    cublasOperation_t transa, transb;
+    cublasHandle_t cublasH;
+
+    char name[8];
+};
+
+
+class dense_param_new_hidden{
+
+public:
+    dense_param_new_hidden(const char* name_in, float *d_in_input, float *d_out_ext, 
+                        int numNodes_in, int dim1_in, int dim2_in){
+
+        strncpy(name, name_in, 8);
+
+        numNodes = numNodes_in;
+        dim1 = dim1_in;
+        dim2 = dim2_in;
+        d_in = d_in_input;
+        d_out = d_out_ext;
+
+        m = dim2, n = numNodes, k = dim1; // (XW) --> W_T x X_T for column-major store.
+        ldx = dim1, ldw = dim2, ldout = dim2;
+
+        alpha = 1.0f;
+        beta = 0.0;
+
+        transa = CUBLAS_OP_N;
+        transb = CUBLAS_OP_N;
+        cublasH = NULL;
+        
+        CUBLAS_CHECK(cublasCreate(&cublasH));
+        // allocate memory space.
+        _mem_alloc();
+    }    
+
+
+    void _mem_alloc(){
+        h_W = (float *) malloc (dim1 * dim2 * sizeof(float));             
+        std::fill_n(h_W, dim1 * dim2, 1.0f);                               
+
+        // CUDA_CHECK(cudaMalloc((void**)&d_W,  dim1 * dim2 * sizeof(float))); 
+        // d_W = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+        // d_W_new = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+
+        // CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float)));
+        // d_W = (float *) nvshmem_malloc (dim1 * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+        CUDA_CHECK(cudaMalloc((void**)&d_W, dim1 * dim2 * sizeof(float)));
+        // CUDA_CHECK(cudaMalloc((void**)&d_out, numNodes * dim2 * sizeof(float))); 
+        // d_out = (float *) nvshmem_malloc (numNodes * dim2 * sizeof(float));  // NVSHMEM global memory for input embedding.
+
+        CUDA_CHECK(cudaMemcpy(d_W, h_W,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
+        // CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim2 * sizeof(float)));
+    }
+
+public:
+    int m, n, k, ldx, ldw, ldout;
+    int numNodes, dim1, dim2;
+    float* h_W, *d_W, *d_W_new, *d_out, *d_in;
     float alpha, beta;
     cublasOperation_t transa, transb;
     cublasHandle_t cublasH;
