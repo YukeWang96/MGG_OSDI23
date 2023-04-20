@@ -42,8 +42,7 @@ mkdir build && cd build
 ## 3.1 Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
 ```
 wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz && tar -zxvf graphdata.tar.gz
-cd Docker
-./launch.sh
+./launch_docker.sh
 conda activate dgl
 ./0_run_dgl_gcn.sh
 ```
