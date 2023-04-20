@@ -15,10 +15,9 @@ wget https://storage.googleapis.com/mgg_data/local.tar.gz
 tar -zxvf local.tar.gz
 tar -zxvf local/nvshmem_src_2.0.3-0/build_cu112.tar.gz 
 ```
-+ Download datasets. (around 3 minutes)
++ Download datasets. 
 ```
-wget https://storage.googleapis.com/mgg_data/dataset.tar.gz
-tar -zxvf dataset.tar.gz
+wget https://storage.googleapis.com/mgg_data/dataset.tar.gz && tar -zxvf dataset.tar.gz && rm dataset.tar.gz
 ```
 
 ## 1.3. Launch Docker 
@@ -41,7 +40,7 @@ mkdir build && cd build
 
 ## 3.1 Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
 ```
-wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz && tar -zxvf graphdata.tar.gz
+wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz && tar -zxvf graphdata.tar.gz && rm graphdata.tar.gz
 ./launch_docker.sh
 conda activate dgl
 ./0_run_dgl_gcn.sh
@@ -70,7 +69,6 @@ wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.g
 ```
 python 2_MGG_NP.py
 ```
-
 > Note that the results can be found at `MGG_NP_study.csv`.
 
 ## 3.5 Compare WL with w/o WL (Fig.10b).
@@ -87,10 +85,14 @@ python 4_MGG_API.py
 
 ## 3.7 Design Space Search (Fig.11a)
 ```
-python 5_MGG_DSE.py
+python 5_MGG_DSE_4GPU.py
+```
+> Note that the results can be found at `Reddit_4xA100_dist_ps.csv` and `Reddit_4xA100_dist_wpb.csv`.
+
+```
+python 5_MGG_DSE_8GPU.py
 ```
 > Note that the results can be found at `Reddit_8xA100_dist_ps.csv` and `Reddit_8xA100_dist_wpb.csv`.
-
 
 ## Reference
 * **NVIDIA OpenSHMEM Library (NVSHMEM) Documentation.** <br>
