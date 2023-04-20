@@ -5,8 +5,7 @@
 
 ## 1.1. Clone this project from Github.
 ```
-git clone --recursive git@github.com:YukeWang96/MGG_new.git
-```
+git clone --recursive git@github.com:YukeWang96/MGG-OSDI23-AE-internal.git
 
 ## 1.2. Download libraries and datasets.
 + Download libraries (`cudnn-v8.2, nvshmem_src_2.0.3-0, openmpi-4.1.1`).
