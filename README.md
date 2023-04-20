@@ -12,8 +12,8 @@ git clone --recursive git@github.com:YukeWang96/MGG-OSDI23-AE-internal.git
 + Download libraries (`cudnn-v8.2, nvshmem_src_2.0.3-0, openmpi-4.1.1`).
 ```
 wget https://storage.googleapis.com/mgg_data/local.tar.gz
-tar -zxvf local.tar.gz
-tar -zxvf local/nvshmem_src_2.0.3-0/build_cu112.tar.gz 
+tar -zxvf local.tar.gz && rm local.tar.gz
+tar -zxvf local/nvshmem_src_2.0.3-0/build_cu112.tar.gz
 ```
 + Download datasets. 
 ```
