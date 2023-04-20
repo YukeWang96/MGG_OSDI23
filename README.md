@@ -63,7 +63,18 @@ git submodule update --init --recursive
 wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.gz && rm -rf data.tar.gz
 ./docker/launch.sh
 ```
-> Note that the results can be found at ` ` and compared with ``, respectively.
+> Note that the results can be found at ` ` and compared with ``, respectively. Results of ROC is similar as
+
+| Dataset       | Time (ms) |
+|---------------|----------:|
+| reddit        |    425.67 |
+| enwiki-2013   |    619.33 |
+| it-2004       |   5160.18 |
+| paper100M     |   8179.35 |
+| ogbn-products |    529.74 |
+| ogbn-proteins |    423.82 |
+| com-orkut     |    571.62 |
+
 
 ## 3.4 Compare NP with w/o NP (Fig.10a).
 ```
@@ -108,6 +119,25 @@ python 5_MGG_DSE_4GPU.py
 ```
 > Note that the results can be found at `Reddit_4xA100_dist_ps.csv` and `Reddit_4xA100_dist_wpb.csv`. Results similar to 
 
++ `Reddit_4xA100_dist_ps.csv`
+
+| dist\ps |      1 |      2 |      4 |      8 |     16 |     32 |
+|---------|-------:|-------:|-------:|-------:|-------:|-------:|
+| 1       | 17.866 | 17.459 | 16.821 | 16.244 | 16.711 | 17.125 |
+| 2       | 17.247 | 16.722 | 16.437 | 16.682 | 17.053 | 17.808 |
+| 4       | 16.826 |  16.41 | 16.583 | 17.217 | 17.627 | 18.298 |
+| 8       | 16.271 | 16.725 | 17.193 | 17.655 | 18.426 |  18.99 |
+| 16      | 16.593 | 17.214 | 17.617 | 18.266 | 19.009 | 19.909 |
+
++ `Reddit_4xA100_dist_wpb.csv`
+
+| dist\wpb |      1 |      2 |      4 |      8 |     16 |
+|----------|-------:|-------:|-------:|-------:|-------:|
+| 1        | 34.773 | 23.164 | 16.576 | 15.235 | 16.519 |
+| 2        | 34.599 | 23.557 | 17.254 | 15.981 |  19.56 |
+| 4        | 34.835 | 23.616 | 17.674 | 17.034 | 22.084 |
+| 8        | 34.729 | 23.817 | 18.302 | 18.708 | 25.656 |
+| 16       | 34.803 | 24.161 | 18.879 |  23.44 | 32.978 |
 
 
 
