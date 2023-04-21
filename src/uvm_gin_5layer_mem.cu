@@ -139,7 +139,7 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     dense_param_hidden_uvm* dp4 = new dense_param_hidden_uvm("d-4", dsp_out, mype_node, d_den_out, nodesPerPE, hiddenSize, hiddenSize);
     dense_param_hidden_uvm* dp5 = new dense_param_hidden_uvm("d-5", dsp_out, mype_node, d_den_out, nodesPerPE, hiddenSize, hiddenSize);
     dense_param_hidden_uvm* dp6 = new dense_param_hidden_uvm("d-6", dsp_out, mype_node, d_den_out, nodesPerPE, hiddenSize, outdim);
-    // softmax_new_param* smx2 = new softmax_new_param("smx-2", d_input[mype_node], nodesPerPE, outdim);
+    softmax_new_param* smx2 = new softmax_new_param("smx-2", d_den_out[mype_node], d_input[mype_node], nodesPerPE, outdim);
 
     const int lb_src = nodesPerPE * mype_node;
     const int ub_src = min_val(lb_src+nodesPerPE, numNodes);
@@ -160,36 +160,36 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
                         mype_node, nodesPerPE, numNodes);
     dense_hidden_forward_uvm(dp2);
 
-    // //layer-2
-    // SAG_host_UVM_updated(dsp_out_1, d_den_out_2, 
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node],
-    //                     lb_src, ub_src, outdim, num_GPUs,
-    //                     mype_node, nodesPerPE, numNodes);
-    // dense_hidden_forward_uvm(dp3);
+    //layer-2
+    SAG_host_UVM_updated(dsp_out, d_den_out, 
+                        d_row_ptr[mype_node], d_col_ind[mype_node],
+                        lb_src, ub_src, outdim, num_GPUs,
+                        mype_node, nodesPerPE, numNodes);
+    dense_hidden_forward_uvm(dp3);
 
-    // //layer-3
-    // SAG_host_UVM_updated(dsp_out_2, d_den_out_3, 
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node],
-    //                     lb_src, ub_src, outdim, num_GPUs,
-    //                     mype_node, nodesPerPE, numNodes);
-    // dense_hidden_forward_uvm(dp4);
+    //layer-3
+    SAG_host_UVM_updated(dsp_out, d_den_out, 
+                        d_row_ptr[mype_node], d_col_ind[mype_node],
+                        lb_src, ub_src, outdim, num_GPUs,
+                        mype_node, nodesPerPE, numNodes);
+    dense_hidden_forward_uvm(dp4);
 
-    // //layer-4
-    // SAG_host_UVM_updated(dsp_out_3, d_den_out_4, 
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node],
-    //                     lb_src, ub_src, outdim, num_GPUs,
-    //                     mype_node, nodesPerPE, numNodes);
-    // dense_hidden_forward_uvm(dp5);
+    //layer-4
+    SAG_host_UVM_updated(dsp_out, d_den_out, 
+                        d_row_ptr[mype_node], d_col_ind[mype_node],
+                        lb_src, ub_src, outdim, num_GPUs,
+                        mype_node, nodesPerPE, numNodes);
+    dense_hidden_forward_uvm(dp5);
 
-    // //layer-5
-    // SAG_host_UVM_updated(dsp_out_4, d_den_out_5, 
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node],
-    //                     lb_src, ub_src, outdim, num_GPUs,
-    //                     mype_node, nodesPerPE, numNodes);
-    // dense_hidden_forward_uvm(dp6);
+    //layer-5
+    SAG_host_UVM_updated(dsp_out, d_den_out,  
+                        d_row_ptr[mype_node], d_col_ind[mype_node],
+                        lb_src, ub_src, outdim, num_GPUs,
+                        mype_node, nodesPerPE, numNodes);
+    dense_hidden_forward_uvm(dp6);
 
-    // //softmax
-    // softmax_forward(smx2);
+    // softmax.
+    softmax_new_forward(smx2);
 
     cudaEventRecord(stop);
     cudaEventSynchronize(stop);
