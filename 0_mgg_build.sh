@@ -17,9 +17,15 @@ cd build/
 # make uvm_gcn_2layer
 # make uvm_gin_5layer
 
-# make uvm_gcn_2layer_mem
+make uvm_gcn_2layer_mem
+# make uvm_gin_5layer_mem
 
-make uvm_gin_5layer_mem
+cd ..
+mkdir logs/
+mkdir csvs/
+
+
+
 
 
 # make MGG_np_pipeline
@@ -31,6 +37,3 @@ make uvm_gin_5layer_mem
 # make MGG_sgc_2layer
 
 # make MGG_tag_2layer
-cd ..
-mkdir logs/
-mkdir csvs/

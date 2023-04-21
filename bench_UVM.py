@@ -24,9 +24,8 @@ dataset = [
 
 GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
 
-# command = GPU_avail + "build/unified_memory_updated "
-command = GPU_avail + "build/uvm_gcn_2layer "
-# command = GPU_avail + "build/unified_memory "
+# command = GPU_avail + "build/uvm_gcn_2layer "
+command = GPU_avail + "build/uvm_gcn_2layer_mem "
 
 for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
