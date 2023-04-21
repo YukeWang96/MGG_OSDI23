@@ -21,6 +21,14 @@ link_directories(/usr/local/lib)
 link_directories(${NCCL_HOME}/lib)
 
 
+
+add_executable(uvm_gin_5layer_mem 
+    src/uvm_gin_5layer_mem.cu 
+    include/loss.cu 
+    include/layer.cu
+)
+
+
 add_executable(MGG_np_div_gin_mem 
     src/mgg_np_div_gin_mem.cu 
     include/loss.cu 
@@ -885,4 +893,36 @@ target_link_libraries(uvm_profile
     mpi_cxx 
     mpi 
     cublas 
+)
+
+##############################################################################
+target_include_directories(uvm_gin_5layer_mem 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    ${CUDNN_HOME}/include
+    include
+)
+
+target_compile_options(uvm_gin_5layer_mem PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch ${SM_ARCH}
+                       >)
+
+set_target_properties(uvm_gin_5layer_mem PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(uvm_gin_5layer_mem PROPERTIES CUDA_ARCHITECTURES "80")
+
+target_link_libraries(uvm_gin_5layer_mem
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+    cudnn 
+    gomp 
+    curand
 )
