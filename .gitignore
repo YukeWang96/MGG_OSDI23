@@ -9,3 +9,4 @@ report*
 *.log
 *.csv
 *.err
+roc-new/
