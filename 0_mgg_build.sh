@@ -1,15 +1,15 @@
 cd build/
 
-# make MGG_np_div_kernel
-# make MGG_np_div_mem
-# make MGG_np_div_gin_mem
+make MGG_np_div_kernel
+make MGG_np_div_mem
+make MGG_np_div_gin_mem
 
-# make MGG_np_div_wrp
-# make MGG_np_div_th
-# make MGG_np_div_blk
+make MGG_np_div_wrp
+make MGG_np_div_th
+make MGG_np_div_blk
 
-# make uvm_gcn_2layer_mem
-# make uvm_gin_5layer_mem
+make uvm_gcn_2layer_mem
+make uvm_gin_5layer_mem
 
 cd ..
 mkdir logs/

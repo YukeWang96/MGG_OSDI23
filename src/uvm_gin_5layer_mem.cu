@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char* argv[]){
 	
     if (argc < 5){
-        printf("Usage: ./main beg_file.bin csr_file.bin weight_file.bin num_GPUs partSize warpPerBlock dim\n");
+        printf("Usage: ./main beg_file.bin csr_file.bin weight_file.bin num_GPUs dimin hidden out\n");
         return -1;
     }
 
@@ -32,12 +32,10 @@ int main(int argc, char* argv[]){
 	const char *weight_file = argv[3];
     
     int num_GPUs = atoi(argv[4]);
-    int partSize = atoi(argv[5]);
-    int warpPerBlock = atoi(argv[6]);
     
-    int dim = atoi(argv[7]);
-    int hiddenSize = atoi(argv[8]);
-    int outdim = atoi(argv[9]);
+    int dim = atoi(argv[5]);
+    int hiddenSize = atoi(argv[6]);
+    int outdim = atoi(argv[7]);
 
     graph<long, long, nidType, nidType, nidType, nidType>* ginst = new graph<long, long, nidType, nidType, nidType, nidType>(beg_file, csr_file, weight_file);
     std::vector<nidType> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);

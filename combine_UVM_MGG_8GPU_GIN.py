@@ -23,7 +23,7 @@ with open('MGG_8GPU_GIN.csv', 'r') as file2:
 ratio = [col1[i] / col2[i] for i in range(len(col1))]
 
 # Write the result, along with the original two columns, to a third CSV file
-with open('UVM_MGG_8GPU_study.csv', 'w', newline='') as result_file:
+with open('Fig_8_UVM_MGG_8GPU_study.csv', 'w', newline='') as result_file:
     writer = csv.writer(result_file)
     writer.writerow(['Dataset', 'UVM-8GPU(ms)', 'MGG-8GPU(ms)', 'Speedup (x)'])
     for i in range(len(col1)):

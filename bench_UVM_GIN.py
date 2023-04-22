@@ -9,8 +9,6 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
 hidden = 64
 num_GPUs = int(sys.argv[1])
-partSize = 16
-warpPerblock = 4
 
 dataset = [
             ( 'Reddit'                      , 602      	, 41),
@@ -31,7 +29,6 @@ for data, d, c in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
         csr_file = "dataset/bin/{}_csr.bin".format(data)
         weight_file = "dataset/bin/{}_weight.bin".format(data)
-        os.system("{0} {1} {2} {3} {4} {5} {6} {7} {8} {9}".\
+        os.system("{0} {1} {2} {3} {4} {5} {6} {7}".\
                 format(command, beg_file, csr_file, weight_file, 
-                        num_GPUs, partSize, warpPerblock, 
-                        hidden, hidden, hidden))
+                        num_GPUs, d, hidden, c))
