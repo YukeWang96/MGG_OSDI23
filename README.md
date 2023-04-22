@@ -146,7 +146,7 @@ python 5_MGG_DSE_4GPU.py
 ```
 python 5_MGG_DSE_8GPU.py
 ```
-> Note that the results can be found at `Reddit_8xA100_dist_ps.csv` and `Reddit_8xA100_dist_wpb.csv`. Results similar to
+> Note that the results can be found at `Reddit_8xA100_dist_ps.csv` and `Reddit_8xA100_dist_wpb.csv`.
 
 
 
