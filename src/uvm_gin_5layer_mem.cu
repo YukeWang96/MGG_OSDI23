@@ -54,24 +54,14 @@ int main(int argc, char* argv[]){
 
     float   **d_input, 
             **d_den_out; 
-            // **d_den_out_2; 
-            // **d_den_out_3, 
-            // **d_den_out_4, 
-            // **d_den_out_5, 
-            // **d_den_out_6;
             
     gpuErrchk(cudaMallocManaged((void**)&d_input,       num_GPUs*sizeof(float*))); 
     gpuErrchk(cudaMallocManaged((void**)&d_den_out,     num_GPUs*sizeof(float*))); 
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_2,   num_GPUs*sizeof(float*))); 
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_3,   num_GPUs*sizeof(float*))); 
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_4,   num_GPUs*sizeof(float*))); 
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_5,   num_GPUs*sizeof(float*))); 
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_6,   num_GPUs*sizeof(float*))); 
 
 #ifdef validate
     float *hd_ref, *hd_input_ref;
-    gpuErrchk(cudaMallocManaged((void**)&hd_ref,         nodesPerPE*dim*sizeof(float)));   // output reference
-    gpuErrchk(cudaMallocManaged((void**)&hd_input_ref,   numNodes*dim*sizeof(float)));   // input reference.
+    gpuErrchk(cudaMallocManaged((void**)&hd_ref,         static_cast<size_t>(nodesPerPE)*dim*sizeof(float)));   // output reference
+    gpuErrchk(cudaMallocManaged((void**)&hd_input_ref,   static_cast<size_t>(numNodes)*dim*sizeof(float)));   // input reference.
 
     std::fill(hd_input_ref, hd_input_ref + numNodes*dim, 1.0);                           
     std::fill(hd_ref, hd_ref + nodesPerPE*dim, 0.0);                                  
@@ -82,27 +72,19 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 {
     cudaSetDevice(mype_node);
 
-    h_input[mype_node] = (float*)malloc(nodesPerPE*dim*sizeof(float));
-    std::fill(h_input[mype_node], h_input[mype_node]+nodesPerPE*dim, 1.0);      // sets every value in the array to 1.0
+    // h_input[mype_node] = (float*)malloc(static_cast<size_t>(nodesPerPE)*std::max(dim,outdim)*sizeof(float));
+    // std::fill(h_input[mype_node], h_input[mype_node]+nodesPerPE*dim, 1.0);      // sets every value in the array to 1.0
     printf("mype_node: %d, nodesPerPE: %d\n", mype_node, nodesPerPE);
 
-    // global pointers array on each device
-    gpuErrchk(cudaMallocManaged((void**)&d_input[mype_node],   nodesPerPE*max({dim,outdim}) *sizeof(float))); // input: device 2D pointer
-    gpuErrchk(cudaMallocManaged((void**)&d_den_out[mype_node], nodesPerPE*hiddenSize*sizeof(nidType)));
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_2[mype_node], nodesPerPE*hiddenSize*sizeof(nidType)));
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_3[mype_node], nodesPerPE*hiddenSize*sizeof(nidType)));
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_4[mype_node], nodesPerPE*hiddenSize*sizeof(nidType)));
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_5[mype_node], nodesPerPE*hiddenSize*sizeof(nidType)));
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_6[mype_node], nodesPerPE*outdim*sizeof(nidType)));
-
+    gpuErrchk(cudaMallocManaged((void**)&d_input[mype_node],   static_cast<size_t>(nodesPerPE)*max(dim, outdim)*sizeof(float))); // input: device 2D pointer
+    gpuErrchk(cudaMallocManaged((void**)&d_den_out[mype_node], static_cast<size_t>(nodesPerPE)*max(hiddenSize,outdim)*sizeof(nidType)));
     gpuErrchk(cudaMallocManaged((void**)&d_row_ptr[mype_node], (numNodes+1)*sizeof(nidType)));
     gpuErrchk(cudaMallocManaged((void**)&d_col_ind[mype_node], numEdges*sizeof(nidType))); 
 
-    gpuErrchk(cudaMemcpy(d_input[mype_node],   h_input[mype_node],  nodesPerPE*dim*sizeof(float),   cudaMemcpyHostToDevice));
+    // gpuErrchk(cudaMemcpy(d_input[mype_node],   h_input[mype_node],  nodesPerPE*max(dim, outdim)*sizeof(float),   cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_row_ptr[mype_node], &global_row_ptr[0],  (numNodes+1)*sizeof(nidType),   cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_col_ind[mype_node], &global_col_ind[0],  numEdges*sizeof(nidType),       cudaMemcpyHostToDevice));
 }
-
 
 #ifdef validate
     cudaSetDevice(validate);
@@ -119,17 +101,8 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 
     float *dsp_out;
 
-    gpuErrchk(cudaMalloc((void**)&dsp_out,   nodesPerPE*hiddenSize*sizeof(float))); // output: device pointer
-    // gpuErrchk(cudaMalloc((void**)&dsp_out_1, nodesPerPE*outdim*sizeof(float))); // output: device pointer
-    // gpuErrchk(cudaMalloc((void**)&dsp_out_2, nodesPerPE*outdim*sizeof(float))); // output: device pointer
-    // gpuErrchk(cudaMalloc((void**)&dsp_out_3, nodesPerPE*outdim*sizeof(float))); // output: device pointer
-    // gpuErrchk(cudaMalloc((void**)&dsp_out_4, nodesPerPE*outdim*sizeof(float))); // output: device pointer
-    
-    gpuErrchk(cudaMemset(dsp_out, 0, nodesPerPE * hiddenSize * sizeof(float)));
-    // gpuErrchk(cudaMemset(dsp_out_1, 0, nodesPerPE * hiddenSize * sizeof(float)));
-    // gpuErrchk(cudaMemset(dsp_out_2, 0, nodesPerPE * hiddenSize * sizeof(float)));
-    // gpuErrchk(cudaMemset(dsp_out_3, 0, nodesPerPE * hiddenSize * sizeof(float)));
-    // gpuErrchk(cudaMemset(dsp_out_4, 0, nodesPerPE * hiddenSize * sizeof(float)));
+    gpuErrchk(cudaMalloc((void**)&dsp_out, static_cast<size_t>(nodesPerPE)*std::max(hiddenSize, outdim)*sizeof(float))); // output: device pointer
+    gpuErrchk(cudaMemset(dsp_out, 0, static_cast<size_t>(nodesPerPE)*std::max(hiddenSize, outdim)*sizeof(float)));
 
     dense_param_beg_uvm* dp1 = new dense_param_beg_uvm("d-1", d_input[mype_node], mype_node, d_den_out, nodesPerPE, dim, hiddenSize);
     dense_param_hidden_uvm* dp2 = new dense_param_hidden_uvm("d-2", dsp_out, mype_node, d_den_out, nodesPerPE, hiddenSize, hiddenSize);

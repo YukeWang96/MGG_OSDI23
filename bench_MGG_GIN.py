@@ -36,7 +36,7 @@ pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
 
 # command = "build/MGG_np_div "
 # command = "build/MGG_np_div_gin "
-# command = "build/MGG_np_div_gin_mem "
+command = "build/MGG_np_div_gin_mem "
 
 for data, in_dim, out_classes in dataset:
         beg_file = "dataset/bin/{}_beg_pos.bin".format(data)
