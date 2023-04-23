@@ -3053,7 +3053,7 @@ void SAG_UVM_updated_cuda_kernel(
     nidType block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
     nidType laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
 
-    extern __shared__ int part_meta[];                          // part information.
+    extern __shared__ int part_meta[];                                  // part information.
     nidType* warp_nbs = (nidType*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
 
     if (srcId < numNodes){
@@ -3081,7 +3081,7 @@ void SAG_UVM_updated_cuda_kernel(
             __syncwarp();
 
             for(nidType nidx = 0; nidx < w_end - w_start; nidx++){  
-                // int nid = column_index[w_start + nidx];
+                // nidType nid = column_index[w_start + nidx];
                 nidType nid = warp_nbs[n_base + nidx];
                 nidType gpuid = nid / nodePerPE;
                 nidType gpu_local_nid = nid % nodePerPE;
@@ -3089,7 +3089,7 @@ void SAG_UVM_updated_cuda_kernel(
                 #pragma unroll
                 for (int d = laneid; d < dim; d += 32){
                     part_meta[block_warpId*dim + d] += input[gpuid][gpu_local_nid * dim + d];
-                    // atomicAdd_F((float*)&output[srcId][d], input[nid][d]);
+                    // atomicAdd_F((float*)&output[srcId_local * dim + d], input[nid][d]);
                 }
             }
         }
