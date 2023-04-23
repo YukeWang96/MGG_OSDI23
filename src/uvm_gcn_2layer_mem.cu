@@ -58,8 +58,8 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 {
     cudaSetDevice(mype_node);
 
-    h_input[mype_node] = (float*)malloc(static_cast<size_t>(nodesPerPE)*dim*sizeof(float));
-    std::fill(h_input[mype_node], h_input[mype_node]+static_cast<size_t>(nodesPerPE)*dim, 1.0);      // sets every value in the array to 1.0
+    // h_input[mype_node] = (float*)malloc(static_cast<size_t>(nodesPerPE)*dim*sizeof(float));
+    // std::fill(h_input[mype_node], h_input[mype_node]+static_cast<size_t>(nodesPerPE)*dim, 1.0);      // sets every value in the array to 1.0
     printf("mype_node: %d, nodesPerPE: %d\n", mype_node, nodesPerPE);
 
     // UVM for data structure
@@ -69,7 +69,7 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     gpuErrchk(cudaMallocManaged((void**)&d_row_ptr[mype_node], (numNodes+1)*sizeof(nidType)));
     gpuErrchk(cudaMallocManaged((void**)&d_col_ind[mype_node], numEdges*sizeof(nidType))); 
 
-    gpuErrchk(cudaMemcpy(d_input[mype_node],   h_input[mype_node],  static_cast<size_t>(nodesPerPE)*dim*sizeof(float),   cudaMemcpyHostToDevice));
+    // gpuErrchk(cudaMemcpy(d_input[mype_node],   h_input[mype_node],  static_cast<size_t>(nodesPerPE)*dim*sizeof(float),   cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_row_ptr[mype_node], &global_row_ptr[0],  (numNodes+1)*sizeof(nidType),   cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_col_ind[mype_node], &global_col_ind[0],  numEdges*sizeof(nidType),       cudaMemcpyHostToDevice));
 }
@@ -80,9 +80,8 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 {
     cudaSetDevice(mype_node);
 
-    float *dsp_out, *d_in;
+    float *dsp_out;
 
-    gpuErrchk(cudaMalloc((void**)&d_in, static_cast<size_t>(nodesPerPE)*dim*sizeof(float))); // output: device pointer
     gpuErrchk(cudaMalloc((void**)&dsp_out, static_cast<size_t>(nodesPerPE)*max(hiddenSize, outdim)*sizeof(float))); // output: device pointer
     gpuErrchk(cudaMemset(dsp_out, 0, static_cast<size_t>(nodesPerPE)*max(hiddenSize, outdim)*sizeof(float)));
 
@@ -99,18 +98,20 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 
     cudaEventRecord(start);
 
+    // layer-1
     dense_beg_forward_uvm(dp1);
-
     SAG_host_UVM_updated(dsp_out, d_den_out, 
                         d_row_ptr[mype_node], d_col_ind[mype_node], 
                         lb_src, ub_src, hiddenSize, num_GPUs, 
                         mype_node, nodesPerPE, numNodes);
 
+    // layer-2
     dense_hidden_forward_uvm(dp2);
     SAG_host_UVM_updated(dsp_out, d_den_out, 
                         d_row_ptr[mype_node], d_col_ind[mype_node],
                         lb_src, ub_src, outdim, num_GPUs,
                         mype_node, nodesPerPE, numNodes);
+                        
     softmax_new_forward(smx2);
 
     cudaEventRecord(stop);
