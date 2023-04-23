@@ -32,13 +32,9 @@ int main(int argc, char* argv[]){
 	const char *weight_file = argv[3];
     
     int num_GPUs = atoi(argv[4]);
-    
     int dim = atoi(argv[5]);
     int hiddenSize = atoi(argv[6]);
     int outdim = atoi(argv[7]);
-
-    int hiddn_out_max = hiddenSize > outdim ? hiddenSize : outdim;
-    printf("hiddn_out_max: %d\n", hiddn_out_max);
 
     graph<long, long, nidType, nidType, nidType, nidType>* ginst = new graph<long, long, nidType, nidType, nidType, nidType>(beg_file, csr_file, weight_file);
     std::vector<nidType> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);
@@ -49,8 +45,6 @@ int main(int argc, char* argv[]){
 
     int nodesPerPE = (numNodes + num_GPUs - 1) / num_GPUs;
     float** h_input = new float*[num_GPUs];
-    // float** d_den_out = new float*[num_GPUs];
-    // float** d_den_out_2 = new float*[num_GPUs];
 
     nidType **d_row_ptr = new nidType*[num_GPUs]; 
     nidType **d_col_ind = new nidType*[num_GPUs]; 
@@ -58,18 +52,6 @@ int main(int argc, char* argv[]){
     float **d_input, **d_den_out;
     gpuErrchk(cudaMallocManaged((void**)&d_input,       num_GPUs*sizeof(float*))); 
     gpuErrchk(cudaMallocManaged((void**)&d_den_out,     num_GPUs*sizeof(float*))); 
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_2,   num_GPUs*sizeof(float*))); 
-
-    float *dsp_out;
-
-#ifdef validate
-    float *hd_ref, *hd_input_ref;
-    gpuErrchk(cudaMallocManaged((void**)&hd_ref,         nodesPerPE*dim*sizeof(float)));   // output reference
-    gpuErrchk(cudaMallocManaged((void**)&hd_input_ref,   numNodes*dim*sizeof(float)));   // input reference.
-
-    std::fill(hd_input_ref, hd_input_ref + numNodes*dim, 1.0);                           
-    std::fill(hd_ref, hd_ref + nodesPerPE*dim, 0.0);                                  
-#endif
 
 #pragma omp parallel for
 for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
@@ -77,17 +59,13 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     cudaSetDevice(mype_node);
 
     h_input[mype_node] = (float*)malloc(nodesPerPE*dim*sizeof(float));
-    // d_den_out[mype_node] = (float*)malloc(nodesPerPE*hiddenSize*sizeof(float));
-
     std::fill(h_input[mype_node], h_input[mype_node]+nodesPerPE*dim, 1.0);      // sets every value in the array to 1.0
-    // std::fill(d_den_out[mype_node], d_den_out[mype_node]+nodesPerPE*dim, 0.0);    // sets every value in the array to 0.0
-
     printf("mype_node: %d, nodesPerPE: %d\n", mype_node, nodesPerPE);
 
     // UVM for data structure
-    gpuErrchk(cudaMallocManaged((void**)&d_input[mype_node],   nodesPerPE*std::max(dim, outdim)*sizeof(float))); // input: device 2D pointer
-    gpuErrchk(cudaMallocManaged((void**)&d_den_out[mype_node], nodesPerPE*std::max(hiddenSize, outdim)*sizeof(nidType)));
-    // gpuErrchk(cudaMallocManaged((void**)&d_den_out_2[mype_node], nodesPerPE*outdim*sizeof(nidType)));
+    gpuErrchk(cudaMalloc((void**)&d_input[mype_node],   nodesPerPE*dim*sizeof(float))); // input: device 2D pointer
+    gpuErrchk(cudaMallocManaged((void**)&d_den_out[mype_node], nodesPerPE*max(hiddenSize, outdim)*sizeof(float)));
+
     gpuErrchk(cudaMallocManaged((void**)&d_row_ptr[mype_node], (numNodes+1)*sizeof(nidType)));
     gpuErrchk(cudaMallocManaged((void**)&d_col_ind[mype_node], numEdges*sizeof(nidType))); 
 
@@ -96,23 +74,17 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     gpuErrchk(cudaMemcpy(d_col_ind[mype_node], &global_col_ind[0],  numEdges*sizeof(nidType),       cudaMemcpyHostToDevice));
 }
 
-
-#ifdef validate
-    cudaSetDevice(validate);
-    int lb_src_val = nodesPerPE * validate;
-    int ub_src_val = min_val(lb_src_val+nodesPerPE, numNodes);
-    SAG_UVM_ref(hd_ref, hd_input_ref,  d_row_ptr[validate], d_col_ind[validate], ub_src_val, lb_src_val, numNodes, dim);
-#endif
-
 // One GPU per threads
 #pragma omp parallel for
 for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 {
     cudaSetDevice(mype_node);
 
-    printf("dsp_out size: %d\n", nodesPerPE*std::max(hiddenSize, outdim)*sizeof(float));
-    gpuErrchk(cudaMalloc((void**)&dsp_out, nodesPerPE*std::max(hiddenSize, outdim)*sizeof(float))); // output: device pointer
-    gpuErrchk(cudaMemset(dsp_out, 0, nodesPerPE*std::max(hiddenSize, outdim)*sizeof(float)));
+    float *dsp_out, *d_in;
+    // printf("dsp_out size: %d\n", nodesPerPE*hiddenSize*sizeof(float));
+    gpuErrchk(cudaMalloc((void**)&d_in, nodesPerPE*dim*sizeof(float))); // output: device pointer
+    gpuErrchk(cudaMalloc((void**)&dsp_out, nodesPerPE*max(hiddenSize, outdim)*sizeof(float))); // output: device pointer
+    gpuErrchk(cudaMemset(dsp_out, 0, nodesPerPE*max(hiddenSize, outdim)*sizeof(float)));
 
     dense_param_beg_uvm* dp1 = new dense_param_beg_uvm("d-1", d_input[mype_node], mype_node, d_den_out, nodesPerPE, dim, hiddenSize);
     dense_param_hidden_uvm* dp2 = new dense_param_hidden_uvm("d-2", dsp_out, mype_node, d_den_out, nodesPerPE, hiddenSize, outdim);
@@ -128,16 +100,17 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     cudaEventRecord(start);
 
     dense_beg_forward_uvm(dp1);
-    // SAG_host_UVM_updated(dsp_out, d_den_out, 
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node], 
-    //                     lb_src, ub_src, hiddenSize, num_GPUs, 
-    //                     mype_node, nodesPerPE, numNodes);
+
+    SAG_host_UVM_updated(dsp_out, d_den_out, 
+                        d_row_ptr[mype_node], d_col_ind[mype_node], 
+                        lb_src, ub_src, hiddenSize, num_GPUs, 
+                        mype_node, nodesPerPE, numNodes);
 
     dense_hidden_forward_uvm(dp2);
-    // SAG_host_UVM_updated(dsp_out, d_den_out, 
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node],
-    //                     lb_src, ub_src, outdim, num_GPUs,
-    //                     mype_node, nodesPerPE, numNodes);
+    SAG_host_UVM_updated(dsp_out, d_den_out, 
+                        d_row_ptr[mype_node], d_col_ind[mype_node],
+                        lb_src, ub_src, outdim, num_GPUs,
+                        mype_node, nodesPerPE, numNodes);
     softmax_new_forward(smx2);
 
     cudaEventRecord(stop);
@@ -151,18 +124,6 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 #pragma omp parallel for
 for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 {
-    #ifdef validate
-    if (mype_node == validate)
-    {
-        bool status = compare_array(hd_ref, d_den_out[mype_node], nodesPerPE*dim);
-        if (status)
-            printf("PE-%d: validate: True\n", mype_node);
-        else
-            printf("PE-%d: validate: False\n", mype_node);
-    }
-    #endif
-
-    // cudaFree(hd_ref);
     cudaFree(d_den_out[mype_node]);
     cudaFree(d_input[mype_node]);    
     cudaFree(d_col_ind[mype_node]);
@@ -172,8 +133,6 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     cudaFree(d_input);
     cudaFree(d_col_ind);
     cudaFree(d_row_ptr);
-    // free(h_ref);
-    // free(h_input);
 
     return 0;
 }

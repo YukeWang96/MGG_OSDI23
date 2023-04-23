@@ -58,7 +58,14 @@ void dense_hidden_new_forward(dense_param_new_hidden* dp)
 void dense_beg_forward_uvm(dense_param_beg_uvm* dp)
 {
     CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
-        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+        &(dp->alpha), dp->d_W, dp->ldw, dp->d_in, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+
+    cudaDeviceSynchronize();
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ dense_beg_forward_uvm %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
 }
 
 
@@ -66,7 +73,14 @@ void dense_beg_forward_uvm(dense_param_beg_uvm* dp)
 void dense_hidden_forward_uvm(dense_param_hidden_uvm* dp)
 {
     CUBLAS_CHECK(cublasSgemm(dp->cublasH, dp->transa, dp->transb, dp->m, dp->n, dp->k, 
-        &(dp->alpha), dp->d_W, dp->ldw, dp->d_out, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+        &(dp->alpha), dp->d_W, dp->ldw, dp->d_in, dp->ldx, &(dp->beta), dp->d_out, dp->ldout));
+    
+    cudaDeviceSynchronize();
+    cudaError_t error = cudaGetLastError();
+    if(error != cudaSuccess){
+        printf("CUDA error @ dense_hidden_forward_uvm %s\n", cudaGetErrorString(error));
+        exit(-1);
+    }
 }
 
 void sparse_beg_forward(sparse_param_beg*sp)

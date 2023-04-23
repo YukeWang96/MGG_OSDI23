@@ -2089,7 +2089,7 @@ void SAG_host_UVM_updated(float* d_out,
 
     // d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim.
     const int partSize = 16;
-    const int warpPerBlock = 16;
+    const int warpPerBlock = 4;
 
     const nidType block = warpPerBlock * WARP_SIZE;
     const nidType grid = ub_src - lb_src;

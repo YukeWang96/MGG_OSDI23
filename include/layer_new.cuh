@@ -486,10 +486,10 @@ public:
 
     void _mem_alloc(){
         h_W = (float *) malloc (dim1 * dim2 * sizeof(float));     
-        h_in = (float *) malloc (numNodes * dim1 * sizeof(float));                   
+        // h_in = (float *) malloc (numNodes * dim1 * sizeof(float));                   
         std::fill_n(h_W, dim1 * dim2, 1.0f);                               
  
-        CUDA_CHECK(cudaMallocManaged((void**)&_d_out_arr[gpuid], numNodes * dim2 * sizeof(float)));
+        // CUDA_CHECK(cudaMallocManaged((void**)&_d_out_arr[gpuid], numNodes * dim2 * sizeof(float)));
         CUDA_CHECK(cudaMalloc((void**)&d_W, dim1 * dim2 * sizeof(float)));
         d_out = _d_out_arr[gpuid];
 
@@ -513,7 +513,9 @@ public:
 class dense_param_hidden_uvm{
 
 public:
-    dense_param_hidden_uvm(const char* name_in, float *d_in_input, int gpu_id, float** d_out_arr, int numNodes_in, int dim1_in, int dim2_in){
+    dense_param_hidden_uvm(const char* name_in, float *d_in_input, int gpu_id, 
+                            float** d_out_arr, int numNodes_in, 
+                            int dim1_in, int dim2_in){
 
         strncpy(name, name_in, 8);
 
@@ -536,21 +538,21 @@ public:
         cublasH = NULL;
         
         CUBLAS_CHECK(cublasCreate(&cublasH));
-        // allocate memory space.
         _mem_alloc();
     }    
 
 
     void _mem_alloc(){
+        
+        CUDA_CHECK(cudaMalloc((void**)&d_W, dim1 * dim2 * sizeof(float)));
         h_W = (float *) malloc (dim1 * dim2 * sizeof(float));             
         std::fill_n(h_W, dim1 * dim2, 1.0f);                               
 
-        CUDA_CHECK(cudaMalloc((void**)&d_W, dim1 * dim2 * sizeof(float)));
-        CUDA_CHECK(cudaMallocManaged((void**)&_d_out_arr[gpuid], numNodes * dim2 * sizeof(float)));
+        // CUDA_CHECK(cudaMallocManaged((void**)&_d_out_arr[gpuid], numNodes * dim2 * sizeof(float)));
         d_out = _d_out_arr[gpuid];
         
         CUDA_CHECK(cudaMemcpy(d_W, h_W,  dim1 * dim2 * sizeof(float), cudaMemcpyHostToDevice));
-        CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim2 * sizeof(float)));
+        // CUDA_CHECK(cudaMemset(d_out, 0, numNodes * dim2 * sizeof(float)));
     }
 
 public:
