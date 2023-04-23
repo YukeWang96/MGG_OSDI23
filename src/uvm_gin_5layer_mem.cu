@@ -130,33 +130,33 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
                         mype_node, nodesPerPE, numNodes);
     dense_hidden_forward_uvm(dp2);
 
-    // //layer-2
-    // SAG_host_UVM_updated(dsp_out, d_den_out, 
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node],
-    //                     lb_src, ub_src, hiddenSize, num_GPUs,
-    //                     mype_node, nodesPerPE, numNodes);
-    // dense_hidden_forward_uvm(dp3);
+    //layer-2
+    SAG_host_UVM_updated(dsp_out, d_den_out, 
+                        d_row_ptr[mype_node], d_col_ind[mype_node],
+                        lb_src, ub_src, hiddenSize, num_GPUs,
+                        mype_node, nodesPerPE, numNodes);
+    dense_hidden_forward_uvm(dp3);
 
-    // //layer-3
-    // SAG_host_UVM_updated(dsp_out, d_den_out, 
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node],
-    //                     lb_src, ub_src, hiddenSize, num_GPUs,
-    //                     mype_node, nodesPerPE, numNodes);
-    // dense_hidden_forward_uvm(dp4);
+    //layer-3
+    SAG_host_UVM_updated(dsp_out, d_den_out, 
+                        d_row_ptr[mype_node], d_col_ind[mype_node],
+                        lb_src, ub_src, hiddenSize, num_GPUs,
+                        mype_node, nodesPerPE, numNodes);
+    dense_hidden_forward_uvm(dp4);
 
-    // //layer-4
-    // SAG_host_UVM_updated(dsp_out, d_den_out, 
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node],
-    //                     lb_src, ub_src, hiddenSize, num_GPUs,
-    //                     mype_node, nodesPerPE, numNodes);
-    // dense_hidden_forward_uvm(dp5);
+    //layer-4
+    SAG_host_UVM_updated(dsp_out, d_den_out, 
+                        d_row_ptr[mype_node], d_col_ind[mype_node],
+                        lb_src, ub_src, hiddenSize, num_GPUs,
+                        mype_node, nodesPerPE, numNodes);
+    dense_hidden_forward_uvm(dp5);
 
-    // //layer-5
-    // SAG_host_UVM_updated(dsp_out, d_den_out,  
-    //                     d_row_ptr[mype_node], d_col_ind[mype_node],
-    //                     lb_src, ub_src, hiddenSize, num_GPUs,
-    //                     mype_node, nodesPerPE, numNodes);
-    // dense_hidden_forward_uvm(dp6);
+    //layer-5
+    SAG_host_UVM_updated(dsp_out, d_den_out,  
+                        d_row_ptr[mype_node], d_col_ind[mype_node],
+                        lb_src, ub_src, hiddenSize, num_GPUs,
+                        mype_node, nodesPerPE, numNodes);
+    dense_hidden_forward_uvm(dp6);
 
     // softmax.
     softmax_new_forward(smx2);
