@@ -9,8 +9,8 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 
 # os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '3690987520' # paper100M
 # os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '7381975040' # paper100M
-os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
-# os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '21474836480' # paper100M
+# os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
+os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '21474836480' # paper100M
 
 num_GPUs = int(sys.argv[1])
 hidden = 16

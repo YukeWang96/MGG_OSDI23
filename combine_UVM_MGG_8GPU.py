@@ -2,9 +2,9 @@ import csv
 import os
 
 # Read the first CSV file and get a column
-with open('UVM_GCN_8GPU.csv', 'r') as file1:
-    reader = csv.reader(file1)
-    col0 = [row[0] for row in reader]
+# with open('UVM_GCN_8GPU.csv', 'r') as file1:
+#     reader = csv.reader(file1)
+#     col0 = [row[0] for row in reader]
 
 with open('UVM_GCN_8GPU.csv', 'r') as file1:
     reader = csv.reader(file1)
@@ -17,6 +17,10 @@ with open('UVM_GCN_8GPU.csv', 'r') as file1:
 with open('MGG_GCN_8GPU.csv', 'r') as file2:
     reader = csv.reader(file2)
     col2 = [float(row[1]) for row in reader]
+
+with open('MGG_GCN_8GPU.csv', 'r') as file1:
+    reader = csv.reader(file1)
+    col0 = [row[0] for row in reader]
 # print(col2)
 
 # Compute the ratio of the values in the two columns
