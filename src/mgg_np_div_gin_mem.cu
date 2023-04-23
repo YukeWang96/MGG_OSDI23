@@ -107,10 +107,10 @@ int main(int argc, char* argv[]){
             *h_input;
 
     // d_input = (float *) nvshmem_malloc (nodesPerPE * dim * sizeof(float));  // NVSHMEM global memory for input embedding.
-    gpuErrchk(cudaMalloc((void**)&d_input, nodesPerPE * max({dim, outdim}) * sizeof(float))); 
-    gpuErrchk(cudaMalloc((void**)&dsp_out, nodesPerPE * hiddenSize * sizeof(float)));
+    gpuErrchk(cudaMalloc((void**)&d_input, static_cast<size_t>(nodesPerPE) * max(dim, outdim) * sizeof(float))); 
+    gpuErrchk(cudaMalloc((void**)&dsp_out, static_cast<size_t>(nodesPerPE) * hiddenSize * sizeof(float)));
     // gpuErrchk(cudaMalloc((void**)&den_out, nodesPerPE * hiddenSize * sizeof(float))); 
-    den_out = (float *) nvshmem_malloc (nodesPerPE * hiddenSize * sizeof(float)); 
+    den_out = (float *) nvshmem_malloc (static_cast<size_t>(nodesPerPE) * hiddenSize * sizeof(float)); 
     h_input = (float *) malloc (nodesPerPE * dim * sizeof(float));          // CPU host memory (input)
 
     std::fill_n(h_input, nodesPerPE*dim, 1.0f);                             // filled with all ones for input embeddings.

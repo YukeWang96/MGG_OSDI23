@@ -10,6 +10,7 @@ os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
 # os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '3690987520' # paper100M
 # os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '7381975040' # paper100M
 os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
+# os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '21474836480' # paper100M
 
 hidden = 64
 num_GPUs = int(sys.argv[1])
@@ -19,13 +20,13 @@ partSize = 16
 interleaved_dist = 16
 
 dataset = [
-            ( 'Reddit'                      , 602      	, 41),
-            ( 'enwiki-2013'	            , 300	, 12),   
-            ( 'it-2004'                     , 256       , 64),
-            ( 'paper100M'                   , 128       , 64),
-            ( 'ogbn-products'	            , 100	, 47),   
-            ( 'ogbn-proteins'	            , 8		, 112),
-            ( 'com-Orkut'		    , 128       , 32),
+        #     ( 'Reddit'                      , 602      	, 41),
+        #     ( 'enwiki-2013'	            , 300	, 12),   
+        #     ( 'it-2004'                     , 96       , 64),
+            ( 'paper100M'                   , 96       , 64),
+        #     ( 'ogbn-products'	            , 100	, 47),   
+        #     ( 'ogbn-proteins'	            , 8		, 112),
+        #     ( 'com-Orkut'		    , 128       , 32),
 ]
 
 GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
