@@ -3,7 +3,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7853910.svg)](https://doi.org/10.5281/zenodo.7853910)
 
-# 1. Setup
+# 1. Setup (Skip to Section-2 if evaluated on provided GCP)
 
 ## 1.1. Clone this project from Github.
 ```
@@ -17,12 +17,25 @@ wget https://storage.googleapis.com/mgg_data/local.tar.gz
 tar -zxvf local.tar.gz && rm local.tar.gz
 tar -zxvf local/nvshmem_src_2.0.3-0/build_cu112.tar.gz
 ```
-+ Download datasets. 
++ Setup baseline DGL
 ```
-wget https://storage.googleapis.com/mgg_data/dataset.tar.gz && tar -zxvf dataset.tar.gz && rm dataset.tar.gz
+cd dgl_pydirect_internal
+wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz && tar -zxvf graphdata.tar.gz && rm graphdata.tar.gz
+cd ..
 ```
 
-## 1.3. Launch Docker 
++ Setup baseline ROC
+```
+cd roc-new
+git submodule update --init --recursive
+wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.gz && rm -rf data.tar.gz
+```
+or 
+```
+gsutil cp -r gs://mgg_data/roc-new/ .
+```
+
+## 1.3. Launch Docker for MGG.
 ```
 cd Docker 
 ./launch.sh
@@ -34,38 +47,42 @@ mkdir build && cd build && cmake .. && cd ..
 ./build.sh
 ```
 # 2. Run initial test experiment.
-+ Run MGG initial test, `./0_all_run_MGG.py`.
-+ Run UVA initial test, `./0_all_run_UVA.py`.
++ Please try study experiments in below **Section-3.4** and **Section-3.5**
 
 
 # 3. Reproduce the major results from paper.
 
-## 3.1 Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
+## 3.1 Compare with UVM on 4xA100 and 8xA100 (Fig.8a and Fig.8b).
 ```
-wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz && tar -zxvf graphdata.tar.gz && rm graphdata.tar.gz
+./0_run_MGG_UVM_4GPU_GCN.sh
+./0_run_MGG_UVM_4GPU_GIN.sh
+./0_run_MGG_UVM_8GPU_GCN.sh
+./0_run_MGG_UVM_8GPU_GIN.sh
+```
+> Note that the results can be found at `Fig_8_UVM_MGG_4GPU_GCN.csv`, `Fig_8_UVM_MGG_4GPU_GIN.csv`, `Fig_8_UVM_MGG_8GPU_GCN.csv`, and `Fig_8_UVM_MGG_8GPU_GIN.csv`.
+
+
+## 3.2 Compare with DGL on 8xA100 for GCN and GIN (Fig.7a and Fig.7b).
+```
 ./launch_docker.sh
 conda activate dgl
-./0_run_dgl_gcn.sh
+cd gcn/
+./0_run_gcn.sh
+cd ../gin/
+./0_run_gin.sh
 ```
-> Note that the results can be found at `1_dgl_gcn.csv`.
 
-
-## 3.2 Compare with UVM on 4xA100 and 8xA100 (Fig.8a and Fig.8b).
-```
-./0_run_MGG_UVM_4G.sh
-./0_run_MGG_UVM_8G.sh
-```
-> Note that the results can be found at `UVM_MGG_4GPU_study.csv` and `UVM_MGG_8GPU_study.csv`.
+> Note that the results can be found at `1_dgl_gin.csv` and `1_dgl_gcn.csv` and our MGG reference is in `MGG_GCN_8GPU.csv` and `MGG_8GPU_GIN.csv`.
 
 
 ## 3.3 Compare with ROC on 8xA100 (Fig.9).
 ```
-cd mgg-roc-internal
-git submodule update --init --recursive
-wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.gz && rm -rf data.tar.gz
-./docker/launch.sh
+cd roc-new/docker
+./launch.sh
 ```
-> Note that the results can be found at ` ` and compared with ``, respectively. Results of ROC is similar as
+> Note that the results can be found at `Fig_9_ROC_MGG_8GPU_GCN.csv` and `Fig_9_ROC_MGG_8GPU_GIN.csv`.
+
+Results of ROC is similar as
 
 | Dataset       | Time (ms) |
 |---------------|----------:|
@@ -91,6 +108,7 @@ python 2_MGG_NP.py
 | ogbn-product |    86.362 |   26.008 |       3.321 |
 
 ## 3.5 Compare WL with w/o WL (Fig.10b).
+
 ```
 python 3_MGG_WL.py
 ```
