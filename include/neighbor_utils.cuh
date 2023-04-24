@@ -2088,8 +2088,8 @@ void SAG_host_UVM_updated(float* d_out,
 {
 
     // d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim.
-    const int partSize = 128;
-    const int warpPerBlock = 2;
+    const int partSize = 16;
+    const int warpPerBlock = 16;
 
     const nidType block = warpPerBlock * WARP_SIZE;
     const nidType grid = ub_src - lb_src;
@@ -3061,44 +3061,25 @@ void SAG_UVM_updated_cuda_kernel(
         const nidType neighborBeg = row_pointers[srcId];        // partitioning pointer start
         const nidType neighborEnd = row_pointers[srcId + 1];    // part pointer end
 
-        // #pragma unroll
-        // for (int d = laneid; d < dim; d += 32){
-        //     part_meta[block_warpId*dim + d] = 0.0f;
-        // }
-
         __syncwarp();
 
         for (nidType nidx_b = neighborBeg; nidx_b < neighborEnd; nidx_b += partSize*warpPerBlock){
 
             const nidType w_start = nidx_b + partSize * block_warpId;
             const nidType w_end = w_start + partSize < neighborEnd?  w_start + partSize: neighborEnd;
-            
-            const nidType n_base = block_warpId * partSize;
-            // for(nidType nidx_w = w_start + laneid; nidx_w < w_end; nidx_w += WARP_SIZE){  
-            //     warp_nbs[n_base + nidx_w - w_start] = column_index[nidx_w];
-            // }
 
             __syncwarp();
 
             for(nidType nidx = 0; nidx < w_end - w_start; nidx++){  
                 nidType nid = column_index[w_start + nidx];
-                // nidType nid = warp_nbs[n_base + nidx];
                 nidType gpuid = nid / nodePerPE;
                 nidType gpu_local_nid = nid % nodePerPE;
 
-                // #pragma unroll
                 for (int d = laneid; d < dim; d += 32){
-                    // part_meta[block_warpId*dim + d] += input[gpuid][gpu_local_nid * dim + d];
                     atomicAdd_F((float*)&output[srcId_local * dim + d], input[gpuid][gpu_local_nid * dim + d]);
                 }
             }
         }
-        // for (int d = laneid; d < dim; d += 32){
-            // output[srcId][d] += part_meta[w_iter*dim + d];
-            // atomicAdd_F((float*)&output[currGPUid][srcId * dim + d], part_meta[block_warpId*dim + d]);
-            // atomicAdd_F((float*)&output[srcId_local * dim + d], part_meta[block_warpId*dim + d]);
-            // atomicAdd_F((float*)&output[0], part_meta[block_warpId*dim + d]);
-        // }
     } 
 }
 

@@ -35,7 +35,6 @@ GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
 
-# command = "build/MGG_np_div "
 # command = "build/MGG_np_div_gin "
 command = "build/MGG_np_div_gin_mem "
 
