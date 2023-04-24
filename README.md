@@ -17,18 +17,22 @@ wget https://storage.googleapis.com/mgg_data/local.tar.gz
 tar -zxvf local.tar.gz && rm local.tar.gz
 tar -zxvf local/nvshmem_src_2.0.3-0/build_cu112.tar.gz
 ```
-+ Download datasets. 
++ Setup baseline DGL
 ```
-wget https://storage.googleapis.com/mgg_data/dataset.tar.gz && tar -zxvf dataset.tar.gz && rm dataset.tar.gz
 cd dgl_pydirect_internal
 wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz && tar -zxvf graphdata.tar.gz && rm graphdata.tar.gz
 cd ..
 ```
-+ Setup baseline
+
++ Setup baseline ROC
 ```
 cd roc-new
 git submodule update --init --recursive
 wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.gz && rm -rf data.tar.gz
+```
+or 
+```
+gsutil cp -r gs://mgg_data/roc-new/ .
 ```
 
 ## 1.3. Launch Docker 
