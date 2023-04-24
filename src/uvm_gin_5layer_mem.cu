@@ -172,6 +172,8 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 #pragma omp parallel for
 for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 {
+    cudaSetDevice(mype_node);
+
     #ifdef validate
     if (mype_node == validate)
     {
@@ -195,6 +197,11 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     cudaFree(d_row_ptr);
     // free(h_ref);
     // free(h_input);
+
+    for (int i = 0; i < num_GPUs; i++) {
+        cudaSetDevice(i);
+        cudaDeviceReset();
+    }
 
     return 0;
 }
