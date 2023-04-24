@@ -62,12 +62,18 @@ mkdir build && cd build && cmake .. && cd ..
 > Note that the results can be found at `Fig_8_UVM_MGG_4GPU_GCN.csv`, `Fig_8_UVM_MGG_4GPU_GIN.csv`, `Fig_8_UVM_MGG_8GPU_GCN.csv`, and `Fig_8_UVM_MGG_8GPU_GIN.csv`.
 
 
-## 3.2 Compare with DGL on 4xA100 and 8xA100 (Fig.7a and Fig.7b).
+## 3.2 Compare with DGL on 8xA100 for GCN and GIN (Fig.7a and Fig.7b).
 ```
 ./launch_docker.sh
 conda activate dgl
-./0_run_dgl_gcn.sh
+cd gcn/
+./0_run_gcn.sh
+cd ../gin/
+./0_run_gin.sh
 ```
+
+> Note that the results can be found at `1_dgl_gin.csv` and `1_dgl_gcn.csv` and our MGG reference is in `MGG_GCN_8GPU.csv` and `MGG_8GPU_GIN.csv`.
+
 
 ## 3.3 Compare with ROC on 8xA100 (Fig.9).
 ```
