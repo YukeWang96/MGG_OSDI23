@@ -11,7 +11,7 @@ if not os.path.exists("roc-new/3_run_d64_it100.csv"):
     print("ROC GCN has not been executed yet!")
     exit(-1)
 
-if not os.path.exists("MGG_GCN_8GPU.csv"):
+if not os.path.exists("MGG_8GPU_GIN.csv"):
     print("MGG GCN has not been executed yet!")
     exit(-1)
 
@@ -29,11 +29,11 @@ with open('roc-new/3_run_d64_it100.csv', 'r') as file1:
 # print(col1)
 
 # Read the second CSV file and get a column
-with open('MGG_GCN_8GPU.csv', 'r') as file2:
+with open('MGG_8GPU_GIN.csv', 'r') as file2:
     reader = csv.reader(file2)
     col2 = [float(row[1]) for row in reader]
 
-with open('MGG_GCN_8GPU.csv', 'r') as file1:
+with open('MGG_8GPU_GIN.csv', 'r') as file1:
     reader = csv.reader(file1)
     col0 = [row[0] for row in reader]
 # print(col2)
