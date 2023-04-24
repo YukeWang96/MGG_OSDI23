@@ -42,11 +42,12 @@ with open('MGG_GCN_8GPU.csv', 'r') as file1:
 ratio = [col1[i] / col2[i] for i in range(len(col1))]
 
 # Write the result, along with the original two columns, to a third CSV file
-with open('Fig_9_ROC_MGG_GCN_8GPU.csv', 'w', newline='') as result_file:
+with open('Fig_9_ROC_MGG_8GPU_GIN.csv', 'w', newline='') as result_file:
     writer = csv.writer(result_file)
     writer.writerow(['Dataset', 'ROC-8GPU(ms)', 'MGG-8GPU(ms)', 'Speedup (x)'])
     for i in range(len(col1)):
         writer.writerow([col0[i].rstrip("_beg_pos.bin"), col1[i], col2[i], "{:.3f}".format(ratio[i])])
 
+print("please check the Fig_9_ROC_MGG_8GPU_GIN.csv file!")
 # os.system("mv UVM_8GPU.csv csvs/")
 # os.system("mv MGG_8GPU.csv csvs/")
