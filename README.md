@@ -3,7 +3,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7853910.svg)](https://doi.org/10.5281/zenodo.7853910)
 
-# 1. Setup (Skip to Section []() if evaluated on GCP)
+# 1. Setup (Skip to Section-2 if evaluated on provided GCP)
 
 ## 1.1. Clone this project from Github.
 ```
@@ -35,7 +35,7 @@ or
 gsutil cp -r gs://mgg_data/roc-new/ .
 ```
 
-## 1.3. Launch Docker 
+## 1.3. Launch Docker for MGG.
 ```
 cd Docker 
 ./launch.sh
