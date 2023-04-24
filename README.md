@@ -47,7 +47,7 @@ mkdir build && cd build && cmake .. && cd ..
 ./build.sh
 ```
 # 2. Run initial test experiment.
-+ Please try study experiments in below Section [3.4](https://github.com/YukeWang96/MGG-OSDI23-AE-internal/edit/master/README.md#34-compare-np-with-wo-np-fig10a) and [3.5](https://github.com/YukeWang96/MGG-OSDI23-AE-internal/edit/master/README.md#34-compare-np-with-wo-np-fig10a)
++ Please try study experiments in below **Section-3.4** and **Section-3.5**
 
 
 # 3. Reproduce the major results from paper.
