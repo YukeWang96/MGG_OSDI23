@@ -120,11 +120,12 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     printf("Time (ms): %.2f\n", milliseconds);
+    cudaFree(dsp_out);
 }
 
 #pragma omp parallel for
-for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
-{
+for (int mype_node = 0; mype_node < num_GPUs; mype_node++){
+    cudaSetDevice(i);
     cudaFree(d_den_out[mype_node]);
     cudaFree(d_input[mype_node]);    
     cudaFree(d_col_ind[mype_node]);
@@ -134,6 +135,11 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     cudaFree(d_input);
     cudaFree(d_col_ind);
     cudaFree(d_row_ptr);
+
+    for (int i = 0; i < num_GPUs; i++) {
+        cudaSetDevice(i);
+        cudaDeviceReset();
+    }
 
     return 0;
 }
