@@ -62,8 +62,7 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     // std::fill(h_input[mype_node], h_input[mype_node]+static_cast<size_t>(nodesPerPE)*dim, 1.0);      // sets every value in the array to 1.0
     printf("mype_node: %d, nodesPerPE: %d\n", mype_node, nodesPerPE);
 
-    // UVM for data structure
-    gpuErrchk(cudaMalloc((void**)&d_input[mype_node],   static_cast<size_t>(nodesPerPE)*dim*sizeof(float))); // input: device 2D pointer
+    gpuErrchk(cudaMallocManaged((void**)&d_input[mype_node],   static_cast<size_t>(nodesPerPE)*dim*sizeof(float))); // input: device 2D pointer
     gpuErrchk(cudaMallocManaged((void**)&d_den_out[mype_node], static_cast<size_t>(nodesPerPE)*max(hiddenSize, outdim)*sizeof(float)));
 
     gpuErrchk(cudaMallocManaged((void**)&d_row_ptr[mype_node], (numNodes+1)*sizeof(nidType)));
@@ -140,6 +139,5 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++){
         cudaSetDevice(i);
         cudaDeviceReset();
     }
-
     return 0;
 }
