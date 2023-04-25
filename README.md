@@ -54,12 +54,10 @@ mkdir build && cd build && cmake .. && cd ..
 
 ## 3.1 Compare with UVM on 4xA100 and 8xA100 (Fig.8a and Fig.8b).
 ```
-./0_run_MGG_UVM_4GPU_GCN.sh
-./0_run_MGG_UVM_4GPU_GIN.sh
 ./0_run_MGG_UVM_8GPU_GCN.sh
 ./0_run_MGG_UVM_8GPU_GIN.sh
 ```
-> Note that the results can be found at `Fig_8_UVM_MGG_4GPU_GCN.csv`, `Fig_8_UVM_MGG_4GPU_GIN.csv`, `Fig_8_UVM_MGG_8GPU_GCN.csv`, and `Fig_8_UVM_MGG_8GPU_GIN.csv`.
+> Note that the results can be found at `Fig_8_UVM_MGG_8GPU_GCN.csv`, and `Fig_8_UVM_MGG_8GPU_GIN.csv`.
 
 
 ## 3.2 Compare with DGL on 8xA100 for GCN and GIN (Fig.7a and Fig.7b).
