@@ -52,3 +52,4 @@ with open('Fig_9_ROC_MGG_GCN_8GPU.csv', 'w', newline='') as result_file:
 print("Please check the Fig_9_ROC_MGG_GCN_8GPU.csv file!")
 # os.system("mv UVM_8GPU.csv csvs/")
 # os.system("mv MGG_8GPU.csv csvs/")
+os.system("mv *.err logs/")

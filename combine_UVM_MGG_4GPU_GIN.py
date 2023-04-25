@@ -32,3 +32,4 @@ with open('Fig_8_UVM_MGG_4GPU_GIN.csv', 'w', newline='') as result_file:
 
 # os.system("mv UVM_4GPU_GIN.csv csvs/")
 os.system("mv MGG_4GPU_GIN.csv csvs/")
+os.system("mv *.err logs/")

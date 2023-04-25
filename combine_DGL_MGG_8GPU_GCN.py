@@ -33,3 +33,4 @@ with open('Fig_7_DGL_MGG_4GPU_GCN.csv', 'w', newline='') as result_file:
 print("please check the csv file: Fig_7_DGL_MGG_4GPU_GCN.csv")
 # os.system("mv UVM_4GPU.csv csvs/")
 # os.system("mv MGG_4GPU.csv csvs/")
+os.system("mv *.err logs/")
