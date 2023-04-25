@@ -3112,7 +3112,7 @@ void SAG_UVM_updated_cuda_kernel(
     nidType laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
 
     extern __shared__ int part_meta[];                                  // part information.
-    nidType* warp_nbs = (nidType*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
+    // nidType* warp_nbs = (nidType*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
 
     if (srcId < numNodes){
 
@@ -3162,12 +3162,19 @@ void GIN_UVM_updated_cuda_kernel(
     nidType laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
 
     extern __shared__ int part_meta[];                                  // part information.
-    nidType* warp_nbs = (nidType*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
+    // nidType* warp_nbs = (nidType*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
 
     if (srcId < numNodes){
 
+        for (int d = threadIdx.x; d < dim; d += warpPerBlock * 32){
+            output[srcId_local * dim + d] = input[currGPUid][srcId_local * dim + d];
+        }
+
+        __syncthreads();
+
         const nidType neighborBeg = row_pointers[srcId];        // partitioning pointer start
         const nidType neighborEnd = row_pointers[srcId + 1];    // part pointer end
+
 
         __syncwarp();
 
