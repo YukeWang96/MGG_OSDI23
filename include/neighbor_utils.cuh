@@ -2088,8 +2088,8 @@ void SAG_host_UVM_updated(float* d_out,
 {
 
     // d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim.
-    const int partSize = 2;
-    const int warpPerBlock = 32;
+    const int partSize = 16;
+    const int warpPerBlock = 16;
 
     const nidType block = warpPerBlock * WARP_SIZE;
     const nidType grid = ub_src - lb_src;
@@ -3052,23 +3052,17 @@ void SAG_UVM_updated_cuda_kernel(
     nidType srcId = blockIdx.x + currGPUid * nodePerPE;             // global node id.
     nidType block_warpId = threadIdx.x / WARP_SIZE;                 // block warp-id
     nidType laneid = threadIdx.x % WARP_SIZE;                       // warp thread-id -- laneid
-
-    extern __shared__ int part_meta[];                                  // part information.
-    nidType* warp_nbs = (nidType*)&part_meta[warpPerBlock*dim];        // cache neighbor id (warpPerBlock*partsize)
-
+    
     if (srcId < numNodes){
 
         const nidType neighborBeg = row_pointers[srcId];        // partitioning pointer start
         const nidType neighborEnd = row_pointers[srcId + 1];    // part pointer end
 
-        __syncwarp();
 
         for (nidType nidx_b = neighborBeg; nidx_b < neighborEnd; nidx_b += partSize*warpPerBlock){
 
             const nidType w_start = nidx_b + partSize * block_warpId;
             const nidType w_end = w_start + partSize < neighborEnd?  w_start + partSize: neighborEnd;
-
-            __syncwarp();
 
             for(nidType nidx = 0; nidx < w_end - w_start; nidx++){  
                 nidType nid = column_index[w_start + nidx];
