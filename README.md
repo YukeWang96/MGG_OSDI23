@@ -1,6 +1,8 @@
 # Artifact for OSDI'23 paper 
 > Yuke Wang, et al. *Accelerating Graph Neural Networks with Fine-grained intra-kernel Communication-Computation Pipelining on Multi-GPU Platforms.* OSDI'23.
 
+[**[Paper]**](https://arxiv.org/pdf/2209.06800.pdf) 
+[**[Bibtex]**](https://github.com/YukeWang96/personal_page/blob/7bf44569abca19ac93fc5f0ffddb2e9fed1f2c29/_publications/publication.bib#L143-L148)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7853910.svg)](https://doi.org/10.5281/zenodo.7853910)
 
 # 1. Setup (Skip to Section-2 if evaluated on provided GCP)
