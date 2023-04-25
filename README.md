@@ -7,7 +7,7 @@
 
 ## 1.1. Clone this project from Github.
 ```
-git clone --recursive git@github.com:YukeWang96/MGG-OSDI23-AE-internal.git
+git clone --recursive git@github.com:YukeWang96/MGG-OSDI23-AE.git
 ```
 
 ## 1.2. Download libraries and datasets.
@@ -65,7 +65,6 @@ mkdir build && cd build && cmake .. && cd ..
 ## 3.2 Compare with DGL on 8xA100 for GCN and GIN (Fig.7a and Fig.7b).
 ```
 ./launch_docker.sh
-conda activate dgl
 cd gcn/
 ./0_run_gcn.sh
 cd ../gin/
