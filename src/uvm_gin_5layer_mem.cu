@@ -36,6 +36,7 @@ int main(int argc, char* argv[]){
     int dim = atoi(argv[5]);
     int hiddenSize = atoi(argv[6]);
     int outdim = atoi(argv[7]);
+    float eps = 0.5;
 
     graph<long, long, nidType, nidType, nidType, nidType>* ginst = new graph<long, long, nidType, nidType, nidType, nidType>(beg_file, csr_file, weight_file);
     std::vector<nidType> global_row_ptr(ginst->beg_pos, ginst->beg_pos + ginst->vert_count + 1);
@@ -124,38 +125,38 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     dense_beg_forward_uvm(dp1);
 
     //layer-1
-    SAG_host_UVM_updated(dsp_out, d_den_out, 
+    GIN_host_UVM_updated(dsp_out, d_den_out, 
                         d_row_ptr[mype_node], d_col_ind[mype_node], 
                         lb_src, ub_src, hiddenSize, num_GPUs, 
-                        mype_node, nodesPerPE, numNodes);
+                        mype_node, nodesPerPE, numNodes, eps);
     dense_hidden_forward_uvm(dp2);
 
     //layer-2
-    SAG_host_UVM_updated(dsp_out, d_den_out, 
+    GIN_host_UVM_updated(dsp_out, d_den_out, 
                         d_row_ptr[mype_node], d_col_ind[mype_node],
                         lb_src, ub_src, hiddenSize, num_GPUs,
-                        mype_node, nodesPerPE, numNodes);
+                        mype_node, nodesPerPE, numNodes, eps);
     dense_hidden_forward_uvm(dp3);
 
     //layer-3
-    SAG_host_UVM_updated(dsp_out, d_den_out, 
+    GIN_host_UVM_updated(dsp_out, d_den_out, 
                         d_row_ptr[mype_node], d_col_ind[mype_node],
                         lb_src, ub_src, hiddenSize, num_GPUs,
-                        mype_node, nodesPerPE, numNodes);
+                        mype_node, nodesPerPE, numNodes, eps);
     dense_hidden_forward_uvm(dp4);
 
     //layer-4
-    SAG_host_UVM_updated(dsp_out, d_den_out, 
+    GIN_host_UVM_updated(dsp_out, d_den_out, 
                         d_row_ptr[mype_node], d_col_ind[mype_node],
                         lb_src, ub_src, hiddenSize, num_GPUs,
-                        mype_node, nodesPerPE, numNodes);
+                        mype_node, nodesPerPE, numNodes, eps);
     dense_hidden_forward_uvm(dp5);
 
     //layer-5
-    SAG_host_UVM_updated(dsp_out, d_den_out,  
+    GIN_host_UVM_updated(dsp_out, d_den_out,  
                         d_row_ptr[mype_node], d_col_ind[mype_node],
                         lb_src, ub_src, hiddenSize, num_GPUs,
-                        mype_node, nodesPerPE, numNodes);
+                        mype_node, nodesPerPE, numNodes, eps);
     dense_hidden_forward_uvm(dp6);
 
     // softmax.

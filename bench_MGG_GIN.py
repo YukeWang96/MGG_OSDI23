@@ -29,8 +29,9 @@ dataset = [
             ( 'com-Orkut'		    , 128       , 32),
 ]
 
-GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
+# GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
 # GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
+GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3 "
 
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
