@@ -125,7 +125,7 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
 
 #pragma omp parallel for
 for (int mype_node = 0; mype_node < num_GPUs; mype_node++){
-    cudaSetDevice(i);
+    cudaSetDevice(mype_node);
     cudaFree(d_den_out[mype_node]);
     cudaFree(d_input[mype_node]);    
     cudaFree(d_col_ind[mype_node]);
