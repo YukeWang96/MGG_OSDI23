@@ -3172,7 +3172,7 @@ void GIN_UVM_updated_cuda_kernel(
     if (srcId < numNodes){
 
         for (int d = threadIdx.x; d < dim; d += warpPerBlock * 32){
-            output[srcId_local * dim + d] = input[currGPUid][srcId_local * dim + d];
+            output[srcId_local * dim + d] = (1 + eps) *  input[currGPUid][srcId_local * dim + d];
         }
 
         __syncthreads();
