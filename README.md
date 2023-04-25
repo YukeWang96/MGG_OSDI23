@@ -7,7 +7,7 @@
 
 ## 1.1. Clone this project from Github.
 ```
-git clone --recursive git@github.com:YukeWang96/MGG-OSDI23-AE-internal.git
+git clone --recursive git@github.com:YukeWang96/MGG-OSDI23-AE.git
 ```
 
 ## 1.2. Download libraries and datasets.
