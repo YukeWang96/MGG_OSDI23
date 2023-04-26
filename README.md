@@ -179,7 +179,7 @@ https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01
 
 https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L770-L785
 
-https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L1281-L1295
+https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L1281-L1389
 
 https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L277-L292
 
