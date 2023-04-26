@@ -195,7 +195,8 @@ https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01
 
 https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/CMakeLists.txt#L218-L249
 
-## 4.4 Launch the docker and recomile, the compiled exectuable will be located under `build/`.
+## 4.4 Launch the MGG docker and recompile, 
++ The compiled exectuable will be located under `build/`.
 ```
 cd docker 
 ./launch.sh
