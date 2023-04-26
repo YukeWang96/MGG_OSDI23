@@ -168,14 +168,17 @@ python 5_MGG_DSE_8GPU.py
 > Note that the results can be found at `Reddit_8xA100_dist_ps.csv` and `Reddit_8xA100_dist_wpb.csv`.
 
 
-# 4. Use MGG as Tool or Library.
+# 4. Use MGG as a Tool or Library for your project.
 
-Building a new design based on MGG infrustures with NVSHMEM is simple, there are only several steps:
-### 4.1 Build the C++ design based on our existing examples (create a new `.cu` file under `src/`). An example is shown below.
+Building a new design based on MGG with NVSHMEM is simple, there are only several steps:
+
+## 4.1 Build the C++ design based on our existing examples 
++ Create a new `.cu` file under `src/`. An example is shown below.
 
 https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/src/mgg_np_div_kernel.cu#L78-L87
 
-### 4.2 Build the CUDA kernel design based on our existing examples (add a kernel design in `include/neighbor_utils.cuh`). An example is shown below.
+## 4.2 Build the CUDA kernel design based on our existing examples. 
++ Add a kernel design in `include/neighbor_utils.cuh`. An example is shown below.
 
 https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L770-L785
 
@@ -183,13 +186,16 @@ https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01
 
 https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L277-L292
 
-### 4.3 Register the new design to CMake (add a compilation entry in `CMakeLists.txt`) and add a command `make filename.cu` in `0_mgg_build.cu`. An example is shown below. Note that please match the filename with your newly created `.cu` in step-1.
+## 4.3 Register the new design to CMake. 
++ Add a compilation entry in `CMakeLists.txt`).
++ Add a command `make filename.cu` in `0_mgg_build.cu`. 
++ An example is shown below. Note that please match the filename with your newly created `.cu` in step-1.
 
 https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/CMakeLists.txt#L60-L64
 
 https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/CMakeLists.txt#L218-L249
 
-### 4.4 Launch the docker and recomile, the compiled exectuable will be located under `build/`.
+## 4.4 Launch the docker and recomile, the compiled exectuable will be located under `build/`.
 ```
 cd docker 
 ./launch.sh
@@ -197,11 +203,9 @@ cd build && cmake ..
 cd .. && ./0_mgg_build.sh
 ```
 
-### 4.5 Run the compiled executable.
+## 4.5 Run the compiled executable.
 
 https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/bench_MGG.py#L5-L51
-
-
 
 ## Reference
 * **NVIDIA OpenSHMEM Library (NVSHMEM).** <br>
