@@ -39,7 +39,7 @@ gsutil cp -r gs://mgg_data/roc-new/ .
 
 ## 1.3. Launch Docker for MGG.
 ```
-cd Docker 
+cd docker 
 ./launch.sh
 ```
 
@@ -168,6 +168,38 @@ python 5_MGG_DSE_8GPU.py
 > Note that the results can be found at `Reddit_8xA100_dist_ps.csv` and `Reddit_8xA100_dist_wpb.csv`.
 
 
+# 4. Use MGG as Tool or Library.
+
+Building a new design based on MGG infrustures with NVSHMEM is simple, there are only several steps:
+## Step-1. Build the C++ design based on our existing examples (create a new `.cu` file under `src/`). An example is shown below.
+
+https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/src/mgg_np_div_kernel.cu#L78-L87
+
+## Step-2. Build the CUDA kernel design based on our existing examples (add a kernel design in `include/neighbor_utils.cuh`). An example is shown below.
+
+https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L770-L785
+
+https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L1281-L1295
+
+https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L277-L292
+
+## Step-3. Registe the new design to CMake (add a compilation entry in `CMakeLists.txt`) and add a command `make filename.cu` in `0_mgg_build.cu`. An example is shown below. Note that please match the filename with your newly created `.cu` in step-1.
+
+https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/CMakeLists.txt#L60-L64
+
+https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/CMakeLists.txt#L218-L249
+
+## Step-4. Launch the docker and recomile, the compiled exectuable will be located under `build/`.
+```
+cd docker 
+./launch.sh
+cd build && cmake ..
+cd .. && ./0_mgg_build.sh
+```
+
+## Step-5. Run the compiled executable.
+
+https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/bench_MGG.py#L5-L51
 
 ## Reference
 * **NVIDIA OpenSHMEM Library (NVSHMEM) Documentation.** <br>
@@ -185,13 +217,16 @@ https://github.com/NVIDIA/CUDALibrarySamples/tree/master/cuBLAS/Level-3/gemm
 * **cuDNN Example for MNIST.** <br>
 https://github.com/haanjack/mnist-cudnn
 
+* **graph_project_start** <br>
+Hang Liu. https://github.com/asherliu/graph_project_start.git
+
 * [**Deep Graph Library**](https://github.com/dmlc/dgl) <br>
 Wang, Minjie, et al. 
 **Deep graph library: A graph-centric, highly-performant package for graph neural networks.**. *The International Conference on Learning Representations (ICLR'19).*
 
 * [**ROC**](https://github.com/jiazhihao/ROC) <br>
 Jia, Zhihao, et al. 
-**Improving the accuracy, scalability, and performance of graph neural networks with roc.** *Proceedings of Machine Learning and Systems 2 (MLsys'20).*
+**Improving the accuracy, scalability, and performance of graph neural networks with roc.** *Proceedings of Machine Learning and Systems (MLsys'20).*
 
 * [**GNNAdvisor**](https://github.com/YukeWang96/OSDI21_AE) <br>
 Wang, Yuke, et al. **GNNAdvisor: An adaptive and efficient runtime system for GNN acceleration on GPUs.** *15th USENIX symposium on operating systems design and implementation (OSDI'21)*.
@@ -199,6 +234,5 @@ Wang, Yuke, et al. **GNNAdvisor: An adaptive and efficient runtime system for GN
 * [**GE-SpMM**](https://github.com/hgyhungry/ge-spmm) <br>
 Huang, Guyue, et al. **Ge-spmm: General-purpose sparse matrix-matrix multiplication on gpus for graph neural networks.** *International Conference for High Performance Computing, Networking, Storage and Analysis (SC'20)*.
 
-* **graph_project_start** <br>
-Hang Liu. https://github.com/asherliu/graph_project_start.git
-
+* [**Bit-Tensor-Core**](https://github.com/pnnl/TCBNN) <br>
+Li, Ang, and Simon Su. **Accelerating binarized neural networks via bit-tensor-cores in turing gpus.** *IEEE Transactions on Parallel and Distributed Systems (TPDS'20)*.
