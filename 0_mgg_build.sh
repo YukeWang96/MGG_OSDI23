@@ -11,7 +11,6 @@ make MGG_np_div_blk
 make uvm_gcn_2layer_mem
 make uvm_gin_5layer_mem
 
-
 cd ..
 mkdir logs/
 mkdir csvs/
