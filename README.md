@@ -18,6 +18,7 @@ git clone --recursive git@github.com:YukeWang96/MGG-OSDI23-AE.git
 wget https://storage.googleapis.com/mgg_data/local.tar.gz
 tar -zxvf local.tar.gz && rm local.tar.gz
 tar -zxvf local/nvshmem_src_2.0.3-0/build_cu112.tar.gz
+wget https://storage.googleapis.com/mgg_data/dataset.tar.gz && tar -zxvf dataset.tar.gz && rm dataset.tar.gz
 ```
 + Setup baseline DGL
 ```
