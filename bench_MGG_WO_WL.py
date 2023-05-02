@@ -32,8 +32,8 @@ pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
 # command = "build/MGG "
 # command = "build/MGG_basic "
 # command = "build/MGG_np "
-command = "build/MGG_np_div "
-# command = "build/MGG_np_div_kernel "
+# command = "build/MGG_np_div "
+command = "build/MGG_np_div_kernel "
 # command = "build/MGG_np_pipeline "
 
 for data, in_dim, out_dim in dataset:
