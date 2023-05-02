@@ -26,7 +26,7 @@ mkdir csvs/
 
 
 # make MGG_np_div_gin
-# make MGG_np_div
+
 
 # make uvm_gcn_2layer
 # make uvm_gin_5layer
