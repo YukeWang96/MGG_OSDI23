@@ -10,7 +10,7 @@ os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080'
 
 num_GPUs = int(sys.argv[1])
 hidden = 16
-warpPerblock = 16 
+warpPerblock = 4 
 partSize = 65536
 interleaved_dist = 1
 

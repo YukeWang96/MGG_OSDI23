@@ -6,16 +6,13 @@ os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/openmpi-4.1.1/lib/'
 os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
+os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' 
 
-# os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '3690987520' # paper100M
-# os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '7381975040' # paper100M
-os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
-
-hidden = 16
 num_GPUs = int(sys.argv[1])
+hidden = 16
 warpPerblock = 4 
 partSize = 16
-interleaved_dist = 1024
+interleaved_dist = 65536
 
 dataset = [
         ( 'Reddit'                      , 602      	, 41),
