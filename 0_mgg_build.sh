@@ -1,6 +1,7 @@
 cd build/
 
 make MGG_np_div_kernel
+# make MGG_np_div_wo_np_kernel
 make MGG_np_div_mem
 make MGG_np_div_gin_mem
 

@@ -17,3 +17,5 @@ for dist in [1,2,4,8,16]:
         os.system("./analysis_MGG.py MGG_dist_{0}_wpb_{1}.log {2}".format(dist, wpb, num_gpus))
         os.system("mv MGG_dist_{0}_wpb_{1}.log logs/".format(dist, wpb))
 os.system("./extract_search_dist_wpb.py 5 > Reddit_8xA100_dist_wpb.csv")
+
+os.system("mv MGG_dist_*.csv csvs/")

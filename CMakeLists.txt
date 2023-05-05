@@ -63,6 +63,11 @@ add_executable(MGG_np_div_kernel
     include/layer.cu
 )
 
+add_executable(MGG_np_div_wo_np_kernel 
+    src/mgg_np_div_wo_np_kernel.cu 
+    include/loss.cu 
+    include/layer.cu
+)
 
 add_executable(MGG_tag_2layer 
     src/mgg_tag_2layer.cu 
@@ -237,6 +242,39 @@ set_target_properties(MGG_np_div_kernel PROPERTIES CUDA_SEPARABLE_COMPILATION ON
 set_target_properties(MGG_np_div_kernel PROPERTIES CUDA_ARCHITECTURES "80")
 
 target_link_libraries(MGG_np_div_kernel
+    nvshmem 
+    cuda
+    mpi_cxx 
+    mpi 
+    cublas 
+    cudnn 
+    gomp 
+    curand
+)
+
+
+#############################################################################
+target_include_directories(MGG_np_div_wo_np_kernel 
+    PRIVATE 
+    ${NVSHMEM_HOME}/include 
+    ${CUDA_HOME}/include 
+    ${MPI_HOME}/include
+    ${CUDNN_HOME}/include
+    include
+)
+
+target_compile_options(MGG_np_div_wo_np_kernel PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:
+                        -Xcompiler 
+                        -pthread 
+                        -rdc=true 
+                        -ccbin g++ 
+                        -arch ${SM_ARCH}
+                       >)
+
+set_target_properties(MGG_np_div_wo_np_kernel PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+set_target_properties(MGG_np_div_wo_np_kernel PROPERTIES CUDA_ARCHITECTURES "80")
+
+target_link_libraries(MGG_np_div_wo_np_kernel
     nvshmem 
     cuda
     mpi_cxx 

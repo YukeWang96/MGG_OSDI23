@@ -6,14 +6,11 @@ os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/openmpi-4.1.1/lib/'
 os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
+os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080'
 
-# os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '3690987520' # paper100M
-# os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '7381975040' # paper100M
-os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
-
-hidden = 16
 num_GPUs = int(sys.argv[1])
-warpPerblock = 4 
+hidden = 16
+warpPerblock = 16 
 partSize = 16
 interleaved_dist = 1
 
@@ -24,7 +21,6 @@ dataset = [
 ]
 
 GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
-# GPU_avail = "CUDA_VISIBLE_DEVICES=4,5,6,7 "
 
 pre_condit = GPU_avail + 'OMPI_MCA_plm_rsh_agent=sh\
               mpirun --allow-run-as-root -np {} '.format(num_GPUs)
