@@ -2265,20 +2265,12 @@ void SAG_host_UVM_updated(float* d_out,
                             const int pe_num_nodes,
                             const int numNodes)
 {
-
-    // d_output, d_input, d_row_ptr, d_col_ind, lb_src, ub_src, dim.
-    // const int partSize = 2;
-    // const int warpPerBlock = 32;
     const int partSize = 32;
     const int warpPerBlock = 1;
 
     const nidType block = warpPerBlock * WARP_SIZE;
     const nidType grid = ub_src - lb_src;
     const int shared_memory = warpPerBlock * dim * sizeof(float) + warpPerBlock * partSize * sizeof(nidType);
-
-    // if (currGPUid == 1){
-    //     printf("currGPUid: %d, grid: %d, block: %d, shared_memory: %d\n", currGPUid, grid, block, shared_memory);  
-    // }
  
     SAG_UVM_updated_cuda_kernel<<<grid, block, shared_memory>>>(d_out, d_in, d_row_ptr, d_col_ind, 
                                                                 pe_num_nodes, numNodes, dim, 
@@ -2307,9 +2299,6 @@ void GIN_host_UVM_updated(float* d_out,
                             const int numNodes,
                             const float eps)
 {
-
-    // const int partSize = 2;
-    // const int warpPerBlock = 32;
     const int partSize = 16;
     const int warpPerBlock = 4;
     const nidType block = warpPerBlock * WARP_SIZE;
