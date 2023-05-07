@@ -2310,8 +2310,8 @@ void GIN_host_UVM_updated(float* d_out,
 
     // const int partSize = 2;
     // const int warpPerBlock = 32;
-    const int partSize = 2;
-    const int warpPerBlock = 1;
+    const int partSize = 16;
+    const int warpPerBlock = 4;
     const nidType block = warpPerBlock * WARP_SIZE;
     const nidType grid = ub_src - lb_src;
  
