@@ -21,7 +21,6 @@ dataset = [
 ]
 
 GPU_avail = "CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 "
-
 # command = GPU_avail + "build/uvm_gin_5layer "
 command = GPU_avail + "build/uvm_gin_5layer_mem "
 
