@@ -261,7 +261,7 @@ int main(int argc, char* argv[]){
     cudaFree(d_row_ptr_r);
     cudaFree(d_col_ind_r);
     cudaFree(d_input);
-    cudaDeviceReset();
+    // cudaDeviceReset();
 
     nvshmem_finalize();
 

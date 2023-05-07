@@ -2,7 +2,7 @@ import csv
 import os
 
 # Read the first CSV file and get a column
-with open('MGG_GCN_4GPU.csv', 'r') as file1:
+with open('MGG_4GPU_GIN.csv', 'r') as file1:
     reader = csv.reader(file1)
     col0 = [row[0] for row in reader]
 
@@ -15,7 +15,7 @@ with open('UVM_GIN_4GPU.csv', 'r') as file1:
 # print(col1)
 
 # Read the second CSV file and get a column
-with open('MGG_GCN_4GPU.csv', 'r') as file2:
+with open('MGG_4GPU_GIN.csv', 'r') as file2:
     reader = csv.reader(file2)
     col2 = [float(row[1]) for row in reader]
 # print(col2)
