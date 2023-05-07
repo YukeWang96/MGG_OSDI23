@@ -2270,7 +2270,7 @@ void SAG_host_UVM_updated(float* d_out,
     // const int partSize = 2;
     // const int warpPerBlock = 32;
 
-    const int partSize = 2;
+   const int partSize = 32;
     const int warpPerBlock = 1;
 
     const nidType block = warpPerBlock * WARP_SIZE;
