@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import os
 
-# os.system("mv *.csv csvs/")
+os.system("mv *.err logs/")
+os.system("mv *.log logs/")
 num_gpus = [4]
 
 for gpu in num_gpus:

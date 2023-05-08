@@ -2,7 +2,7 @@
 import os
 # os.system("mv *.csv csvs/")
 os.system("mv *.log logs/")
-
+os.system("mv *.err logs/")
 num_gpus = [4]
 
 for gpu in num_gpus:
