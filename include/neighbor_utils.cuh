@@ -2265,8 +2265,10 @@ void SAG_host_UVM_updated(float* d_out,
                             const int pe_num_nodes,
                             const int numNodes)
 {
-    const int partSize = 32;
-    const int warpPerBlock = 1;
+    // const int partSize = 32;
+    // const int warpPerBlock = 1;
+    const int partSize = 4;
+    const int warpPerBlock = 1; // 4
 
     const nidType block = warpPerBlock * WARP_SIZE;
     const nidType grid = ub_src - lb_src;
@@ -2299,8 +2301,8 @@ void GIN_host_UVM_updated(float* d_out,
                             const int numNodes,
                             const float eps)
 {
-    const int partSize = 16;
-    const int warpPerBlock = 4;
+    const int partSize = 4;
+    const int warpPerBlock = 1; // 4
     const nidType block = warpPerBlock * WARP_SIZE;
     const nidType grid = ub_src - lb_src;
  
