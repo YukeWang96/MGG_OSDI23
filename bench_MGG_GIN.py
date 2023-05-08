@@ -6,7 +6,7 @@ os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/openmpi-4.1.1/lib/'
 os.environ["PATH"] += os.pathsep + 'local/openmpi-4.1.1/bin/'
 os.environ["LD_LIBRARY_PATH"] += os.pathsep + 'local/cudnn-v8.2/lib64'
-os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '21474836480' # paper100M
+os.environ["NVSHMEM_SYMMETRIC_SIZE"] = '14763950080' # paper100M
 
 hidden = 64
 num_GPUs = int(sys.argv[1])
