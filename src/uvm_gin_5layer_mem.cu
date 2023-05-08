@@ -85,11 +85,10 @@ for (int mype_node = 0; mype_node < num_GPUs; mype_node++)
     cudaMemAdvise(d_den_out[mype_node], static_cast<size_t>(nodesPerPE)*max(hiddenSize, outdim)*sizeof(float), cudaMemAdviseSetAccessedBy, mype_node);
     cudaMemAdvise(d_row_ptr[mype_node], (numNodes+1)*sizeof(nidType), cudaMemAdviseSetReadMostly, mype_node);
     cudaMemAdvise(d_col_ind[mype_node], numEdges*sizeof(nidType), cudaMemAdviseSetReadMostly, mype_node);
-    
+
     // gpuErrchk(cudaMemcpy(d_input[mype_node],   h_input[mype_node],  nodesPerPE*max(dim, outdim)*sizeof(float),   cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_row_ptr[mype_node], &global_row_ptr[0],  (numNodes+1)*sizeof(nidType),   cudaMemcpyHostToDevice));
     gpuErrchk(cudaMemcpy(d_col_ind[mype_node], &global_col_ind[0],  numEdges*sizeof(nidType),       cudaMemcpyHostToDevice));
-
 }
 
 #ifdef validate

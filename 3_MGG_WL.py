@@ -5,12 +5,12 @@ import os
 num_gpus = [4]
 
 for gpu in num_gpus:
-    os.system("./bench_MGG_WL.py {0} > MGG_WL.log".format(gpu))
+    os.system("./bench_MGG_WL.py {0}| tee MGG_WL.log".format(gpu))
     os.system("./analysis_MGG.py MGG_WL.log {0}".format(gpu))
     os.system("mv MGG_WL.log logs/".format(gpu))
 
 for gpu in num_gpus:
-    os.system("./bench_MGG_WO_WL.py {0} > MGG_WO_WL.log".format(gpu))
+    os.system("./bench_MGG_WO_WL.py {0}| tee MGG_WO_WL.log".format(gpu))
     os.system("./analysis_MGG.py MGG_WO_WL.log {0}".format(gpu))
     os.system("mv MGG_WO_WL.log logs/".format(gpu))
 
