@@ -36,3 +36,4 @@ with open('Fig_8_UVM_MGG_4GPU_GCN.csv', 'w', newline='') as result_file:
 os.system("mv UVM_GCN_4GPU.csv csvs/")
 os.system("mv MGG_GCN_4GPU.csv csvs/")
 os.system("mv *.err logs/")
+print("\n\nCheck [Fig_8_UVM_MGG_4GPU_GCN.csv] for results!!\n\n")

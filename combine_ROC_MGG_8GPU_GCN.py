@@ -49,7 +49,7 @@ with open('Fig_9_ROC_MGG_GCN_8GPU.csv', 'w', newline='') as result_file:
     for i in range(len(col1)):
         writer.writerow([col0[i].rstrip("_beg_pos.bin"), col1[i], col2[i], "{:.3f}".format(ratio[i])])
 
-print("Please check the Fig_9_ROC_MGG_GCN_8GPU.csv file!")
+print("\n\nPlease check the [Fig_9_ROC_MGG_GCN_8GPU.csv] file!\n\n")
 # os.system("mv UVM_8GPU.csv csvs/")
 # os.system("mv MGG_8GPU.csv csvs/")
 os.system("mv *.err logs/")
