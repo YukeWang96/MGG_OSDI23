@@ -81,6 +81,7 @@ cd ../gin/
 ```
 cd roc-new/docker
 ./launch.sh
+./run_all.sh
 ```
 > Note that the results can be found at `Fig_9_ROC_MGG_8GPU_GCN.csv` and `Fig_9_ROC_MGG_8GPU_GIN.csv`.
 
