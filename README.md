@@ -178,7 +178,7 @@ Building a new design based on MGG with NVSHMEM is simple, there are only severa
 ## 4.1 Build the C++ design based on our existing examples 
 + Create a new `.cu` file under `src/`. An example is shown below.
 
-https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/src/mgg_np_div_kernel.cu#L78-L87
+https://github.com/YukeWang96/MGG_OSDI23/blob/9f2e7abc6ef433b6d0f6a4f7e88be162f948df75/src/mgg_np_div_kernel.cu#L78-L87
 
 ## 4.2 Build the CUDA kernel design based on our existing examples. 
 + Add a kernel design in `include/neighbor_utils.cuh`. An example is shown below.
