@@ -183,23 +183,23 @@ https://github.com/YukeWang96/MGG_OSDI23/blob/9f2e7abc6ef433b6d0f6a4f7e88be162f9
 ## 4.2 Build the CUDA kernel design based on our existing examples. 
 + Add a kernel design in `include/neighbor_utils.cuh`. An example is shown below.
 
-https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L770-L785
+https://github.com/YukeWang96/MGG_OSDI23/blob/73e1866f23d001491f0c69d5216dec680593de27/include/neighbor_utils.cuh#L787-L802
 
-https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L1281-L1389
+https://github.com/YukeWang96/MGG_OSDI23/blob/73e1866f23d001491f0c69d5216dec680593de27/include/neighbor_utils.cuh#L1351-L1366
 
-https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/include/neighbor_utils.cuh#L277-L292
+https://github.com/YukeWang96/MGG_OSDI23/blob/73e1866f23d001491f0c69d5216dec680593de27/include/neighbor_utils.cuh#L277C1-L292
 
 ## 4.3 Register the new design to CMake. 
 + Add a compilation entry in `CMakeLists.txt`).
 + Add a command `make filename.cu` in `0_mgg_build.cu`. 
 + An example is shown below. Note that please match the filename with your newly created `.cu` in step-1.
 
-https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/CMakeLists.txt#L60-L64
+https://github.com/YukeWang96/MGG_OSDI23/blob/73e1866f23d001491f0c69d5216dec680593de27/CMakeLists.txt#L60-L64
 
-https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/CMakeLists.txt#L218-L249
+https://github.com/YukeWang96/MGG_OSDI23/blob/73e1866f23d001491f0c69d5216dec680593de27/CMakeLists.txt#L218-L249
 
 ## 4.4 Launch the MGG docker and recompile, 
-+ The compiled exectuable will be located under `build/`.
++ The compiled executable will be located under `build/`.
 ```
 cd docker 
 ./launch.sh
@@ -209,7 +209,7 @@ cd .. && ./0_mgg_build.sh
 
 ## 4.5 Run the compiled executable.
 
-https://github.com/YukeWang96/MGG-OSDI23-AE/blob/0024bdd68d9684b0434547d69462b01e225fe420/bench_MGG.py#L5-L51
+https://github.com/YukeWang96/MGG_OSDI23/blob/73e1866f23d001491f0c69d5216dec680593de27/bench_MGG.py#L5-L51
 
 ## Reference
 * **NVIDIA OpenSHMEM Library (NVSHMEM).** <br>
