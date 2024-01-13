@@ -18,12 +18,13 @@ git clone --recursive git@github.com:YukeWang96/MGG-OSDI23-AE.git
 wget https://storage.googleapis.com/mgg_data/local.tar.gz
 tar -zxvf local.tar.gz && rm local.tar.gz
 tar -zxvf local/nvshmem_src_2.0.3-0/build_cu112.tar.gz
-wget https://storage.googleapis.com/mgg_data/dataset.tar.gz && tar -zxvf dataset.tar.gz && rm dataset.tar.gz
+wget https://yuke-project.s3.us-west-1.amazonaws.com/dataset.tar.gz && tar -zxvf dataset.tar.gz && rm dataset.tar.gz
 ```
+
 + Setup baseline DGL
 ```
 cd dgl_pydirect_internal
-wget https://storage.googleapis.com/mgg_data/graphdata.tar.gz && tar -zxvf graphdata.tar.gz && rm graphdata.tar.gz
+wget https://yuke-project.s3.us-west-1.amazonaws.com/graphdata.tar.gz && tar -zxvf graphdata.tar.gz && rm graphdata.tar.gz
 cd ..
 ```
 
@@ -31,7 +32,7 @@ cd ..
 ```
 cd roc-new
 git submodule update --init --recursive
-wget https://storage.googleapis.com/mgg_data/data.tar.gz && tar -zxvf data.tar.gz && rm -rf data.tar.gz
+wget https://yuke-project.s3.us-west-1.amazonaws.com/data.tar.gz && tar -zxvf data.tar.gz && rm -rf data.tar.gz
 ```
 or 
 ```
