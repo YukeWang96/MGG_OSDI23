@@ -29,14 +29,9 @@ cd ..
 ```
 
 + Setup baseline ROC
+
 ```
-cd roc-new
-git submodule update --init --recursive
-wget https://proj-dat.s3.us-west-1.amazonaws.com/data.tar.gz && tar -zxvf data.tar.gz && rm -rf data.tar.gz
-```
-or 
-```
-gsutil cp -r gs://mgg_data/roc-new/ .
+wget https://proj-dat.s3.us-west-1.amazonaws.com/roc-new.tar.gz && tar -zxvf roc-new.tar.gz && rm roc-new.tar.gz
 ```
 
 ## 1.3. Launch Docker for MGG.
