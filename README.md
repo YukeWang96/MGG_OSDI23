@@ -43,7 +43,7 @@ cd docker
 ## 1.4. Compile implementation.
 ```
 mkdir build && cd build && cmake .. && cd ..
-./build.sh
+./0_mgg_build.sh
 ```
 # 2. Run initial test experiment.
 + Please try study experiments in below **Section-3.4** and **Section-3.5**
